@@ -36,45 +36,55 @@ const Header = () => {
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                         <div className="flex flex-shrink-0 items-center">
                             <h1 className="text-3xl font-extrabold text-white">
-                               <Link to="/"> DAE</Link>
+                                <Link to="/"> DAE</Link>
                             </h1>
                         </div>
                         <div className="hidden sm:ml-6 sm:block">
-                            <div className="flex space-x-4">
+                            <div className="flex justify-center">
+                                <div className="flex space-x-4">
 
-                                <NavLink
-                                    to="/demos"
-                                    className={({ isActive, isPending }) =>
-                                        isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                                    }
-                                >
-                                    Demos
-                                </NavLink>
-                                <NavLink
-                                    to="/trainings"
-                                    className={({ isActive, isPending }) =>
-                                        isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                                    }
-                                >
-                                    Trainings
-                                </NavLink>
-                                <NavLink
-                                    to="/fielddays"
-                                    className={({ isActive, isPending }) =>
-                                        isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                                    }
-                                >
-                                    Field Days
-                                </NavLink>
-                                <NavLink
-                                    to="/distributions"
-                                    className={({ isActive, isPending }) =>
-                                        isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                                    }
-                                >
-                                    Distributions
-                                </NavLink>
+                                    <NavLink
+                                        to="/"
+                                        className={({ isActive, isPending }) =>
+                                            isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                        }
+                                    >
+                                        Home
+                                    </NavLink>
+                                    <NavLink
+                                        to="/demos"
+                                        className={({ isActive, isPending }) =>
+                                            isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                        }
+                                    >
+                                        Demos
+                                    </NavLink>
+                                    <NavLink
+                                        to="/trainings"
+                                        className={({ isActive, isPending }) =>
+                                            isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                        }
+                                    >
+                                        Trainings
+                                    </NavLink>
+                                    <NavLink
+                                        to="/fielddays"
+                                        className={({ isActive, isPending }) =>
+                                            isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                        }
+                                    >
+                                        Field Days
+                                    </NavLink>
+                                    <NavLink
+                                        to="/distributions"
+                                        className={({ isActive, isPending }) =>
+                                            isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                        }
+                                    >
+                                        Distributions
+                                    </NavLink>
 
+                                </div>
                             </div>
                         </div>
                     </div>
