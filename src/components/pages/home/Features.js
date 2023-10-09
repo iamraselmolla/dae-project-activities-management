@@ -1,0 +1,61 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const Features = () => {
+    const allFeatures = [
+        {
+            title: 'প্রদর্শনী',
+            des: 'নতুন প্রদর্শনী তথ্য যুক্তকরণ, সম্পাদন, প্রদর্শনীর আপডেট তথ্য এবং বর্তমান অবস্থার চিত্র',
+            img: 'images/features/1.jpg',
+            link: '/demos'
+        },
+        {
+            title: 'প্রশিক্ষণ',
+            des: 'প্রশিক্ষণের তথ্য, চিত্র, অতিথি, উপস্থিত কৃষক সংখ্যা (নারী ও পুরুষ সংখ্যা) এবং বিষয়বস্তু যুক্তকরণ',
+            img: 'images/features/2.jpg',
+            link: '/trainings'
+        },
+        {
+            title: 'মাঠদিবস',
+            des: 'ফসল ভিত্তিক মাঠ দিবসের তথ্য, অতিথি, ছবি, উপস্থিত কৃষক সংখ্যা',
+            img: 'images/features/3.jpg',
+            link: '/fielddays'
+        },
+        {
+            title: 'মালামাল বিতরণ',
+            des: 'প্রকল্পভিত্তিক বিনামূল্যে কৃষকদের মালামাল বিতরণ, উপস্থিত অতিথি, কৃষক সংখ্যা',
+            img: 'images/features/4.jpg',
+            link: '/distributions'
+        },
+    ]
+    return (
+        <section>
+            <div className="container grid gap-7 grid-cols-4 text-center">
+                {allFeatures?.map(singleFeatures => (
+                    <>
+                        <div className='border-2 rounded-4'>
+                            <img src={singleFeatures.img} className='w-100' alt="" />
+                            <div className="px-4 py-4 bg-white text-black">
+                                <h2 className="text-3xl font-extrabold mb-3">
+                                    {singleFeatures.title}
+                                </h2>
+                                <p className="font-bold">
+                                    {singleFeatures.des}
+                                </p>
+                                <div>
+                                <Link className='font-bold border-2 rounded-md border-black rounded-4 w-100 block hover:bg-black hover:text-white transition-all py-4 my-2' to={singleFeatures.link}>
+                                    সকল {singleFeatures.title} দেখুন
+                                </Link>
+                                </div>
+                            </div>
+
+                        </div>
+                    </>
+                ))}
+
+            </div>
+        </section>
+    );
+};
+
+export default Features;
