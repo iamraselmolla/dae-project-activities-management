@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SectionTitle from '../../shared/SectionTitle';
 
 const Features = () => {
     const allFeatures = [
@@ -29,11 +30,12 @@ const Features = () => {
         },
     ]
     return (
-        <section>
+        <section className='py-16'>
+            <SectionTitle title="প্রকল্পের কার্যক্রম" />
             <div className="container grid gap-7 grid-cols-4 text-center">
                 {allFeatures?.map(singleFeatures => (
                     <>
-                        <div className='border-2 rounded-4'>
+                        <div key={singleFeatures.des} className='border-2 shadow-xl drop-shadow-lg shadow-slate-400 border-black rounded-4'>
                             <img src={singleFeatures.img} className='w-100' alt="" />
                             <div className="px-4 py-4 bg-white text-black">
                                 <h2 className="text-3xl font-extrabold mb-3">
@@ -43,9 +45,9 @@ const Features = () => {
                                     {singleFeatures.des}
                                 </p>
                                 <div>
-                                <Link className='font-bold border-2 rounded-md border-black rounded-4 w-100 block hover:bg-black hover:text-white transition-all py-4 my-2' to={singleFeatures.link}>
-                                    সকল {singleFeatures.title} দেখুন
-                                </Link>
+                                    <Link className='font-bold border-2 rounded-md border-black rounded-4 w-100 block hover:bg-black hover:text-white transition-all py-4 my-2' to={singleFeatures.link}>
+                                        সকল {singleFeatures.title} দেখুন
+                                    </Link>
                                 </div>
                             </div>
 

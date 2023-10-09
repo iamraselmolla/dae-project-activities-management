@@ -3,13 +3,14 @@
 @import 'tailwindcss/utilities';
 
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
+@import "~react-image-gallery/styles/css/image-gallery.css";
 
 body {
   margin: 0;
   font-family: 'Hind Siliguri', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #fff;
+  color: #000;
 }
 
 code {
@@ -21,4 +22,14 @@ section{
 }
 .container{
   margin: 0 auto;
+}
+.section_heading{
+  font-size: 45px;
+}
+.image-gallery-left-nav .image-gallery-svg, .image-gallery-right-nav .image-gallery-svg {
+  height: 50px;
+  width: auto;
+}
+.image-gallery-thumbnail{
+  width: 50px;
 }
