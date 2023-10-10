@@ -45,7 +45,7 @@ const Features = () => {
                                     {singleFeatures.des}
                                 </p>
                                 <div>
-                                    <Link className='font-bold border-2 rounded-md border-black rounded-4 w-100 block hover:bg-black hover:text-white transition-all py-4 my-2' to={singleFeatures.link}>
+                                    <Link className='font-bold border-2 rounded-md border-black rounded-4 w-100 block hover:bg-black hover:text-white transition-all py-3 my-2' to={singleFeatures.link}>
                                         সকল {singleFeatures.title} দেখুন
                                     </Link>
                                 </div>
