@@ -2,6 +2,7 @@ import FieldDay from "./components/pages/FieldDay/FieldDay";
 import Demo from "./components/pages/demo/Demo";
 import Distribution from "./components/pages/distrubution/Distribution";
 import NotFound from "./components/pages/notfound/NotFound";
+import AddProjects from "./components/pages/projects/AddProjects";
 import Training from "./components/pages/training/Training";
 
 const { createBrowserRouter } = require("react-router-dom");
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
             {
                 path: '/distributions',
                 element: <Distribution></Distribution>
+            },
+            {
+                path: '/addProjects',
+                element: <AddProjects />
             },
             {
                 path: "*",
