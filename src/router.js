@@ -1,4 +1,5 @@
 import FieldDay from "./components/pages/FieldDay/FieldDay";
+import AddDemo from "./components/pages/addDemo/AddDemo";
 import Demo from "./components/pages/demo/Demo";
 import Distribution from "./components/pages/distrubution/Distribution";
 import NotFound from "./components/pages/notfound/NotFound";
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
             {
                 path: '/addProjects',
                 element: <AddProjects />
+            },
+            {
+                path: '/addDemo',
+                element: <AddDemo />
             },
             {
                 path: "*",

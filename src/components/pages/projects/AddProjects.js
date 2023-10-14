@@ -74,7 +74,7 @@ const AddProjects = () => {
             <form onSubmit={formik.handleSubmit}>
                 <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                     <div>
-                        <label className='font-extrabold'>প্রকল্পের পুরো নাম</label>
+                        <label className='font-extrabold mb-1 block'>প্রকল্পের পুরো নাম</label>
                         <input
                             type="text"
                             className='input input-bordered w-full'
@@ -90,7 +90,7 @@ const AddProjects = () => {
                         ) : null}
                     </div>
                     <div >
-                        <label className='font-extrabold'>প্রকল্পের সংক্ষেপ নাম</label>
+                        <label className='font-extrabold mb-1 block'>প্রকল্পের সংক্ষেপ নাম</label>
                         <input
                             type="text"
                             className='input input-bordered w-full'
@@ -107,7 +107,7 @@ const AddProjects = () => {
                         ) : null}
                     </div>
                     <div >
-                        <label className='font-extrabold'>প্রকল্প পরিচালক</label>
+                        <label className='font-extrabold mb-1 block'>প্রকল্প পরিচালক</label>
                         <input
                             type="text"
                             className='input input-bordered w-full'
@@ -122,7 +122,7 @@ const AddProjects = () => {
 
                     </div>
                     <div>
-                        <label className='font-extrabold'>মনিটরিং অফিসারগণ</label>
+                        <label className='font-extrabold mb-1 block'>মনিটরিং অফিসারগণ</label>
 
                         <input
                             type="text"
@@ -138,12 +138,12 @@ const AddProjects = () => {
 
                     </div>
                     <div>
-                        <label className='font-extrabold'>প্রকল্পের ইমেইল</label>
+                        <label className='font-extrabold mb-1 block'>প্রকল্পের ইমেইল</label>
                         <input placeholder='প্রকল্পের ইমেইল' type="email" className="file-input input input-bordered w-full" />
 
                     </div>
                     <div>
-                        <label className='font-extrabold'>প্রকল্পের লোগো</label>
+                        <label className='font-extrabold mb-1 block'>প্রকল্পের লোগো</label>
                         <input type="file" className="file-input input-bordered w-full" />
 
                     </div>
@@ -153,7 +153,7 @@ const AddProjects = () => {
 
 
                 <div className='mt-3 input input-bordered w-full'>
-                    <label className='font-extrabold'>প্রকল্পের শুরু ও শেষের তারিখ (সম্ভাব্য)</label>
+                    <label className='font-extrabold mb-1 block'>প্রকল্পের শুরু ও শেষের তারিখ (সম্ভাব্য)</label>
                     <Datepicker
                         id="time"
                         name="time"
