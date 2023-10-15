@@ -2,6 +2,8 @@ import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import Datepicker from 'react-tailwindcss-datepicker';
 import SectionTitle from '../../shared/SectionTitle';
+import * as Yup from 'yup';
+
 
 const AddProjects = () => {
 
@@ -14,56 +16,46 @@ const AddProjects = () => {
         console.log("newValue:", newValue);
         setValue(newValue);
     }
-    const initialValues = {
-        name: {
-            details: '',
-            short: '',
-        },
-        projectDetails: {
-            PD: '',
-            monitoringOfficers: [],
-        },
-        logo: '',
-        email: '',
-        time: {
-            start: value.startDate,
-            end: value.endDate
-        },
-
-    };
-
-    const validate = (values) => {
-        values.time.start = value.startDate
-        values.time.end = value.endDate
-        const errors = {};
-
-        if (!values.name.details) {
-            errors.name = { ...errors.name, details: 'প্রকল্পের পুরো নাম দিন' };
-        }
-        if (!values.name.short) {
-            errors.name = { ...errors.name, short: 'প্রকল্পের সংক্ষেপ নাম দিন' };
-        }
-        if (!values.time.start) {
-            errors.time = { ...errors.time, start: 'প্রকল্পের শুরুর তারিখ দিন' };
-        }
-        if (!values.time.end) {
-            errors.time = { ...errors.time, end: 'প্রকল্পের সম্ভাব্য তারিখ দিন' };
-        }
-
-
-
-        return errors;
-    };
+    const validationSchema = Yup.object().shape({
+        name: Yup.object().shape({
+            details: Yup.string().required('প্রকল্পের পুরো নাম দিন'),
+            short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম দিন'),
+        }),
+        // projectDetails: Yup.object().shape({
+        //     PD: Yup.string().required('প্রকল্প পরিচালকের নাম দিন'),
+        //     monitoringOfficers: Yup.array().required('মনিটরিং অফিসারগণের তালিকা দিন'),
+        // }),
+        time: Yup.object().shape({
+            start: Yup.date().required('প্রকল্পের শুরুর তারিখ দিন'),
+            end: Yup.date().required('প্রকল্পের সম্ভাব্য তারিখ দিন'),
+        }),
+        // email: Yup.string().email('ইমেইল ঠিকঠাক নয়').required('প্রকল্পের ইমেইল দিন'),
+    });
 
     const formik = useFormik({
-        initialValues,
-        validate,
+        initialValues: {
+            name: {
+                details: '',
+                short: '',
+            },
+            projectDetails: {
+                PD: '',
+                monitoringOfficers: [],
+            },
+            logo: '',
+            email: '',
+            time: {
+                start: value.startDate,
+                end: value.endDate
+            },
+        },
+        validationSchema,
         onSubmit: (values) => {
-
             // Handle form submission logic here
             console.log('Form values:', values);
         },
     });
+
 
 
 
