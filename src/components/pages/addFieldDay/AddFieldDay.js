@@ -71,8 +71,8 @@ const AddFieldDay = () => {
                             <label className='font-extrabold mb-1 block'>প্রকল্পের পুরো নাম</label>
                             <select
                                 className='input input-bordered w-full'
-                                id="selectedOption"
-                                name="selectedOption"
+                                id="project.full"
+                                name="project.full"
                             // value={selectedOption}
                             // onChange={handleSelectChange}
                             >
@@ -87,22 +87,20 @@ const AddFieldDay = () => {
                             <input
                                 type="text"
                                 className='input input-bordered w-full'
-                                id="name.details"
-                                name="name.details"
+                                id="project.short"
+                                name="project.short"
                                 onBlur={formik.handleBlur}
                                 placeholder='প্রকল্পের সংক্ষেপ নাম'
                                 value={formik.values.name ? formik.values.name.details : ''}
                             />
-                            {formik.touched.name && formik.touched.name.details && formik.errors.name?.details ? (
-                                <div className='text-red-600 font-bold'>{formik.errors.name.details}</div>
-                            ) : null}
+                         
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>অর্থবছর</label>
                             <select
                                 className='input input-bordered w-full'
-                                id="selectedOption"
-                                name="selectedOption"
+                                id="fiscalYear"
+                                name="fiscalYear"
                             // value={selectedOption}
                             // onChange={handleSelectChange}
                             >
@@ -117,8 +115,8 @@ const AddFieldDay = () => {
                             <label className='font-extrabold mb-1 block'>মৌসুম</label>
                             <select
                                 className='input input-bordered w-full'
-                                id="selectedOption"
-                                name="selectedOption"
+                                id="season"
+                                name="season"
                             // value={selectedOption}
                             // onChange={handleSelectChange}
                             >
@@ -133,53 +131,47 @@ const AddFieldDay = () => {
                             <input
                                 type="text"
                                 className='input input-bordered w-full'
-                                id="name.details"
-                                name="name.details"
+                                id="subject"
+                                name="subject"
                                 onBlur={formik.handleBlur}
                                 placeholder='মাঠদিবসের বিষয় বা ফসল'
                                 value={formik.values.name ? formik.values.name.details : ''}
                             />
-                            {formik.touched.name && formik.touched.name.details && formik.errors.name?.details ? (
-                                <div className='text-red-600 font-bold'>{formik.errors.name.details}</div>
-                            ) : null}
+                          
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>উপস্থিত কর্মকর্তা ও গন্যমান্য অতিথি</label>
                             <input
                                 type="text"
                                 className='input input-bordered w-full'
-                                id="name.details"
-                                name="name.details"
+                                id="guests"
+                                name="guests"
                                 onBlur={formik.handleBlur}
                                 placeholder='কর্মকর্তা ও গন্যমান্য অতিথি'
                                 value={formik.values.name ? formik.values.name.details : ''}
                             />
-                            {formik.touched.name && formik.touched.name.details && formik.errors.name?.details ? (
-                                <div className='text-red-600 font-bold'>{formik.errors.name.details}</div>
-                            ) : null}
+                          
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>উপস্থিত কৃষক (পুরুষ)</label>
                             <input
                                 type="number"
                                 className='input input-bordered w-full'
-                                id="name.details"
+                                id="farmers.male"
                                 name="name.details"
                                 onBlur={formik.handleBlur}
                                 placeholder='কৃষক (পুরুষ)'
                                 value={formik.values.name ? formik.values.name.details : ''}
                             />
-                            {formik.touched.name && formik.touched.name.details && formik.errors.name?.details ? (
-                                <div className='text-red-600 font-bold'>{formik.errors.name.details}</div>
-                            ) : null}
+                          
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>উপস্থিত কৃষক (নারী)</label>
                             <input
                                 type="number"
                                 className='input input-bordered w-full'
-                                id="name.details"
-                                name="name.details"
+                                id="farmers.female"
+                                name="farmers.female"
                                 onBlur={formik.handleBlur}
                                 placeholder='কৃষক (নারী)'
                                 value={formik.values.name ? formik.values.name.details : ''}
@@ -192,8 +184,8 @@ const AddFieldDay = () => {
                             <label className='font-extrabold mb-1 block'>মাঠদিবসের তারিখ</label>
                             <Datepicker
                                 asSingle={true}
-                                id="time"
-                                name="time"
+                                id="date"
+                                name="date"
                                 value={value}
                                 showShortcuts={true}
                             />
@@ -201,7 +193,7 @@ const AddFieldDay = () => {
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>মাঠ দিবসের ছবিসমূহ</label>
-                            <input type="file" className="file-input input-bordered w-full" />
+                            <input multiple name='images' type="file" className="file-input input-bordered w-full" />
 
                         </div>
 
