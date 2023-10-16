@@ -3,6 +3,7 @@ import SectionTitle from '../../shared/SectionTitle';
 import { Field, useFormik } from 'formik';
 import * as Yup from 'yup';
 import Datepicker from 'react-tailwindcss-datepicker';
+import { getYear } from '../../shared/commonDataStores';
 const { toBengaliNumber } = require('bengali-number');
 
 
@@ -12,6 +13,11 @@ const AddFieldDay = () => {
         startDate: null,
         endDate: null
     });
+    const [selectedOption, setSelectedOption] = useState('');
+    const handleSelectChange = (e) => {
+        setSelectedOption(e.target.value);
+        console.log(selectedOption)
+    }
 
     const handleValueChange = (newValue) => {
         console.log("newValue:", newValue);
@@ -32,6 +38,7 @@ const AddFieldDay = () => {
         },
         date: '',
         images: [],
+        comment: ''
 
     };
     const validationSchema = Yup.object().shape({
@@ -58,7 +65,7 @@ const AddFieldDay = () => {
             console.log('Form values:', values);
         },
     });
-    const getYear = new Date().getFullYear()
+
 
 
     return (
@@ -73,14 +80,18 @@ const AddFieldDay = () => {
                                 className='input input-bordered w-full'
                                 id="project.full"
                                 name="project.full"
-                            // value={selectedOption}
-                            // onChange={handleSelectChange}
+                                value={selectedOption}
+                                onChange={handleSelectChange}
+                                onBlur={formik.handleBlur}
                             >
                                 <option value="" label="প্রকল্প সিলেক্ট করুন" />
                                 <option value="option1" label="Option 1" />
                                 <option value="option2" label="Option 2" />
                                 <option value="option3" label="Option 3" />
                             </select>
+                            {formik.touched.project && formik.touched.project.full && formik.errors.project?.full ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.project.full}</div>
+                            ) : null}
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>প্রকল্পের সংক্ষেপ নাম</label>
@@ -90,10 +101,14 @@ const AddFieldDay = () => {
                                 id="project.short"
                                 name="project.short"
                                 onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
                                 placeholder='প্রকল্পের সংক্ষেপ নাম'
-                                value={formik.values.name ? formik.values.name.details : ''}
+                                value={formik.values.project ? formik.values.project?.short : ''}
                             />
-                         
+
+                            {formik.touched.project && formik.touched.project.short && formik.errors.project?.short ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.project.short}</div>
+                            ) : null}
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>অর্থবছর</label>
@@ -101,15 +116,16 @@ const AddFieldDay = () => {
                                 className='input input-bordered w-full'
                                 id="fiscalYear"
                                 name="fiscalYear"
-                            // value={selectedOption}
-                            // onChange={handleSelectChange}
+                                value={formik.values.fiscalYear}
+                                onChange={formik.handleChange}
                             >
                                 <option value="" label="অর্থবছর সিলেক্ট করুন" />
                                 <option value={toBengaliNumber(`${getYear - 1}-${getYear}`)} label={toBengaliNumber(`${getYear - 1}-${getYear}`)} />
-                                <option value={toBengaliNumber(`${getYear}-${getYear}`)} label={toBengaliNumber(`${getYear}-${getYear}`)} />
+                                <option value={toBengaliNumber(`${getYear}-${getYear + 1}`)} label={toBengaliNumber(`${getYear}-${getYear + 1}`)} />
                                 <option value={toBengaliNumber(`${getYear + 1}-${getYear + 2}`)} label={toBengaliNumber(`${getYear + 1}-${getYear + 2}`)} />
 
                             </select>
+
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>মৌসুম</label>
@@ -135,9 +151,9 @@ const AddFieldDay = () => {
                                 name="subject"
                                 onBlur={formik.handleBlur}
                                 placeholder='মাঠদিবসের বিষয় বা ফসল'
-                                value={formik.values.name ? formik.values.name.details : ''}
+                            // value={formik.values.subject ? formik.values.subject : ''}
                             />
-                          
+
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>উপস্থিত কর্মকর্তা ও গন্যমান্য অতিথি</label>
@@ -148,9 +164,9 @@ const AddFieldDay = () => {
                                 name="guests"
                                 onBlur={formik.handleBlur}
                                 placeholder='কর্মকর্তা ও গন্যমান্য অতিথি'
-                                value={formik.values.name ? formik.values.name.details : ''}
+                            // value={formik.values.guests ? formik.values.guests : ''}
                             />
-                          
+
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>উপস্থিত কৃষক (পুরুষ)</label>
@@ -158,12 +174,12 @@ const AddFieldDay = () => {
                                 type="number"
                                 className='input input-bordered w-full'
                                 id="farmers.male"
-                                name="name.details"
+                                name="farmers.male"
                                 onBlur={formik.handleBlur}
                                 placeholder='কৃষক (পুরুষ)'
-                                value={formik.values.name ? formik.values.name.details : ''}
+                            // value={formik.values.farmers.male ? formik.values.farmers.male : ''}
                             />
-                          
+
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>উপস্থিত কৃষক (নারী)</label>
@@ -174,17 +190,18 @@ const AddFieldDay = () => {
                                 name="farmers.female"
                                 onBlur={formik.handleBlur}
                                 placeholder='কৃষক (নারী)'
-                                value={formik.values.name ? formik.values.name.details : ''}
+                            // value={formik.values.farmers.female ? formik.values.farmers.female : ''}
                             />
-                            {formik.touched.name && formik.touched.name.details && formik.errors.name?.details ? (
+                            {/* {formik.touched.name && formik.touched.name.details && formik.errors.name?.details ? (
                                 <div className='text-red-600 font-bold'>{formik.errors.name.details}</div>
-                            ) : null}
+                            ) : null} */}
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>মাঠদিবসের তারিখ</label>
                             <Datepicker
                                 asSingle={true}
                                 id="date"
+                                onChange={handleValueChange}
                                 name="date"
                                 value={value}
                                 showShortcuts={true}
@@ -203,7 +220,12 @@ const AddFieldDay = () => {
 
 
 
-
+                    <div className='mt-5'>
+                        <label className='font-extrabold mb-1 block'>মন্তব্য যুক্ত করুন</label>
+                        <textarea
+                            className='input h-20 input-bordered w-full'
+                            rows={10}></textarea>
+                    </div>
 
 
                     <button type='submit' className="btn mt-5 w-full font-extrabold text-white btn-success">প্রকল্প যুক্ত করুন</button>

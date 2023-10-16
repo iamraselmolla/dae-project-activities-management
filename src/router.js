@@ -1,10 +1,11 @@
+import AddFieldDay from "./components/pages/FieldDay/AddFieldDay";
 import FieldDay from "./components/pages/FieldDay/FieldDay";
-import AddDemo from "./components/pages/addDemo/AddDemo";
-import AddFieldDay from "./components/pages/addFieldDay/AddFieldDay";
+import AddDemo from "./components/pages/demo/AddDemo";
 import Demo from "./components/pages/demo/Demo";
 import Distribution from "./components/pages/distrubution/Distribution";
 import NotFound from "./components/pages/notfound/NotFound";
 import AddProjects from "./components/pages/projects/AddProjects";
+import AddTraining from "./components/pages/training/AddTraining";
 import Training from "./components/pages/training/Training";
 
 const { createBrowserRouter } = require("react-router-dom");
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
             {
                 path: '/addFieldDay',
                 element: <AddFieldDay />
+            },
+            {
+                path: '/addTraining',
+                element: <AddTraining />
             },
             {
                 path: "*",
