@@ -54,6 +54,10 @@ const router = createBrowserRouter([
                 element: <AddTraining />
             },
             {
+                path: '/addDemo',
+                element: <AddTraining />
+            },
+            {
                 path: "*",
                 element: <NotFound></NotFound>
             }

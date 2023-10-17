@@ -13,6 +13,11 @@ const AddTraining = () => {
         startDate: null,
         endDate: null
     });
+    const [selectedOption, setSelectedOption] = useState('');
+    const handleSelectChange = (e) => {
+        setSelectedOption(e.target.value);
+        console.log(selectedOption)
+    }
 
     const handleValueChange = (newValue) => {
         console.log("newValue:", newValue);
@@ -64,22 +69,25 @@ const AddTraining = () => {
             <SectionTitle title={'নতুন প্রশিক্ষণ তথ্য যুক্ত করুন'} />
             <form onSubmit={formik.handleSubmit}>
                 <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                    <div>
-                        <label className='font-extrabold mb-1 block'>প্রকল্পের পুরো নাম</label>
-                        <input
-                            type="text"
-                            className='input input-bordered w-full'
-                            id="name.details"
-                            name="name.details"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            placeholder='প্রকল্পের পুরো নাম'
-                            value={formik.values.name ? formik.values.name.details : ''}
-                        />
-                        {formik.touched.name && formik.touched.name.details && formik.errors.name?.details ? (
-                            <div className='text-red-600 font-bold'>{formik.errors.name.details}</div>
-                        ) : null}
-                    </div>
+                <div>
+                            <label className='font-extrabold mb-1 block'>প্রকল্পের পুরো নাম</label>
+                            <select
+                                className='input input-bordered w-full'
+                                id="project.full"
+                                name="project.full"
+                                value={selectedOption}
+                                onChange={handleSelectChange}
+                                onBlur={formik.handleBlur}
+                            >
+                                <option value="" label="প্রকল্প সিলেক্ট করুন" />
+                                <option value="option1" label="Option 1" />
+                                <option value="option2" label="Option 2" />
+                                <option value="option3" label="Option 3" />
+                            </select>
+                            {formik.touched.project && formik.touched.project.full && formik.errors.project?.full ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.project.full}</div>
+                            ) : null}
+                        </div>
                     <div >
                         <label className='font-extrabold mb-1 block'>প্রকল্পের সংক্ষেপ নাম</label>
                         <input
