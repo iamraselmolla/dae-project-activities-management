@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import SectionTitle from '../../shared/SectionTitle';
-import { Field, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Datepicker from 'react-tailwindcss-datepicker';
-import { getYear } from '../../shared/commonDataStores';
-const { toBengaliNumber } = require('bengali-number');
+import FiscalYear from '../../shared/FiscalYear';
+import Season from '../../shared/Season';
 
 
 
@@ -119,11 +119,7 @@ const AddFieldDay = () => {
                                 value={formik.values.fiscalYear}
                                 onChange={formik.handleChange}
                             >
-                                <option value="" label="অর্থবছর সিলেক্ট করুন" />
-                                <option value={toBengaliNumber(`${getYear - 1}-${getYear}`)} label={toBengaliNumber(`${getYear - 1}-${getYear}`)} />
-                                <option value={toBengaliNumber(`${getYear}-${getYear + 1}`)} label={toBengaliNumber(`${getYear}-${getYear + 1}`)} />
-                                <option value={toBengaliNumber(`${getYear + 1}-${getYear + 2}`)} label={toBengaliNumber(`${getYear + 1}-${getYear + 2}`)} />
-
+                                <FiscalYear />
                             </select>
 
                         </div>
@@ -136,10 +132,7 @@ const AddFieldDay = () => {
                             // value={selectedOption}
                             // onChange={handleSelectChange}
                             >
-                                <option value="" label="মৌসুম সিলেক্ট করুন" />
-                                <option value="রবি" label="রবি" />
-                                <option value="খরিপ-১" label="খরিপ-১" />
-                                <option value="খরিপ-২" label="খরিপ-২" />
+                                <Season />
                             </select>
                         </div>
                         <div>

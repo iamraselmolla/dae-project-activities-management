@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import Datepicker from 'react-tailwindcss-datepicker';
 import SectionTitle from '../../shared/SectionTitle';
 import * as Yup from 'yup';
-import { getYear } from '../../shared/commonDataStores';
-import { toBengaliNumber } from 'bengali-number';
+import FiscalYear from '../../shared/FiscalYear';
+import Season from '../../shared/Season';
 
 
 const AddTraining = () => {
@@ -69,25 +69,25 @@ const AddTraining = () => {
             <SectionTitle title={'নতুন প্রশিক্ষণ তথ্য যুক্ত করুন'} />
             <form onSubmit={formik.handleSubmit}>
                 <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                <div>
-                            <label className='font-extrabold mb-1 block'>প্রকল্পের পুরো নাম</label>
-                            <select
-                                className='input input-bordered w-full'
-                                id="project.full"
-                                name="project.full"
-                                value={selectedOption}
-                                onChange={handleSelectChange}
-                                onBlur={formik.handleBlur}
-                            >
-                                <option value="" label="প্রকল্প সিলেক্ট করুন" />
-                                <option value="option1" label="Option 1" />
-                                <option value="option2" label="Option 2" />
-                                <option value="option3" label="Option 3" />
-                            </select>
-                            {formik.touched.project && formik.touched.project.full && formik.errors.project?.full ? (
-                                <div className='text-red-600 font-bold'>{formik.errors.project.full}</div>
-                            ) : null}
-                        </div>
+                    <div>
+                        <label className='font-extrabold mb-1 block'>প্রকল্পের পুরো নাম</label>
+                        <select
+                            className='input input-bordered w-full'
+                            id="project.full"
+                            name="project.full"
+                            value={selectedOption}
+                            onChange={handleSelectChange}
+                            onBlur={formik.handleBlur}
+                        >
+                            <option value="" label="প্রকল্প সিলেক্ট করুন" />
+                            <option value="option1" label="Option 1" />
+                            <option value="option2" label="Option 2" />
+                            <option value="option3" label="Option 3" />
+                        </select>
+                        {formik.touched.project && formik.touched.project.full && formik.errors.project?.full ? (
+                            <div className='text-red-600 font-bold'>{formik.errors.project.full}</div>
+                        ) : null}
+                    </div>
                     <div >
                         <label className='font-extrabold mb-1 block'>প্রকল্পের সংক্ষেপ নাম</label>
                         <input
@@ -114,10 +114,7 @@ const AddTraining = () => {
                             value={formik.values.fiscalYear}
                             onChange={formik.handleChange}
                         >
-                            <option value="" label="অর্থবছর সিলেক্ট করুন" />
-                            <option value={toBengaliNumber(`${getYear - 1}-${getYear}`)} label={toBengaliNumber(`${getYear - 1}-${getYear}`)} />
-                            <option value={toBengaliNumber(`${getYear}-${getYear + 1}`)} label={toBengaliNumber(`${getYear}-${getYear + 1}`)} />
-                            <option value={toBengaliNumber(`${getYear + 1}-${getYear + 2}`)} label={toBengaliNumber(`${getYear + 1}-${getYear + 2}`)} />
+                            <FiscalYear />
 
                         </select>
 
@@ -131,10 +128,7 @@ const AddTraining = () => {
                         // value={selectedOption}
                         // onChange={handleSelectChange}
                         >
-                            <option value="" label="মৌসুম সিলেক্ট করুন" />
-                            <option value="রবি" label="রবি" />
-                            <option value="খরিপ-১" label="খরিপ-১" />
-                            <option value="খরিপ-২" label="খরিপ-২" />
+                            <Season />
                         </select>
                     </div>
                     <div>
