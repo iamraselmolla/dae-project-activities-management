@@ -31,7 +31,7 @@ const AddDemo = () => {
             block: '',
             union: ''
         },
-        numersInfo: {
+        numbersInfo: {
             NID: '',
             BID: '',
             mobile: '',
@@ -182,6 +182,152 @@ const AddDemo = () => {
 
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-3">
+
+                        <input className='input input-bordered w-full' />
+                        <input className='input input-bordered w-full' />
+                        <input className='input input-bordered w-full' />
+                    </div>
+                    <div className="grid lg:grid-cols-4 gap-4  grid-cols-1">
+                        <div>
+                            <label className='font-extrabold mb-1 block'>মোবাইল নং</label>
+                            <input
+                                type="text"
+                                className='input input-bordered w-full'
+                                id="numbersInfo.mobile"
+                                name="numbersInfo.mobile"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='মোবাইল'
+                                value={formik.values.numbersInfo ? formik.values.numbersInfo?.mobile : ''}
+                            />
+
+                            {formik.touched.numbersInfo && formik.touched.numbersInfo.mobile && formik.errors.numbersInfo?.mobile ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.numbersInfo.mobile}</div>
+                            ) : null}
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>ভোটার আইডি কার্ড নং</label>
+                            <input
+                                type="text"
+                                className='input input-bordered w-full'
+                                id="numbersInfo.NID"
+                                name="numbersInfo.NID"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='এন আই ডি'
+                                value={formik.values.numbersInfo ? formik.values.numbersInfo?.NID : ''}
+                            />
+
+                            {formik.touched.numbersInfo && formik.touched.numbersInfo.NID && formik.errors.numbersInfo?.NID ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.numbersInfo.NID}</div>
+                            ) : null}
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>BID নং</label>
+                            <input
+                                type="text"
+                                className='input input-bordered w-full'
+                                id="numbersInfo.BID"
+                                name="numbersInfo.BID"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='বি আই ডি'
+                                value={formik.values.numbersInfo ? formik.values.numbersInfo?.BID : ''}
+                            />
+
+                            {formik.touched.numbersInfo && formik.touched.numbersInfo.BID && formik.errors.numbersInfo?.BID ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.numbersInfo.BID}</div>
+                            ) : null}
+                        </div>
+
+                        <div>
+                            <label className='font-extrabold mb-1 block'>কৃষি কার্ড নং</label>
+                            <input
+                                type="text"
+                                className='input input-bordered w-full'
+                                id="numbersInfo.agriCard"
+                                name="numbersInfo.agriCard"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='কৃষি কার্ড'
+                                value={formik.values.numbersInfo ? formik.values.numbersInfo?.agriCard : ''}
+                            />
+
+                            {formik.touched.numbersInfo && formik.touched.numbersInfo.agriCard && formik.errors.numbersInfo?.agriCard ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.numbersInfo.agriCard}</div>
+                            ) : null}
+                        </div>
+                    </div>
+                    <div className="grid lg:grid-cols-4 gap-4  grid-cols-1">
+                        <div>
+                            <label className='font-extrabold mb-1 block'>ফসল</label>
+                            <input
+                                type="text"
+                                className='input input-bordered w-full'
+                                id="demoInfo.crop"
+                                name="demoInfo.crop"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='ফসল'
+                                value={formik.values.demoInfo ? formik.values.demoInfo?.crop : ''}
+                            />
+
+                            {formik.touched.demoInfo && formik.touched.demoInfo.crop && formik.errors.demoInfo?.crop ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.demoInfo.crop}</div>
+                            ) : null}
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>ফসলের জাত</label>
+                            <input
+                                type="text"
+                                className='input input-bordered w-full'
+                                id="demoInfo.variety"
+                                name="demoInfo.variety"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='ফসলের জাত'
+                                value={formik.values.demoInfo ? formik.values.demoInfo?.variety : ''}
+                            />
+
+                            {formik.touched.demoInfo && formik.touched.demoInfo.variety && formik.errors.demoInfo?.variety ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.demoInfo.variety}</div>
+                            ) : null}
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>প্রযুক্তি</label>
+                            <input
+                                type="text"
+                                className='input input-bordered w-full'
+                                id="demoInfo.tech"
+                                name="demoInfo.tech"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='প্রযুক্তি'
+                                value={formik.values.demoInfo ? formik.values.demoInfo?.tech : ''}
+                            />
+
+                            {formik.touched.demoInfo && formik.touched.demoInfo.tech && formik.errors.demoInfo?.tech ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.demoInfo.tech}</div>
+                            ) : null}
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>প্রদর্শনীর আয়তন</label>
+                            <input
+                                type="text"
+                                className='input input-bordered w-full'
+                                id="demoInfo.area"
+                                name="demoInfo.area"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='প্রদর্শনীর আয়তন'
+                                value={formik.values.demoInfo ? formik.values.demoInfo?.area : ''}
+                            />
+
+                            {formik.touched.demoInfo && formik.touched.demoInfo.area && formik.errors.demoInfo?.area ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.demoInfo.area}</div>
+                            ) : null}
+                        </div>
+
 
                     </div>
 
