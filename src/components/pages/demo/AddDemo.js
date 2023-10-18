@@ -5,13 +5,32 @@ import * as Yup from 'yup';
 
 import Season from '../../shared/Season';
 import FiscalYear from '../../shared/FiscalYear';
+import Datepicker from 'react-tailwindcss-datepicker';
 
 const AddDemo = () => {
     const [selectedOption, setSelectedOption] = useState('');
+    const [boponValue, setBoponValue] = useState({
+        startDate: null,
+        endDate: null
+    });
+    const handleValueChange = (e) => {
+        
+    }
+    const [roponValue, retBoponValue] = useState({
+        startDate: null,
+        endDate: null
+    });
+    const [kortonValue, setKotonValue] = useState({
+        startDate: null,
+        endDate: null
+    });
+
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
-        console.log(selectedOption)
-    }
+        console.log(selectedOption);
+    };
+
+   
     const initialValues = {
         projectInfo: {
             full: '',
@@ -181,11 +200,58 @@ const AddDemo = () => {
                         </div>
 
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-3">
-
-                        <input className='input input-bordered w-full' />
-                        <input className='input input-bordered w-full' />
-                        <input className='input input-bordered w-full' />
+                    <div className="grid mt-3 gap-4 mb-3 grid-cols-1 lg:grid-cols-3">
+                        <div>
+                            <label className='font-extrabold mb-1 block'>গ্রামের নাম</label>
+                            <input
+                                type="text"
+                                className='input input-bordered w-full'
+                                id="address.village"
+                                name="address.village"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='গ্রাম'
+                                value={formik.values.farmersInfo ? formik.values.farmersInfo?.fatherOrHusbandName : ''}
+                            />
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>ব্লকের নাম</label>
+                            <select
+                                className='input input-bordered w-full'
+                                id="address.block"
+                                name="address.block"
+                                value={selectedOption}
+                                onChange={handleSelectChange}
+                                onBlur={formik.handleBlur}
+                            >
+                                <option value="" label="ব্লক সিলেক্ট করুন" />
+                                <option value="option1" label="Option 1" />
+                                <option value="option2" label="Option 2" />
+                                <option value="option3" label="Option 3" />
+                            </select>
+                            {formik.touched.address && formik.touched.address.block && formik.errors.address?.block ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.address.block}</div>
+                            ) : null}
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>ইউনিয়নের নাম</label>
+                            <select
+                                className='input input-bordered w-full'
+                                id="address.union"
+                                name="address.union"
+                                value={selectedOption}
+                                onChange={handleSelectChange}
+                                onBlur={formik.handleBlur}
+                            >
+                                <option value="" label="ইউনিয়ন সিলেক্ট করুন" />
+                                <option value="option1" label="Option 1" />
+                                <option value="option2" label="Option 2" />
+                                <option value="option3" label="Option 3" />
+                            </select>
+                            {formik.touched.address && formik.touched.address.union && formik.errors.address?.union ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.address.union}</div>
+                            ) : null}
+                        </div>
                     </div>
                     <div className="grid lg:grid-cols-4 gap-4  grid-cols-1">
                         <div>
@@ -258,7 +324,7 @@ const AddDemo = () => {
                             ) : null}
                         </div>
                     </div>
-                    <div className="grid lg:grid-cols-4 gap-4  grid-cols-1">
+                    <div className="grid mt-3 lg:grid-cols-4 gap-4  grid-cols-1">
                         <div>
                             <label className='font-extrabold mb-1 block'>ফসল</label>
                             <input
@@ -329,6 +395,68 @@ const AddDemo = () => {
                         </div>
 
 
+                    </div>
+                    <div className="grid mt-3 lg:grid-cols-3 gap-4  grid-cols-1">
+                        <div>
+                            <label className='font-extrabold mb-1 block'>বপণ তারিখ</label>
+                            <div className="input input-bordered w-full">
+                                <Datepicker
+                                    asSingle={true}
+                                    id="date"
+                                    onChange={handleValueChange}
+                                    name="date"
+                                    value={boponValue}
+                                    showShortcuts={true}
+                                />
+                            </div>
+
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>রোপণ তারিখ</label>
+                            <div className="input input-bordered w-full">
+
+                                <Datepicker
+                                    asSingle={true}
+                                    id="date"
+                                    onChange={handleValueChange}
+                                    name="date"
+                                    value={roponValue}
+                                    showShortcuts={true}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>কর্তন তারিখ</label>
+                            <div className="input input-bordered w-full">
+
+                                <Datepicker
+                                    asSingle={true}
+                                    id="date"
+                                    onChange={handleValueChange}
+                                    name="date"
+                                    value={kortonValue}
+                                    showShortcuts={true}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className='mt-5'>
+                        <label className='font-extrabold mb-1 block'>বর্তমান প্রদর্শনীর অবস্থা</label>
+                        <textarea
+                            className='input h-20 input-bordered w-full'
+                            rows={10}></textarea>
+                    </div>
+                    <div className='mt-5'>
+                        <label className='font-extrabold mb-1 block'>কৃষকের মন্তব্য</label>
+                        <textarea
+                            className='input h-20 input-bordered w-full'
+                            rows={10}></textarea>
+                    </div>
+                    <div className='mt-5'>
+                        <label className='font-extrabold mb-1 block'> মন্তব্য</label>
+                        <textarea
+                            className='input h-20 input-bordered w-full'
+                            rows={10}></textarea>
                     </div>
 
                 </form>
