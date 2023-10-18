@@ -6,15 +6,21 @@ import * as Yup from 'yup';
 import Season from '../../shared/Season';
 import FiscalYear from '../../shared/FiscalYear';
 import Datepicker from 'react-tailwindcss-datepicker';
+import allBlockAndUnion from '../../consts/blockAndUnion';
 
 const AddDemo = () => {
     const [selectedOption, setSelectedOption] = useState('');
+
+    const [findUnion, setFindUnion] = useState(null)
     const [boponValue, setBoponValue] = useState({
         startDate: null,
         endDate: null
     });
     const handleValueChange = (e) => {
-        
+
+        const findUnionByBlock = allBlockAndUnion.find(singleUnion => singleUnion.blocks.indexOf(e.target.value));
+
+        setFindUnion(findUnionByBlock)
     }
     const [roponValue, retBoponValue] = useState({
         startDate: null,
@@ -30,7 +36,7 @@ const AddDemo = () => {
         console.log(selectedOption);
     };
 
-   
+
     const initialValues = {
         projectInfo: {
             full: '',
@@ -220,34 +226,24 @@ const AddDemo = () => {
                                 className='input input-bordered w-full'
                                 id="address.block"
                                 name="address.block"
-                                value={selectedOption}
-                                onChange={handleSelectChange}
+                                // value={formik.values.address ? formik.values.address.block : ''}
+                                onChange={handleValueChange}
                                 onBlur={formik.handleBlur}
                             >
                                 <option value="" label="ব্লক সিলেক্ট করুন" />
-                                <option value="option1" label="Option 1" />
-                                <option value="option2" label="Option 2" />
-                                <option value="option3" label="Option 3" />
+                                {allBlockAndUnion.map(singleUnion => singleUnion.blocks.map((block) => (
+                                    <option key={block} value={block} label={block} />
+                                )))}
                             </select>
                             {formik.touched.address && formik.touched.address.block && formik.errors.address?.block ? (
                                 <div className='text-red-600 font-bold'>{formik.errors.address.block}</div>
                             ) : null}
                         </div>
+
                         <div>
                             <label className='font-extrabold mb-1 block'>ইউনিয়নের নাম</label>
-                            <select
-                                className='input input-bordered w-full'
-                                id="address.union"
-                                name="address.union"
-                                value={selectedOption}
-                                onChange={handleSelectChange}
-                                onBlur={formik.handleBlur}
-                            >
-                                <option value="" label="ইউনিয়ন সিলেক্ট করুন" />
-                                <option value="option1" label="Option 1" />
-                                <option value="option2" label="Option 2" />
-                                <option value="option3" label="Option 3" />
-                            </select>
+                            <input
+                                value={findUnion?.union} disabled />
                             {formik.touched.address && formik.touched.address.union && formik.errors.address?.union ? (
                                 <div className='text-red-600 font-bold'>{formik.errors.address.union}</div>
                             ) : null}
