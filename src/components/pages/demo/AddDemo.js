@@ -10,26 +10,52 @@ import allBlockAndUnion from '../../consts/blockAndUnion';
 
 const AddDemo = () => {
     const [selectedOption, setSelectedOption] = useState('');
-
+    const [findBlock, setFindBlock] = useState(null)
     const [findUnion, setFindUnion] = useState(null)
-    const [boponValue, setBoponValue] = useState({
-        startDate: null,
-        endDate: null
+    const [datePickers, setDatePickers] = useState({
+        bopon: {
+            startDate: null,
+            endDate: null
+        },
+        ropon: {
+            startDate: null,
+            endDate: null
+        },
+        korton: {
+            startDate: null,
+            endDate: null
+        }
     });
+    const handleDatePickerValue = (picker, selectedDate) => {
+        // Use a copy of the state to avoid modifying the state directly
+        const updatedDatePickers = { ...datePickers };
+        
+        // Update the selected date picker with the new value
+        updatedDatePickers[picker] = selectedDate;
+
+        // Update the state with the new date pickers object
+        setDatePickers(updatedDatePickers);
+    };
+
+   
+
+   
     const handleValueChange = (e) => {
+        const block = e.target.value;
 
-        const findUnionByBlock = allBlockAndUnion.find(singleUnion => singleUnion.blocks.indexOf(e.target.value));
+    // Use the updated block directly in the find method
+    const blockExists = allBlockAndUnion.find(item => item.blocks.includes(block));
+    console.log(blockExists);
 
-        setFindUnion(findUnionByBlock)
+    // Use the functional form of setFindBlock
+    setFindBlock(prevBlock => block);
+
+    // Update setFindUnion based on the selected block
+     const unionForBlock = blockExists ? blockExists.union : null;
+   
+    setFindUnion(prevUnion => unionForBlock);
+
     }
-    const [roponValue, retBoponValue] = useState({
-        startDate: null,
-        endDate: null
-    });
-    const [kortonValue, setKotonValue] = useState({
-        startDate: null,
-        endDate: null
-    });
 
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
@@ -101,6 +127,7 @@ const AddDemo = () => {
             console.log('Form values:', values);
         },
     });
+
 
     return (
         <section className='container'>
@@ -243,7 +270,9 @@ const AddDemo = () => {
                         <div>
                             <label className='font-extrabold mb-1 block'>ইউনিয়নের নাম</label>
                             <input
-                                value={findUnion?.union} disabled />
+                                className='input input-bordered w-full'
+
+                                value={findUnion} disabled />
                             {formik.touched.address && formik.touched.address.union && formik.errors.address?.union ? (
                                 <div className='text-red-600 font-bold'>{formik.errors.address.union}</div>
                             ) : null}
@@ -399,9 +428,9 @@ const AddDemo = () => {
                                 <Datepicker
                                     asSingle={true}
                                     id="date"
-                                    onChange={handleValueChange}
+                                    onChange={(selectedDate) => handleDatePickerValue('bopon', selectedDate)}
                                     name="date"
-                                    value={boponValue}
+                                    value={datePickers?.bopon}
                                     showShortcuts={true}
                                 />
                             </div>
@@ -414,9 +443,9 @@ const AddDemo = () => {
                                 <Datepicker
                                     asSingle={true}
                                     id="date"
-                                    onChange={handleValueChange}
+                                    onChange={(selectedDate) => handleDatePickerValue('ropon', selectedDate)}
                                     name="date"
-                                    value={roponValue}
+                                    value={datePickers?.ropon}
                                     showShortcuts={true}
                                 />
                             </div>
@@ -428,9 +457,9 @@ const AddDemo = () => {
                                 <Datepicker
                                     asSingle={true}
                                     id="date"
-                                    onChange={handleValueChange}
+                                    onChange={(selectedDate) => handleDatePickerValue('korton', selectedDate)}
                                     name="date"
-                                    value={kortonValue}
+                                    value={datePickers?.korton}
                                     showShortcuts={true}
                                 />
                             </div>
