@@ -29,7 +29,7 @@ const AddDemo = () => {
     const handleDatePickerValue = (picker, selectedDate) => {
         // Use a copy of the state to avoid modifying the state directly
         const updatedDatePickers = { ...datePickers };
-        
+
         // Update the selected date picker with the new value
         updatedDatePickers[picker] = selectedDate;
 
@@ -37,23 +37,23 @@ const AddDemo = () => {
         setDatePickers(updatedDatePickers);
     };
 
-   
 
-   
+
+
     const handleValueChange = (e) => {
         const block = e.target.value;
 
-    // Use the updated block directly in the find method
-    const blockExists = allBlockAndUnion.find(item => item.blocks.includes(block));
-    console.log(blockExists);
+        // Use the updated block directly in the find method
+        const blockExists = allBlockAndUnion.find(item => item.blocks.includes(block));
+        console.log(blockExists);
 
-    // Use the functional form of setFindBlock
-    setFindBlock(prevBlock => block);
+        // Use the functional form of setFindBlock
+        setFindBlock(prevBlock => block);
 
-    // Update setFindUnion based on the selected block
-     const unionForBlock = blockExists ? blockExists.union : null;
-   
-    setFindUnion(prevUnion => unionForBlock);
+        // Update setFindUnion based on the selected block
+        const unionForBlock = blockExists ? blockExists.union : null;
+
+        setFindUnion(prevUnion => unionForBlock);
 
     }
 
@@ -114,17 +114,35 @@ const AddDemo = () => {
 
     }
     const validationSchema = Yup.object({
-        projectInfo: Yup.object().shape({
-            full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
-        }),
+        // projectInfo: Yup.object().shape({
+        //     full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
+        //     short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
+        // }),
+        //     demoTime: Yup.object().shape({
+        //         fiscalYear: Yup.string().required('অর্থবছর সিলেক্ট করুন'),
+        //         season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
+        //     }),
+        //     farmersInfo: Yup.object().shape({
+        //         fiscalYear: Yup.string().required('কৃষকের নাম দিন')
+        //     }),
+        //     demoInfo: Yup.object().shape({
+        //         crop: Yup.string().required('প্রদর্শনীর নাম / ফসলের নাম লিখুন')
+        //     }),
     });
 
     const formik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: (values) => {
+            values.demoDate = datePickers;
+            values.address.block = findBlock
+            values.address.union = findUnion
+            values.demoTime.season = formik.values.demoTime.season;
+
+
             // Handle form submission logic here
             console.log('Form values:', values);
+            console.log('Form date:', datePickers);
         },
     });
 
@@ -191,11 +209,15 @@ const AddDemo = () => {
                                 className='input input-bordered w-full'
                                 id="demoTime.season"
                                 name="demoTime.season"
-                            // value={selectedOption}
-                            // onChange={handleSelectChange}
+                                value={formik.values.demoTime.season} // Update value to use formik values
+                                onChange={formik.handleChange} // Update the onChange handler
+                                onBlur={formik.handleBlur}
                             >
                                 <Season />
                             </select>
+                            {formik.touched.demoTime && formik.touched.demoTime.season && formik.errors.demoTime?.season ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.demoTime.season}</div>
+                            ) : null}
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>কৃষকের নাম</label>
@@ -427,9 +449,9 @@ const AddDemo = () => {
                             <div className="input input-bordered w-full">
                                 <Datepicker
                                     asSingle={true}
-                                    id="date"
+                                    id="demoDate.bopon"
                                     onChange={(selectedDate) => handleDatePickerValue('bopon', selectedDate)}
-                                    name="date"
+                                    name="demoDate.bopon"
                                     value={datePickers?.bopon}
                                     showShortcuts={true}
                                 />
@@ -442,9 +464,9 @@ const AddDemo = () => {
 
                                 <Datepicker
                                     asSingle={true}
-                                    id="date"
-                                    onChange={(selectedDate) => handleDatePickerValue('ropon', selectedDate)}
-                                    name="date"
+                                    id="demoDate.ropon"
+                                    onChange={(selectedDate) => handleDatePickerValue('demoDate.ropon', selectedDate)}
+                                    name="demoDate.ropon"
                                     value={datePickers?.ropon}
                                     showShortcuts={true}
                                 />
@@ -456,9 +478,9 @@ const AddDemo = () => {
 
                                 <Datepicker
                                     asSingle={true}
-                                    id="date"
+                                    id="demoDate.korton"
                                     onChange={(selectedDate) => handleDatePickerValue('korton', selectedDate)}
-                                    name="date"
+                                    name="demoDate.korton"
                                     value={datePickers?.korton}
                                     showShortcuts={true}
                                 />
@@ -468,22 +490,41 @@ const AddDemo = () => {
                     <div className='mt-5'>
                         <label className='font-extrabold mb-1 block'>বর্তমান প্রদর্শনীর অবস্থা</label>
                         <textarea
+                            name='comment.presentCondition'
+                            id='comment.presentCondition'
                             className='input h-20 input-bordered w-full'
-                            rows={10}></textarea>
+                            rows={10}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.comment.presentCondition}
+                        ></textarea>
                     </div>
                     <div className='mt-5'>
                         <label className='font-extrabold mb-1 block'>কৃষকের মন্তব্য</label>
                         <textarea
+                            name='comment.farmersReview'
+                            id='comment.farmersReview'
                             className='input h-20 input-bordered w-full'
-                            rows={10}></textarea>
+                            rows={10}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.comment.farmersReview}
+                        ></textarea>
                     </div>
                     <div className='mt-5'>
                         <label className='font-extrabold mb-1 block'> মন্তব্য</label>
                         <textarea
+                            name='comment.overallComment'
+                            id='comment.overallComment'
                             className='input h-20 input-bordered w-full'
-                            rows={10}></textarea>
+                            rows={10}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.comment.overallComment}
+                        ></textarea>
                     </div>
 
+                    <button type='submit' className="btn mt-5 w-full font-extrabold text-white btn-success">প্রশিক্ষণ যুক্ত করুন</button>
                 </form>
             </div>
         </section>
