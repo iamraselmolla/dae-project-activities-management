@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import SectionTitle from '../../shared/SectionTitle';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
 import Season from '../../shared/Season';
 import FiscalYear from '../../shared/FiscalYear';
 import Datepicker from 'react-tailwindcss-datepicker';
@@ -465,7 +464,7 @@ const AddDemo = () => {
                                 <Datepicker
                                     asSingle={true}
                                     id="demoDate.ropon"
-                                    onChange={(selectedDate) => handleDatePickerValue('demoDate.ropon', selectedDate)}
+                                    onChange={(selectedDate) => handleDatePickerValue('ropon', selectedDate)}
                                     name="demoDate.ropon"
                                     value={datePickers?.ropon}
                                     showShortcuts={true}
@@ -524,7 +523,7 @@ const AddDemo = () => {
                         ></textarea>
                     </div>
 
-                    <button type='submit' className="btn mt-5 w-full font-extrabold text-white btn-success">প্রশিক্ষণ যুক্ত করুন</button>
+                    <button type='submit' className="btn mt-5 w-full font-extrabold text-white btn-success">প্রদর্শনী যুক্ত করুন</button>
                 </form>
             </div>
         </section>
