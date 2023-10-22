@@ -83,6 +83,32 @@ const Header = () => {
                                     >
                                         মালামাল বিতরণ
                                     </NavLink>
+                                    <NavLink
+                                        to="/addDemo"
+                                        className={({ isActive, isPending }) =>
+                                            isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                                        }
+                                    >
+                                        প্রদর্শনী
+                                    </NavLink>
+                                    <NavLink
+                                        to="/addTraining"
+                                        className={({ isActive, isPending }) =>
+                                            isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                                        }
+                                    >
+                                        প্রশিক্ষণ
+                                    </NavLink>
+                                    <NavLink
+                                        to="/addFieldDay"
+                                        className={({ isActive, isPending }) =>
+                                            isPending ? "pending" : isActive ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                                        }
+                                    >
+                                        মাঠ দিবস
+                                    </NavLink>
+                                   
+                                  
 
                                 </div>
                             </div>
