@@ -6,9 +6,12 @@ import Season from '../../shared/Season';
 import FiscalYear from '../../shared/FiscalYear';
 import Datepicker from 'react-tailwindcss-datepicker';
 import allBlockAndUnion from '../../consts/blockAndUnion';
+import { PhotoView } from 'react-photo-view';
 
 const AddDemo = () => {
     const [selectedOption, setSelectedOption] = useState('');
+    const [selectedImages, setSelectedImages] = useState([]);
+
     const [findBlock, setFindBlock] = useState(null)
     const [findUnion, setFindUnion] = useState(null)
     const [datePickers, setDatePickers] = useState({
@@ -25,6 +28,20 @@ const AddDemo = () => {
             endDate: null
         }
     });
+    const handleImageChange = (e) => {
+        const files = e.target.files;
+        const imageFiles = [];
+
+        for (let i = 0; i < files.length; i++) {
+            // Check if the selected file is an image
+            if (files[i].type.startsWith('image/')) {
+                imageFiles.push(URL.createObjectURL(files[i]));
+            }
+        }
+
+        // Update the selected images
+        setSelectedImages(imageFiles);
+    };
     const handleDatePickerValue = (picker, selectedDate) => {
         // Use a copy of the state to avoid modifying the state directly
         const updatedDatePickers = { ...datePickers };
@@ -105,28 +122,29 @@ const AddDemo = () => {
             korton: '',
         },
         comment: {
-            presentCondition: [],
+            presentCondition: '',
             farmersReview: '',
             overallComment: ''
-        }
+        },
+        demoImages: []
 
 
     }
     const validationSchema = Yup.object({
-        projectInfo: Yup.object().shape({
-            full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
-            short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
+        // projectInfo: Yup.object().shape({
+        //     full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
+        //     short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
+        // }),
+        demoTime: Yup.object().shape({
+            fiscalYear: Yup.string().required('অর্থবছর সিলেক্ট করুন'),
+            season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
         }),
-            demoTime: Yup.object().shape({
-                fiscalYear: Yup.string().required('অর্থবছর সিলেক্ট করুন'),
-                season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
-            }),
-            farmersInfo: Yup.object().shape({
-                fiscalYear: Yup.string().required('কৃষকের নাম দিন')
-            }),
-            demoInfo: Yup.object().shape({
-                crop: Yup.string().required('প্রদর্শনীর নাম / ফসলের নাম লিখুন')
-            }),
+        // farmersInfo: Yup.object().shape({
+        //     fiscalYear: Yup.string().required('কৃষকের নাম দিন')
+        // }),
+        demoInfo: Yup.object().shape({
+            crop: Yup.string().required('প্রদর্শনীর নাম / ফসলের নাম লিখুন')
+        }),
     });
 
     const formik = useFormik({
@@ -137,6 +155,7 @@ const AddDemo = () => {
             values.address.block = findBlock
             values.address.union = findUnion
             values.demoTime.season = formik.values.demoTime.season;
+            values.projectInfo.full = selectedOption
 
 
             // Handle form submission logic here
@@ -229,7 +248,7 @@ const AddDemo = () => {
                                 value={formik.values.farmersInfo ? formik.values.farmersInfo?.name : ''}
                             />
 
-                            { formik.errors.farmersInfo?.name ? (
+                            {formik.errors.farmersInfo?.name ? (
                                 <div className='text-red-600 font-bold'>{formik.errors.farmersInfo.name}</div>
                             ) : null}
                         </div>
@@ -263,7 +282,7 @@ const AddDemo = () => {
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
                                 placeholder='গ্রাম'
-                                value={formik.values.farmersInfo ? formik.values.farmersInfo?.fatherOrHusbandName : ''}
+                                value={formik.values.address ? formik.values.address?.village : ''}
                             />
                         </div>
                         <div>
@@ -483,7 +502,89 @@ const AddDemo = () => {
                                 />
                             </div>
                         </div>
+
+                        <div>
+                            <label className='font-extrabold mb-1 block'>ফলন (হেক্টর)</label>
+                            <input
+                                type="number"
+                                className='input input-bordered w-full'
+                                id="production.productionPerHector"
+                                name="production.productionPerHector"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='হেক্টর প্রতি ফলন'
+                                value={formik.values.production ? formik.values.production?.productionPerHector : ''}
+                            />
+
+                            {formik.touched.production && formik.touched.production.productionPerHector && formik.errors.production?.productionPerHector ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.production.productionPerHector}</div>
+                            ) : null}
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>প্রদর্শনীতে উৎপাদন</label>
+                            <input
+                                type="number"
+                                className='input input-bordered w-full'
+                                id="production.totalProduction"
+                                name="production.totalProduction"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='প্রদর্শনীতে সর্বমোট উৎপাদন'
+                                value={formik.values.production ? formik.values.production?.totalProduction : ''}
+                            />
+
+                            {formik.touched.production && formik.touched.production.totalProduction && formik.errors.production?.totalProduction ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.production.totalProduction}</div>
+                            ) : null}
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>কন্ট্রোল প্লটে উৎপাদন</label>
+                            <input
+                                type="number"
+                                className='input input-bordered w-full'
+                                id="production.sidePlotProduction"
+                                name="production.sidePlotProduction"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='সাইড প্লট / কন্ট্রোল প্লটে উৎপাদন'
+                                value={formik.values.production ? formik.values.production?.sidePlotProduction : ''}
+                            />
+
+                            {formik.touched.production && formik.touched.production.sidePlotProduction && formik.errors.production?.sidePlotProduction ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.production.sidePlotProduction}</div>
+                            ) : null}
+                        </div>
                     </div>
+                    <div className="mt-3">
+                        <label className="font-extrabold mb-1 block">প্রদর্শনীর  ছবিসমূহ</label>
+                        <input
+                            multiple
+                            name="images"
+                            type="file"
+                            className="file-input input-bordered w-full"
+                            onChange={handleImageChange} // Add the onChange event
+                        />
+                    </div>
+
+                    {/* Display the selected images */}
+                    {selectedImages.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-3 justify-center">
+                            {selectedImages.map((image, index) => (
+                               
+
+                                    <img width={100}
+                                        key={index}
+                                        src={image}
+                                        alt={`Selected Image ${index + 1}`}
+                                        className="mt-2 max-w-64 h-auto"
+                                    />
+                                
+                            ))}
+                        </div>
+                    )}
+
+
+
                     <div className='mt-5'>
                         <label className='font-extrabold mb-1 block'>বর্তমান প্রদর্শনীর অবস্থা</label>
                         <textarea
@@ -520,6 +621,7 @@ const AddDemo = () => {
                             value={formik.values.comment.overallComment}
                         ></textarea>
                     </div>
+
 
                     <button type='submit' className="btn mt-5 w-full font-extrabold text-white btn-success">প্রদর্শনী যুক্ত করুন</button>
                 </form>
