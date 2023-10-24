@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SectionTitle from '../../shared/SectionTitle';
-import { ErrorMessage, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Season from '../../shared/Season';
 import FiscalYear from '../../shared/FiscalYear';
@@ -113,20 +113,20 @@ const AddDemo = () => {
 
     }
     const validationSchema = Yup.object({
-        projectInfo: Yup.object().shape({
-            full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
-            short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
-        }),
-            demoTime: Yup.object().shape({
-                fiscalYear: Yup.string().required('অর্থবছর সিলেক্ট করুন'),
-                season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
-            }),
-            farmersInfo: Yup.object().shape({
-                fiscalYear: Yup.string().required('কৃষকের নাম দিন')
-            }),
-            demoInfo: Yup.object().shape({
-                crop: Yup.string().required('প্রদর্শনীর নাম / ফসলের নাম লিখুন')
-            }),
+        // projectInfo: Yup.object().shape({
+        //     full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
+        //     short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
+        // }),
+        //     demoTime: Yup.object().shape({
+        //         fiscalYear: Yup.string().required('অর্থবছর সিলেক্ট করুন'),
+        //         season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
+        //     }),
+        //     farmersInfo: Yup.object().shape({
+        //         fiscalYear: Yup.string().required('কৃষকের নাম দিন')
+        //     }),
+        //     demoInfo: Yup.object().shape({
+        //         crop: Yup.string().required('প্রদর্শনীর নাম / ফসলের নাম লিখুন')
+        //     }),
     });
 
     const formik = useFormik({
@@ -167,7 +167,9 @@ const AddDemo = () => {
                                 <option value="option2" label="Option 2" />
                                 <option value="option3" label="Option 3" />
                             </select>
-
+                            {formik.touched.projectInfo && formik.touched.projectInfo.full && formik.errors.projectInfo?.full ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.projectInfo.full}</div>
+                            ) : null}
                         </div>
                         <div>
                             <label className='font-extrabold mb-1 block'>প্রকল্পের সংক্ষেপ নাম</label>
@@ -229,7 +231,7 @@ const AddDemo = () => {
                                 value={formik.values.farmersInfo ? formik.values.farmersInfo?.name : ''}
                             />
 
-                            { formik.errors.farmersInfo?.name ? (
+                            {formik.touched.farmersInfo && formik.touched.farmersInfo.name && formik.errors.farmersInfo?.name ? (
                                 <div className='text-red-600 font-bold'>{formik.errors.farmersInfo.name}</div>
                             ) : null}
                         </div>
