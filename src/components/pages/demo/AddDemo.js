@@ -6,7 +6,6 @@ import Season from '../../shared/Season';
 import FiscalYear from '../../shared/FiscalYear';
 import Datepicker from 'react-tailwindcss-datepicker';
 import allBlockAndUnion from '../../consts/blockAndUnion';
-import { PhotoView } from 'react-photo-view';
 
 const AddDemo = () => {
     const [selectedOption, setSelectedOption] = useState('');
@@ -131,20 +130,20 @@ const AddDemo = () => {
 
     }
     const validationSchema = Yup.object({
-        projectInfo: Yup.object().shape({
-            full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
-            short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
-        }),
-            demoTime: Yup.object().shape({
-                fiscalYear: Yup.string().required('অর্থবছর সিলেক্ট করুন'),
-                season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
-            }),
-            farmersInfo: Yup.object().shape({
-                fiscalYear: Yup.string().required('কৃষকের নাম দিন')
-            }),
-            demoInfo: Yup.object().shape({
-                crop: Yup.string().required('প্রদর্শনীর নাম / ফসলের নাম লিখুন')
-            }),
+        // projectInfo: Yup.object().shape({
+        //     full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
+        //     short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
+        // }),
+        // demoTime: Yup.object().shape({
+        //     fiscalYear: Yup.string().required('অর্থবছর সিলেক্ট করুন'),
+        //     season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
+        // }),
+        // farmersInfo: Yup.object().shape({
+        //     fiscalYear: Yup.string().required('কৃষকের নাম দিন')
+        // }),
+        // demoInfo: Yup.object().shape({
+        //     crop: Yup.string().required('প্রদর্শনীর নাম / ফসলের নাম লিখুন')
+        // }),
     });
 
     const formik = useFormik({
@@ -250,7 +249,7 @@ const AddDemo = () => {
                                 value={formik.values.farmersInfo ? formik.values.farmersInfo?.name : ''}
                             />
 
-                            { formik.errors.farmersInfo?.name ? (
+                            {formik.errors.farmersInfo?.name ? (
                                 <div className='text-red-600 font-bold'>{formik.errors.farmersInfo.name}</div>
                             ) : null}
                         </div>
@@ -572,15 +571,15 @@ const AddDemo = () => {
                     {selectedImages.length > 0 && (
                         <div className="mt-3 flex flex-wrap gap-3 justify-center">
                             {selectedImages.map((image, index) => (
-                               
 
-                                    <img width={100}
-                                        key={index}
-                                        src={image}
-                                        alt={`Selected Image ${index + 1}`}
-                                        className="mt-2 max-w-64 h-auto"
-                                    />
-                                
+
+                                <img width={100}
+                                    key={index}
+                                    src={image}
+                                    alt={`Selected Image ${index + 1}`}
+                                    className="mt-2 max-w-64 h-auto"
+                                />
+
                             ))}
                         </div>
                     )}

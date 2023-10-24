@@ -14,6 +14,7 @@ const AddTraining = () => {
         endDate: null
     });
     const [selectedOption, setSelectedOption] = useState('');
+    const [selectedImages, setSelectedImages] = useState([]);
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
         console.log(selectedOption)
@@ -23,6 +24,20 @@ const AddTraining = () => {
         console.log("newValue:", newValue);
         setValue(newValue);
     }
+    const handleImageChange = (e) => {
+        const files = e.target.files;
+        const imageFiles = [];
+
+        for (let i = 0; i < files.length; i++) {
+            // Check if the selected file is an image
+            if (files[i].type.startsWith('image/')) {
+                imageFiles.push(URL.createObjectURL(files[i]));
+            }
+        }
+
+        // Update the selected images
+        setSelectedImages(imageFiles);
+    };
     const validationSchema = Yup.object().shape({
         project: Yup.object().shape({
             full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
@@ -200,8 +215,30 @@ const AddTraining = () => {
 
                     <div>
                         <label className='font-extrabold mb-1 block'>প্রশিক্ষণের ছবিসমূহ</label>
-                        <input multiple name='images' type="file" className="file-input input-bordered w-full" />
+                        <input
+                            multiple
+                            name="images"
+                            type="file"
+                            className="file-input input-bordered w-full"
+                            onChange={handleImageChange} // Add the onChange event
 
+                        />
+                        {/* Display the selected images */}
+                        {selectedImages.length > 0 && (
+                            <div className="mt-3 flex flex-wrap gap-3 justify-center">
+                                {selectedImages.map((image, index) => (
+
+
+                                    <img width={100}
+                                        key={index}
+                                        src={image}
+                                        alt={`Selected Image ${index + 1}`}
+                                        className="mt-2 max-w-64 h-auto"
+                                    />
+
+                                ))}
+                            </div>
+                        )}
                     </div>
 
 

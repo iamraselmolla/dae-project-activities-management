@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import Datepicker from 'react-tailwindcss-datepicker';
 import FiscalYear from '../../shared/FiscalYear';
 import Season from '../../shared/Season';
+import allBlockAndUnion from '../../consts/blockAndUnion';
 
 
 
@@ -14,12 +15,45 @@ const AddFieldDay = () => {
         endDate: null
     });
     const [selectedOption, setSelectedOption] = useState('');
+    const [selectedImages, setSelectedImages] = useState([]);
+    const [findBlock, setFindBlock] = useState(null)
+    const [findUnion, setFindUnion] = useState(null)
+    const handleValueChange = (e) => {
+        const block = e.target.value;
+
+        // Use the updated block directly in the find method
+        const blockExists = allBlockAndUnion.find(item => item.blocks.includes(block));
+        console.log(blockExists);
+
+        // Use the functional form of setFindBlock
+        setFindBlock(prevBlock => block);
+
+        // Update setFindUnion based on the selected block
+        const unionForBlock = blockExists ? blockExists.union : null;
+
+        setFindUnion(prevUnion => unionForBlock);
+
+    }
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
         console.log(selectedOption)
     }
+    const handleImageChange = (e) => {
+        const files = e.target.files;
+        const imageFiles = [];
 
-    const handleValueChange = (newValue) => {
+        for (let i = 0; i < files.length; i++) {
+            // Check if the selected file is an image
+            if (files[i].type.startsWith('image/')) {
+                imageFiles.push(URL.createObjectURL(files[i]));
+            }
+        }
+
+        // Update the selected images
+        setSelectedImages(imageFiles);
+    };
+
+    const handleValueChangeofDate = (newValue) => {
         console.log("newValue:", newValue);
         setValue(newValue);
     }
@@ -194,24 +228,91 @@ const AddFieldDay = () => {
                             <Datepicker
                                 asSingle={true}
                                 id="date"
-                                onChange={handleValueChange}
+                                onChange={handleValueChangeofDate}
                                 name="date"
                                 value={value}
                                 showShortcuts={true}
                             />
 
                         </div>
+
                         <div>
                             <label className='font-extrabold mb-1 block'>মাঠ দিবসের ছবিসমূহ</label>
-                            <input multiple name='images' type="file" className="file-input input-bordered w-full" />
+                            <input
+                                multiple
+                                name="images"
+                                type="file"
+                                className="file-input input-bordered w-full"
+                                onChange={handleImageChange} // Add the onChange event
 
+                            />
+                            {/* Display the selected images */}
+                            {selectedImages.length > 0 && (
+                                <div className="mt-3 flex flex-wrap gap-3 justify-center">
+                                    {selectedImages.map((image, index) => (
+
+
+                                        <img width={100}
+                                            key={index}
+                                            src={image}
+                                            alt={`Selected Image ${index + 1}`}
+                                            className="mt-2 max-w-64 h-auto"
+                                        />
+
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
 
 
                     </div>
 
+                    <div className="grid mt-3 gap-4 mb-3 grid-cols-1 lg:grid-cols-3">
+                        <div>
+                            <label className='font-extrabold mb-1 block'>গ্রামের নাম</label>
+                            <input
+                                type="text"
+                                className='input input-bordered w-full'
+                                id="address.village"
+                                name="address.village"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                placeholder='গ্রাম'
+                                value={formik.values.address ? formik.values.address?.village : ''}
+                            />
+                        </div>
+                        <div>
+                            <label className='font-extrabold mb-1 block'>ব্লকের নাম</label>
+                            <select
+                                className='input input-bordered w-full'
+                                id="address.block"
+                                name="address.block"
+                                // value={formik.values.address ? formik.values.address.block : ''}
+                                onChange={handleValueChange}
+                                onBlur={formik.handleBlur}
+                            >
+                                <option value="" label="ব্লক সিলেক্ট করুন" />
+                                {allBlockAndUnion.map(singleUnion => singleUnion.blocks.map((block) => (
+                                    <option key={block} value={block} label={block} />
+                                )))}
+                            </select>
+                            {formik.touched.address && formik.touched.address.block && formik.errors.address?.block ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.address.block}</div>
+                            ) : null}
+                        </div>
 
+                        <div>
+                            <label className='font-extrabold mb-1 block'>ইউনিয়নের নাম</label>
+                            <input
+                                className='input input-bordered w-full'
+
+                                value={findUnion} disabled />
+                            {formik.touched.address && formik.touched.address.union && formik.errors.address?.union ? (
+                                <div className='text-red-600 font-bold'>{formik.errors.address.union}</div>
+                            ) : null}
+                        </div>
+                    </div>
 
                     <div className='mt-5'>
                         <label className='font-extrabold mb-1 block'>মন্তব্য যুক্ত করুন</label>
