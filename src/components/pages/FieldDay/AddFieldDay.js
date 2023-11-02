@@ -18,25 +18,17 @@ const AddFieldDay = () => {
     const [selectedImages, setSelectedImages] = useState([]);
     const [findBlock, setFindBlock] = useState(null)
     const [findUnion, setFindUnion] = useState(null)
+
     const handleValueChange = (e) => {
         const block = e.target.value;
-
-        // Use the updated block directly in the find method
         const blockExists = allBlockAndUnion.find(item => item.blocks.includes(block));
-        console.log(blockExists);
-
-        // Use the functional form of setFindBlock
         setFindBlock(prevBlock => block);
-
-        // Update setFindUnion based on the selected block
         const unionForBlock = blockExists ? blockExists.union : null;
-
         setFindUnion(prevUnion => unionForBlock);
-
     }
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
-        console.log(selectedOption)
+        
     }
     const handleImageChange = (e) => {
         const files = e.target.files;
@@ -72,31 +64,42 @@ const AddFieldDay = () => {
         },
         date: '',
         images: [],
-        comment: ''
+        address: {
+            village: '',
+            block: '',
+            union: ''
+        },
+        comment: '',
+
 
     };
     const validationSchema = Yup.object().shape({
-        project: Yup.object().shape({
-            full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
-        }),
-        season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
-        subject: Yup.string().required('মাঠদিবসের বিষয় সিলেক্ট করুন'),
-        guests: Yup.string().required('উপস্থিত কর্মকর্তা ও অতিথিদের তালিকা দিন'),
-        farmers: Yup.object().shape({
-            male: Yup.number().min(0, 'Male farmers should be 0 or more').required('উপস্থিত পুরুষ কৃষক সংখ্যা'),
-            female: Yup.number().min(0, 'Female farmers should be 0 or more').required('উপস্থিত নারী কৃষক সংখ্যা'),
-        }),
-        date: Yup.string().required('মাঠ দিবসের তারিখ'),
-        images: Yup.array().min(1, 'মাঠ দিবসের ছবি দিন'),
+        // project: Yup.object().shape({
+        //     full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
+        // }),
+        // season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
+        // subject: Yup.string().required('মাঠদিবসের বিষয় সিলেক্ট করুন'),
+        // guests: Yup.string().required('উপস্থিত কর্মকর্তা ও অতিথিদের তালিকা দিন'),
+        // farmers: Yup.object().shape({
+        //     male: Yup.number().min(0, 'Male farmers should be 0 or more').required('উপস্থিত পুরুষ কৃষক সংখ্যা'),
+        //     female: Yup.number().min(0, 'Female farmers should be 0 or more').required('উপস্থিত নারী কৃষক সংখ্যা'),
+        // }),
+        // date: Yup.string().required('মাঠ দিবসের তারিখ'),
+        // images: Yup.array().min(1, 'মাঠ দিবসের ছবি দিন'),
     });
 
     const formik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: (values) => {
-
+            values.date = value.startDate;
+        values.address.block = findBlock;
+        values.address.union = findUnion;
+        values.season =selectedOption; // Access the season field value correctly
+        values.project.full = formik.values.project.full;
             // Handle form submission logic here
             console.log('Form values:', values);
+            console.log('Form values:', selectedOption);
         },
     });
 
@@ -114,8 +117,8 @@ const AddFieldDay = () => {
                                 className='input input-bordered w-full'
                                 id="project.full"
                                 name="project.full"
-                                value={selectedOption}
-                                onChange={handleSelectChange}
+                                value={formik.values.project.full}
+                                onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                             >
                                 <option value="" label="প্রকল্প সিলেক্ট করুন" />
@@ -163,8 +166,9 @@ const AddFieldDay = () => {
                                 className='input input-bordered w-full'
                                 id="season"
                                 name="season"
-                            // value={selectedOption}
-                            // onChange={handleSelectChange}
+                                value={selectedOption}
+                                onChange={handleSelectChange}
+                                onBlur={formik.handleBlur}
                             >
                                 <Season />
                             </select>
@@ -176,6 +180,7 @@ const AddFieldDay = () => {
                                 className='input input-bordered w-full'
                                 id="subject"
                                 name="subject"
+                                onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 placeholder='মাঠদিবসের বিষয় বা ফসল'
                             // value={formik.values.subject ? formik.values.subject : ''}
@@ -189,6 +194,7 @@ const AddFieldDay = () => {
                                 className='input input-bordered w-full'
                                 id="guests"
                                 name="guests"
+                                onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 placeholder='কর্মকর্তা ও গন্যমান্য অতিথি'
                             // value={formik.values.guests ? formik.values.guests : ''}
@@ -202,6 +208,7 @@ const AddFieldDay = () => {
                                 className='input input-bordered w-full'
                                 id="farmers.male"
                                 name="farmers.male"
+                                onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 placeholder='কৃষক (পুরুষ)'
                             // value={formik.values.farmers.male ? formik.values.farmers.male : ''}
@@ -215,6 +222,7 @@ const AddFieldDay = () => {
                                 className='input input-bordered w-full'
                                 id="farmers.female"
                                 name="farmers.female"
+                                onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 placeholder='কৃষক (নারী)'
                             // value={formik.values.farmers.female ? formik.values.farmers.female : ''}
@@ -317,6 +325,11 @@ const AddFieldDay = () => {
                     <div className='mt-5'>
                         <label className='font-extrabold mb-1 block'>মন্তব্য যুক্ত করুন</label>
                         <textarea
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.comment}
+                            id='comment'
+                            name='comment'
                             className='input h-20 input-bordered w-full'
                             rows={10}></textarea>
                     </div>

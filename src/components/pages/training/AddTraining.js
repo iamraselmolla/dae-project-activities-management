@@ -1,57 +1,45 @@
-import { Field, useFormik } from 'formik';
 import React, { useState } from 'react';
 import Datepicker from 'react-tailwindcss-datepicker';
 import SectionTitle from '../../shared/SectionTitle';
 import * as Yup from 'yup';
 import FiscalYear from '../../shared/FiscalYear';
 import Season from '../../shared/Season';
-
+import { useFormik } from 'formik';
 
 const AddTraining = () => {
-
     const [value, setValue] = useState({
         startDate: null,
         endDate: null
     });
     const [selectedOption, setSelectedOption] = useState('');
-    const [selectedImages, setSelectedImages] = useState([]);
+    const [selectedImages, setSelectedImages] = useState([]); // Initialize as an empty array
+    
+
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
-        console.log(selectedOption)
-    }
+    };
 
     const handleValueChange = (newValue) => {
-        console.log("newValue:", newValue);
         setValue(newValue);
-    }
+    };
+
     const handleImageChange = (e) => {
         const files = e.target.files;
         const imageFiles = [];
 
         for (let i = 0; i < files.length; i++) {
-            // Check if the selected file is an image
             if (files[i].type.startsWith('image/')) {
                 imageFiles.push(URL.createObjectURL(files[i]));
             }
         }
 
-        // Update the selected images
         setSelectedImages(imageFiles);
     };
+
     const validationSchema = Yup.object().shape({
-        project: Yup.object().shape({
-            full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
-        }),
-        season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
-        subject: Yup.string().required('মাঠদিবসের বিষয় সিলেক্ট করুন'),
-        guests: Yup.string().required('উপস্থিত কর্মকর্তা ও অতিথিদের তালিকা দিন'),
-        farmers: Yup.object().shape({
-            male: Yup.number().min(0, 'Male farmers should be 0 or more').required('উপস্থিত পুরুষ কৃষক সংখ্যা'),
-            female: Yup.number().min(0, 'Female farmers should be 0 or more').required('উপস্থিত নারী কৃষক সংখ্যা'),
-        }),
-        date: Yup.string().required('মাঠ দিবসের তারিখ'),
-        images: Yup.array().min(1, 'মাঠ দিবসের ছবি দিন'),
+        // Add your validation schema here
     });
+
     const initialValues = {
         project: {
             full: '',
@@ -68,13 +56,15 @@ const AddTraining = () => {
         date: '',
         images: [],
         comment: ''
-
     };
+
     const formik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: (values) => {
-            // Handle form submission logic here
+            values.images = selectedImages;
+            values.date = value;
+            values.season = formik.values.season;
             console.log('Form values:', values);
         },
     });
@@ -90,8 +80,8 @@ const AddTraining = () => {
                             className='input input-bordered w-full'
                             id="project.full"
                             name="project.full"
-                            value={selectedOption}
-                            onChange={handleSelectChange}
+                            value={formik.values.project.full}
+                            onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                         >
                             <option value="" label="প্রকল্প সিলেক্ট করুন" />
@@ -103,14 +93,13 @@ const AddTraining = () => {
                             <div className='text-red-600 font-bold'>{formik.errors.project.full}</div>
                         ) : null}
                     </div>
-                    <div >
+                    <div>
                         <label className='font-extrabold mb-1 block'>প্রকল্পের সংক্ষেপ নাম</label>
                         <input
                             type="text"
                             className='input input-bordered w-full'
                             id="name.short"
                             name="name.short"
-
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder='প্রকল্পের সংক্ষেপ নাম'
@@ -130,9 +119,7 @@ const AddTraining = () => {
                             onChange={formik.handleChange}
                         >
                             <FiscalYear />
-
                         </select>
-
                     </div>
                     <div>
                         <label className='font-extrabold mb-1 block'>মৌসুম</label>
@@ -140,8 +127,9 @@ const AddTraining = () => {
                             className='input input-bordered w-full'
                             id="season"
                             name="season"
-                        // value={selectedOption}
-                        // onChange={handleSelectChange}
+                            value={selectedOption}
+                            onChange={handleSelectChange}
+                            onBlur={formik.handleBlur}
                         >
                             <Season />
                         </select>
@@ -154,10 +142,10 @@ const AddTraining = () => {
                             id="subject"
                             name="subject"
                             onBlur={formik.handleBlur}
-                            placeholder='মাঠদিবসের বিষয় বা ফসল'
-                        // value={formik.values.subject ? formik.values.subject : ''}
+                            placeholder='প্রশিক্ষণের বিষয় বা ফসল'
+                            value={formik.values.subject ? formik.values.subject : ''}
+                            onChange={formik.handleChange}
                         />
-
                     </div>
                     <div>
                         <label className='font-extrabold mb-1 block'>উপস্থিত কর্মকর্তা ও গন্যমান্য অতিথি</label>
@@ -168,9 +156,9 @@ const AddTraining = () => {
                             name="guests"
                             onBlur={formik.handleBlur}
                             placeholder='কর্মকর্তা ও গন্যমান্য অতিথি'
-                        // value={formik.values.guests ? formik.values.guests : ''}
+                            onChange={formik.handleChange}
+                            value={formik.values.guests ? formik.values.guests : ''}
                         />
-
                     </div>
                     <div>
                         <label className='font-extrabold mb-1 block'>উপস্থিত কৃষক (পুরুষ)</label>
@@ -181,9 +169,9 @@ const AddTraining = () => {
                             name="farmers.male"
                             onBlur={formik.handleBlur}
                             placeholder='কৃষক (পুরুষ)'
-                        // value={formik.values.farmers.male ? formik.values.farmers.male : ''}
+                            onChange={formik.handleChange}
+                            value={formik.values.farmers.male ? formik.values.farmers.male : ''}
                         />
-
                     </div>
                     <div>
                         <label className='font-extrabold mb-1 block'>উপস্থিত কৃষক (নারী)</label>
@@ -194,25 +182,20 @@ const AddTraining = () => {
                             name="farmers.female"
                             onBlur={formik.handleBlur}
                             placeholder='কৃষক (নারী)'
-                        // value={formik.values.farmers.female ? formik.values.farmers.female : ''}
+                            onChange={formik.handleChange}
+                            value={formik.values.farmers.female ? formik.values.farmers.female : ''}
                         />
-                        {/* {formik.touched.name && formik.touched.name.details && formik.errors.name?.details ? (
-                                <div className='text-red-600 font-bold'>{formik.errors.name.details}</div>
-                            ) : null} */}
                     </div>
                     <div className='mt-3 input input-bordered w-full'>
                         <label className='font-extrabold mb-1 block'>প্রশিক্ষণ শুরু ও শেষের তারিখ</label>
                         <Datepicker
-
-                            id="time"
-                            name="time"
+                            id="date"
+                            name="date"
                             value={value}
                             onChange={handleValueChange}
                             showShortcuts={true}
                         />
-
                     </div>
-
                     <div>
                         <label className='font-extrabold mb-1 block'>প্রশিক্ষণের ছবিসমূহ</label>
                         <input
@@ -220,42 +203,35 @@ const AddTraining = () => {
                             name="images"
                             type="file"
                             className="file-input input-bordered w-full"
-                            onChange={handleImageChange} // Add the onChange event
-
+                            onChange={handleImageChange}
                         />
-                        {/* Display the selected images */}
-                        {selectedImages.length > 0 && (
+                        {selectedImages?.length > 0 && (
                             <div className="mt-3 flex flex-wrap gap-3 justify-center">
                                 {selectedImages.map((image, index) => (
-
-
                                     <img width={100}
                                         key={index}
                                         src={image}
                                         alt={`Selected Image ${index + 1}`}
                                         className="mt-2 max-w-64 h-auto"
                                     />
-
                                 ))}
                             </div>
                         )}
                     </div>
-
-
                 </div>
-
                 <div className='mt-5'>
                     <label className='font-extrabold mb-1 block'>মন্তব্য যুক্ত করুন</label>
                     <textarea
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        name='comment'
                         className='input h-20 input-bordered w-full'
-                        rows={10}></textarea>
+                        rows={10}
+                    ></textarea>
                 </div>
-
-
                 <button type='submit' className="btn mt-5 w-full font-extrabold text-white btn-success">প্রশিক্ষণ যুক্ত করুন</button>
-
             </form>
-        </section >
+        </section>
     );
 };
 
