@@ -336,7 +336,7 @@ const AddDemo = () => {
                             ) : null}
                         </div>
                         <div>
-                            <label className='font-extrabold mb-1 block'>ভোটার আইডি কার্ড নং</label>
+                            <label className='font-extrabold mb-1 block'>ভোটার আইডি (NID) কার্ড নং</label>
                             <input
                                 type="text"
                                 className='input input-bordered w-full'
