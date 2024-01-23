@@ -13,57 +13,56 @@ const { default: Layout } = require("./components/Layout");
 const { default: Home } = require("./components/pages/home/Home");
 
 const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Layout></Layout>,
-        children: [
-            {
-                path: '/',
-                element: <Home></Home>
-            },
-            {
-                path: '/demos',
-                element: <Demo></Demo>
-            },
-            {
-                path: '/trainings',
-                element: <Training></Training>
-            },
-            {
-                path: '/fielddays',
-                element: <FieldDay></FieldDay>
-            },
-            {
-                path: '/distributions',
-                element: <Distribution></Distribution>
-            },
-            {
-                path: '/addProjects',
-                element: <AddProjects />
-            },
-            {
-                path: '/addDemo',
-                element: <AddDemo />
-            },
-            {
-                path: '/addFieldDay',
-                element: <AddFieldDay />
-            },
-            {
-                path: '/addTraining',
-                element: <AddTraining />
-            },
-            {
-                path: '/addDemo',
-                element: <AddTraining />
-            },
-            {
-                path: "*",
-                element: <NotFound></NotFound>
-            }
-        ]
-    },
-
+  {
+    path: "/",
+    element: <Layout></Layout>,
+    children: [
+      {
+        path: "/",
+        element: <Home></Home>,
+      },
+      {
+        path: "/demos",
+        element: <Demo></Demo>,
+      },
+      {
+        path: "/trainings",
+        element: <Training></Training>,
+      },
+      {
+        path: "/fielddays",
+        element: <FieldDay></FieldDay>,
+      },
+      {
+        path: "/distributions",
+        element: <Distribution></Distribution>,
+      },
+      {
+        path: "/addProjects",
+        element: <AddProjects />,
+      },
+      {
+        path: "/addDemo",
+        element: <AddDemo />,
+      },
+      {
+        path: "/addFieldDay",
+        element: <AddFieldDay />,
+      },
+      {
+        path: "/addTraining",
+        element: <AddTraining />,
+      },
+      {
+        path: "/addDemo",
+        element: <AddTraining />,
+      },
+      {
+        path: "*",
+        element: <NotFound></NotFound>,
+      },
+    ],
+  },
 ]);
 
 export default router;
