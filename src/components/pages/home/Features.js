@@ -37,7 +37,7 @@ const Features = () => {
           <>
             <div
               key={singleFeatures.des}
-              className="border-2 shadow-xl drop-shadow-lg shadow-slate-400 border-black rounded-4"
+              className="shadow-xl drop-shadow-lg shadow-slate-400 rounded-4"
             >
               <img src={singleFeatures.img} className="w-100" alt="" />
               <div className="px-4 py-4 bg-white text-black">
