@@ -36,6 +36,10 @@ const AddProjects = () => {
         details: "",
         short: "",
       },
+      projectDetails: {
+        PD: "",
+        monitoringOfficers: '',
+      },
       email: "",
       time: {
         start: null,
