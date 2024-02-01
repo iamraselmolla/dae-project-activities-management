@@ -11,23 +11,23 @@ const AddProjects = () => {
   });
 
   const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue);
     setValue(newValue);
   };
+
   const validationSchema = Yup.object().shape({
     name: Yup.object().shape({
       details: Yup.string().required("প্রকল্পের পুরো নাম দিন"),
       short: Yup.string().required("প্রকল্পের সংক্ষেপ নাম দিন"),
     }),
-    // projectDetails: Yup.object().shape({
-    //     PD: Yup.string().required('প্রকল্প পরিচালকের নাম দিন'),
-    //     monitoringOfficers: Yup.array().required('মনিটরিং অফিসারগণের তালিকা দিন'),
+    email: Yup.string().email("ইমেইল ঠিকঠাক নয়").required("প্রকল্পের ইমেইল দিন"),
+    // time: Yup.object().shape({
+    //   start: Yup.date().nullable().required("প্রকল্পের শুরুর তারিখ দিন"),
+    //   end: Yup.date()
+    //     .nullable()
+    //     .required("প্রকল্পের সম্ভাব্য তারিখ দিন")
+    //     .min(Yup.ref("time.start"), "সম্ভাব্য তারিখ শুরুর তারিখের পর হতে হবে"),
     // }),
-    time: Yup.object().shape({
-      start: Yup.date().required("প্রকল্পের শুরুর তারিখ দিন"),
-      end: Yup.date().required("প্রকল্পের সম্ভাব্য তারিখ দিন"),
-    }),
-    // email: Yup.string().email('ইমেইল ঠিকঠাক নয়').required('প্রকল্পের ইমেইল দিন'),
+    // logo: Yup.string().required("প্রকল্পের লোগো আপলোড করুন"),
   });
 
   const formik = useFormik({
@@ -36,21 +36,27 @@ const AddProjects = () => {
         details: "",
         short: "",
       },
-      projectDetails: {
-        PD: "",
-        monitoringOfficers: [],
-      },
-      logo: "",
       email: "",
       time: {
-        start: value.startDate,
-        end: value.endDate,
+        start: null,
+        end: null,
       },
+      logo: "",
     },
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       // Handle form submission logic here
-      console.log("Form values:", values);
+      // Format date values before logging
+      const formattedValues = {
+        ...values,
+        time: {
+          start: value.startDate,
+          end: value.endDate
+        },
+      };
+      console.log("Form values:", formattedValues);
+      // Reset form after successful submission
+      resetForm();
     },
   });
 
@@ -74,8 +80,8 @@ const AddProjects = () => {
               value={formik.values.name ? formik.values.name.details : ""}
             />
             {formik.touched.name &&
-            formik.touched.name.details &&
-            formik.errors.name?.details ? (
+              formik.touched.name.details &&
+              formik.errors.name?.details ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.name.details}
               </div>
@@ -96,15 +102,17 @@ const AddProjects = () => {
               value={formik.values.name ? formik.values.name.short : ""}
             />
             {formik.touched.name &&
-            formik.touched.name.short &&
-            formik.errors.name?.short ? (
+              formik.touched.name.short &&
+              formik.errors.name?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.name.short}
               </div>
             ) : null}
           </div>
           <div>
-            <label className="font-extrabold mb-1 block">প্রকল্প পরিচালক</label>
+            <label className="font-extrabold mb-1 block">
+              প্রকল্পের পরিচালকের নাম
+            </label>
             <input
               type="text"
               className="input input-bordered w-full"
@@ -112,7 +120,7 @@ const AddProjects = () => {
               name="projectDetails.PD"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              placeholder="প্রকল্প পরিচালকের  নাম"
+              placeholder="প্রকল্পের পরিচালকের নাম"
               value={
                 formik.values.projectDetails
                   ? formik.values.projectDetails.PD
@@ -122,49 +130,81 @@ const AddProjects = () => {
           </div>
           <div>
             <label className="font-extrabold mb-1 block">
-              মনিটরিং অফিসারগণ
+              মনিটরিং অফিসারগণের নাম
             </label>
-
             <input
               type="text"
-              name={`projectDetails.monitoringOfficers`}
-              id={`projectDetails.monitoringOfficers`}
+              className="input input-bordered w-full"
+              id="projectDetails.monitoringOfficers"
+              name="projectDetails.monitoringOfficers"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="মনিটরিং অফিসারগণের নাম"
               value={
                 formik.values.projectDetails
                   ? formik.values.projectDetails.monitoringOfficers
                   : ""
               }
-              placeholder="মনিটরিং অফিসার"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="input input-bordered w-full"
             />
           </div>
           <div>
             <label className="font-extrabold mb-1 block">প্রকল্পের ইমেইল</label>
             <input
-              placeholder="প্রকল্পের ইমেইল"
               type="email"
-              className="file-input input input-bordered w-full"
+              className="input input-bordered w-full"
+              id="email"
+              name="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="প্রকল্পের ইমেইল"
+              value={formik.values.email}
             />
+            {formik.touched.email && formik.errors.email ? (
+              <div className="text-red-600 font-bold">
+                {formik.errors.email}
+              </div>
+            ) : null}
           </div>
           <div>
             <label className="font-extrabold mb-1 block">প্রকল্পের লোগো</label>
-            <input type="file" className="file-input input-bordered w-full" />
+            <input
+              type="file"
+              className="file-input input-bordered w-full"
+              id="logo"
+              name="logo"
+              onChange={(event) => {
+                formik.setFieldValue("logo", event.currentTarget.files[0]);
+              }}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.logo && formik.errors.logo ? (
+              <div className="text-red-600 font-bold">
+                {formik.errors.logo}
+              </div>
+            ) : null}
           </div>
-        </div>
-
-        <div className="mt-3 input input-bordered w-full">
-          <label className="font-extrabold mb-1 block">
-            প্রকল্পের শুরু ও শেষের তারিখ (সম্ভাব্য)
-          </label>
-          <Datepicker
-            id="time"
-            name="time"
-            value={value}
-            onChange={handleValueChange}
-            showShortcuts={true}
-          />
+          <div>
+            <label className="font-extrabold mb-1 block">
+              প্রকল্পের শুরু ও শেষের তারিখ (সম্ভাব্য)
+            </label>
+            <Datepicker
+              id="time"
+              name="time"
+              value={value}
+              onChange={handleValueChange}
+              showShortcuts={true}
+            />
+            {formik.touched.time && formik.errors.time && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.time.start}
+              </div>
+            )}
+            {formik.touched.time && formik.errors.time && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.time.end}
+              </div>
+            )}
+          </div>
         </div>
 
         <button

@@ -38,7 +38,7 @@ const router = createBrowserRouter([
         element: <Distribution></Distribution>,
       },
       {
-        path: "/addProjects",
+        path: "/addProject",
         element: <AddProjects />,
       },
       {
