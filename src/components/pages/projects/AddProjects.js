@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 import SectionTitle from "../../shared/SectionTitle";
 import * as Yup from "yup";
+import { addProjectByAdmin } from "../../../services/userServices";
+import toast from "react-hot-toast";
 
 const AddProjects = () => {
   const [value, setValue] = useState({
@@ -48,9 +50,8 @@ const AddProjects = () => {
       logo: "",
     },
     validationSchema,
-    onSubmit: (values, { resetForm }) => {
-      // Handle form submission logic here
-      // Format date values before logging
+    // Handle Form Submit Value
+    onSubmit: async (values, { resetForm }) => {
       const formattedValues = {
         ...values,
         time: {
@@ -58,9 +59,20 @@ const AddProjects = () => {
           end: value.endDate
         },
       };
-      console.log("Form values:", formattedValues);
+      try {
+        const result = await addProjectByAdmin(formattedValues);
+        console.log(result.status)
+        if (result?.status === 200) {
+          toast.success(result?.data?.message)
+        } else {
+          toast.error('Something Wrong')
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+
       // Reset form after successful submission
-      resetForm();
+      // resetForm();
     },
   });
 
