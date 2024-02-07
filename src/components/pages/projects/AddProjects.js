@@ -47,7 +47,7 @@ const AddProjects = () => {
         start: null,
         end: null,
       },
-      logo: "",
+      // logo: "",
     },
     validationSchema,
     // Handle Form Submit Value
@@ -60,19 +60,22 @@ const AddProjects = () => {
         },
       };
       try {
+        // Post form data into DB by Api
         const result = await addProjectByAdmin(formattedValues);
-        console.log(result.status)
         if (result?.status === 200) {
           toast.success(result?.data?.message)
         } else {
           toast.error('Something Wrong')
         }
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error:", error?.response?.data?.message);
+      } finally {
+        resetForm();
+        setValue({ startDate: null, endDate: null })
       }
 
       // Reset form after successful submission
-      // resetForm();
+
     },
   });
 
@@ -181,7 +184,7 @@ const AddProjects = () => {
               </div>
             ) : null}
           </div>
-          <div>
+          {/* <div>
             <label className="font-extrabold mb-1 block">প্রকল্পের লোগো</label>
             <input
               type="file"
@@ -198,7 +201,7 @@ const AddProjects = () => {
                 {formik.errors.logo}
               </div>
             ) : null}
-          </div>
+          </div> */}
           <div>
             <label className="font-extrabold mb-1 block">
               প্রকল্পের শুরু ও শেষের তারিখ (সম্ভাব্য)
