@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SectionTitle from "../../shared/SectionTitle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -6,10 +6,12 @@ import Season from "../../shared/Season";
 import FiscalYear from "../../shared/FiscalYear";
 import Datepicker from "react-tailwindcss-datepicker";
 import allBlockAndUnion from "../../consts/blockAndUnion";
+import { getAllProjects } from "../../../services/userServices";
 
 const AddDemo = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
+  const [allProject, setAllProjects] = useState([])
 
   const [findBlock, setFindBlock] = useState(null);
   const [findUnion, setFindUnion] = useState(null);
@@ -161,6 +163,16 @@ const AddDemo = () => {
     },
   });
 
+  useEffect(() => {
+    const funcForFetchingProjects = async () => {
+      const result = await getAllProjects()
+      if (result?.data?.success) {
+        setAllProjects(result?.data?.data)
+      }
+    }
+    funcForFetchingProjects()
+  }, [])
+
   return (
     <section className="container px-4 md:px-0">
       <SectionTitle title={"প্রকল্পের প্রদর্শনীর তথ্য যুক্ত করুন"} />
@@ -180,9 +192,10 @@ const AddDemo = () => {
                 onBlur={formik.handleBlur}
               >
                 <option value="" label="প্রকল্প সিলেক্ট করুন" />
-                <option value="option1" label="Option 1" />
-                <option value="option2" label="Option 2" />
-                <option value="option3" label="Option 3" />
+                {allProject && allProject?.length > 0 && <>
+                  {allProject.map(single => <option value={single?.name.details} label={single?.name.details} />)}
+                </>}
+
               </select>
               {formik.touched.projectInfo &&
                 formik.touched.projectInfo.full &&

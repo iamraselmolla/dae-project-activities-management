@@ -21,7 +21,7 @@ const AddProjects = () => {
       details: Yup.string().required("প্রকল্পের পুরো নাম দিন"),
       short: Yup.string().required("প্রকল্পের সংক্ষেপ নাম দিন"),
     }),
-    email: Yup.string().email("ইমেইল ঠিকঠাক নয়").required("প্রকল্পের ইমেইল দিন"),
+    // email: Yup.string().email("ইমেইল ঠিকঠাক নয়").required("প্রকল্পের ইমেইল দিন"),
     // time: Yup.object().shape({
     //   start: Yup.date().nullable().required("প্রকল্পের শুরুর তারিখ দিন"),
     //   end: Yup.date()
