@@ -7,6 +7,7 @@ import FiscalYear from "../../shared/FiscalYear";
 import Datepicker from "react-tailwindcss-datepicker";
 import allBlockAndUnion from "../../consts/blockAndUnion";
 import { getAllProjects } from "../../../services/userServices";
+import toast from "react-hot-toast";
 
 const AddDemo = () => {
   const [selectedOption, setSelectedOption] = useState("");
@@ -164,14 +165,27 @@ const AddDemo = () => {
   });
 
   useEffect(() => {
-    const funcForFetchingProjects = async () => {
-      const result = await getAllProjects()
-      if (result?.data?.success) {
-        setAllProjects(result?.data?.data)
+    const fetchData = async () => {
+      try {
+        const result = await getAllProjects();
+        if (result?.data?.success) {
+          setAllProjects(result.data.data);
+        } else {
+          setAllProjects([]);
+          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি"); // Notify user if data retrieval was not successful
+        }
+      } catch (error) {
+        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
+        toast.error("প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন");
       }
+    };
+
+    if (navigator.onLine) {
+      fetchData();
+    } else {
+      toast.error("Please connect to the internet");
     }
-    funcForFetchingProjects()
-  }, [])
+  }, []);
 
   return (
     <section className="container px-4 md:px-0">
@@ -213,6 +227,7 @@ const AddDemo = () => {
                 type="text"
                 className="input input-bordered w-full"
                 id="projectInfo.short"
+                disabled
                 name="projectInfo.short"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -404,7 +419,7 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">এসএএও এর মোবাইল নং</label>
               <input
-                type="text"
+                type="number"
                 className="input input-bordered w-full"
                 id="SAAO.mobile"
                 name="SAAO.mobile"
@@ -432,7 +447,7 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">মোবাইল নং</label>
               <input
-                type="text"
+                type="number"
                 className="input input-bordered w-full"
                 id="numbersInfo.mobile"
                 name="numbersInfo.mobile"
@@ -459,7 +474,7 @@ const AddDemo = () => {
                 ভোটার আইডি (NID) কার্ড নং
               </label>
               <input
-                type="text"
+                type="number"
                 className="input input-bordered w-full"
                 id="numbersInfo.NID"
                 name="numbersInfo.NID"
@@ -484,7 +499,7 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">BID নং</label>
               <input
-                type="text"
+                type="number"
                 className="input input-bordered w-full"
                 id="numbersInfo.BID"
                 name="numbersInfo.BID"
@@ -510,7 +525,7 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">কৃষি কার্ড নং</label>
               <input
-                type="text"
+                type="number"
                 className="input input-bordered w-full"
                 id="numbersInfo.agriCard"
                 name="numbersInfo.agriCard"

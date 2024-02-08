@@ -1,5 +1,6 @@
 import AddFieldDay from "./components/pages/FieldDay/AddFieldDay";
 import FieldDay from "./components/pages/FieldDay/FieldDay";
+import DashboardLayout from "./components/pages/dashboard/DashboardLayout";
 import AddDemo from "./components/pages/demo/AddDemo";
 import Demo from "./components/pages/demo/Demo";
 import Distribution from "./components/pages/distrubution/Distribution";
@@ -61,8 +62,21 @@ const router = createBrowserRouter([
         path: "*",
         element: <NotFound></NotFound>,
       },
+      // {
+      //   path: '/dashboard',
+      //   element: <DashboardLayout />,
+      //   children: [
+      //     {
+      //       path: '/dashboard/home',
+
+
+      //     }
+      //   ]
+
+      // }
     ],
   },
+
 ]);
 
 export default router;
