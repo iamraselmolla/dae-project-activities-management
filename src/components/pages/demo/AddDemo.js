@@ -288,7 +288,7 @@ const AddDemo = () => {
                 name="farmersInfo.name"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                placeholder="প্রকল্পের সংক্ষেপ নাম"
+                placeholder="কৃষকের পুরো নাম"
                 value={
                   formik.values.farmersInfo
                     ? formik.values.farmersInfo?.name
