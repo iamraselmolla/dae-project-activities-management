@@ -130,6 +130,8 @@ const AddDemo = () => {
       overallComment: "",
     },
     demoImages: [],
+    author: '',
+    complete: false
   };
   const validationSchema = Yup.object({
     // projectInfo: Yup.object().shape({
@@ -160,7 +162,6 @@ const AddDemo = () => {
 
       // Handle form submission logic here
       console.log("Form values:", values);
-      console.log("Form date:", datePickers);
     },
   });
 
@@ -799,43 +800,45 @@ const AddDemo = () => {
             </div>
           )}
 
-          <div className="mt-5">
-            <label className="font-extrabold mb-1 block">
-              বর্তমান প্রদর্শনীর অবস্থা
-            </label>
-            <textarea
-              name="comment.presentCondition"
-              id="comment.presentCondition"
-              className="input h-20 input-bordered w-full"
-              rows={10}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.comment.presentCondition}
-            ></textarea>
-          </div>
-          <div className="mt-5">
-            <label className="font-extrabold mb-1 block">কৃষকের মন্তব্য</label>
-            <textarea
-              name="comment.farmersReview"
-              id="comment.farmersReview"
-              className="input h-20 input-bordered w-full"
-              rows={10}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.comment.farmersReview}
-            ></textarea>
-          </div>
-          <div className="mt-5">
-            <label className="font-extrabold mb-1 block"> মন্তব্য</label>
-            <textarea
-              name="comment.overallComment"
-              id="comment.overallComment"
-              className="input h-20 input-bordered w-full"
-              rows={10}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.comment.overallComment}
-            ></textarea>
+          <div className="grid mt-3 lg:grid-cols-3 gap-4  grid-cols-1">
+            <div className="mt-5">
+              <label className="font-extrabold mb-1 block">
+                বর্তমান প্রদর্শনীর অবস্থা
+              </label>
+              <textarea
+                name="comment.presentCondition"
+                id="comment.presentCondition"
+                className="input h-20 input-bordered w-full"
+                rows={10}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.comment.presentCondition}
+              ></textarea>
+            </div>
+            <div className="mt-5">
+              <label className="font-extrabold mb-1 block">কৃষকের মন্তব্য</label>
+              <textarea
+                name="comment.farmersReview"
+                id="comment.farmersReview"
+                className="input h-20 input-bordered w-full"
+                rows={10}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.comment.farmersReview}
+              ></textarea>
+            </div>
+            <div className="mt-5">
+              <label className="font-extrabold mb-1 block"> মন্তব্য</label>
+              <textarea
+                name="comment.overallComment"
+                id="comment.overallComment"
+                className="input h-20 input-bordered w-full"
+                rows={10}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.comment.overallComment}
+              ></textarea>
+            </div>
           </div>
 
           <button
