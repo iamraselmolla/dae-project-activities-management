@@ -161,7 +161,11 @@ const AddDemo = () => {
       values.projectInfo.full = selectedOption;
 
       // Handle form submission logic here
-      console.log("Form values:", values);
+      try {
+
+      } catch (err) {
+
+      }
     },
   });
 
