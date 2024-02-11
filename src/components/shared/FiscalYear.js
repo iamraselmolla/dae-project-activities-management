@@ -1,15 +1,21 @@
 import { toBengaliNumber } from 'bengali-number';
 import React from 'react';
-import { getYear } from './commonDataStores';
+import getFiscalYear from './commonDataStores';
 
 const FiscalYear = () => {
+
+
+    const currentYear = new Date().getFullYear();
+    const currentFiscalYear = getFiscalYear()
+
     return (
         <>
             <option value="" label="অর্থবছর সিলেক্ট করুন" />
-            <option value={toBengaliNumber(`${getYear - 2}-${getYear - 1}`)} label={toBengaliNumber(`${getYear - 2}-${getYear - 1}`)} />
-            <option value={toBengaliNumber(`${getYear - 1}-${getYear}`)} label={toBengaliNumber(`${getYear - 1}-${getYear}`)} />
-            <option value={toBengaliNumber(`${getYear}-${getYear + 1}`)} label={toBengaliNumber(`${getYear}-${getYear + 1}`)} />
-
+            <option value={toBengaliNumber(`${currentYear - 2}-${currentYear - 1}`)} label={toBengaliNumber(`${currentYear - 2}-${currentYear - 1}`)} />
+            <option value={toBengaliNumber(`${currentYear - 1}-${currentYear}`)} label={toBengaliNumber(`${currentYear - 1}-${currentYear}`)} />
+            <option value={toBengaliNumber(`${currentYear}-${currentYear + 1}`)} label={toBengaliNumber(`${currentYear}-${currentYear + 1}`)} />
+            {/* Set the default value to the current fiscal year */}
+            <option value={toBengaliNumber(currentFiscalYear)} label={toBengaliNumber(currentFiscalYear)} />
         </>
     );
 };

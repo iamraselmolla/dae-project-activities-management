@@ -8,6 +8,8 @@ import Datepicker from "react-tailwindcss-datepicker";
 import allBlockAndUnion from "../../consts/blockAndUnion";
 import { getAllProjects } from "../../../services/userServices";
 import toast from "react-hot-toast";
+import getFiscalYear from "../../shared/commonDataStores";
+import { toBengaliNumber } from "bengali-number";
 
 const AddDemo = () => {
   const [selectedOption, setSelectedOption] = useState("");
@@ -160,6 +162,8 @@ const AddDemo = () => {
       values.demoTime.season = formik.values.demoTime.season;
       values.projectInfo.full = selectedOption;
 
+      console.log(values)
+
       // Handle form submission logic here
       try {
 
@@ -258,8 +262,9 @@ const AddDemo = () => {
                 className="input input-bordered w-full"
                 id="demoTime.fiscalYear"
                 name="demoTime.fiscalYear"
-                value={formik.values.fiscalYear}
+                value={formik.values.demoTime.fiscalYear}
                 onChange={formik.handleChange}
+                defaultValue={toBengaliNumber(getFiscalYear())}
               >
                 <FiscalYear />
               </select>
@@ -628,7 +633,7 @@ const AddDemo = () => {
                 প্রদর্শনীর আয়তন
               </label>
               <input
-                type="text"
+                type="number"
                 className="input input-bordered w-full"
                 id="demoInfo.area"
                 name="demoInfo.area"

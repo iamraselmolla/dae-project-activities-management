@@ -1,14 +1,14 @@
-export const getYear = new Date().getFullYear()
+// Function to calculate default fiscal year
+const getFiscalYear = () => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
 
+    // If current month is July or later, then current year is the starting year of fiscal year
+    // Otherwise, the starting year of fiscal year is previous year
+    const startingYear = currentMonth >= 7 ? currentYear : currentYear - 1;
 
-export const getFiscalYear = () => {
-    const countFiscalYearMonth = new Date().getMonth();
-    const countFiscalYear = new Date().getFullYear();
-    let fiscalYear;
-    if (countFiscalYearMonth >= 7) {
-        return fiscalYear = `${countFiscalYear}-${countFiscalYear + 1}`
-    } else {
-        return fiscalYear = `${countFiscalYear - 1}-${countFiscalYear}`
-
-    }
+    return `${startingYear}-${startingYear + 1}`;
 }
+
+export default getFiscalYear;
