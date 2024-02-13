@@ -134,8 +134,6 @@ const AddDemo = () => {
       overallComment: "",
     },
     demoImages: [],
-    author: '',
-    complete: false
   };
   const validationSchema = Yup.object({
     // projectInfo: Yup.object().shape({
