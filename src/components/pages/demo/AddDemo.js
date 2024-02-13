@@ -12,7 +12,7 @@ import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
 
 const AddDemo = () => {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([])
 
@@ -76,8 +76,11 @@ const AddDemo = () => {
   };
 
   const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
-    console.log(selectedOption);
+    if (e.target.value) {
+      const findProject = allProject?.find(s => s.name.details === e.target.value);
+      setSelectedOption(findProject)
+    }
+
   };
 
   const initialValues = {
@@ -160,7 +163,8 @@ const AddDemo = () => {
       values.address.block = findBlock;
       values.address.union = findUnion;
       values.demoTime.season = formik.values.demoTime.season;
-      values.projectInfo.full = selectedOption;
+      values.projectInfo.full = selectedOption.name.details;
+      values.projectInfo.short = selectedOption.name.short;
 
       console.log(values)
 
@@ -210,7 +214,7 @@ const AddDemo = () => {
                 className="input input-bordered w-full"
                 id="projectInfo.full"
                 name="projectInfo.full"
-                value={selectedOption}
+                value={selectedOption?.name.details}
                 onChange={handleSelectChange}
                 onBlur={formik.handleBlur}
               >
@@ -242,9 +246,9 @@ const AddDemo = () => {
                 onChange={formik.handleChange}
                 placeholder="প্রকল্পের সংক্ষেপ নাম"
                 value={
-                  formik.values.projectInfo
-                    ? formik.values.projectInfo?.short
-                    : ""
+                  selectedOption.name?.short
+                    ? selectedOption.name?.short
+                    : formik.values.projectInfo?.short
                 }
               />
 
