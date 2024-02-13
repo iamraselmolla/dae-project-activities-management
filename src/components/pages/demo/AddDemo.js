@@ -77,7 +77,7 @@ const AddDemo = () => {
 
   const handleSelectChange = (e) => {
     if (e.target.value) {
-      const findProject = allProject?.find(s => s.name.details === e.target.value);
+      const findProject = allProject?.find(s => s?.name?.details === e.target.value);
       setSelectedOption(findProject)
     }
 
@@ -130,7 +130,6 @@ const AddDemo = () => {
       korton: "",
     },
     comment: {
-      presentCondition: "",
       farmersReview: "",
       overallComment: "",
     },
@@ -140,19 +139,28 @@ const AddDemo = () => {
   };
   const validationSchema = Yup.object({
     // projectInfo: Yup.object().shape({
-    //     full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
-    //     short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
+    //   full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
+    //   short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
     // }),
     // demoTime: Yup.object().shape({
-    //     fiscalYear: Yup.string().required('অর্থবছর সিলেক্ট করুন'),
-    //     season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
+    //   fiscalYear: Yup.string().required('অর্থবছর সিলেক্ট করুন'),
+    //   season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
     // }),
-    // farmersInfo: Yup.object().shape({
-    //     fiscalYear: Yup.string().required('কৃষকের নাম দিন')
-    // }),
-    // demoInfo: Yup.object().shape({
-    //     crop: Yup.string().required('প্রদর্শনীর নাম / ফসলের নাম লিখুন')
-    // }),
+    farmersInfo: Yup.object().shape({
+      name: Yup.string().required('কৃষকের নাম দিন')
+
+    }),
+    demoInfo: Yup.object().shape({
+      crop: Yup.string().required('প্রদর্শনীর নাম / ফসলের নাম লিখুন')
+    }),
+    numbersInfo: Yup.object().shape({
+      mobile: Yup.string().required('মোবাইল নম্বর দিন').matches(/^[0-9]{11}$/, 'মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে'),
+    }),
+    address: Yup.object().shape({
+      village: Yup.string().required('গ্রামের নাম দিন'),
+      block: Yup.string().required('ব্লকের নাম পছন্দ করুন'),
+      union: Yup.string().required('ইউনিয়নের নাম দিন'),
+    })
   });
 
   const formik = useFormik({
@@ -214,13 +222,13 @@ const AddDemo = () => {
                 className="input input-bordered w-full"
                 id="projectInfo.full"
                 name="projectInfo.full"
-                value={selectedOption?.name.details}
+                value={selectedOption?.name?.details}
                 onChange={handleSelectChange}
                 onBlur={formik.handleBlur}
               >
                 <option value="" label="প্রকল্প সিলেক্ট করুন" />
                 {allProject && allProject?.length > 0 && <>
-                  {allProject.map(single => <option value={single?.name.details} label={single?.name.details} />)}
+                  {allProject.map(single => <option key={single?.name.details} value={single?.name?.details} label={single?.name?.details} />)}
                 </>}
 
               </select>
@@ -439,6 +447,7 @@ const AddDemo = () => {
                 name="SAAO.mobile"
                 readOnly disabled
                 onBlur={formik.handleBlur}
+                maxLength={11}
                 onChange={formik.handleChange}
                 placeholder="উপসহকারী কৃষি অফিসারের মোবাইল নং"
                 value={
@@ -468,6 +477,7 @@ const AddDemo = () => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="মোবাইল"
+                maxLength={11}
                 value={
                   formik.values.numbersInfo
                     ? formik.values.numbersInfo?.mobile
@@ -813,21 +823,8 @@ const AddDemo = () => {
             </div>
           )}
 
-          <div className="grid mt-3 lg:grid-cols-3 gap-4  grid-cols-1">
-            <div className="mt-5">
-              <label className="font-extrabold mb-1 block">
-                বর্তমান প্রদর্শনীর অবস্থা
-              </label>
-              <textarea
-                name="comment.presentCondition"
-                id="comment.presentCondition"
-                className="input h-20 input-bordered w-full"
-                rows={10}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.comment.presentCondition}
-              ></textarea>
-            </div>
+          <div className="grid mt-3 lg:grid-cols-2 gap-4  grid-cols-1">
+
             <div className="mt-5">
               <label className="font-extrabold mb-1 block">কৃষকের মন্তব্য</label>
               <textarea
