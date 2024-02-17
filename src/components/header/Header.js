@@ -15,124 +15,157 @@ const Header = () => {
     </NavLink>
   );
   return (
-    <nav className="bg-gray-800 py-4">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
-          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <button
-              onClick={handleMenuClick}
-              type="button"
-              className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-              aria-controls="mobile-menu"
-              aria-expanded="false"
+    <nav className="bg-black py-4">
+      <div className="navbar">
+        <div className="navbar-start">
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <span className="absolute -inset-0.5"></span>
-              <span className="sr-only">Open main menu</span>
-
-              <svg
-                className="block h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
+              <NavLink
+                to="/"
+                className={({ isActive, isPending }) =>
+                  isPending
+                    ? "pending"
+                    : isActive
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                }
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
-
-              <svg
-                className="hidden h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
+                হোম
+              </NavLink>
+              <NavLink
+                to="/demos"
+                className={({ isActive, isPending }) =>
+                  isPending
+                    ? "pending"
+                    : isActive
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                }
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+                প্রদর্শনী
+              </NavLink>
+              <NavLink
+                to="/trainings"
+                className={({ isActive, isPending }) =>
+                  isPending
+                    ? "pending"
+                    : isActive
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                }
+              >
+                প্রশিক্ষণ
+              </NavLink>
+              <NavLink
+                to="/fielddays"
+                className={({ isActive, isPending }) =>
+                  isPending
+                    ? "pending"
+                    : isActive
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                }
+              >
+                মাঠদিবস
+              </NavLink>
+              <NavLink
+                to="/distributions"
+                className={({ isActive, isPending }) =>
+                  isPending
+                    ? "pending"
+                    : isActive
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                }
+              >
+                মালামাল বিতরণ
+              </NavLink>
+            </ul>
           </div>
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex flex-shrink-0 items-center">
-              <h1 className="text-3xl font-extrabold text-white">
-                <Link to="/"> DAE</Link>
-              </h1>
-            </div>
-            <div className="hidden sm:ml-6 sm:block">
-              <div className="flex justify-center">
-                <div className="flex space-x-4">
-                  <NavLink
-                    to="/"
-                    className={({ isActive, isPending }) =>
-                      isPending
-                        ? "pending"
-                        : isActive
-                        ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
-                    }
-                  >
-                    হোম
-                  </NavLink>
-                  <NavLink
-                    to="/demos"
-                    className={({ isActive, isPending }) =>
-                      isPending
-                        ? "pending"
-                        : isActive
-                        ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
-                    }
-                  >
-                    প্রদর্শনী
-                  </NavLink>
-                  <NavLink
-                    to="/trainings"
-                    className={({ isActive, isPending }) =>
-                      isPending
-                        ? "pending"
-                        : isActive
-                        ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
-                    }
-                  >
-                    প্রশিক্ষণ
-                  </NavLink>
-                  <NavLink
-                    to="/fielddays"
-                    className={({ isActive, isPending }) =>
-                      isPending
-                        ? "pending"
-                        : isActive
-                        ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
-                    }
-                  >
-                    মাঠদিবস
-                  </NavLink>
-                  <NavLink
-                    to="/distributions"
-                    className={({ isActive, isPending }) =>
-                      isPending
-                        ? "pending"
-                        : isActive
-                        ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
-                    }
-                  >
-                    মালামাল বিতরণ
-                  </NavLink>
-                </div>
-              </div>
-            </div>
-          </div>
+          <a className="btn btn-ghost text-xl">daisyUI</a>
+        </div>
+        <div className="navbar-center hidden lg:flex">
+          <NavLink
+            to="/"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+            }
+          >
+            হোম
+          </NavLink>
+          <NavLink
+            to="/demos"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+            }
+          >
+            প্রদর্শনী
+          </NavLink>
+          <NavLink
+            to="/trainings"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+            }
+          >
+            প্রশিক্ষণ
+          </NavLink>
+          <NavLink
+            to="/fielddays"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+            }
+          >
+            মাঠদিবস
+          </NavLink>
+          <NavLink
+            to="/distributions"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+            }
+          >
+            মালামাল বিতরণ
+          </NavLink>
+        </div>
+        <div className="navbar-end">
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button
               type="button"
@@ -218,75 +251,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-
-      {mobileMenuShow && (
-        <>
-          <div className="sm:hidden" id="mobile-menu">
-            <div className="flex flex-wrap items-center justify-center pb-3 pt-2 px-2 space-y-1">
-              <NavLink
-                to="/"
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
-                }
-              >
-                হোম
-              </NavLink>
-              <NavLink
-                to="/demos"
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3  py-2 text-sm font-medium"
-                }
-              >
-                প্রদর্শনী
-              </NavLink>
-              <NavLink
-                to="/trainings"
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3  py-2 text-sm font-medium"
-                }
-              >
-                প্রশিক্ষণ
-              </NavLink>
-              <NavLink
-                to="/fielddays"
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3  py-2 text-sm font-medium"
-                }
-              >
-                মাঠদিবস
-              </NavLink>
-              <NavLink
-                to="/distributions"
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3  py-2 text-sm font-medium"
-                }
-              >
-                মালামাল বিতরণ
-              </NavLink>
-            </div>
-          </div>
-        </>
-      )}
     </nav>
   );
 };

@@ -96,7 +96,7 @@ const AddFieldDay = () => {
   });
 
   return (
-    <section className="container px-4 md:px-0">
+    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"নতুন মাঠ দিবসের তথ্য যুক্ত করুন"} />
       <div className="mt-3">
         <form onSubmit={formik.handleSubmit}>
