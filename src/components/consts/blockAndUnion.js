@@ -1,37 +1,172 @@
 const allBlockAndUnion = [
-    {
-        blocks: ['বেতাগা', 'মাসকাটা', 'ষাটতলা'],
-        union: 'বেতাগা'
-    },
-    {
-        blocks: ['শুভদিয়া', 'দেয়াপাড়া চুরাশি', 'ঘনশ্যামপুর'],
-        union: 'শুভদিয়া'
-    },
-    {
-        blocks: ['মূলঘর', 'কলকলিয়া', 'ফলতিতা'],
-        union: 'মূলঘর'
-    },
-    {
-        blocks: ['লখপুর', 'খাজুরা', 'ভবনা'],
-        union: 'লখপুর'
-    },
-    {
-        blocks: ['সিংগাতী', 'কাঠালতলা', 'দেয়াপাড়া'],
-        union: 'ফকিরহাট'
-    },
-    {
-        blocks: ['ছোট বাহিরদিয়া', 'বাহিরদিয়া', 'সাতবাড়িয়া'],
-        union: 'বাহিরদিয়া-মানসা'
-    },
-    {
-        blocks: ['নলধা', 'মৌভোগ', 'আড়ুয়াডাঙ্গা'],
-        union: 'নলধা-মৌভোগ'
-    },
-    {
-        blocks: ['পিলজংগ', 'নওয়াপাড়া', 'বালিয়াডাঙ্গা'],
-        union: 'পিলজংগ'
-    },
-]
-
+  {
+    name: "betaga",
+    block: "betaga",
+    blockB: "বেতাগা",
+    union: "betaga",
+    unionB: "বেতাগা",
+  },
+  {
+    name: "maskata",
+    block: "maskata",
+    blockB: "মাসকাটা",
+    union: "betaga",
+    unionB: "বেতাগা",
+  },
+  {
+    name: "shathtola",
+    block: "shathtola",
+    blockB: "ষাটতলা",
+    union: "betaga",
+    unionB: "বেতাগা",
+  },
+  {
+    name: "lakhpur",
+    block: "lakhpur",
+    blockB: "লখপুর",
+    union: "lakhpur",
+    unionB: "লখপুর",
+  },
+  {
+    name: "khajura",
+    block: "khajura",
+    blockB: "খাজুরা",
+    union: "lakhpur",
+    unionB: "লখপুর",
+  },
+  {
+    name: "vabna",
+    block: "vabna",
+    blockB: "ভবনা",
+    union: "lakhpur",
+    unionB: "লখপুর",
+  },
+  {
+    name: "piljanga",
+    block: "piljanga",
+    blockB: "পিলজংগ",
+    union: "piljanga",
+    unionB: "পিলজংগ",
+  },
+  {
+    name: "noapara",
+    block: "noapara",
+    blockB: "নওয়াপাড়া",
+    union: "piljanga",
+    unionB: "পিলজংগ",
+  },
+  {
+    name: "baliyadanga",
+    block: "baliyadanga",
+    blockB: "বালিয়াডাঙ্গা",
+    union: "piljanga",
+    unionB: "পিলজংগ",
+  },
+  {
+    name: "kathaltola",
+    block: "kathaltola",
+    blockB: "কাঠালতলা",
+    union: "fakirhat",
+    unionB: "ফকিরহাট",
+  },
+  {
+    name: "deyapara",
+    block: "deyapara",
+    blockB: "দেয়াপাড়া",
+    union: "fakirhat",
+    unionB: "ফকিরহাট",
+  },
+  {
+    name: "singgati",
+    block: "singgati",
+    blockB: "সিংগাতী",
+    union: "fakirhat",
+    unionB: "ফকিরহাট",
+  },
+  {
+    name: "bahirdiya",
+    block: "bahirdiya",
+    blockB: "বাহিরদিয়া",
+    union: "bahirdiya-mansa",
+    unionB: "বাহিরদিয়া-মানসা",
+  },
+  {
+    name: "choto bahirdiya",
+    block: "choto bahirdiya",
+    blockB: "ছোট বাহিরদিয়া",
+    union: "bahirdiya-mansa",
+    unionB: "বাহিরদিয়া-মানসা",
+  },
+  {
+    name: "sathbaria",
+    block: "sathbaria",
+    blockB: "সাতবাড়িয়া",
+    union: "bahirdiya-mansa",
+    unionB: "বাহিরদিয়া-মানসা",
+  },
+  {
+    name: "naldha",
+    block: "naldha",
+    blockB: "নলধা",
+    union: "naldha-mouvog",
+    unionB: "নলধা-মৌভোগ",
+  },
+  {
+    name: "mouvog",
+    block: "mouvog",
+    blockB: "মৌভোগ",
+    union: "naldha-mouvog",
+    unionB: "নলধা-মৌভোগ",
+  },
+  {
+    name: "aruyadanga",
+    block: "aruyadanga",
+    blockB: "আড়ুয়াডাঙ্গা",
+    union: "naldha-mouvog",
+    unionB: "নলধা-মৌভোগ",
+  },
+  {
+    name: "mulghar",
+    block: "mulghar",
+    blockB: "মূলঘর",
+    union: "mulghar",
+    unionB: "মূলঘর",
+  },
+  {
+    name: "kalkaliya",
+    block: "kalkaliya",
+    blockB: "কলকলিয়া",
+    union: "mulghar",
+    unionB: "মূলঘর",
+  },
+  {
+    name: "faltita",
+    block: "faltita",
+    blockB: "ফলতিতা",
+    union: "mulghar",
+    unionB: "মূলঘর",
+  },
+  {
+    name: "suvhadia",
+    block: "suvhadia",
+    blockB: "শুভদিয়া",
+    union: "suvhadia",
+    unionB: "শুভদিয়া",
+  },
+  {
+    name: "deyapara 84",
+    block: "deyapara 84",
+    blockB: "দেয়াপাড়া ৮৪",
+    union: "suvhadia",
+    unionB: "শুভদিয়া",
+  },
+  {
+    name: "ghonoshampur",
+    block: "ghonoshampur",
+    blockB: "ঘনশ্যামপুর",
+    union: "suvhadia",
+    unionB: "শুভদিয়া",
+  },
+];
 
 export default allBlockAndUnion;
