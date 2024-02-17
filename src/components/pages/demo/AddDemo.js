@@ -787,7 +787,7 @@ const AddDemo = () => {
               ) : null}
             </div>
           </div>
-          <div className="mt-3">
+          {/* <div className="mt-3">
             <label className="font-extrabold mb-1 block">
               প্রদর্শনীর ছবিসমূহ
             </label>
@@ -801,7 +801,7 @@ const AddDemo = () => {
           </div>
 
           {/* Display the selected images */}
-          {selectedImages.length > 0 && (
+          {/* {selectedImages.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-3 justify-center">
               {selectedImages.map((image, index) => (
                 <img
@@ -813,7 +813,7 @@ const AddDemo = () => {
                 />
               ))}
             </div>
-          )}
+          )}  */}
 
           <div className="grid mt-3 lg:grid-cols-2 gap-4  grid-cols-1">
             <div className="mt-5">
