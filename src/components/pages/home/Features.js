@@ -30,7 +30,7 @@ const Features = () => {
     },
   ];
   return (
-    <section className="py-16">
+    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title="প্রকল্পের কার্যক্রম" />
       <div className="container px-5 md:px-0 grid gap-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-center">
         {allFeatures?.map((singleFeatures) => (

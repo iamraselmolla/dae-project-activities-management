@@ -203,7 +203,7 @@ const AddDemo = () => {
   }, []);
 
   return (
-    <section className="container px-4 md:px-0">
+    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"প্রকল্পের প্রদর্শনীর তথ্য যুক্ত করুন"} />
       <div className="mt-2">
         <form onSubmit={formik.handleSubmit}>

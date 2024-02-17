@@ -64,12 +64,11 @@ const AddTraining = () => {
       values.images = selectedImages;
       values.date = value;
       values.season = formik.values.season;
-      console.log("Form values:", values);
     },
   });
 
   return (
-    <section className="container px-4 md:px-0">
+    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"নতুন প্রশিক্ষণ তথ্য যুক্ত করুন"} />
       <form onSubmit={formik.handleSubmit}>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">

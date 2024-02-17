@@ -4,7 +4,7 @@ import("../../../css/banner.css");
 const Banner = () => {
   return (
     <section>
-      <div className="container px-4 md:px-0">
+      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 items-center">
           <div className="">
             <h3 className="px-3 mb-10 inline-block bg-blue-500 py-1 rounded-xl">

@@ -18,13 +18,11 @@ const AddFieldDay = () => {
   const [findUnion, setFindUnion] = useState(null);
 
   const handleValueChange = (e) => {
-    const block = e.target.value;
-    const blockExists = allBlockAndUnion.find((item) =>
-      item.blocks.includes(block)
+    const findUnion = allBlockAndUnion?.find(
+      (block) => block.blockB === e.target.value
     );
-    setFindBlock((prevBlock) => block);
-    const unionForBlock = blockExists ? blockExists.union : null;
-    setFindUnion((prevUnion) => unionForBlock);
+
+    setFindUnion((prevUnion) => findUnion);
   };
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
@@ -45,7 +43,6 @@ const AddFieldDay = () => {
   };
 
   const handleValueChangeofDate = (newValue) => {
-    console.log("newValue:", newValue);
     setValue(newValue);
   };
   const initialValues = {
@@ -95,8 +92,6 @@ const AddFieldDay = () => {
       values.season = selectedOption; // Access the season field value correctly
       values.project.full = formik.values.project.full;
       // Handle form submission logic here
-      console.log("Form values:", values);
-      console.log("Form values:", selectedOption);
     },
   });
 
@@ -268,9 +263,9 @@ const AddFieldDay = () => {
                 onChange={handleImageChange} // Add the onChange event
               />
               {/* Display the selected images */}
-              {selectedImages.length > 0 && (
+              {selectedImages?.length > 0 && (
                 <div className="mt-3 flex flex-wrap gap-3 justify-center">
-                  {selectedImages.map((image, index) => (
+                  {selectedImages?.map((image, index) => (
                     <img
                       width={100}
                       key={index}
@@ -311,11 +306,13 @@ const AddFieldDay = () => {
                 onBlur={formik.handleBlur}
               >
                 <option value="" label="ব্লক সিলেক্ট করুন" />
-                {allBlockAndUnion.map((singleUnion) =>
-                  singleUnion.blocks.map((block) => (
-                    <option key={block} value={block} label={block} />
-                  ))
-                )}
+                {allBlockAndUnion?.map((block) => (
+                  <option
+                    key={block.name}
+                    value={block.blockB}
+                    label={block.blockB}
+                  />
+                ))}
               </select>
               {formik.touched.address &&
               formik.touched.address.block &&
@@ -330,8 +327,8 @@ const AddFieldDay = () => {
               <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
               <input
                 className="input input-bordered w-full"
-                value={findUnion}
-                disabled
+                value={findUnion?.unionB}
+                disabled={true}
               />
               {formik.touched.address &&
               formik.touched.address.union &&

@@ -19,7 +19,6 @@ const AddImageModal = () => {
   };
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    console.log(date);
   };
 
   const handleFormData = () => {
@@ -28,8 +27,6 @@ const AddImageModal = () => {
       presentCondition: presentCondition,
       date: selectedDate.startDate,
     };
-
-    console.log(values);
   };
 
   return (

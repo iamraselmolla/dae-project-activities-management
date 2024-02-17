@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const FieldDay = () => {
   return (
-    <section className="">
-      <div className="container px-4 md:px-0 text-right font-extrabold">
+    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div className="text-right font-extrabold">
         <Link to="/addFieldDay">
           <button className="btn btn-outline btn-accent mb-5 border-2 px-5 py-22">
             <div className="flex justify-center items-center gap-2 text-lg">
@@ -18,7 +18,7 @@ const FieldDay = () => {
           </button>
         </Link>
       </div>
-      <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-6">
         <SingleFieldDay />
         <SingleFieldDay />
         <SingleFieldDay />
