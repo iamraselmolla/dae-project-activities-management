@@ -14,7 +14,7 @@ import { toBengaliNumber } from "bengali-number";
 const AddDemo = () => {
   const [selectedOption, setSelectedOption] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
-  const [allProject, setAllProjects] = useState([])
+  const [allProject, setAllProjects] = useState([]);
 
   const [findBlock, setFindBlock] = useState(null);
   const [findUnion, setFindUnion] = useState(null);
@@ -58,29 +58,20 @@ const AddDemo = () => {
   };
 
   const handleValueChange = (e) => {
-    const block = e.target.value;
-
-    // Use the updated block directly in the find method
-    const blockExists = allBlockAndUnion.find((item) =>
-      item.blocks.includes(block)
+    const findUnion = allBlockAndUnion?.find(
+      (block) => block.blockB === e.target.value
     );
-    console.log(blockExists);
 
-    // Use the functional form of setFindBlock
-    setFindBlock((prevBlock) => block);
-
-    // Update setFindUnion based on the selected block
-    const unionForBlock = blockExists ? blockExists.union : null;
-
-    setFindUnion((prevUnion) => unionForBlock);
+    setFindUnion((prevUnion) => findUnion);
   };
 
   const handleSelectChange = (e) => {
     if (e.target.value) {
-      const findProject = allProject?.find(s => s?.name?.details === e.target.value);
-      setSelectedOption(findProject)
+      const findProject = allProject?.find(
+        (s) => s?.name?.details === e.target.value
+      );
+      setSelectedOption(findProject);
     }
-
   };
 
   const initialValues = {
@@ -103,8 +94,8 @@ const AddDemo = () => {
       union: "",
     },
     SAAO: {
-      name: '',
-      mobile: ''
+      name: "",
+      mobile: "",
     },
     numbersInfo: {
       NID: "",
@@ -144,21 +135,22 @@ const AddDemo = () => {
     //   fiscalYear: Yup.string().required('অর্থবছর সিলেক্ট করুন'),
     //   season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
     // }),
-    farmersInfo: Yup.object().shape({
-      name: Yup.string().required('কৃষকের নাম দিন')
-
-    }),
-    demoInfo: Yup.object().shape({
-      crop: Yup.string().required('প্রদর্শনীর নাম / ফসলের নাম লিখুন')
-    }),
-    numbersInfo: Yup.object().shape({
-      mobile: Yup.string().required('মোবাইল নম্বর দিন').matches(/^[0-9]{11}$/, 'মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে'),
-    }),
-    address: Yup.object().shape({
-      village: Yup.string().required('গ্রামের নাম দিন'),
-      block: Yup.string().required('ব্লকের নাম পছন্দ করুন'),
-      union: Yup.string().required('ইউনিয়নের নাম দিন'),
-    })
+    // farmersInfo: Yup.object().shape({
+    //   name: Yup.string().required("কৃষকের নাম দিন"),
+    // }),
+    // demoInfo: Yup.object().shape({
+    //   crop: Yup.string().required("প্রদর্শনীর নাম / ফসলের নাম লিখুন"),
+    // }),
+    // numbersInfo: Yup.object().shape({
+    //   mobile: Yup.string()
+    //     .required("মোবাইল নম্বর দিন")
+    //     .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
+    // }),
+    // address: Yup.object().shape({
+    //   village: Yup.string().required("গ্রামের নাম দিন"),
+    //   block: Yup.string().required("ব্লকের নাম পছন্দ করুন"),
+    //   union: Yup.string().required("ইউনিয়নের নাম দিন"),
+    // }),
   });
 
   const formik = useFormik({
@@ -166,20 +158,16 @@ const AddDemo = () => {
     validationSchema,
     onSubmit: (values) => {
       values.demoDate = datePickers;
-      values.address.block = findBlock;
-      values.address.union = findUnion;
+      values.address.block = findBlock?.blockB;
+      values.address.union = findUnion?.unionB;
       values.demoTime.season = formik.values.demoTime.season;
       values.projectInfo.full = selectedOption.name.details;
       values.projectInfo.short = selectedOption.name.short;
-
-      console.log(values)
+      console.log(values);
 
       // Handle form submission logic here
       try {
-
-      } catch (err) {
-
-      }
+      } catch (err) {}
     },
   });
 
@@ -195,7 +183,9 @@ const AddDemo = () => {
         }
       } catch (error) {
         console.error("প্রকল্পের তথ্যের সমস্যা:", error);
-        toast.error("প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন");
+        toast.error(
+          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
+        );
       }
     };
 
@@ -225,14 +215,21 @@ const AddDemo = () => {
                 onBlur={formik.handleBlur}
               >
                 <option value="" label="প্রকল্প সিলেক্ট করুন" />
-                {allProject && allProject?.length > 0 && <>
-                  {allProject.map(single => <option key={single?.name.details} value={single?.name?.details} label={single?.name?.details} />)}
-                </>}
-
+                {allProject && allProject?.length > 0 && (
+                  <>
+                    {allProject.map((single) => (
+                      <option
+                        key={single?.name.details}
+                        value={single?.name?.details}
+                        label={single?.name?.details}
+                      />
+                    ))}
+                  </>
+                )}
               </select>
               {formik.touched.projectInfo &&
-                formik.touched.projectInfo.full &&
-                formik.errors.projectInfo?.full ? (
+              formik.touched.projectInfo.full &&
+              formik.errors.projectInfo?.full ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.projectInfo.full}
                 </div>
@@ -246,7 +243,7 @@ const AddDemo = () => {
                 type="text"
                 className="input input-bordered w-full"
                 id="projectInfo.short"
-                disabled
+                disabled={true}
                 name="projectInfo.short"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
@@ -259,8 +256,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.projectInfo &&
-                formik.touched.projectInfo.short &&
-                formik.errors.projectInfo?.short ? (
+              formik.touched.projectInfo.short &&
+              formik.errors.projectInfo?.short ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.projectInfo.short}
                 </div>
@@ -292,8 +289,8 @@ const AddDemo = () => {
                 <Season />
               </select>
               {formik.touched.demoTime &&
-                formik.touched.demoTime.season &&
-                formik.errors.demoTime?.season ? (
+              formik.touched.demoTime.season &&
+              formik.errors.demoTime?.season ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoTime.season}
                 </div>
@@ -342,8 +339,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.farmersInfo &&
-                formik.touched.farmersInfo.fatherOrHusbandName &&
-                formik.errors.farmersInfo?.fatherOrHusbandName ? (
+              formik.touched.farmersInfo.fatherOrHusbandName &&
+              formik.errors.farmersInfo?.fatherOrHusbandName ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.farmersInfo.fatherOrHusbandName}
                 </div>
@@ -377,15 +374,17 @@ const AddDemo = () => {
                 onBlur={formik.handleBlur}
               >
                 <option value="" label="ব্লক সিলেক্ট করুন" />
-                {allBlockAndUnion.map((singleUnion) =>
-                  singleUnion.blocks.map((block) => (
-                    <option key={block} value={block} label={block} />
-                  ))
-                )}
+                {allBlockAndUnion?.map((block) => (
+                  <option
+                    key={block.name}
+                    value={block.blockB}
+                    label={block.blockB}
+                  />
+                ))}
               </select>
               {formik.touched.address &&
-                formik.touched.address.block &&
-                formik.errors.address?.block ? (
+              formik.touched.address.block &&
+              formik.errors.address?.block ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.address.block}
                 </div>
@@ -396,12 +395,12 @@ const AddDemo = () => {
               <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
               <input
                 className="input input-bordered w-full"
-                value={findUnion}
-                disabled
+                value={findUnion?.unionB}
+                disabled={true}
               />
               {formik.touched.address &&
-                formik.touched.address.union &&
-                formik.errors.address?.union ? (
+              formik.touched.address.union &&
+              formik.errors.address?.union ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.address.union}
                 </div>
@@ -416,48 +415,43 @@ const AddDemo = () => {
                 className="input input-bordered w-full"
                 id="SAAO.name"
                 readOnly
-                disabled
+                disabled={true}
                 name="SAAO.name"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="উপসহকারী কৃষি অফিসারের নাম"
-                value={
-                  formik.values.SAAO
-                    ? formik.values.SAAO?.name
-                    : ""
-                }
+                value={formik.values.SAAO ? formik.values.SAAO?.name : ""}
               />
 
               {formik.touched.SAAO &&
-                formik.touched.SAAO.name &&
-                formik.errors.SAAO?.name ? (
+              formik.touched.SAAO.name &&
+              formik.errors.SAAO?.name ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.SAAO.name}
                 </div>
               ) : null}
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">এসএএও এর মোবাইল নং</label>
+              <label className="font-extrabold mb-1 block">
+                এসএএও এর মোবাইল নং
+              </label>
               <input
                 type="number"
                 className="input input-bordered w-full"
                 id="SAAO.mobile"
                 name="SAAO.mobile"
-                readOnly disabled
+                readOnly
+                disabled={true}
                 onBlur={formik.handleBlur}
                 maxLength={11}
                 onChange={formik.handleChange}
                 placeholder="উপসহকারী কৃষি অফিসারের মোবাইল নং"
-                value={
-                  formik.values.SAAO
-                    ? formik.values.SAAO?.mobile
-                    : ""
-                }
+                value={formik.values.SAAO ? formik.values.SAAO?.mobile : ""}
               />
 
               {formik.touched.SAAO &&
-                formik.touched.SAAO.mobile &&
-                formik.errors.SAAO?.mobile ? (
+              formik.touched.SAAO.mobile &&
+              formik.errors.SAAO?.mobile ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.SAAO.mobile}
                 </div>
@@ -484,8 +478,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-                formik.touched.numbersInfo.mobile &&
-                formik.errors.numbersInfo?.mobile ? (
+              formik.touched.numbersInfo.mobile &&
+              formik.errors.numbersInfo?.mobile ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.mobile}
                 </div>
@@ -511,8 +505,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-                formik.touched.numbersInfo.NID &&
-                formik.errors.numbersInfo?.NID ? (
+              formik.touched.numbersInfo.NID &&
+              formik.errors.numbersInfo?.NID ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.NID}
                 </div>
@@ -536,8 +530,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-                formik.touched.numbersInfo.BID &&
-                formik.errors.numbersInfo?.BID ? (
+              formik.touched.numbersInfo.BID &&
+              formik.errors.numbersInfo?.BID ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.BID}
                 </div>
@@ -562,8 +556,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-                formik.touched.numbersInfo.agriCard &&
-                formik.errors.numbersInfo?.agriCard ? (
+              formik.touched.numbersInfo.agriCard &&
+              formik.errors.numbersInfo?.agriCard ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.agriCard}
                 </div>
@@ -587,8 +581,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.demoInfo &&
-                formik.touched.demoInfo.crop &&
-                formik.errors.demoInfo?.crop ? (
+              formik.touched.demoInfo.crop &&
+              formik.errors.demoInfo?.crop ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.crop}
                 </div>
@@ -610,8 +604,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.demoInfo &&
-                formik.touched.demoInfo.variety &&
-                formik.errors.demoInfo?.variety ? (
+              formik.touched.demoInfo.variety &&
+              formik.errors.demoInfo?.variety ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.variety}
                 </div>
@@ -633,8 +627,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.demoInfo &&
-                formik.touched.demoInfo.tech &&
-                formik.errors.demoInfo?.tech ? (
+              formik.touched.demoInfo.tech &&
+              formik.errors.demoInfo?.tech ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.tech}
                 </div>
@@ -658,8 +652,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.demoInfo &&
-                formik.touched.demoInfo.area &&
-                formik.errors.demoInfo?.area ? (
+              formik.touched.demoInfo.area &&
+              formik.errors.demoInfo?.area ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.area}
                 </div>
@@ -731,8 +725,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.production &&
-                formik.touched.production.productionPerHector &&
-                formik.errors.production?.productionPerHector ? (
+              formik.touched.production.productionPerHector &&
+              formik.errors.production?.productionPerHector ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.productionPerHector}
                 </div>
@@ -758,8 +752,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.production &&
-                formik.touched.production.totalProduction &&
-                formik.errors.production?.totalProduction ? (
+              formik.touched.production.totalProduction &&
+              formik.errors.production?.totalProduction ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.totalProduction}
                 </div>
@@ -785,8 +779,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.production &&
-                formik.touched.production.sidePlotProduction &&
-                formik.errors.production?.sidePlotProduction ? (
+              formik.touched.production.sidePlotProduction &&
+              formik.errors.production?.sidePlotProduction ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.sidePlotProduction}
                 </div>
@@ -822,9 +816,10 @@ const AddDemo = () => {
           )}
 
           <div className="grid mt-3 lg:grid-cols-2 gap-4  grid-cols-1">
-
             <div className="mt-5">
-              <label className="font-extrabold mb-1 block">কৃষকের মন্তব্য</label>
+              <label className="font-extrabold mb-1 block">
+                কৃষকের মন্তব্য
+              </label>
               <textarea
                 name="comment.farmersReview"
                 id="comment.farmersReview"
