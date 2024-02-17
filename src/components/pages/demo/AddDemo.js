@@ -124,7 +124,13 @@ const AddDemo = () => {
       farmersReview: "",
       overallComment: "",
     },
-    demoImages: [],
+    demoImages: [
+      {
+        image: "",
+        presentCondition: "",
+        date: "",
+      },
+    ],
   };
   const validationSchema = Yup.object({
     // projectInfo: Yup.object().shape({

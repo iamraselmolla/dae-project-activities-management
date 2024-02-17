@@ -7,6 +7,7 @@ const AddImageModal = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [presentCondition, setPresentConditin] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -19,6 +20,16 @@ const AddImageModal = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
     console.log(date);
+  };
+
+  const handleFormData = () => {
+    const values = {
+      images: selectedFile,
+      presentCondition: presentCondition,
+      date: selectedDate.startDate,
+    };
+
+    console.log(values);
   };
 
   return (
@@ -39,8 +50,9 @@ const AddImageModal = () => {
         )}
 
         <div className="modal-action flex justify-center pb-5">
-          <form method="dialog">
+          <form onSubmit={handleFormData} method="dialog">
             <textarea
+              onChange={(e) => setPresentConditin(e.target.value)}
               className="textarea textarea-success w-full mb-2"
               placeholder="প্রদর্শনীর বর্তমান অবস্থা বর্ণনা করুন"
             ></textarea>
@@ -50,6 +62,7 @@ const AddImageModal = () => {
               name="demoDate"
               showShortcuts={true}
               onChange={handleDateChange}
+              value={selectedDate}
             />
             <input
               type="file"
@@ -57,7 +70,10 @@ const AddImageModal = () => {
               className="file-input file-input-bordered file-input-info mt-2 w-full"
               onChange={handleFileChange}
             />
-            <button className="btn mt-3 text-white btn-success w-full">
+            <button
+              type="submit"
+              className="btn mt-3 text-white btn-success w-full"
+            >
               তথ্য ও ছবি যুক্ত করুন
             </button>
 
