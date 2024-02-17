@@ -15,8 +15,8 @@ const Header = () => {
     </NavLink>
   );
   return (
-    <nav className="bg-black py-4">
-      <div className="navbar">
+    <nav className="bg-black">
+      <div className="navbar mx-auto py-4 max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -37,7 +37,7 @@ const Header = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-sm gap-4 dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <NavLink
                 to="/"
@@ -45,8 +45,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 হোম
@@ -57,8 +57,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 প্রদর্শনী
@@ -69,8 +69,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 প্রশিক্ষণ
@@ -81,8 +81,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 মাঠদিবস
@@ -93,15 +93,15 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 মালামাল বিতরণ
               </NavLink>
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">daisyUI</a>
+          <a className="btn btn-ghost text-white text-xl">DAE</a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <NavLink
@@ -110,8 +110,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             হোম
@@ -122,8 +122,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             প্রদর্শনী
@@ -134,8 +134,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             প্রশিক্ষণ
@@ -146,8 +146,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             মাঠদিবস
@@ -158,8 +158,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             মালামাল বিতরণ
