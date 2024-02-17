@@ -119,8 +119,8 @@ const AddFieldDay = () => {
                 <option value="option3" label="Option 3" />
               </select>
               {formik.touched.project &&
-              formik.touched.project.full &&
-              formik.errors.project?.full ? (
+                formik.touched.project.full &&
+                formik.errors.project?.full ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.project.full}
                 </div>
@@ -144,8 +144,8 @@ const AddFieldDay = () => {
               />
 
               {formik.touched.project &&
-              formik.touched.project.short &&
-              formik.errors.project?.short ? (
+                formik.touched.project.short &&
+                formik.errors.project?.short ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.project.short}
                 </div>
@@ -186,7 +186,7 @@ const AddFieldDay = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="মাঠদিবসের বিষয় বা ফসল"
-                // value={formik.values.subject ? formik.values.subject : ''}
+              // value={formik.values.subject ? formik.values.subject : ''}
               />
             </div>
             <div>
@@ -201,7 +201,7 @@ const AddFieldDay = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="কর্মকর্তা ও গন্যমান্য অতিথি"
-                // value={formik.values.guests ? formik.values.guests : ''}
+              // value={formik.values.guests ? formik.values.guests : ''}
               />
             </div>
             <div>
@@ -216,7 +216,7 @@ const AddFieldDay = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="কৃষক (পুরুষ)"
-                // value={formik.values.farmers.male ? formik.values.farmers.male : ''}
+              // value={formik.values.farmers.male ? formik.values.farmers.male : ''}
               />
             </div>
             <div>
@@ -231,7 +231,7 @@ const AddFieldDay = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="কৃষক (নারী)"
-                // value={formik.values.farmers.female ? formik.values.farmers.female : ''}
+              // value={formik.values.farmers.female ? formik.values.farmers.female : ''}
               />
               {/* {formik.touched.name && formik.touched.name.details && formik.errors.name?.details ? (
                                 <div className='text-red-600 font-bold'>{formik.errors.name.details}</div>
@@ -308,15 +308,15 @@ const AddFieldDay = () => {
                 <option value="" label="ব্লক সিলেক্ট করুন" />
                 {allBlockAndUnion?.map((block) => (
                   <option
-                    key={block.name}
+                    key={block?.username}
                     value={block.blockB}
                     label={block.blockB}
                   />
                 ))}
               </select>
               {formik.touched.address &&
-              formik.touched.address.block &&
-              formik.errors.address?.block ? (
+                formik.touched.address.block &&
+                formik.errors.address?.block ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.address.block}
                 </div>
@@ -331,8 +331,8 @@ const AddFieldDay = () => {
                 disabled={true}
               />
               {formik.touched.address &&
-              formik.touched.address.union &&
-              formik.errors.address?.union ? (
+                formik.touched.address.union &&
+                formik.errors.address?.union ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.address.union}
                 </div>

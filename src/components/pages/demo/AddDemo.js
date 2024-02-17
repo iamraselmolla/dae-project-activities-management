@@ -381,7 +381,7 @@ const AddDemo = () => {
                 <option value="" label="ব্লক সিলেক্ট করুন" />
                 {allBlockAndUnion?.map((block) => (
                   <option
-                    key={block.name}
+                    key={block.username}
                     value={block.blockB}
                     label={block.blockB}
                   />

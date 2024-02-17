@@ -25,7 +25,7 @@ const AddImageModal = () => {
     const values = {
       images: selectedFile,
       presentCondition: presentCondition,
-      date: selectedDate.startDate,
+      date: selectedDate?.startDate,
     };
   };
 
