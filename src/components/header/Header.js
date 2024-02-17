@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AiOutlineLogin } from "react-icons/ai";
+import Login from "../shared/Login";
 
 
 const Header = () => {
@@ -257,7 +258,8 @@ const Header = () => {
             }
             {
               !login && <>
-                <AiOutlineLogin size={35} cursor='pointer' color="white" />
+                <AiOutlineLogin onClick={() => document.getElementById("my_modal_2").showModal()} size={35} cursor='pointer' color="white" />
+                <Login />
               </>
             }
           </div>
