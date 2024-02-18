@@ -3,11 +3,10 @@ import { Link, NavLink } from "react-router-dom";
 import { AiOutlineLogin } from "react-icons/ai";
 import Login from "../shared/Login";
 
-
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [mobileMenuShow, setMobileMenuShow] = useState(false);
-  const [login, setLogin] = useState(false)
+  const [login, setLogin] = useState(false);
   const handleMenuClick = () => {
     setMobileMenuShow(!mobileMenuShow);
   };
@@ -49,8 +48,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 হোম
@@ -61,8 +60,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 প্রদর্শনী
@@ -73,8 +72,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 প্রশিক্ষণ
@@ -85,8 +84,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 মাঠদিবস
@@ -97,8 +96,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 মালামাল বিতরণ
@@ -114,8 +113,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                  : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             হোম
@@ -126,8 +125,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             প্রদর্শনী
@@ -138,8 +137,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             প্রশিক্ষণ
@@ -150,8 +149,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             মাঠদিবস
@@ -162,8 +161,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             মালামাল বিতরণ
@@ -192,8 +191,8 @@ const Header = () => {
                 />
               </svg>
             </button> */}
-            {
-              login && <>
+            {login && (
+              <>
                 <div className="relative ml-3">
                   <div onClick={() => setShowMenu(!showMenu)}>
                     <button
@@ -212,7 +211,6 @@ const Header = () => {
                       />
                     </button>
                   </div>
-
 
                   {showMenu && (
                     <>
@@ -255,13 +253,20 @@ const Header = () => {
                   )}
                 </div>
               </>
-            }
-            {
-              !login && <>
-                <AiOutlineLogin onClick={() => document.getElementById("my_modal_2").showModal()} size={35} cursor='pointer' color="white" />
+            )}
+            {!login && (
+              <>
+                <AiOutlineLogin
+                  onClick={() =>
+                    document.getElementById("my_modal_2").showModal()
+                  }
+                  size={35}
+                  cursor="pointer"
+                  color="white"
+                />
                 <Login />
               </>
-            }
+            )}
           </div>
         </div>
       </div>
