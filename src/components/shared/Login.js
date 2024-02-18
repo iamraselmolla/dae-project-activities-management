@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
 const Login = () => {
+  // State to manage form inputs
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
+  // Function to handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -15,26 +16,24 @@ const Login = () => {
     });
   };
 
+  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    // You can perform further validation here if needed
+    // Then, submit formData to your API
     console.log("Form data:", formData);
+    // Reset form after submission if needed
     setFormData({
       username: "",
       password: "",
     });
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false); // Close the modal by setting isModalOpen to false
-  };
-
   return (
-    <dialog
-      id="my_modal_2"
-      className={`modal text-center ${isModalOpen ? "open" : ""}`}
-    >
+    <dialog id="my_modal_2" className="modal text-center">
       <div className="modal-box py-16">
         <h3 className="font-bold text-xl mb-10">লগিন করুন</h3>
+
         <div className="pb-5">
           <form onSubmit={handleSubmit}>
             <label className="input input-bordered flex mb-3 items-center gap-2">
@@ -80,14 +79,12 @@ const Login = () => {
             <button type="submit" className="btn w-full btn-success">
               লগিন করুন
             </button>
+
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
           </form>
         </div>
-        <button
-          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-          onClick={() => handleCloseModal()}
-        >
-          ✕
-        </button>
       </div>
     </dialog>
   );
