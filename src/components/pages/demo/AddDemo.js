@@ -5,8 +5,7 @@ import * as Yup from "yup";
 import Season from "../../shared/Season";
 import FiscalYear from "../../shared/FiscalYear";
 import Datepicker from "react-tailwindcss-datepicker";
-import allBlockAndUnion from "../../consts/blockAndUnion";
-import { getAllProjects } from "../../../services/userServices";
+import { getAllProjects, getUser } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
@@ -15,7 +14,7 @@ const AddDemo = () => {
   const [selectedOption, setSelectedOption] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([]);
-  const [findUnion, setFindUnion] = useState(null);
+  const [findUnion, setFindUnion] = useState({});
   const [datePickers, setDatePickers] = useState({
     bopon: {
       startDate: null,
@@ -53,15 +52,6 @@ const AddDemo = () => {
 
     // Update the state with the new date pickers object
     setDatePickers(updatedDatePickers);
-  };
-
-  const handleValueChange = (e) => {
-    const findUnion = allBlockAndUnion?.find(
-      (block) => block?.blockB === e.target.value
-    );
-
-    setFindUnion((prevUnion) => findUnion);
-    console.log(findUnion)
   };
 
   const handleSelectChange = (e) => {
@@ -204,6 +194,21 @@ const AddDemo = () => {
       toast.error("Please connect to the internet");
     }
   }, []);
+  useEffect(() => {
+    try {
+      const fetchUser = async () => {
+        const result = await getUser('betaga')
+        setFindUnion(result?.data?.data)
+      }
+      fetchUser()
+    }
+    catch (err) {
+      console.error(err);
+      toast.error(
+        "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
+      );
+    }
+  }, [])
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -379,17 +384,17 @@ const AddDemo = () => {
                 id="address.block"
                 name="address.block"
                 value={findUnion?.blockB}
-                onChange={handleValueChange}
                 onBlur={formik.handleBlur}
+                disabled
               >
                 <option value="" label="ব্লক সিলেক্ট করুন" />
-                {allBlockAndUnion?.map((block) => (
-                  <option
-                    key={block.username}
-                    value={block.blockB}
-                    label={block.blockB}
-                  />
-                ))}
+
+                <option
+                  key={findUnion?.username}
+                  value={findUnion?.blockB}
+                  label={findUnion?.blockB}
+                />
+
               </select>
               {formik.touched.address &&
                 formik.touched.address.block &&

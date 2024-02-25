@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SectionTitle from "../../shared/SectionTitle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
-import allBlockAndUnion from "../../consts/blockAndUnion";
+import { getUser } from "../../../services/userServices";
+import toast from "react-hot-toast";
 
 const AddFieldDay = () => {
   const [value, setValue] = useState({
@@ -17,16 +18,6 @@ const AddFieldDay = () => {
   const [findBlock, setFindBlock] = useState(null);
   const [findUnion, setFindUnion] = useState(null);
 
-  const handleValueChange = (e) => {
-    const findUnion = allBlockAndUnion?.find(
-      (block) => block.blockB === e.target.value
-    );
-
-    setFindUnion((prevUnion) => findUnion);
-  };
-  const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
   const handleImageChange = (e) => {
     const files = e.target.files;
     const imageFiles = [];
@@ -94,6 +85,24 @@ const AddFieldDay = () => {
       // Handle form submission logic here
     },
   });
+  const handleSelectChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
+  useEffect(() => {
+    try {
+      const fetchUser = async () => {
+        const result = await getUser('noapara')
+        setFindUnion(result?.data?.data)
+      }
+      fetchUser()
+    }
+    catch (err) {
+      console.error(err);
+      toast.error(
+        "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
+      );
+    }
+  }, [])
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -301,18 +310,18 @@ const AddFieldDay = () => {
                 className="input input-bordered w-full"
                 id="address.block"
                 name="address.block"
-                // value={formik.values.address ? formik.values.address.block : ''}
-                onChange={handleValueChange}
+
+                value={findUnion?.blockB}
                 onBlur={formik.handleBlur}
+                disabled
               >
                 <option value="" label="ব্লক সিলেক্ট করুন" />
-                {allBlockAndUnion?.map((block) => (
-                  <option
-                    key={block?.username}
-                    value={block.blockB}
-                    label={block.blockB}
-                  />
-                ))}
+
+                <option
+                  key={findUnion?.username}
+                  value={findUnion?.blockB}
+                  label={findUnion?.blockB}
+                />
               </select>
               {formik.touched.address &&
                 formik.touched.address.block &&

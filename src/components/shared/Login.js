@@ -59,7 +59,7 @@ const Login = () => {
               />
             </label>
             <button
-              type="button"
+              type="submit"
               onClick={handleSubmit}
               className="btn w-full btn-success"
             >
