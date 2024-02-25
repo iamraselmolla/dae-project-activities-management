@@ -5,18 +5,8 @@ import Login from "../shared/Login";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const [mobileMenuShow, setMobileMenuShow] = useState(false);
   const [login, setLogin] = useState(false);
-  const handleMenuClick = () => {
-    setMobileMenuShow(!mobileMenuShow);
-  };
-  const MenuItem = ({ to, label }) => (
-    <NavLink to={to}>
-      {({ isActive, isPending }) => (
-        <span className={isActive ? "active" : ""}>{label}</span>
-      )}
-    </NavLink>
-  );
+
   return (
     <nav className="bg-black">
       <div className="navbar mx-auto py-4 max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -237,7 +227,7 @@ const Header = () => {
               <>
                 <AiOutlineLogin
                   onClick={() =>
-                    document.getElementById("my_modal_2").showModal()
+                    document.getElementById("my_modal_3").showModal()
                   }
                   size={35}
                   cursor="pointer"
