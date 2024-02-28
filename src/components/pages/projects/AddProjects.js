@@ -5,6 +5,7 @@ import SectionTitle from "../../shared/SectionTitle";
 import * as Yup from "yup";
 import { addProjectByAdmin } from "../../../services/userServices";
 import toast from "react-hot-toast";
+import { RiDeleteBin7Line } from "react-icons/ri";
 
 const AddProjects = () => {
   const [value, setValue] = useState({
@@ -14,6 +15,17 @@ const AddProjects = () => {
 
   const handleValueChange = (newValue) => {
     setValue(newValue);
+  };
+  const [crops, setCrops] = useState([""]);
+
+  const addCrop = () => {
+    setCrops([...crops, ""]);
+  };
+
+  const removeCrop = (index) => {
+    const updatedCrops = [...crops];
+    updatedCrops.splice(index, 1);
+    setCrops(updatedCrops);
   };
 
   const validationSchema = Yup.object().shape({
@@ -40,7 +52,7 @@ const AddProjects = () => {
       },
       projectDetails: {
         PD: "",
-        monitoringOfficers: '',
+        monitoringOfficers: "",
       },
       email: "",
       time: {
@@ -56,26 +68,25 @@ const AddProjects = () => {
         ...values,
         time: {
           start: value.startDate,
-          end: value.endDate
+          end: value.endDate,
         },
       };
       try {
         // Post form data into DB by Api
         const result = await addProjectByAdmin(formattedValues);
         if (result?.status === 200) {
-          toast.success(result?.data?.message)
+          toast.success(result?.data?.message);
         } else {
-          toast.error('Something Wrong')
+          toast.error("Something Wrong");
         }
       } catch (error) {
         console.error("Error:", error?.response?.data?.message);
       } finally {
         resetForm();
-        setValue({ startDate: null, endDate: null })
+        setValue({ startDate: null, endDate: null });
       }
 
       // Reset form after successful submission
-
     },
   });
 
@@ -99,8 +110,8 @@ const AddProjects = () => {
               value={formik.values.name ? formik.values.name.details : ""}
             />
             {formik.touched.name &&
-              formik.touched.name.details &&
-              formik.errors.name?.details ? (
+            formik.touched.name.details &&
+            formik.errors.name?.details ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.name.details}
               </div>
@@ -121,8 +132,8 @@ const AddProjects = () => {
               value={formik.values.name ? formik.values.name.short : ""}
             />
             {formik.touched.name &&
-              formik.touched.name.short &&
-              formik.errors.name?.short ? (
+            formik.touched.name.short &&
+            formik.errors.name?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.name.short}
               </div>
@@ -223,6 +234,40 @@ const AddProjects = () => {
                 {formik.errors.time.end}
               </div>
             )}
+          </div>
+          <div>gfdhgfhhg</div>
+          <div>
+            {crops.map((crop, index) => (
+              <div key={index}>
+                <label className="font-extrabold mb-1 block">
+                  প্রদর্শনীর ধরণ বা প্রযুক্তি যুক্ত করুন
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered relative w-full"
+                  onChange={(e) => {
+                    const updatedCrops = [...crops];
+                    updatedCrops[index] = e.target.value;
+                    setCrops(updatedCrops);
+                  }}
+                  value={crop}
+                />
+                <div className="cursor-pointer absolute right-8 mt-[-40px] float-right">
+                  <RiDeleteBin7Line
+                    size={30}
+                    color="red"
+                    onClick={() => removeCrop(index)}
+                  />
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="btn mt-2 w-full font-extrabold text-white btn-info"
+              onClick={addCrop}
+            >
+              প্রদর্শনীর ধরণ বা প্রযুক্তি যুক্ত করুন
+            </button>
           </div>
         </div>
 
