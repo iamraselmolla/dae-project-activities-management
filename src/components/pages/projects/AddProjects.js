@@ -6,8 +6,11 @@ import * as Yup from "yup";
 import { addProjectByAdmin } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { RiDeleteBin7Line } from "react-icons/ri";
+import { GiGrain } from "react-icons/gi";
 
 const AddProjects = () => {
+  const [crop, setCrop] = useState("");
+  const [cropValues, setCropValues] = useState([]);
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
@@ -16,16 +19,12 @@ const AddProjects = () => {
   const handleValueChange = (newValue) => {
     setValue(newValue);
   };
-  const [crops, setCrops] = useState([""]);
 
-  const addCrop = () => {
-    setCrops([...crops, ""]);
-  };
-
-  const removeCrop = (index) => {
-    const updatedCrops = [...crops];
-    updatedCrops.splice(index, 1);
-    setCrops(updatedCrops);
+  const handleAddCrop = () => {
+    if (crop.trim() !== "") {
+      setCropValues([...cropValues, crop]);
+      setCrop(""); // Clear the input field after adding
+    }
   };
 
   const validationSchema = Yup.object().shape({
@@ -235,36 +234,38 @@ const AddProjects = () => {
               </div>
             )}
           </div>
-          <div>gfdhgfhhg</div>
+          <div className="put_crop_value_here">
+            <div className="put_crop_value_here">
+              {cropValues.map((cropValue, index) => (
+                <div className="flex gap-3" key={index}>
+                  <GiGrain color="green" size={25} />
+                  <div>{cropValue}</div>
+                </div>
+              ))}
+            </div>
+          </div>
           <div>
-            {crops.map((crop, index) => (
-              <div key={index}>
-                <label className="font-extrabold mb-1 block">
-                  প্রদর্শনীর ধরণ বা প্রযুক্তি যুক্ত করুন
-                </label>
-                <input
-                  type="text"
-                  className="input input-bordered relative w-full"
-                  onChange={(e) => {
-                    const updatedCrops = [...crops];
-                    updatedCrops[index] = e.target.value;
-                    setCrops(updatedCrops);
-                  }}
-                  value={crop}
-                />
-                <div className="cursor-pointer absolute right-8 mt-[-40px] float-right">
+            <label className="font-extrabold mb-1 block">
+              প্রদর্শনীর ধরণ বা প্রযুক্তি যুক্ত করুন
+            </label>
+            <input
+              type="text"
+              onChange={(e) => setCrop(e.target.value)}
+              className="input input-bordered relative w-full"
+              value={crop}
+            />
+            {/* <div className="cursor-pointer absolute right-8 mt-[-40px] float-right">
                   <RiDeleteBin7Line
                     size={30}
                     color="red"
                     onClick={() => removeCrop(index)}
                   />
-                </div>
-              </div>
-            ))}
+                </div> */}
+
             <button
               type="button"
               className="btn mt-2 w-full font-extrabold text-white btn-info"
-              onClick={addCrop}
+              onClick={handleAddCrop}
             >
               প্রদর্শনীর ধরণ বা প্রযুক্তি যুক্ত করুন
             </button>
