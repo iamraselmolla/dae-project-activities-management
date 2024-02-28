@@ -6,7 +6,9 @@ import * as Yup from "yup";
 import { addProjectByAdmin } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { RiDeleteBin7Line } from "react-icons/ri";
-import { GiGrain } from "react-icons/gi";
+import { GiGrainBundle } from "react-icons/gi";
+import { toBengaliNumber } from "bengali-number";
+import { IoMdRemoveCircleOutline } from "react-icons/io";
 
 const AddProjects = () => {
   const [crop, setCrop] = useState("");
@@ -236,12 +238,34 @@ const AddProjects = () => {
           </div>
           <div className="put_crop_value_here">
             <div className="put_crop_value_here">
-              {cropValues.map((cropValue, index) => (
-                <div className="flex gap-3" key={index}>
-                  <GiGrain color="green" size={25} />
-                  <div>{cropValue}</div>
+              <label className="font-bold">
+                প্রকল্পের দ্বারা বাস্তবায়নযোগ্য প্রযুক্তি / প্রদর্শনীর ধরণসমূহঃ
+              </label>
+              <>
+                <div className="overflow-x-auto mt-4 text-center">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr>
+                        <th>ক্রমিক</th>
+                        <th>প্রদর্শনীর ধরণ/প্রযুক্তির নাম</th>
+                        <th> একশন</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {cropValues?.map((cropValue, index) => (
+                        <tr>
+                          <th>{toBengaliNumber(index + 1)}</th>
+                          <td>{cropValue}</td>
+                          <td>
+                            <IoMdRemoveCircleOutline size={25} color="red" />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              ))}
+              </>
             </div>
           </div>
           <div>
