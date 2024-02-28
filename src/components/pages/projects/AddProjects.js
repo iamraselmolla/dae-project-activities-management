@@ -5,8 +5,6 @@ import SectionTitle from "../../shared/SectionTitle";
 import * as Yup from "yup";
 import { addProjectByAdmin } from "../../../services/userServices";
 import toast from "react-hot-toast";
-import { RiDeleteBin7Line } from "react-icons/ri";
-import { GiGrainBundle } from "react-icons/gi";
 import { toBengaliNumber } from "bengali-number";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 
@@ -23,9 +21,8 @@ const AddProjects = () => {
   };
 
   const handleAddCrop = () => {
-    if (crop.trim() !== "") {
+    if (crop?.trim() !== "") {
       setCropValues([...cropValues, crop]);
-      setCrop(""); // Clear the input field after adding
     }
   };
 
@@ -60,6 +57,7 @@ const AddProjects = () => {
         start: null,
         end: null,
       },
+      crops: []
       // logo: "",
     },
     validationSchema,
@@ -67,16 +65,20 @@ const AddProjects = () => {
     onSubmit: async (values, { resetForm }) => {
       const formattedValues = {
         ...values,
+        crops: cropValues,
         time: {
           start: value.startDate,
           end: value.endDate,
         },
       };
       try {
+        console.log(formattedValues)
         // Post form data into DB by Api
         const result = await addProjectByAdmin(formattedValues);
         if (result?.status === 200) {
           toast.success(result?.data?.message);
+          setCropValues([])
+          setCrop([])
         } else {
           toast.error("Something Wrong");
         }
@@ -90,6 +92,8 @@ const AddProjects = () => {
       // Reset form after successful submission
     },
   });
+
+
 
   return (
     <section className="container px-4 md:px-0">
@@ -111,8 +115,8 @@ const AddProjects = () => {
               value={formik.values.name ? formik.values.name.details : ""}
             />
             {formik.touched.name &&
-            formik.touched.name.details &&
-            formik.errors.name?.details ? (
+              formik.touched.name.details &&
+              formik.errors.name?.details ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.name.details}
               </div>
@@ -133,8 +137,8 @@ const AddProjects = () => {
               value={formik.values.name ? formik.values.name.short : ""}
             />
             {formik.touched.name &&
-            formik.touched.name.short &&
-            formik.errors.name?.short ? (
+              formik.touched.name.short &&
+              formik.errors.name?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.name.short}
               </div>
@@ -258,7 +262,7 @@ const AddProjects = () => {
                           <th>{toBengaliNumber(index + 1)}</th>
                           <td>{cropValue}</td>
                           <td>
-                            <IoMdRemoveCircleOutline size={25} color="red" />
+                            <IoMdRemoveCircleOutline onClick={() => setCrop(cropValues.splice(cropValues.indexOf(cropValue), 1))} className="cursor-pointer" size={25} color="red" />
                           </td>
                         </tr>
                       ))}
