@@ -140,11 +140,11 @@ const AddDemo = () => {
     demoInfo: Yup.object().shape({
       crop: Yup.string().required("প্রদর্শনীর নাম / ফসলের নাম লিখুন"),
     }),
-    // numbersInfo: Yup.object().shape({
-    //   mobile: Yup.string()
-    //     .required("মোবাইল নম্বর দিন")
-    //     .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
-    // }),
+    numbersInfo: Yup.object().shape({
+      mobile: Yup.string()
+        .required("মোবাইল নম্বর দিন")
+        .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
+    }),
     // address: Yup.object().shape({
     //   village: Yup.string().required("গ্রামের নাম দিন"),
     //   block: Yup.string().required("ব্লকের নাম পছন্দ করুন"),
