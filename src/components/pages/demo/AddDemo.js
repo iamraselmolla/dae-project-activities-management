@@ -580,18 +580,25 @@ const AddDemo = () => {
           <div className="grid mt-3 lg:grid-cols-4 gap-4  grid-cols-1">
             <div>
               <label className="font-extrabold mb-1 block">প্রযুক্তি</label>
-              <input
-                type="text"
+              <select
                 className="input input-bordered w-full"
                 id="demoInfo.tech"
                 name="demoInfo.tech"
                 onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                placeholder="প্রযুক্তি"
-                value={
-                  formik.values.demoInfo ? formik.values.demoInfo?.tech : ""
-                }
-              />
+                value={formik.values.demoInfo ? formik.values.demoInfo?.tech : ""}
+              >
+                <option value="" label="প্রযুক্তি পছন্দ করুন" />
+
+                {selectedOption && selectedOption?.crops?.length > 0 && selectedOption?.crops?.map(singleCrop =>
+                  <>
+                    <option
+                      key={singleCrop}
+                      value={singleCrop}
+                      label={singleCrop}
+                    />
+                  </>)}
+              </select>
+
 
               {formik.touched.demoInfo &&
                 formik.touched.demoInfo.tech &&
