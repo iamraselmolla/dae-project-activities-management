@@ -6,15 +6,15 @@ import { Outlet } from 'react-router-dom';
 const DashboardLayout = () => {
     return (
         <section className='grid py-0'>
-            <div class="grid grid-cols-5">
-                <div class="col-span-1 ">
+            <div className="grid grid-cols-5">
+                <div className="col-span-1 ">
                     <DashboardMenu />
                 </div>
-                <div class="col-span-4 bg-green-200">
+                <div className="col-span-4 bg-green-200" >
                     <Outlet />
-                </div>
-            </div>
-        </section>
+                </div >
+            </div >
+        </section >
     );
 };
 
