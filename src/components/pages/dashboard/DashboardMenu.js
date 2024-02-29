@@ -8,13 +8,25 @@ const DashboardMenu = () => {
                 to="/dashboard/all-projects"
                 className={({ isActive, isPending }) =>
                     isPending
-                        ? "pending block w-full"
+                        ? "block px-3 w-full text-center py-4 bg-slate-900"
                         : isActive
-                            ? "active bg-gray-900 w-full block text-white rounded-md px-3 py-2 text-sm font-medium"
-                            : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                            ? "block px-3 w-full py-4 text-center bg-red-500"
+                            : "block px-3 w-full py-4 text-center bg-blue-400"
                 }
             >
-                হোম
+                সকল প্রকল্প
+            </NavLink>
+            <NavLink
+                to="/dashboard/all-users"
+                className={({ isActive, isPending }) =>
+                    isPending
+                        ? "block px-3 w-full text-center py-4 bg-slate-900"
+                        : isActive
+                            ? "block px-3 w-full py-4 text-center bg-red-500"
+                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                }
+            >
+                সকল ইউজার
             </NavLink>
         </>
     );

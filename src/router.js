@@ -1,7 +1,10 @@
 import AddFieldDay from "./components/pages/FieldDay/AddFieldDay";
 import FieldDay from "./components/pages/FieldDay/FieldDay";
+import Dashboard from "./components/pages/dashboard/Dashboard";
 import Sidebar from "./components/pages/dashboard/DashboardLayout";
 import DashboardLayout from "./components/pages/dashboard/DashboardLayout";
+import AllProjects from "./components/pages/dashboard/admin/AllProjects";
+import Allusers from "./components/pages/dashboard/admin/Allusers";
 import AddDemo from "./components/pages/demo/AddDemo";
 import Demo from "./components/pages/demo/Demo";
 import Distribution from "./components/pages/distrubution/Distribution";
@@ -68,9 +71,18 @@ const router = createBrowserRouter([
         element: <DashboardLayout />,
         children: [
           {
-            path: '/dashboard/all-project',
-            element: <DashboardLayout />
+            path: '/dashboard',
+            element: <Dashboard />
 
+          },
+          {
+            path: '/dashboard/all-projects',
+            element: <AllProjects />
+
+          },
+          {
+            path: '/dashboard/all-users',
+            element: <Allusers />
 
           }
         ]
