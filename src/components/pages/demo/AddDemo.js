@@ -162,7 +162,6 @@ const AddDemo = () => {
       values.demoTime.season = formik.values.demoTime.season;
       values.projectInfo.full = selectedOption.name.details;
       values.projectInfo.short = selectedOption.name.short;
-      console.log(values);
 
       // Handle form submission logic here
       try {

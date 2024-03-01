@@ -43,10 +43,6 @@ const router = createBrowserRouter([
         element: <Distribution></Distribution>,
       },
       {
-        path: "/addProject",
-        element: <AddProjects />,
-      },
-      {
         path: "/addDemo",
         element: <AddDemo />,
       },
@@ -84,7 +80,11 @@ const router = createBrowserRouter([
             path: '/dashboard/all-users',
             element: <Allusers />
 
-          }
+          },
+          {
+            path: "/dashboard/addProject",
+            element: <AddProjects />,
+          },
         ]
 
       }

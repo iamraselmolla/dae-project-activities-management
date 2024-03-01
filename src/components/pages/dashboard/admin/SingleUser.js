@@ -1,10 +1,11 @@
 import React from 'react';
 import { Field, Form, Formik } from 'formik';
-import { toBengaliNumber } from 'bengali-number';
+import UserTitle from '../../../shared/UserTitle';
 
 const SingleUser = ({ index, user }) => {
     const initialValues = { ...user };
-
+    const { blockB, unionB } = user
+    console.log(blockB, unionB)
     const handleSubmit = (values) => {
         // Handle form submission here
         console.log(values);
@@ -12,9 +13,7 @@ const SingleUser = ({ index, user }) => {
 
     return (
         <>
-            <h2 className="font-bold text-2xl">
-                <span className="mr-3">{toBengaliNumber(index + 1)}.</span> ব্লকঃ {user?.blockB}, ইউনিয়নঃ {user?.unionB}
-            </h2>
+            <UserTitle block={blockB} union={unionB} index={index} />
             <div className="mt-3">
                 <Formik initialValues={initialValues} onSubmit={handleSubmit}>
                     <Form>
@@ -113,8 +112,8 @@ const SingleUser = ({ index, user }) => {
 
                         </div>
 
-                        <button type="submit" className="btn btn-primary mt-4">
-                            ইউজার তথ্য এডিট করুন
+                        <button type="submit" className="btn btn-success text-white mt-4">
+                            {user?.blockB} ব্লকের ইউজার তথ্য আপডেট সম্পাদন করুন
                         </button>
                     </Form>
                 </Formik>

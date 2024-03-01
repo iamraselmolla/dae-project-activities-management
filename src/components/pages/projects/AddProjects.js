@@ -72,7 +72,6 @@ const AddProjects = () => {
         },
       };
       try {
-        console.log(formattedValues)
         // Post form data into DB by Api
         const result = await addProjectByAdmin(formattedValues);
         if (result?.status === 200) {

@@ -10,7 +10,7 @@ const DashboardLayout = () => {
                 <div className="col-span-1 sticky-top ">
                     <DashboardMenu />
                 </div>
-                <div className="col-span-4 " >
+                <div className="col-span-4 px-5" >
                     <Outlet />
                 </div >
             </div >
