@@ -53,7 +53,7 @@ const DashboardMenu = () => {
                 নতুন প্রকল্প যুক্ত করুন
             </NavLink>
             <NavLink
-                to="/dashboard/addproject"
+                to="/dashboard/user-demos"
                 className={({ isActive, isPending }) =>
                     isPending
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
@@ -65,7 +65,7 @@ const DashboardMenu = () => {
                 প্রদর্শনী
             </NavLink>
             <NavLink
-                to="/dashboard/addproject"
+                to="/dashboard/user-fielddays"
                 className={({ isActive, isPending }) =>
                     isPending
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
