@@ -187,6 +187,7 @@ const AddDemo = () => {
       }
     };
 
+
     if (navigator.onLine) {
       fetchData();
     } else {

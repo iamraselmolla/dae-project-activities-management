@@ -30,13 +30,12 @@ const Allusers = () => {
     return (
         <div className='px-5 py-5'>
             <SectionTitle title='সকল ইউজার তথ্য' />
-            <div>
-                {!loading && allUser?.length > 0 && allUser?.map((singleUser, index) => <div className='mb-12' key={singleUser?.username}>
-                    <SingleUser key={singleUser?._id} user={singleUser} index={index} />
 
-                </div>)}
-                {loading && <Loader />}
-            </div>
+            {!loading && allUser?.length > 0 && allUser?.map((singleUser, index) => <div key={singleUser?.username}>
+                <SingleUser key={singleUser?._id} user={singleUser} index={index} />
+
+            </div>)}
+            {loading && <Loader />}
         </div>
     );
 };
