@@ -3,27 +3,34 @@ import { getAllProjects } from '../../../../services/userServices';
 import SectionTitle from '../../../shared/SectionTitle';
 import Loader from '../../../shared/Loader';
 import SingleProject from './SingleProject'
+import toast from 'react-hot-toast';
 
 const AllProjects = () => {
     const [allProjects, setAllProjects] = useState([]);
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        try {
-            setLoading(true)
-            const getAllProjectsInfo = async () => {
+        const getAllProjectsInfo = async () => {
+            try {
+                setLoading(true)
                 const result = await getAllProjects()
                 if (result?.status === 200) {
                     setAllProjects(result?.data?.data)
                     setLoading(false)
                 }
             }
-            getAllProjectsInfo()
+
+            catch (err) {
+                console.log(err)
+                setLoading(false)
+            }
         }
-        catch (err) {
-            console.log(err)
-            setLoading(false)
+        if (navigator.onLine) {
+            getAllProjectsInfo();
+        } else {
+            toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
         }
+
     }, [])
     return (
         <div className='py-5 px-4'>

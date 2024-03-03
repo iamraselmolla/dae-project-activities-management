@@ -5,6 +5,8 @@ import Sidebar from "./components/pages/dashboard/DashboardLayout";
 import DashboardLayout from "./components/pages/dashboard/DashboardLayout";
 import AllProjects from "./components/pages/dashboard/admin/AllProjects";
 import Allusers from "./components/pages/dashboard/admin/Allusers";
+import UserDemos from "./components/pages/dashboard/user/UserDemos";
+import UserFieldDays from "./components/pages/dashboard/user/UserFieldDays";
 import AddDemo from "./components/pages/demo/AddDemo";
 import Demo from "./components/pages/demo/Demo";
 import Distribution from "./components/pages/distrubution/Distribution";
@@ -84,6 +86,14 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/addProject",
             element: <AddProjects />,
+          },
+          {
+            path: "/dashboard/user-demos",
+            element: <UserDemos />
+          },
+          {
+            path: "/dashboard/user-fielddays",
+            element: <UserFieldDays />
           },
         ]
 
