@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Title from '../../../shared/Title';
 import { toBengaliNumber } from "bengali-number";
 import { MdOutlineDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { Link } from 'react-router-dom';
+import { IoMdRemoveCircleOutline } from 'react-icons/io';
+import { CiCirclePlus } from "react-icons/ci";
 
 
 
 const SingleProject = ({ data, index }) => {
-    console.log(data)
+    const [allCrops, setAllCrops] = useState(data?.crops);
+    const [crop, setCrop] = useState('')
+    const handleCropUpdate = (cropIndex) => {
+        const result = allCrops.splice(cropIndex, 1);
+        setAllCrops([...allCrops])
+    }
+    const handleCropAdding = () => {
+        setAllCrops([...allCrops, crop])
+    }
     return (
         <div className="collapse">
             <input type="checkbox" />
@@ -56,10 +66,12 @@ const SingleProject = ({ data, index }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data?.crops?.length > 0 ? data?.crops?.map((singleCrop, cropIndex) => <tr>
+                            {data?.crops?.length > 0 & allCrops?.length > 0 ? allCrops?.map((singleCrop, cropIndex) => <tr>
                                 <th>{toBengaliNumber(cropIndex + 1)}</th>
                                 <td>{singleCrop}</td>
-                                <td><MdOutlineDelete size={30} color='red' /></td>
+                                <td>
+                                    <IoMdRemoveCircleOutline onClick={() => handleCropUpdate(cropIndex)} className="cursor-pointer" size={25} color="red" />
+                                </td>
                             </tr>) : <>
                                 কোনো প্রুযুক্তি যুক্ত করা হয়নি। দয়া করে প্রকল্পের প্রযুক্তিগুলো যুক্ত করুন
                             </>
@@ -72,12 +84,15 @@ const SingleProject = ({ data, index }) => {
                     <label className="font-extrabold mb-1 block">
                         প্রদর্শনীর ধরণ বা প্রযুক্তি যুক্ত করুন
                     </label>
-                    <input
-                        type="text"
-                        // onChange={(e) => setCrop(e.target.value)}
-                        className="input input-bordered relative w-full"
-                    // value={crop}
-                    />
+                    <div className='relative mx-1'>
+                        <input
+                            type="text"
+                            onChange={(e) => setCrop(e.target.value)}
+                            className="input input-bordered relative w-full"
+                            value={crop}
+                        />
+                        <CiCirclePlus onClick={handleCropAdding} className='absolute cursor-pointer right-0 top-0' size={50} color='green' />
+                    </div>
                     <button
                         type="button"
                         className="btn mt-2 w-full font-extrabold text-white btn-info"
