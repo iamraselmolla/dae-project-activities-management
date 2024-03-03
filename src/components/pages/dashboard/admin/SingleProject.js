@@ -56,7 +56,7 @@ const SingleProject = ({ data, index }) => {
                     </p>
                 </div>
                 <div className="overflow-x-auto">
-                    <table className="table">
+                    {data?.crops?.length > 0 && allCrops?.length > 0 && <table className="table">
                         {/* head */}
                         <thead>
                             <tr>
@@ -72,15 +72,15 @@ const SingleProject = ({ data, index }) => {
                                 <td>
                                     <IoMdRemoveCircleOutline onClick={() => handleCropUpdate(cropIndex)} className="cursor-pointer" size={25} color="red" />
                                 </td>
-                            </tr>) : <>
+                            </tr>) : <span className='font-bold text-red-600 block mb-4'>
                                 কোনো প্রুযুক্তি যুক্ত করা হয়নি। দয়া করে প্রকল্পের প্রযুক্তিগুলো যুক্ত করুন
-                            </>
+                            </span>
                             }
 
 
 
                         </tbody>
-                    </table>
+                    </table>}
                     <label className="font-extrabold mb-1 block">
                         প্রদর্শনীর ধরণ বা প্রযুক্তি যুক্ত করুন
                     </label>
