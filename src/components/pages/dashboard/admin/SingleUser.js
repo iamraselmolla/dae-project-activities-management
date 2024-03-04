@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field, Form, Formik } from 'formik';
+import { BsEyeFill } from "react-icons/bs";
+import { RiEyeCloseLine } from "react-icons/ri";
 import UserTitle from '../../../shared/UserTitle';
 
 const SingleUser = ({ index, user }) => {
@@ -9,6 +11,19 @@ const SingleUser = ({ index, user }) => {
     const handleSubmit = (values) => {
         // Handle form submission here
         console.log(values);
+    };
+
+
+    // This the part to view&hide the password
+    const [show, setShow] = useState(false);
+    const [password, setPassword] = useState('');
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+    const handleToShow = (event) => {
+        event.preventDefault();
+        setShow(!show)
+        // handle form submission logic here
     };
 
     return (
@@ -86,15 +101,31 @@ const SingleUser = ({ index, user }) => {
                                             disabled
                                         />
                                     </div>
+
+
+
                                     <div>
                                         <label htmlFor="password"> পাসওয়ার্ড</label>
-                                        <Field
+                                        {/* <Field
                                             type="text"
                                             id="password"
                                             name="password"
                                             className="input input-bordered w-full"
-                                        />
+                                        /> */}
+                                        <div className='flex items-center input input-bordered w-full'>
+                                            <input className=" w-full pl-2" placeholder="password" type={show ? "text" : "password"} id="password" value={password} onChange={handlePasswordChange} />
+                                            <button className=" right-0 pr-2" onClick={handleToShow}>
+                                                {
+                                                    show ? <BsEyeFill className="text-slate-500"></BsEyeFill> : <RiEyeCloseLine className="text-slate-500"></RiEyeCloseLine>
+                                                }
+
+                                            </button>
+                                        </div>
+
                                     </div>
+
+
+
                                     <div>
                                         <label htmlFor="name">উপসহকারী কৃষি অফিসারের নাম</label>
                                         <Field
