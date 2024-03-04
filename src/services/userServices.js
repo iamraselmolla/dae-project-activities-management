@@ -8,6 +8,7 @@ const BASE_URL = {
   getAllUser: "/user/get-users",
   updateProjectCrops: "/projects/update-project",
   deleteProject: "/projects/delete-project",
+  findProject: "/projects//get-project",
 };
 
 export function addProjectByAdmin(values) {
@@ -32,4 +33,8 @@ export function updateProjectCrops(values) {
 }
 export function deleteAProject(id) {
   return http.delete(BASE_URL.deleteProject, { data: { id } })
+}
+
+export function findProjectByUserId(id) {
+  return http.post(BASE_URL.findProject, { id })
 }
