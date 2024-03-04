@@ -31,5 +31,5 @@ export function updateProjectCrops(values) {
   return http.put(BASE_URL.updateProjectCrops, values);
 }
 export function deleteAProject(id) {
-  return http.delete(BASE_URL.deleteProject, { id })
+  return http.delete(BASE_URL.deleteProject, { data: { id } })
 }
