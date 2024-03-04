@@ -169,6 +169,8 @@ const AddDemo = () => {
     },
   });
 
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -194,20 +196,30 @@ const AddDemo = () => {
       toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
     }
   }, []);
+
+
+
   useEffect(() => {
-    try {
-      const fetchUser = async () => {
-        const result = await getUser("noapara");
-        setFindUnion(result?.data?.data);
-      };
-      fetchUser();
-    } catch (err) {
-      console.error(err);
-      toast.error(
-        "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
-      );
+    const fetchUser = async () => {
+      try {
+        const result = await getUser('noapara')
+        setFindUnion(result?.data?.data)
+      }
+      catch (err) {
+        console.error(err);
+        toast.error(
+          "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
+        );
+      }
     }
+    if (navigator.onLine) {
+      fetchUser()
+    } else {
+      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+    }
+
   }, []);
+
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
