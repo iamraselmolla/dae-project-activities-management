@@ -199,31 +199,25 @@ const AddDemo = () => {
 
 
 
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUser = async () => {
       try {
-        const result = await getAllProjects();
-        if (result?.data?.success) {
-          setAllProjects(result.data.data);
-        } else {
-          setAllProjects([]);
-          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি"); // Notify user if data retrieval was not successful
-        }
-      } catch (error) {
-        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
+        const result = await getUser('noapara')
+        setFindUnion(result?.data?.data)
+      }
+      catch (err) {
+        console.error(err);
         toast.error(
-          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
+          "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
         );
       }
-    };
-
-
+    }
     if (navigator.onLine) {
-      fetchData();
+      fetchUser()
     } else {
       toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
     }
+
   }, []);
 
 

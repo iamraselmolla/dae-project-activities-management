@@ -12,7 +12,7 @@ const Header = () => {
       <div className="navbar mx-auto py-4 max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="navbar-start">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn text-white btn-ghost lg:hidden">
+            <div tabIndex={0} role="button" className="btn text-white btn-ghost">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
