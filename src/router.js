@@ -1,3 +1,4 @@
+import DaeGroupMeeting from "./components/pages/DaeGroupMeeting/DaeGroupMeeting";
 import LoginPage from "./components/LogInPage/LoginPage";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import AddFieldDay from "./components/pages/FieldDay/AddFieldDay";
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "/addTraining",
         element: <AddTraining />,
+      },
+      {
+        path: "/dae-group-meeting",
+        element: <DaeGroupMeeting />,
       },
       {
         path: "/addDemo",
