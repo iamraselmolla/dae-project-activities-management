@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import axios from 'axios';
+import toast from "react-hot-toast";
+import { AuthContext } from "../AuthContext/AuthProvider";
+import { Navigate } from "react-router-dom";
+import { useLocation, useNavigate } from 'react-router-dom';
+
+
 
 const Login = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user, setUser, loading, setLoading } = useContext(AuthContext);
+  const from = location?.state?.from?.pathname || "/";
+
   // State to manage form inputs
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
+
 
   // Function to handle input changes
   const handleInputChange = (e) => {
@@ -16,18 +29,78 @@ const Login = () => {
     });
   };
 
+
+
   // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // You can perform further validation here if needed
-    // Then, submit formData to your API
-    console.log("Form data:", formData);
-    // Reset form after submission if needed
-    setFormData({
-      username: "",
-      password: "",
-    });
+  const token = "ksjflksadlkfjasljsdflkjsladjlfdsafkjalsd"
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setUser(null);
+    setLoading(true);
+
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/v1/user/get-login-user', formData, config);
+      if (response?.data?.success) {
+        setLoading(false);
+        toast.success(response?.data?.message);
+        setUser(response?.data?.data);
+
+        // Format the user data for local storage
+        const userFormateForLocalStorage = {
+          username: response?.data?.data?.username,
+          union: response?.data?.data?.union,
+          unionB: response?.data?.data?.unionB,
+          block: response?.data?.data?.block,
+          blockB: response?.data?.data?.blockB,
+          role: response?.data?.data?.role,
+
+        };
+
+        // Stringify the formatted user data before storing it in local storage
+        localStorage.setItem('CurrentUser', JSON.stringify(userFormateForLocalStorage));
+        navigate(from, { replace: true })
+
+        const { token } = response.data; // Assuming the server returns a token upon successful login
+
+        // Store the token in local storage
+        localStorage.setItem('token', token);
+
+        // Optionally, you can redirect the user to another page upon successful login
+        // history.push('/dashboard');
+
+        // Reset form after successful login
+        setFormData({
+          username: "",
+          password: "",
+        });
+      }
+      else {
+        setLoading(false);
+        toast.error("আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড সঠিকভাবে লিখুন")
+      }
+
+
+
+
+
+    } catch (error) {
+      // Handle login errors
+      console.error('Login failed:', error);
+      setLoading(false);
+      toast.error("আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড সঠিকভাবে লিখুন")
+      // Optionally, display an error message to the user
+      // setError('Login failed. Please check your credentials.');
+    }
+  };
+
 
   return (
     <dialog id="my_modal_3" className="modal text-center">
@@ -63,7 +136,7 @@ const Login = () => {
               onClick={handleSubmit}
               className="btn w-full btn-success"
             >
-              লগিন করুন
+              {loading ? "Loading" : "লগিন করুন"}
             </button>
 
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">

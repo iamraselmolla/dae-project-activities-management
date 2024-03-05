@@ -14,7 +14,7 @@ const SingleUser = ({ index, user }) => {
     };
 
 
-    // This the part to view&hide the password
+    // This the part to view & hide the password
     const [show, setShow] = useState(false);
     const [password, setPassword] = useState('');
     const handlePasswordChange = (event) => {
