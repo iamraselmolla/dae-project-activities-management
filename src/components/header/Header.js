@@ -92,6 +92,18 @@ const Header = () => {
               >
                 মালামাল বিতরণ
               </NavLink>
+              <NavLink
+                to="/dae-group-meeting"
+                className={({ isActive, isPending }) =>
+                  isPending
+                    ? "pending"
+                    : isActive
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                }
+              >
+                ডিএই কৃষক গ্রুপ সভা
+              </NavLink>
             </ul>
           </div>
           <a className="btn btn-ghost text-white text-xl">DAE</a>
@@ -156,6 +168,18 @@ const Header = () => {
             }
           >
             মালামাল বিতরণ
+          </NavLink>
+          <NavLink
+            to="/dae-group-meeting"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+            }
+          >
+            ডিএই কৃষক গ্রুপ সভা
           </NavLink>
         </div>
         <div className="navbar-end">
