@@ -1,4 +1,6 @@
 import DaeGroupMeeting from "./components/pages/DaeGroupMeeting/DaeGroupMeeting";
+import LoginPage from "./components/LogInPage/LoginPage";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import AddFieldDay from "./components/pages/FieldDay/AddFieldDay";
 import FieldDay from "./components/pages/FieldDay/FieldDay";
 import Dashboard from "./components/pages/dashboard/Dashboard";
@@ -35,11 +37,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/trainings",
-        element: <Training></Training>,
+        element: <PrivateRoute><Training></Training></PrivateRoute>,
       },
       {
         path: "/fielddays",
-        element: <FieldDay></FieldDay>,
+        element: <PrivateRoute><FieldDay></FieldDay></PrivateRoute>,
       },
       {
         path: "/distributions",
@@ -64,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "/addDemo",
         element: <AddTraining />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
       },
       {
         path: "*",
