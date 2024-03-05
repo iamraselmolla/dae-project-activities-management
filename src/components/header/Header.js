@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AiOutlineLogin } from "react-icons/ai";
 import Login from "../shared/Login";
+import { AuthContext } from "../AuthContext/AuthProvider";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const [login, setLogin] = useState(false);
+  const { user, setUser } = useContext(AuthContext)
+  const handleToLogOut = () => {
+    localStorage.removeItem('CurrentUser');
+    setUser(null);
+    setShowMenu(false);
+  }
+
+
+
 
   return (
     <nav className="bg-black">
@@ -184,7 +193,7 @@ const Header = () => {
         </div>
         <div className="navbar-end">
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            {login && (
+            {user && (
               <>
                 <div className="relative ml-3">
                   <div onClick={() => setShowMenu(!showMenu)}>
@@ -214,16 +223,17 @@ const Header = () => {
                         aria-labelledby="user-menu-button"
                         tabindex="-1"
                       >
-                        <a
-                          href="#"
+                        <Link
+                          to="/dashboard"
+                          onClick={() => setShowMenu(false)}
                           className="block px-4 py-2 text-sm text-gray-700"
                           role="menuitem"
-                          tabindex="-1"
+                          tabIndex="-1"
                           id="user-menu-item-0"
                         >
                           Dashboard
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="#"
                           className="block px-4 py-2 text-sm text-gray-700"
                           role="menuitem"
@@ -231,23 +241,24 @@ const Header = () => {
                           id="user-menu-item-1"
                         >
                           Profile
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="#"
+                          onClick={handleToLogOut}
                           className="block px-4 py-2 text-sm text-gray-700"
                           role="menuitem"
                           tabindex="-1"
                           id="user-menu-item-2"
                         >
                           Sign out
-                        </a>
+                        </Link>
                       </div>
                     </>
                   )}
                 </div>
               </>
             )}
-            {!login && (
+            {!user && (
               <>
                 <AiOutlineLogin
                   onClick={() =>
