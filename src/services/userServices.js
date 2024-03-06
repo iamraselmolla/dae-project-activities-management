@@ -9,6 +9,7 @@ const BASE_URL = {
   updateProjectCrops: "/projects/update-project",
   deleteProject: "/projects/delete-project",
   findProject: "/projects//get-project",
+  updateUser: "/user/update-user",
 };
 
 export function addProjectByAdmin(values) {
@@ -34,4 +35,7 @@ export function deleteAProject(id) {
 }
 export function findProjectByUserId(id) {
   return http.post(BASE_URL.findProject, { id })
+}
+export function updateUser(id, values) {
+  return http.put(BASE_URL, { id, values })
 }

@@ -79,8 +79,8 @@ const Allusers = () => {
             <SectionTitle title='সকল ইউজার তথ্য' />
             {error && <div className='text-red-500'>{error}</div>}
             {!loading && allUser?.length > 0 && allUser.map((singleUser, index) => (
-                <div key={singleUser?.username}>
-                    <SingleUser user={singleUser} index={index} />
+                <div key={singleUser?._id}>
+                    <SingleUser index={index} key={index} user={singleUser} />
                 </div>
             ))}
             {loading && <Loader />}

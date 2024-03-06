@@ -3,26 +3,23 @@ import { Field, Form, Formik } from 'formik';
 import { BsEyeFill } from "react-icons/bs";
 import { RiEyeCloseLine } from "react-icons/ri";
 import UserTitle from '../../../shared/UserTitle';
+import { updateUser } from '../../../../services/userServices';
 
 const SingleUser = ({ index, user }) => {
     const initialValues = { ...user };
-    const { blockB, unionB } = user
-    const handleSubmit = (values) => {
-        // Handle form submission here
-        console.log(values);
+    const [userValues, setUserValues] = useState({
+        ...user
+    });
+
+    const handleSubmit = async (values) => {
+
+        const result = await updateUser(user?._id, {})
+
     };
 
-
-    // This the part to view & hide the password
     const [show, setShow] = useState(false);
-    const [password, setPassword] = useState('');
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
-    const handleToShow = (event) => {
-        event.preventDefault();
-        setShow(!show)
-        // handle form submission logic here
+    const handleToShow = () => {
+        setShow(!show);
     };
 
     return (
@@ -30,7 +27,7 @@ const SingleUser = ({ index, user }) => {
             <div className="collapse">
                 <input type="checkbox" />
                 <div className="collapse-title text-xl font-medium">
-                    <UserTitle block={blockB} union={unionB} index={index} />
+                    <UserTitle block={user.blockB} union={user.unionB} index={index} />
                 </div>
                 <div className="collapse-content">
                     <div className="mt-3">
@@ -38,103 +35,103 @@ const SingleUser = ({ index, user }) => {
                             <Form>
                                 <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4">
                                     <div>
-                                        <label htmlFor="block">ব্লকের নাম (ইংরেজী)</label>
+                                        <label htmlFor={`block-${index}`}>ব্লকের নাম (ইংরেজী)</label>
                                         <Field
                                             type="text"
-                                            id="block"
-
-                                            name="block"
+                                            id={`block-${index}`}
+                                            name={`block-${index}`}
                                             className="input input-bordered w-full"
                                             readOnly
-                                            disabled
+                                            value={userValues.block}
                                         />
                                     </div>
 
                                     <div>
-                                        <label htmlFor="blockB">ব্লকের নাম (বাংলা)</label>
+                                        <label htmlFor={`blockB-${index}`}>ব্লকের নাম (বাংলা)</label>
                                         <Field
                                             type="text"
-                                            id="blockB"
-                                            name="blockB"
+                                            id={`blockB-${index}`}
+                                            name={`blockB-${index}`}
                                             className="input input-bordered w-full"
                                             readOnly
-                                            disabled
+                                            value={userValues.blockB}
                                         />
                                     </div>
 
                                     <div>
-                                        <label htmlFor="union">ইউনিয়নের নাম (ইংরেজী)</label>
+                                        <label htmlFor={`union-${index}`}>ইউনিয়নের নাম (ইংরেজী)</label>
                                         <Field
                                             type="text"
-                                            id="union"
-                                            name="union"
+                                            id={`union-${index}`}
+                                            name={`union-${index}`}
                                             className="input input-bordered w-full"
                                             readOnly
-                                            disabled
+                                            value={userValues.union}
                                         />
                                     </div>
 
                                     <div>
-                                        <label htmlFor="unionB">ইউনিয়নের নাম (বাংলা)</label>
+                                        <label htmlFor={`unionB-${index}`}>ইউনিয়নের নাম (বাংলা)</label>
                                         <Field
                                             type="text"
-                                            id="unionB"
-                                            name="unionB"
+                                            id={`unionB-${index}`}
+                                            name={`unionB-${index}`}
                                             className="input input-bordered w-full"
                                             readOnly
-                                            disabled
+                                            value={userValues.unionB}
                                         />
                                     </div>
                                     <div>
-                                        <label htmlFor="username">ইউজার নাম</label>
+                                        <label htmlFor={`username-${index}`}>ইউজার নাম</label>
                                         <Field
                                             type="text"
-                                            id="username"
-                                            name="username"
+                                            id={`username-${index}`}
+                                            name={`username-${index}`}
                                             className="input input-bordered w-full"
                                             readOnly
-                                            disabled
+                                            value={userValues.username}
                                         />
                                     </div>
                                     <div>
-                                        <label htmlFor="password"> পাসওয়ার্ড</label>
+                                        <label htmlFor={`password-${index}`}> পাসওয়ার্ড</label>
                                         <div className="flex items-center input input-bordered w-full">
                                             <Field
                                                 type={show ? "text" : "password"}
-                                                id="password"
-                                                name="password"
-                                                className=" w-full"
+                                                id={`password-${index}`}
+                                                name={`password-${index}`}
+                                                className="w-full"
+                                                value={userValues.password}
+                                                onChange={(e) => setUserValues({ ...userValues, password: e.target.value })}
                                             />
-                                            <button className=" right-0 pr-2" onClick={handleToShow}>
-                                                {
-                                                    show ? <BsEyeFill className="text-slate-500"></BsEyeFill> : <RiEyeCloseLine className="text-slate-500"></RiEyeCloseLine>
-                                                }
-
+                                            <button className="right-0 pr-2" onClick={handleToShow}>
+                                                {show ? <BsEyeFill className="text-slate-500" /> : <RiEyeCloseLine className="text-slate-500" />}
                                             </button>
                                         </div>
                                     </div>
                                     <div>
-                                        <label htmlFor="name">উপসহকারী কৃষি অফিসারের নাম</label>
+                                        <label htmlFor={`SAAO.name-${index}`}>উপসহকারী কৃষি অফিসারের নাম</label>
                                         <Field
                                             type="text"
-                                            id="name"
-                                            name="name"
+                                            id={`SAAO.name-${index}`}
+                                            name={`SAAO.name-${index}`}
                                             className="input input-bordered w-full"
+                                            value={userValues.SAAOName}
+                                            onChange={(e) => setUserValues({ ...userValues, SAAOName: e.target.value })}
                                         />
                                     </div>
 
                                     <div>
-                                        <label htmlFor="mobile">উপসহকারী কৃষি অফিসারের মোবাইল নং</label>
+                                        <label htmlFor={`SAAO.mobile-${index}`}>উপসহকারী কৃষি অফিসারের মোবাইল নং</label>
                                         <Field
                                             type="text"
-                                            id="mobile"
-                                            name="mobile"
+                                            id={`SAAO.mMobile-${index}`}
+                                            name={`SAAO.mobile-${index}`}
                                             className="input input-bordered w-full"
+                                            value={userValues.SAAOMobile}
+                                            onChange={(e) => setUserValues({ ...userValues, SAAOMobile: e.target.value })}
                                         />
                                     </div>
-
                                 </div>
-
                                 <button type="submit" className="btn btn-success text-white mt-4">
                                     {user?.blockB} ব্লকের ইউজার তথ্য আপডেট সম্পাদন করুন
                                 </button>
@@ -143,7 +140,6 @@ const SingleUser = ({ index, user }) => {
                     </div>
                 </div>
             </div>
-
         </>
     );
 };
