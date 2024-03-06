@@ -9,6 +9,7 @@ const Header = () => {
   const { user, setUser } = useContext(AuthContext)
   const handleToLogOut = () => {
     localStorage.removeItem('CurrentUser');
+    localStorage.removeItem('CurrentUserToken');
     setUser(null);
     setShowMenu(false);
   }

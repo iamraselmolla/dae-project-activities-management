@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const LoginPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { user, setUser, loading, setLoading } = useContext(AuthContext);
+    const { user, setUser, loading, setLoading, jwtToken } = useContext(AuthContext);
     const from = location?.state?.from?.pathname || "/";
 
     // State to manage form inputs
@@ -35,7 +35,7 @@ const LoginPage = () => {
             const response = await axios.post('http://localhost:5000/api/v1/user/get-login-user', formData);
             if (response?.data?.success) {
                 setLoading(false);
-                toast.success(response?.data?.message);
+                toast.success(response?.data?.message.name);
                 setUser(response?.data?.data);
 
                 // Format the user data for local storage
@@ -52,7 +52,7 @@ const LoginPage = () => {
                 localStorage.setItem('CurrentUser', JSON.stringify(userFormateForLocalStorage));
                 navigate(from, { replace: true })
 
-                const { token } = response.data; // Assuming the server returns a token upon successful login
+                const { token } = response.data.token; // Assuming the server returns a token upon successful login
 
                 // Store the token in local storage
                 localStorage.setItem('token', token);
