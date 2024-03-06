@@ -7,7 +7,6 @@ import UserTitle from '../../../shared/UserTitle';
 const SingleUser = ({ index, user }) => {
     const initialValues = { ...user };
     const { blockB, unionB } = user
-    console.log(blockB, unionB)
     const handleSubmit = (values) => {
         // Handle form submission here
         console.log(values);
@@ -86,10 +85,6 @@ const SingleUser = ({ index, user }) => {
                                             disabled
                                         />
                                     </div>
-
-
-
-
                                     <div>
                                         <label htmlFor="username">ইউজার নাম</label>
                                         <Field
@@ -101,19 +96,15 @@ const SingleUser = ({ index, user }) => {
                                             disabled
                                         />
                                     </div>
-
-
-
                                     <div>
                                         <label htmlFor="password"> পাসওয়ার্ড</label>
-                                        {/* <Field
-                                            type="text"
-                                            id="password"
-                                            name="password"
-                                            className="input input-bordered w-full"
-                                        /> */}
-                                        <div className='flex items-center input input-bordered w-full'>
-                                            <input className=" w-full pl-2" placeholder="password" type={show ? "text" : "password"} id="password" value={password} onChange={handlePasswordChange} />
+                                        <div className="flex items-center input input-bordered w-full">
+                                            <Field
+                                                type={show ? "text" : "password"}
+                                                id="password"
+                                                name="password"
+                                                className=" w-full"
+                                            />
                                             <button className=" right-0 pr-2" onClick={handleToShow}>
                                                 {
                                                     show ? <BsEyeFill className="text-slate-500"></BsEyeFill> : <RiEyeCloseLine className="text-slate-500"></RiEyeCloseLine>
@@ -121,11 +112,7 @@ const SingleUser = ({ index, user }) => {
 
                                             </button>
                                         </div>
-
                                     </div>
-
-
-
                                     <div>
                                         <label htmlFor="name">উপসহকারী কৃষি অফিসারের নাম</label>
                                         <Field

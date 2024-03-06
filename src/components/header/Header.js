@@ -115,7 +115,7 @@ const Header = () => {
               </NavLink>
             </ul>
           </div>
-          <a className="btn btn-ghost text-white text-xl">DAE</a>
+          <Link to="/" className="btn btn-ghost text-white text-xl">DAE</Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <NavLink

@@ -46,7 +46,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllUser } from '../../../../services/userServices';
 import SectionTitle from '../../../shared/SectionTitle';
-import { toBengaliNumber } from 'bengali-number';
 import SingleUser from './SingleUser';
 import Loader from '../../../shared/Loader';
 
