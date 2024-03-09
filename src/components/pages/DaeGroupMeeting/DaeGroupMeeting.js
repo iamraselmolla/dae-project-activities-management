@@ -6,6 +6,7 @@ import Datepicker from 'react-tailwindcss-datepicker';
 import { format } from 'date-fns';
 import { bn } from 'date-fns/locale';
 import toast from 'react-hot-toast';
+import { FaTimes } from 'react-icons/fa';
 
 const DaeGroupMeeting = () => {
     const [images, setImages] = useState([]);
@@ -47,7 +48,7 @@ const DaeGroupMeeting = () => {
         }),
         SAAO: Yup.object({
             name: Yup.string().required('এসএএও নাম দিন'),
-            mobile: Yup.string().required('এসএএও মোবাইল নম্বর ্দিন'),
+            mobile: Yup.string().required('এসএএও মোবাইল নম্বর দিন'),
         }),
         discussion: Yup.string().required('আলোচ্য বিষয় দিন'),
         images: Yup.array().required('অন্তত একটি ছবি আপ্লোড দিন'),
@@ -61,22 +62,38 @@ const DaeGroupMeeting = () => {
         setImages((prevImages) => prevImages.concat(imagesArray));
         formik.setFieldValue('images', [...formik.values.images, ...files]);
     };
-
+    const handleRemoveImage = (index) => {
+        const updatedImages = [...images];
+        updatedImages.splice(index, 1);
+        setImages(updatedImages);
+        formik.setFieldValue('images', updatedImages);
+    };
     const renderImages = () => {
-        return images.map((image, index) => (
-            <>
+        return (
+            <div>
                 <h3 className="font-bold mb-2">ছবি প্রিভিউ</h3>
                 <div className="flex gap-3">
-                    <img
-                        key={index}
-                        src={image}
-                        alt={`Image ${index + 1}`}
-                        className="w-32 h-32 mr-2 mb-2 object-cover"
-                    />
+                    {images.map((image, index) => (
+                        <div key={index} className="relative">
+                            <img
+                                src={image}
+                                alt={`Image ${index + 1}`}
+                                className="w-32 border-success border-4 h-32 mr-2 mb-2 object-cover"
+                            />
+                            <button
+                                type="button"
+                                className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
+                                onClick={() => handleRemoveImage(index)}
+                            >
+                                <FaTimes />
+                            </button>
+                        </div>
+                    ))}
                 </div>
-            </>
-        ));
+            </div>
+        );
     };
+
     const handleDateChange = (date) => {
         formik.setFieldValue('date', date);
     };
