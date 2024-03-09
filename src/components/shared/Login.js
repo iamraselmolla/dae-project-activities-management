@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from 'axios';
 import toast from "react-hot-toast";
 import { AuthContext } from "../AuthContext/AuthProvider";
@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, setUser, loading, setLoading } = useContext(AuthContext);
+  const { user, setUser, loading, setLoading, jwtToken } = useContext(AuthContext);
   const from = location?.state?.from?.pathname || "/";
 
   // State to manage form inputs
@@ -31,14 +31,9 @@ const Login = () => {
 
 
 
-  // Function to handle form submission
-  const token = "ksjflksadlkfjasljsdflkjsladjlfdsafkjalsd"
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +42,7 @@ const Login = () => {
 
 
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/user/get-login-user', formData, config);
+      const response = await axios.post('http://localhost:5000/api/v1/user/get-login-user', formData);
       if (response?.data?.success) {
         setLoading(false);
         toast.success(response?.data?.message);
@@ -64,14 +59,11 @@ const Login = () => {
 
         };
 
+        const userToken = response?.data?.token;
         // Stringify the formatted user data before storing it in local storage
         localStorage.setItem('CurrentUser', JSON.stringify(userFormateForLocalStorage));
+        localStorage.setItem('CurrentUserToken', JSON.stringify(userToken));
         navigate(from, { replace: true })
-
-        const { token } = response.data; // Assuming the server returns a token upon successful login
-
-        // Store the token in local storage
-        localStorage.setItem('token', token);
 
         // Optionally, you can redirect the user to another page upon successful login
         // history.push('/dashboard');
