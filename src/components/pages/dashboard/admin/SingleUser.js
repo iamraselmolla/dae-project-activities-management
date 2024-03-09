@@ -6,17 +6,17 @@ import UserTitle from '../../../shared/UserTitle';
 
 const SingleUser = ({ index, user }) => {
     const initialValues = { ...user };
-    const { blockB, unionB } = user
-    console.log(blockB, unionB)
-    const handleSubmit = (values) => {
-        // Handle form submission here
-        console.log(values);
-    };
-
-
     // This the part to view & hide the password
     const [show, setShow] = useState(false);
     const [password, setPassword] = useState('');
+    const { blockB, unionB } = user;
+    const handleSubmit = (values) => {
+        // Handle form submission here
+        console.log(values, password);
+    };
+
+
+
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
