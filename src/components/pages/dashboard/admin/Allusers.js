@@ -46,7 +46,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { getAllUser } from '../../../../services/userServices';
 import SectionTitle from '../../../shared/SectionTitle';
-import { toBengaliNumber } from 'bengali-number';
 import SingleUser from './SingleUser';
 import Loader from '../../../shared/Loader';
 import { AuthContext } from '../../../AuthContext/AuthProvider';
@@ -88,8 +87,8 @@ const Allusers = () => {
             <SectionTitle title='সকল ইউজার তথ্য' />
             {error && <div className='text-red-500'>{error}</div>}
             {!loading && allUser?.length > 0 && allUser.map((singleUser, index) => (
-                <div key={singleUser?.username}>
-                    <SingleUser user={singleUser} index={index} />
+                <div key={singleUser?._id}>
+                    <SingleUser index={index} key={index} user={singleUser} />
                 </div>
             ))}
             {loading && <Loader />}
