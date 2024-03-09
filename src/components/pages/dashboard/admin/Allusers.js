@@ -43,34 +43,42 @@
 // export default Allusers;
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getAllUser } from '../../../../services/userServices';
 import SectionTitle from '../../../shared/SectionTitle';
 import SingleUser from './SingleUser';
 import Loader from '../../../shared/Loader';
+import { AuthContext } from '../../../AuthContext/AuthProvider';
+import axios from 'axios';
 
 const Allusers = () => {
     const [allUser, setAllUser] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const { jwtToken } = useContext(AuthContext);
+
+
+    const fetchAllUsers = async () => {
+        setLoading(true);
+        try {
+            const result = await axios.get('http://localhost:5000/api/v1/user/get-users', {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}` // Pass the JWT token in the Authorization header
+                }
+            });
+            if (result?.status === 200) {
+                setAllUser(result?.data?.data);
+            } else {
+                setError('Failed to fetch users');
+            }
+        } catch (err) {
+            setError('An error occurred while fetching users');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchAllUsers = async () => {
-            setLoading(true);
-            try {
-                const result = await getAllUser();
-                if (result?.status === 200) {
-                    setAllUser(result?.data?.data);
-                } else {
-                    setError('Failed to fetch users');
-                }
-            } catch (err) {
-                setError('An error occurred while fetching users');
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchAllUsers();
     }, []);
 
