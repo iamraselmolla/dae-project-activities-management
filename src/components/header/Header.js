@@ -222,7 +222,7 @@ const Header = () => {
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="user-menu-button"
-                        tabindex="-1"
+                        tabIndex="-1"
                       >
                         <Link
                           to="/dashboard"
@@ -238,7 +238,7 @@ const Header = () => {
                           href="#"
                           className="block px-4 py-2 text-sm text-gray-700"
                           role="menuitem"
-                          tabindex="-1"
+                          tabIndex="-1"
                           id="user-menu-item-1"
                         >
                           Profile
@@ -248,7 +248,7 @@ const Header = () => {
                           onClick={handleToLogOut}
                           className="block px-4 py-2 text-sm text-gray-700"
                           role="menuitem"
-                          tabindex="-1"
+                          tabIndex="-1"
                           id="user-menu-item-2"
                         >
                           Sign out
