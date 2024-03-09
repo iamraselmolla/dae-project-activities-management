@@ -172,8 +172,8 @@ const DaeGroupMeeting = () => {
                                 placeholder="গ্রাম"
                                 value={formik.values.address.village}
                             />
-                            {formik.touched.address?.village && formik.touched.address?.village ? (
-                                <div className="text-red-600">{formik.touched.address?.village}</div>
+                            {formik.touched.address?.village && formik.errors.address?.village ? (
+                                <div className="text-red-600">{formik.errors.address?.village}</div>
                             ) : null}
                         </div>
                         <div>
@@ -190,8 +190,8 @@ const DaeGroupMeeting = () => {
                                 placeholder="ব্লক"
                                 value={formik.values.address.block}
                             />
-                            {formik.touched.address?.block && formik.touched.address?.block ? (
-                                <div className="text-red-600">{formik.touched.address?.block}</div>
+                            {formik.touched.address?.block && formik.errors.address?.block ? (
+                                <div className="text-red-600">{formik.errors.address?.block}</div>
                             ) : null}
                         </div>
                         <div>
@@ -208,8 +208,8 @@ const DaeGroupMeeting = () => {
                                 placeholder="ইউনিয়ন"
                                 value={formik.values.address.union}
                             />
-                            {formik.touched.address?.union && formik.touched.address?.union ? (
-                                <div className="text-red-600">{formik.touched.address?.union}</div>
+                            {formik.touched.address?.union && formik.errors.address?.union ? (
+                                <div className="text-red-600">{formik.errors.address?.union}</div>
                             ) : null}
                         </div>
                     </div>
@@ -254,8 +254,8 @@ const DaeGroupMeeting = () => {
                             placeholder="আলোচ্য বিষয়"
                             value={formik.values.discussion}
                         />
-                        {formik.touched.discussion && formik.touched.discussion ? (
-                            <div className="text-red-600">{formik.touched.discussion}</div>
+                        {formik.touched.discussion && formik.errors.discussion ? (
+                            <div className="text-red-600">{formik.errors.discussion}</div>
                         ) : null}
                     </div>
                     <div className='mt-5'>
@@ -288,8 +288,8 @@ const DaeGroupMeeting = () => {
                                 placeholder="এসএএও নাম"
                                 value={formik.values.SAAO.name}
                             />
-                            {formik.touched.SAAO?.name && formik.touched.SAAO?.name ? (
-                                <div className="text-red-600">{formik.touched.SAAO?.name}</div>
+                            {formik.touched.SAAO?.name && formik.errors.SAAO?.name ? (
+                                <div className="text-red-600">{formik.errors.SAAO?.name}</div>
                             ) : null}
                         </div>
                         <div>
@@ -306,8 +306,8 @@ const DaeGroupMeeting = () => {
                                 placeholder="এসএএও মোবাইল"
                                 value={formik.values.SAAO.mobile}
                             />
-                            {formik.touched.SAAO?.mobile && formik.touched.SAAO?.mobile ? (
-                                <div className="text-red-600">{formik.touched.SAAO?.mobile}</div>
+                            {formik.touched.SAAO?.mobile && formik.errors.SAAO?.mobile ? (
+                                <div className="text-red-600">{formik.errors.SAAO?.mobile}</div>
                             ) : null}
                         </div>
                     </div>
