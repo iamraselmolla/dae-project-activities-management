@@ -17,6 +17,7 @@ import NotFound from "./components/pages/notfound/NotFound";
 import AddProjects from "./components/pages/projects/AddProjects";
 import AddTraining from "./components/pages/training/AddTraining";
 import Training from "./components/pages/training/Training";
+import Profile from "./components/pages/dashboard/profile/Profile";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -37,11 +38,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/trainings",
-        element: <PrivateRoute><Training></Training></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <Training></Training>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/fielddays",
-        element: <PrivateRoute><FieldDay></FieldDay></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <FieldDay></FieldDay>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/distributions",
@@ -76,42 +85,41 @@ const router = createBrowserRouter([
         element: <NotFound></NotFound>,
       },
       {
-        path: '/dashboard',
+        path: "/dashboard",
         element: <DashboardLayout />,
         children: [
           {
-            path: '/dashboard',
-            element: <Dashboard />
-
+            path: "/dashboard",
+            element: <Dashboard />,
           },
           {
-            path: '/dashboard/all-projects',
-            element: <AllProjects />
-
+            path: "/dashboard/all-projects",
+            element: <AllProjects />,
           },
           {
-            path: '/dashboard/all-users',
-            element: <Allusers />
-
+            path: "/dashboard/all-users",
+            element: <Allusers />,
           },
           {
             path: "/dashboard/addProject",
             element: <AddProjects />,
           },
           {
+            path: "/dashboard/profile",
+            element: <Profile />,
+          },
+          {
             path: "/dashboard/user-demos",
-            element: <UserDemos />
+            element: <UserDemos />,
           },
           {
             path: "/dashboard/user-fielddays",
-            element: <UserFieldDays />
+            element: <UserFieldDays />,
           },
-        ]
-
-      }
+        ],
+      },
     ],
   },
-
 ]);
 
 export default router;
