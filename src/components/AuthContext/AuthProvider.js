@@ -7,6 +7,11 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [jwtToken, setJwtToken] = useState("");
     const [role, setRole] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [block, setBlock] = useState(null);
+    const [blockB, setBlockB] = useState(null);
+    const [unionB, setUnionB] = useState(null);
+    const [union, setUnion] = useState(null);
 
 
 
@@ -15,7 +20,14 @@ const AuthProvider = ({ children }) => {
         const storedUser = localStorage.getItem('CurrentUser');
         const storedUserToken = localStorage.getItem('CurrentUserToken');
         if (storedUser) {
-            setUser(JSON.parse(storedUser));
+            const currentUser = JSON.parse(storedUser);
+            setUser(currentUser);
+            setUsername(currentUser?.username);
+            setBlock(currentUser?.block);
+            setBlockB(currentUser?.blockB);
+            setUnion(currentUser?.union);
+            setUnionB(currentUser?.unionB);
+            setRole(currentUser?.role);
         }
         if (storedUserToken) {
             setJwtToken(JSON.parse(storedUserToken));
@@ -28,7 +40,7 @@ const AuthProvider = ({ children }) => {
 
 
 
-    const authInfo = { user, setUser, loading, setLoading, jwtToken, setJwtToken, role, setRole }
+    const authInfo = { user, setUser, loading, setLoading, jwtToken, setJwtToken, role, setRole, block, username, blockB, union, unionB }
     return (
         <AuthContext.Provider value={authInfo}>
             {children}
