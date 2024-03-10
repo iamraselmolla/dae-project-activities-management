@@ -52,13 +52,7 @@ const DaeGroupMeeting = () => {
                 .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে")
         }),
         address: Yup.object({
-            village: Yup.string().required('গ্রামের নাম দিন'),
-            block: Yup.string().required('ব্লকের নাম দিন'),
-            union: Yup.string().required('ইউনিয়নের নাম দিন'),
-        }),
-        SAAO: Yup.object({
-            name: Yup.string().required('এসএএও নাম দিন'),
-            mobile: Yup.string().required('এসএএও মোবাইল নম্বর দিন'),
+            village: Yup.string().required('গ্রামের নাম দিন')
         }),
         discussion: Yup.string().required('আলোচ্য বিষয় দিন'),
         images: Yup.array().required('অন্তত একটি ছবি আপ্লোড দিন'),
@@ -68,6 +62,11 @@ const DaeGroupMeeting = () => {
         initialValues,
         validationSchema,
         onSubmit: (values) => {
+            values.SAAO.name = user.SAAO.name
+            values.SAAO.mobile = user.SAAO.mobile
+            values.username = user.username
+            values.address.block = user.blockB
+            values.address.union = user.unionB
             // Here you can send the form data to the server
             console.log(values);
         },
@@ -118,6 +117,7 @@ const DaeGroupMeeting = () => {
     };
 
     const formatDate = (date) => {
+        if (!date) return;
         const dayName = format(new Date(date.startDate), 'EEEE', { locale: bn });
         if (dayName === 'শুক্রবার' || dayName === 'শনিবার') {
             toast.error('আপনি সাপ্তাহিক ছুটির দিনে গ্রুপ সভার তারিখ সিলেক্ট করেছেন!');
@@ -304,6 +304,7 @@ const DaeGroupMeeting = () => {
                                 className="input input-bordered w-full"
                                 id="SAAO.name"
                                 name="SAAO.name"
+                                readOnly
                                 placeholder="এসএএও নাম"
                                 value={user?.SAAO.name}
                             />
@@ -321,6 +322,7 @@ const DaeGroupMeeting = () => {
                                 id="SAAO.mobile"
                                 name="SAAO.mobile"
                                 placeholder="এসএএও মোবাইল"
+                                readOnly
                                 value={toBengaliNumber(user?.SAAO?.mobile)}
                             />
                             {formik.touched.SAAO?.mobile && formik.errors.SAAO?.mobile ? (
