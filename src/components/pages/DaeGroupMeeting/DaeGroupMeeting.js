@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import SectionTitle from '../../shared/SectionTitle';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -7,9 +7,19 @@ import { format } from 'date-fns';
 import { bn } from 'date-fns/locale';
 import toast from 'react-hot-toast';
 import { FaTimes } from 'react-icons/fa';
+import { AuthContext } from '../../AuthContext/AuthProvider';
+import { toBengaliNumber } from "bengali-number";
 
 const DaeGroupMeeting = () => {
+    const { user } = useContext(AuthContext);
     const [images, setImages] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (user) {
+            setLoading(false);
+        }
+    }, [user]);
 
     const initialValues = {
         groupInfo: {
@@ -54,7 +64,14 @@ const DaeGroupMeeting = () => {
         images: Yup.array().required('অন্তত একটি ছবি আপ্লোড দিন'),
     });
 
-
+    const formik = useFormik({
+        initialValues,
+        validationSchema,
+        onSubmit: (values) => {
+            // Here you can send the form data to the server
+            console.log(values);
+        },
+    });
 
     const handleImageChange = (event) => {
         const files = Array.from(event.target.files);
@@ -62,12 +79,14 @@ const DaeGroupMeeting = () => {
         setImages((prevImages) => prevImages.concat(imagesArray));
         formik.setFieldValue('images', [...formik.values.images, ...files]);
     };
+
     const handleRemoveImage = (index) => {
         const updatedImages = [...images];
         updatedImages.splice(index, 1);
         setImages(updatedImages);
         formik.setFieldValue('images', updatedImages);
     };
+
     const renderImages = () => {
         return (
             <div>
@@ -106,14 +125,6 @@ const DaeGroupMeeting = () => {
 
         return dayName
     };
-    const formik = useFormik({
-        initialValues,
-        validationSchema,
-        onSubmit: (values) => {
-            // Here you can send the form data to the server
-            console.log(values);
-        },
-    });
 
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -202,10 +213,9 @@ const DaeGroupMeeting = () => {
                                 className="input input-bordered w-full"
                                 id="address.block"
                                 name="address.block"
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
+                                readOnly
                                 placeholder="ব্লক"
-                                value={formik.values.address.block}
+                                value={user?.blockB}
                             />
                             {formik.touched.address?.block && formik.errors.address?.block ? (
                                 <div className="text-red-600">{formik.errors.address?.block}</div>
@@ -220,10 +230,8 @@ const DaeGroupMeeting = () => {
                                 className="input input-bordered w-full"
                                 id="address.union"
                                 name="address.union"
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
                                 placeholder="ইউনিয়ন"
-                                value={formik.values.address.union}
+                                value={user?.unionB}
                             />
                             {formik.touched.address?.union && formik.errors.address?.union ? (
                                 <div className="text-red-600">{formik.errors.address?.union}</div>
@@ -237,7 +245,6 @@ const DaeGroupMeeting = () => {
                                 <Datepicker
                                     asSingle={true}
                                     onChange={handleDateChange}
-                                    // dateFormat="dd/MM/yyyy"
                                     value={formik.values.date}
                                 />
                                 {formik.touched.date && formik.errors.date ? (
@@ -246,7 +253,6 @@ const DaeGroupMeeting = () => {
                             </div>
                         </div>
                         <div>
-                            {/* Display day name in Bangla */}
                             {formik.values.date && (
                                 <div>
                                     <label className="font-extrabold mb-1 block">সভার তারিখের দিন</label>
@@ -257,7 +263,6 @@ const DaeGroupMeeting = () => {
                             )}
                         </div>
                     </div>
-
                     <div>
                         <label className="font-extrabold mb-1 block">
                             আলোচ্য বিষয়
@@ -289,7 +294,6 @@ const DaeGroupMeeting = () => {
                             value={formik.values.presentOfficers}
                         />
                     </div>
-
                     <div className="grid grid-cols-1 gap-4 my-5 lg:grid-cols-2">
                         <div>
                             <label className="font-extrabold mb-1 block">
@@ -300,10 +304,8 @@ const DaeGroupMeeting = () => {
                                 className="input input-bordered w-full"
                                 id="SAAO.name"
                                 name="SAAO.name"
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
                                 placeholder="এসএএও নাম"
-                                value={formik.values.SAAO.name}
+                                value={user?.SAAO.name}
                             />
                             {formik.touched.SAAO?.name && formik.errors.SAAO?.name ? (
                                 <div className="text-red-600">{formik.errors.SAAO?.name}</div>
@@ -318,10 +320,8 @@ const DaeGroupMeeting = () => {
                                 className="input input-bordered w-full"
                                 id="SAAO.mobile"
                                 name="SAAO.mobile"
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
                                 placeholder="এসএএও মোবাইল"
-                                value={formik.values.SAAO.mobile}
+                                value={toBengaliNumber(user?.SAAO?.mobile)}
                             />
                             {formik.touched.SAAO?.mobile && formik.errors.SAAO?.mobile ? (
                                 <div className="text-red-600">{formik.errors.SAAO?.mobile}</div>
@@ -343,7 +343,6 @@ const DaeGroupMeeting = () => {
                             <div className="text-red-600">{formik.errors.images}</div>
                         ) : null}
                         <div className="mt-4">
-
                             <div className="">{renderImages()}</div>
                         </div>
                     </div>
@@ -353,10 +352,9 @@ const DaeGroupMeeting = () => {
                     >
                         কৃষক গ্রুপ সভার তথ্য যুক্ত করুন
                     </button>
-
-                </form >
-            </div >
-        </section >
+                </form>
+            </div>
+        </section>
     );
 };
 
