@@ -15,7 +15,7 @@ const DaeGroupMeeting = () => {
     const { user } = useContext(AuthContext);
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
-    let setDayName;
+    const [imageLinks, setImageLinks] = useState([]);
 
     useEffect(() => {
         if (user) {
@@ -90,7 +90,7 @@ const DaeGroupMeeting = () => {
         const files = Array.from(event.target.files);
         const imagesArray = files.map((file) => URL.createObjectURL(file));
         setImages((prevImages) => prevImages.concat(imagesArray));
-        formik.setFieldValue("images", [...formik.values.images, ...files]);
+
     };
 
     const handleRemoveImage = (index) => {
@@ -136,7 +136,7 @@ const DaeGroupMeeting = () => {
         const dayName = format(new Date(date.startDate), "EEEE", { locale: bn });
         if (dayName === "শুক্রবার" || dayName === "শনিবার") {
             toast.error("আপনি সাপ্তাহিক ছুটির দিনে গ্রুপ সভার তারিখ সিলেক্ট করেছেন!");
-            setDayName = dayName;
+
         }
 
         return dayName;
