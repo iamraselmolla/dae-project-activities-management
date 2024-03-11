@@ -10,6 +10,7 @@ const BASE_URL = {
   deleteProject: "/projects/delete-project",
   findProject: "/projects//get-project",
   updateUser: "/user/update-user",
+  createGroup: "/group/create-group",
 };
 
 export function addProjectByAdmin(values) {
@@ -25,17 +26,20 @@ export function getUser(username) {
   return http.post(BASE_URL.getUser, { username });
 }
 export function getAllUser() {
-  return http.get(BASE_URL.getAllUser + '?person=admin');
+  return http.get(BASE_URL.getAllUser + "?person=admin");
 }
 export function updateProjectCrops(values) {
   return http.put(BASE_URL.updateProjectCrops, values);
 }
 export function deleteAProject(id) {
-  return http.delete(BASE_URL.deleteProject, { data: { id } })
+  return http.delete(BASE_URL.deleteProject, { data: { id } });
 }
 export function findProjectByUserId(id) {
-  return http.post(BASE_URL.findProject, { id })
+  return http.post(BASE_URL.findProject, { id });
 }
 export function updateUser(id, values) {
-  return http.put(BASE_URL, { id, values })
+  return http.put(BASE_URL, { id, values });
+}
+export function createAGroup(values) {
+  return http.post(BASE_URL.createGroup);
 }
