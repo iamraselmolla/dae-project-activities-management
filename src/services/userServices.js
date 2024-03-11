@@ -41,5 +41,5 @@ export function updateUser(id, values) {
   return http.put(BASE_URL, { id, values });
 }
 export function createAGroup(values) {
-  return http.post(BASE_URL.createGroup);
+  return http.post(BASE_URL.createGroup, values);
 }
