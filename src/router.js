@@ -1,4 +1,3 @@
-import DaeGroupMeeting from "./components/pages/DaeGroupMeeting/DaeGroupMeeting";
 import LoginPage from "./components/LogInPage/LoginPage";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import AddFieldDay from "./components/pages/FieldDay/AddFieldDay";
@@ -18,6 +17,7 @@ import AddProjects from "./components/pages/projects/AddProjects";
 import AddTraining from "./components/pages/training/AddTraining";
 import Training from "./components/pages/training/Training";
 import Profile from "./components/pages/dashboard/profile/Profile";
+import AddGroupMeeting from "./components/pages/DaeGroupMeeting/AddGroupMeeting";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -70,7 +70,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dae-group-meeting",
-        element: <DaeGroupMeeting />,
+        element: <AddGroupMeeting />,
       },
       {
         path: "/addDemo",

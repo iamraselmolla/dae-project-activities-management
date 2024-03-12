@@ -61,13 +61,7 @@ const Allusers = () => {
     setLoading(true);
     try {
       const result = await axios.get(
-        "http://localhost:5000/api/v1/user/get-users",
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`, // Pass the JWT token in the Authorization header
-          },
-        }
-      );
+        "http://localhost:5000/api/v1/user/get-users");
       if (result?.status === 200) {
         setAllUser(result?.data?.data);
       } else {
