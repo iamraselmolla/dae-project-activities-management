@@ -81,6 +81,7 @@ const AddGroupMeeting = () => {
                     toast.success(result?.data?.message);
                 }
             } catch (err) {
+                toast.error(err?.response?.data?.message)
                 console.log(err, "error");
             }
         },
