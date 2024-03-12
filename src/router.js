@@ -18,6 +18,7 @@ import AddTraining from "./components/pages/training/AddTraining";
 import Training from "./components/pages/training/Training";
 import Profile from "./components/pages/dashboard/profile/Profile";
 import AddGroupMeeting from "./components/pages/DaeGroupMeeting/AddGroupMeeting";
+import DaeGroupMeeting from "./components/pages/DaeGroupMeeting/DaeGroupMeeting";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -69,8 +70,12 @@ const router = createBrowserRouter([
         element: <AddTraining />,
       },
       {
-        path: "/dae-group-meeting",
+        path: "/add-dae-group-meeting",
         element: <AddGroupMeeting />,
+      },
+      {
+        path: "/dae-group-meeting",
+        element: <DaeGroupMeeting />,
       },
       {
         path: "/addDemo",
