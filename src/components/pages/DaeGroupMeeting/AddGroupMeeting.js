@@ -104,25 +104,27 @@ const AddGroupMeeting = () => {
     const renderImages = () => {
         return (
             <div>
-                <h3 className="font-bold mb-2">ছবি প্রিভিউ</h3>
-                <div className="flex gap-3">
-                    {images.map((image, index) => (
-                        <div key={index} className="relative">
-                            <img
-                                src={image}
-                                alt={`Image ${index + 1}`}
-                                className="w-32 border-success border-4 h-32 mr-2 mb-2 object-cover"
-                            />
-                            <button
-                                type="button"
-                                className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
-                                onClick={() => handleRemoveImage(index)}
-                            >
-                                <FaTimes />
-                            </button>
-                        </div>
-                    ))}
-                </div>
+                {images?.length > 0 && <>
+                    <h3 className="font-bold mb-2">ছবি প্রিভিউ</h3>
+                    <div className="flex gap-3">
+                        {images.map((image, index) => (
+                            <div key={index} className="relative">
+                                <img
+                                    src={image}
+                                    alt={`Image ${index + 1}`}
+                                    className="w-32 border-success border-4 h-32 mr-2 mb-2 object-cover"
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
+                                    onClick={() => handleRemoveImage(index)}
+                                >
+                                    <FaTimes />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </>}
             </div>
         );
     };
