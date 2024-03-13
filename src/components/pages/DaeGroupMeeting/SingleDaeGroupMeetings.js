@@ -5,8 +5,26 @@ import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { RiImageAddFill } from "react-icons/ri";
 
-const SingleDemo = ({ singleGroup }) => {
-  const images = [
+const SingleDemo = ({ data }) => {
+  const {
+    SAAO,
+    mobile,
+    name,
+    Prototype,
+    address,
+    block,
+    union,
+    village,
+    createdAt,
+    discussion,
+    groupInfo,
+    images,
+    presentOfficers,
+    time,
+    updatedAt,
+    username,
+  } = data;
+  const imagesArr = [
     {
       original: "images/features/1.jpg",
       thumbnail: "images/features/1.jpg",
@@ -39,25 +57,21 @@ const SingleDemo = ({ singleGroup }) => {
   return (
     <div className="rounded-lg relative shadow-xl">
       <div className="relative">
-        <ImageGallery autoPlay={true} items={images} />
-        <div className="flex items-center absolute top-3">
-          <p className="px-2 py-1 bg-black text-white rounded-r-md ">
-            জিকেবিএসপি
-          </p>
-        </div>
-        <div className="flex items-center absolute top-3 right-0">
-          <p className="px-2 py-1 bg-black text-white rounded-l-md ">মূগ</p>
-        </div>
+        <ImageGallery autoPlay={true} items={imagesArr} />
       </div>
 
       <div className="content-part px-3 py-2   ">
-        <h2 className="text-xl font-extrabold">মোঃ শাহাজাহান মিয়া</h2>
+        <h2 className="text-xl font-extrabold">{groupInfo?.name}</h2>
         <div>
           <div className="flex items-center gap-2">
-            <FaMobileAlt /> <p>01944835365</p>
+            <FaMobileAlt /> <p>{groupInfo?.mobile}</p>
           </div>
           <div className="flex items-center gap-2">
-            <MdLocationPin /> <p>গ্রামঃ নলধা, ব্লকঃ নলধা, ইউনিয়নঃ নলধা</p>
+            <MdLocationPin />{" "}
+            <p>
+              স্থানঃ {groupInfo?.place}, গ্রামঃ {address?.village}, ব্লকঃ{" "}
+              {address?.block}, ইউনিয়নঃ {address?.union}
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <BsFillCloudSunFill /> <p>খরিপ-১/২০২৩-২৪</p>

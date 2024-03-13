@@ -38,7 +38,7 @@ const DaeGroupMeeting = () => {
           !error &&
           allGroups?.length > 0 &&
           allGroups?.map((singleGroup) => (
-            <SingleDaeGroupMeetings data={singleGroup} />
+            <SingleDaeGroupMeetings key={singleGroup?._id} data={singleGroup} />
           ))}
       </div>
       {loading && !error && (
