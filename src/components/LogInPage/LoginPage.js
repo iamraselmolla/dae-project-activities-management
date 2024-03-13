@@ -3,6 +3,7 @@ import axios from 'axios';
 import toast from "react-hot-toast";
 import { AuthContext } from "../AuthContext/AuthProvider";
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getLoginUser } from "../../services/userServices";
 
 const LoginPage = () => {
     const location = useLocation();
@@ -32,14 +33,17 @@ const LoginPage = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/user/get-login-user', formData);
-            if (response?.data?.success) {
+            const response = await getLoginUser(formData);
+            console.log(response, "checking response");
+
+
+            if (response?.status === 200 && response?.data?.success) {
                 setLoading(false);
-                toast.success(response?.data?.message.name);
+                toast.success(response?.data?.message);
                 setUser(response?.data?.data);
 
                 // Format the user data for local storage
-                const userFormateForLocalStorage = {
+                const userFormattedForLocalStorage = {
                     username: response?.data?.data?.username,
                     union: response?.data?.data?.union,
                     unionB: response?.data?.data?.unionB,
@@ -48,33 +52,28 @@ const LoginPage = () => {
                     role: response?.data?.data?.role,
                 };
 
+                const userToken = response?.data?.token;
                 // Stringify the formatted user data before storing it in local storage
-                localStorage.setItem('CurrentUser', JSON.stringify(userFormateForLocalStorage));
-                navigate(from, { replace: true })
+                localStorage.setItem('CurrentUser', JSON.stringify(userFormattedForLocalStorage));
+                localStorage.setItem('CurrentUserToken', JSON.stringify(userToken));
+                navigate(from, { replace: true });
 
-                const { token } = response.data.token; // Assuming the server returns a token upon successful login
-
-                // Store the token in local storage
-                localStorage.setItem('token', token);
 
                 // Reset form after successful login
                 setFormData({
                     username: "",
                     password: "",
                 });
-            } else {
-                setLoading(false);
-                toast.error("আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড সঠিকভাবে লিখুন")
             }
+
         } catch (error) {
             // Handle login errors
-            console.error('Login failed:', error);
+            console.error('Login failed:', error.response.data);
             setLoading(false);
-            toast.error("আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড সঠিকভাবে লিখুন")
-            // Optionally, display an error message to the user
-            // setError('Login failed. Please check your credentials.');
+            toast.error(error.response.data.message);
         }
     };
+
 
     return (
         <div className=" h-screen w-full pt-12">

@@ -143,7 +143,7 @@ const SingleUser = ({ index, user }) => {
                                                     value={password}
                                                     onChange={(e) => setPassword(e.target.value)}
                                                 />
-                                                <button className="right-0 pr-2" onClick={handleToShow}>
+                                                <button className="right-0 pr-2" onClick={() => handleToShow()}>
                                                     {show ? <BsEyeFill className="text-slate-500" /> : <RiEyeCloseLine className="text-slate-500" />}
                                                 </button>
                                             </div>

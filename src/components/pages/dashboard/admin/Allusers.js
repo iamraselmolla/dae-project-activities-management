@@ -61,12 +61,9 @@ const Allusers = () => {
     const fetchAllUsers = async () => {
         setLoading(true);
         try {
-            const result = await axios.get('http://localhost:5000/api/v1/user/get-users', {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}` // Pass the JWT token in the Authorization header
-                }
-            });
+            const result = await getAllUser(jwtToken);
             if (result?.status === 200) {
+                setError(null);
                 setAllUser(result?.data?.data);
             } else {
                 setError('Failed to fetch users');
@@ -80,7 +77,7 @@ const Allusers = () => {
 
     useEffect(() => {
         fetchAllUsers();
-    }, []);
+    }, [jwtToken]);
 
     return (
         <div className='px-5 py-5'>
