@@ -11,6 +11,7 @@ const BASE_URL = {
   findProject: "/projects//get-project",
   updateUser: "/user/update-user",
   createGroup: "/group/create-group",
+  fetchAllGroupsInfo: "/group/get-groups",
 };
 
 export function addProjectByAdmin(values) {
@@ -42,4 +43,7 @@ export function updateUser(id, values) {
 }
 export function createAGroup(values) {
   return http.post(BASE_URL.createGroup, values);
+}
+export function fetchAllGroups() {
+  return http.get(BASE_URL.fetchAllGroupsInfo);
 }

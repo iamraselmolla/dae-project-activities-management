@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaMobileAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { RiImageAddFill } from "react-icons/ri";
 
-const SingleDemo = () => {
+const SingleDemo = ({ singleGroup }) => {
   const images = [
     {
       original: "images/features/1.jpg",
