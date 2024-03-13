@@ -4,6 +4,7 @@ import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { RiImageAddFill } from "react-icons/ri";
+import { toBengaliNumber } from "bengali-number";
 
 const SingleDemo = ({ data }) => {
   const {
@@ -61,20 +62,24 @@ const SingleDemo = ({ data }) => {
       </div>
 
       <div className="content-part px-3 py-2   ">
-        <h2 className="text-xl font-extrabold">{groupInfo?.name}</h2>
+        <h2 className="text-xl mb-3 font-extrabold">{groupInfo?.name}</h2>
         <div>
           <div className="flex items-center gap-2">
-            <FaMobileAlt /> <p>{groupInfo?.mobile}</p>
+            <div className="flex items-center gap-4">
+              <FaMobileAlt /> <p>{toBengaliNumber(groupInfo?.mobile)}</p>
+            </div>
           </div>
           <div className="flex items-center gap-2">
-            <MdLocationPin />{" "}
+            <div>
+              <MdLocationPin />
+            </div>
             <p>
-              স্থানঃ {groupInfo?.place}, গ্রামঃ {address?.village}, ব্লকঃ{" "}
+              স্থানঃ {groupInfo?.place}, গ্রামঃ {address?.village}, ব্লকঃ
               {address?.block}, ইউনিয়নঃ {address?.union}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <BsFillCloudSunFill /> <p>খরিপ-১/২০২৩-২৪</p>
+            <div><BsFillCloudSunFill /></div> <p>খরিপ-১/২০২৩-২৪</p>
           </div>
         </div>
       </div>
