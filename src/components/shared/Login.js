@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import toast from "react-hot-toast";
 import { AuthContext } from "../AuthContext/AuthProvider";
 import { Navigate } from "react-router-dom";
-import { useLocation, useNavigate } from 'react-router-dom';
-
-
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, setUser, loading, setLoading, jwtToken } = useContext(AuthContext);
+  const { user, setUser, loading, setLoading, jwtToken } =
+    useContext(AuthContext);
   const from = location?.state?.from?.pathname || "/";
 
   // State to manage form inputs
@@ -18,7 +17,6 @@ const Login = () => {
     username: "",
     password: "",
   });
-
 
   // Function to handle input changes
   const handleInputChange = (e) => {
@@ -29,20 +27,16 @@ const Login = () => {
     });
   };
 
-
-
-
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUser(null);
     setLoading(true);
 
-
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/user/get-login-user', formData);
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/user/get-login-user",
+        formData
+      );
       if (response?.data?.success) {
         setLoading(false);
         toast.success(response?.data?.message);
@@ -50,20 +44,17 @@ const Login = () => {
 
         // Format the user data for local storage
         const userFormateForLocalStorage = {
-          username: response?.data?.data?.username,
-          union: response?.data?.data?.union,
-          unionB: response?.data?.data?.unionB,
-          block: response?.data?.data?.block,
-          blockB: response?.data?.data?.blockB,
-          role: response?.data?.data?.role,
-
+          ...response?.data?.data,
         };
 
         const userToken = response?.data?.token;
         // Stringify the formatted user data before storing it in local storage
-        localStorage.setItem('CurrentUser', JSON.stringify(userFormateForLocalStorage));
-        localStorage.setItem('CurrentUserToken', JSON.stringify(userToken));
-        navigate(from, { replace: true })
+        localStorage.setItem(
+          "CurrentUser",
+          JSON.stringify(userFormateForLocalStorage)
+        );
+        localStorage.setItem("CurrentUserToken", JSON.stringify(userToken));
+        navigate(from, { replace: true });
 
         // Optionally, you can redirect the user to another page upon successful login
         // history.push('/dashboard');
@@ -73,26 +64,19 @@ const Login = () => {
           username: "",
           password: "",
         });
-      }
-      else {
+      } else {
         setLoading(false);
-        toast.error("আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড সঠিকভাবে লিখুন")
+        toast.error("আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড সঠিকভাবে লিখুন");
       }
-
-
-
-
-
     } catch (error) {
       // Handle login errors
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
       setLoading(false);
-      toast.error("আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড সঠিকভাবে লিখুন")
+      toast.error("আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড সঠিকভাবে লিখুন");
       // Optionally, display an error message to the user
       // setError('Login failed. Please check your credentials.');
     }
   };
-
 
   return (
     <dialog id="my_modal_3" className="modal text-center">
