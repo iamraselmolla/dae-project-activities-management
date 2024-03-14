@@ -1,0 +1,9 @@
+.formLoading {
+  position: relative;
+  opacity: 0.5;
+}
+.daeLoader {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

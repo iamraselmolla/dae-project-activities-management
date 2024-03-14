@@ -10,12 +10,14 @@ import { FaTimes } from "react-icons/fa";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { toBengaliNumber } from "bengali-number";
 import { createAGroup } from "../../../services/userServices";
-import axios from "axios";
+import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
+import Loader from "../../shared/Loader";
+import "./daegroupMeeting.css"
 
 const AddGroupMeeting = () => {
     const { user } = useContext(AuthContext);
     const [images, setImages] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [imageLinks, setImageLinks] = useState([]);
     const [rawImages, setRawImages] = useState([])
 
@@ -80,17 +82,11 @@ const AddGroupMeeting = () => {
                 return toast.error("ভালভাবে লগিন করুন অথবা পেইজ রিলোড করুন");
             }
             try {
-                console.log(rawImages)
                 if (rawImages?.length > 0) {
                     for (const image of rawImages) {
-                        const formData = new FormData();
-                        formData.append('file', image);
-                        formData.append('upload_preset', 'dae-group-meeting');
 
-                        const response = await axios.post('https://api.cloudinary.com/v1_1/uaofakirhat/image/upload', formData);
-                        console.log(response)
-
-                        setImageLinks([...imageLinks, response.data.secure_url]);
+                        const result = await uploadToCloudinary(image)
+                        setImageLinks([...imageLinks, result]);
 
                     }
                     const result = await createAGroup(values);
@@ -393,12 +389,14 @@ const AddGroupMeeting = () => {
                             <div className="">{renderImages()}</div>
                         </div>
                     </div>
-                    <button
-                        type="submit"
-                        className="btn mt-5 w-full font-extrabold text-white btn-success"
-                    >
-                        কৃষক গ্রুপ সভার তথ্য যুক্ত করুন
-                    </button>
+                    {!loading ? <div className="fixed daeLoader"><Loader /> </div> : <>
+                        <button
+                            type="submit"
+                            className="btn mt-5 w-full font-extrabold text-white btn-success"
+                        >
+                            কৃষক গ্রুপ সভার তথ্য যুক্ত করুন
+                        </button>
+                    </>}
                 </form>
             </div>
         </section>
