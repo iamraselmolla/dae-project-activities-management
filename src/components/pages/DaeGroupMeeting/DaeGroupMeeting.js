@@ -13,7 +13,6 @@ const DaeGroupMeeting = () => {
         setLoading(true);
         try {
             const result = await fetchAllGroups();
-            console.log(result);
             if (result?.status === 200) {
                 setAllGroups(result?.data?.data);
             } else {

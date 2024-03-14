@@ -10,12 +10,15 @@ import { FaTimes } from "react-icons/fa";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { toBengaliNumber } from "bengali-number";
 import { createAGroup } from "../../../services/userServices";
+import axios from "axios";
 
 const AddGroupMeeting = () => {
     const { user } = useContext(AuthContext);
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [imageLinks, setImageLinks] = useState([]);
+    const [rawImages, setRawImages] = useState([])
+
 
     useEffect(() => {
         if (user) {
@@ -67,6 +70,7 @@ const AddGroupMeeting = () => {
         initialValues,
         validationSchema,
         onSubmit: async (values) => {
+            setLoading(true)
             values.SAAO.name = user?.SAAO.name;
             values.SAAO.mobile = user?.SAAO.mobile;
             values.username = user?.username;
@@ -76,19 +80,37 @@ const AddGroupMeeting = () => {
                 return toast.error("ভালভাবে লগিন করুন অথবা পেইজ রিলোড করুন");
             }
             try {
-                const result = await createAGroup(values);
-                if (result?.status === 200) {
-                    toast.success(result?.data?.message);
+                console.log(rawImages)
+                if (rawImages?.length > 0) {
+                    for (const image of rawImages) {
+                        const formData = new FormData();
+                        formData.append('file', image);
+                        formData.append('upload_preset', 'dae-group-meeting');
+
+                        const response = await axios.post('https://api.cloudinary.com/v1_1/uaofakirhat/image/upload', formData);
+                        console.log(response)
+
+                        setImageLinks([...imageLinks, response.data.secure_url]);
+
+                    }
+                    const result = await createAGroup(values);
+                    if (result?.status === 200) {
+                        toast.success(result?.data?.message);
+                        setLoading(false)
+                    }
                 }
             } catch (err) {
                 toast.error(err?.response?.data?.message)
                 console.log(err, "error");
+                setLoading(false)
             }
         },
     });
 
     const handleImageChange = (event) => {
         const files = Array.from(event.target.files);
+
+        setRawImages([...rawImages, ...files])
         const imagesArray = files.map((file) => URL.createObjectURL(file));
         setImages((prevImages) => prevImages.concat(imagesArray));
 
