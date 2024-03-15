@@ -49,7 +49,6 @@ const AddGroupMeeting = () => {
             mobile: "",
         },
         discussion: "",
-        presentOfficers: "",
         images: [],
         username: "",
     };
@@ -333,20 +332,6 @@ const AddGroupMeeting = () => {
                         {formik.touched.discussion && formik.errors.discussion ? (
                             <div className="text-red-600">{formik.errors.discussion}</div>
                         ) : null}
-                    </div>
-                    <div className="mt-5">
-                        <label className="font-extrabold mb-1 block">
-                            উপস্থিত কর্মকর্তা
-                        </label>
-                        <input
-                            className="input input-bordered w-full"
-                            id="presentOfficers"
-                            name="presentOfficers"
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            placeholder="উপস্থিত কর্মকর্তা"
-                            value={formik.values.presentOfficers}
-                        />
                     </div>
                     <div className="grid grid-cols-1 gap-4 my-5 lg:grid-cols-2">
                         <div>
