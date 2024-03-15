@@ -26,6 +26,7 @@ const AddGroupMeeting = () => {
     const [dateMessage, setDateMessage] = useState(null)
 
 
+
     useEffect(() => {
         if (user) {
             setLoading(false);
@@ -89,10 +90,10 @@ const AddGroupMeeting = () => {
                     setLoadingMessage("ছবি আপ্লোড হচ্ছে")
                     const uploadedImageLinks = [];
                     for (let i = 0; i < rawImages?.length; i++) {
-                        setLoadingMessage(`${i + 1} নং ছবি কম্প্রেসড চলছে`);
+                        setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`);
 
                         const compressedImage = await compressAndUploadImage(rawImages[i])
-                        setLoadingMessage(`${i + 1} নং ছবি আপ্লোড চলছে`);
+                        setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
                         const result = await uploadToCloudinary(compressedImage)
                         uploadedImageLinks.push(result);
                         setImageLinks(prevImageLinks => [...prevImageLinks, result]);
@@ -109,6 +110,7 @@ const AddGroupMeeting = () => {
                         toast.success(result?.data?.message);
                         setLoading(false)
                         setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড শেষ হয়েছে")
+
                     }
                 }
             } catch (err) {
