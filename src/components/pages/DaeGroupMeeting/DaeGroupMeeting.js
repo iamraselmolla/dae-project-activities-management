@@ -37,10 +37,14 @@ const DaeGroupMeeting = () => {
             <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
                 {!loading &&
                     !error &&
-                    allGroups?.length > 0 &&
+                    allGroups?.length > 0 ?
                     allGroups?.map((singleGroup) => (
                         <SingleDaeGroupMeetings key={singleGroup?._id} data={singleGroup} />
-                    ))}
+                    )) : <div className="flex justify-center items-center">
+                        <h2 className="text-red-600 text-2xl  font-extrabold">
+                            কোনো গ্রুপের তথ্য পাওয়া যায়নি
+                        </h2>
+                    </div>}
             </div>
             {loading && !error && (
                 <div className="flex justify-center items-center">
