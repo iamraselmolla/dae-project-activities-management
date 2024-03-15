@@ -1,6 +1,6 @@
-.formLoading {
-  position: relative;
+.section-disabled {
   opacity: 0.5;
+  cursor: not-allowed;
 }
 .daeLoader {
   top: 50%;

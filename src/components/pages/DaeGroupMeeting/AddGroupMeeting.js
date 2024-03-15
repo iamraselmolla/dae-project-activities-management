@@ -19,7 +19,8 @@ const AddGroupMeeting = () => {
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [imageLinks, setImageLinks] = useState([]);
-    const [rawImages, setRawImages] = useState([])
+    const [rawImages, setRawImages] = useState([]);
+    const [loadingMessage, setLoadingMessage] = useState(null)
 
 
     useEffect(() => {
@@ -55,11 +56,11 @@ const AddGroupMeeting = () => {
 
     const validationSchema = Yup.object({
         groupInfo: Yup.object({
-            name: Yup.string().required("কৃষক গ্রুপের নাম প্রয়োজন"),
-            place: Yup.string().required("স্থানের নাম দিন"),
-            mobile: Yup.string()
-                .required("মোবাইল নম্বর দিন")
-                .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
+            // name: Yup.string().required("কৃষক গ্রুপের নাম প্রয়োজন"),
+            // place: Yup.string().required("স্থানের নাম দিন"),
+            // mobile: Yup.string()
+            //     .required("মোবাইল নম্বর দিন")
+            //     .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
         }),
         address: Yup.object({
             village: Yup.string().required("গ্রামের নাম দিন"),
@@ -83,16 +84,26 @@ const AddGroupMeeting = () => {
             }
             try {
                 if (rawImages?.length > 0) {
+                    setLoadingMessage("ছবি আপ্লোড হচ্ছে")
+                    const uploadedImageLinks = [];
                     for (const image of rawImages) {
 
                         const result = await uploadToCloudinary(image)
-                        setImageLinks([...imageLinks, result]);
+                        uploadedImageLinks.push(result);
+                        setImageLinks(prevImageLinks => [...prevImageLinks, result]);
+
 
                     }
+                    setImageLinks(uploadedImageLinks); // Set all image links at once
+                    values.images = uploadedImageLinks;
+                    setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে")
+
+                    setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড হচ্ছে")
                     const result = await createAGroup(values);
                     if (result?.status === 200) {
                         toast.success(result?.data?.message);
                         setLoading(false)
+                        setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড শেষ হয়েছে")
                     }
                 }
             } catch (err) {
@@ -164,10 +175,10 @@ const AddGroupMeeting = () => {
     };
 
     return (
-        <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <section className={`mx-auto max-w-7xl px-2 sm:px-6 lg:px-8`}>
             <SectionTitle title={"ডিএই কৃষক গ্রুপ সভার তথ্য যুক্ত করুন"} />
             <div className="mt-2">
-                <form onSubmit={formik.handleSubmit}>
+                <form className={`${loading ? 'section-disabled' : ''}`} onSubmit={formik.handleSubmit}>
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
                         <div>
                             <label className="font-extrabold mb-1 block">
@@ -389,7 +400,7 @@ const AddGroupMeeting = () => {
                             <div className="">{renderImages()}</div>
                         </div>
                     </div>
-                    {!loading ? <div className="fixed daeLoader"><Loader /> </div> : <>
+                    {!loading && <>
                         <button
                             type="submit"
                             className="btn mt-5 w-full font-extrabold text-white btn-success"
@@ -398,6 +409,12 @@ const AddGroupMeeting = () => {
                         </button>
                     </>}
                 </form>
+                {loading && <div className="fixed daeLoader">
+                    <Loader />
+                    <h2 className="text-green-600 mt-3 text-4xl">
+                        {loadingMessage && loadingMessage}
+                    </h2>
+                </div>}
             </div>
         </section>
     );

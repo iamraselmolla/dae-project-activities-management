@@ -25,6 +25,7 @@ const SingleDemo = ({ data }) => {
     updatedAt,
     username,
   } = data;
+  console.log(images)
   const imagesArr = [
     {
       original: "images/features/1.jpg",
