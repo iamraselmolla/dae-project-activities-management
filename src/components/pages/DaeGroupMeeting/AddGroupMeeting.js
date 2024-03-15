@@ -13,6 +13,8 @@ import { createAGroup } from "../../../services/userServices";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import "./daegroupMeeting.css"
+import compressAndUploadImage from "../../utilis/compressImages";
+import formatDateToday from "../../utilis/formatDate";
 
 const AddGroupMeeting = () => {
     const { user } = useContext(AuthContext);
@@ -20,7 +22,8 @@ const AddGroupMeeting = () => {
     const [loading, setLoading] = useState(false);
     const [imageLinks, setImageLinks] = useState([]);
     const [rawImages, setRawImages] = useState([]);
-    const [loadingMessage, setLoadingMessage] = useState(null)
+    const [loadingMessage, setLoadingMessage] = useState(null);
+    const [dateMessage, setDateMessage] = useState(null)
 
 
     useEffect(() => {
@@ -85,9 +88,12 @@ const AddGroupMeeting = () => {
                 if (rawImages?.length > 0) {
                     setLoadingMessage("ছবি আপ্লোড হচ্ছে")
                     const uploadedImageLinks = [];
-                    for (const image of rawImages) {
+                    for (let i = 0; i < rawImages?.length; i++) {
+                        setLoadingMessage(`${i + 1} নং ছবি কম্প্রেসড চলছে`);
 
-                        const result = await uploadToCloudinary(image)
+                        const compressedImage = await compressAndUploadImage(rawImages[i])
+                        setLoadingMessage(`${i + 1} নং ছবি আপ্লোড চলছে`);
+                        const result = await uploadToCloudinary(compressedImage)
                         uploadedImageLinks.push(result);
                         setImageLinks(prevImageLinks => [...prevImageLinks, result]);
 
@@ -160,14 +166,22 @@ const AddGroupMeeting = () => {
     const handleDateChange = (date) => {
         formik.setFieldValue("time.date", date);
         formik.setFieldValue("time.day", formatDate(date));
+        const selectedDate = new Date(date?.startDate);
+        const today = new Date();
+
+        if (selectedDate > today) {
+            setDateMessage("আপনি ভবিষ্যতের তারিখ নির্বাচন করেছেন!");
+        } else {
+            setDateMessage(null);
+        }
     };
 
     const formatDate = (date) => {
         if (!date) return;
+        const today = new Date();
         const dayName = format(new Date(date.startDate), "EEEE", { locale: bn });
         if (dayName === "শুক্রবার" || dayName === "শনিবার") {
-            toast.error("আপনি সাপ্তাহিক ছুটির দিনে গ্রুপ সভার তারিখ সিলেক্ট করেছেন!");
-
+            return <span className="text-red-600 font-extrabold">আপনি সাপ্তাহিক ছুটির দিনে গ্রুপ সভার তারিখ সিলেক্ট করেছেন!</span>
         }
 
         return dayName;
@@ -314,6 +328,9 @@ const AddGroupMeeting = () => {
                                     <div className="input input-bordered w-full">
                                         {formatDate(formik.values.time?.date)}
                                     </div>
+                                    <p className="text-red-600">
+                                        {dateMessage && dateMessage}
+                                    </p>
                                 </div>
                             )}
                         </div>
