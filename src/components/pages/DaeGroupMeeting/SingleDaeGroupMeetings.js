@@ -9,14 +9,7 @@ import './gallery.image.css'
 
 const SingleDemo = ({ data }) => {
   const {
-    SAAO,
-    mobile,
-    name,
-    Prototype,
     address,
-    block,
-    union,
-    village,
     createdAt,
     discussion,
     groupInfo,
@@ -25,13 +18,13 @@ const SingleDemo = ({ data }) => {
     time,
     updatedAt,
     username,
+    SAAO
   } = data;
 
   const imagesArr = [];
   useEffect(() => {
     if (images?.length > 0) {
       for (const image of images) {
-        console.log(image)
         imagesArr.push({ original: image, thumbnail: image })
       }
     }
@@ -63,6 +56,18 @@ const SingleDemo = ({ data }) => {
           </div>
           <div className="flex items-center gap-2">
             <div><BsFillCloudSunFill /></div> <p>খরিপ-১/২০২৩-২৪</p>
+          </div>
+          <div className="mt-3">
+            আলোছ্য বিষয়ঃ {discussion}
+          </div>
+          <h2 className="text-xl mt-4 font-extrabold">
+            উপসহকারী কৃষি কর্মকর্তার তথ্য
+          </h2>
+          <div className="mt-2">
+            নামঃ {SAAO.name}
+          </div>
+          <div className="mt-1">
+            মোবাইলঃ {toBengaliNumber(SAAO.mobile)}
           </div>
         </div>
       </div>
