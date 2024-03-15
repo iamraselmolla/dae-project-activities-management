@@ -32,7 +32,7 @@ const SingleDemo = ({ data }) => {
 
   // console.log(imagesArr)
   return (
-    <div className="rounded-lg relative shadow-xl">
+    <div className="rounded-lg border relative shadow-xl">
       <div className="relative">
         <ImageGallery autoPlay={true} items={imagesArr} />
       </div>
@@ -58,7 +58,7 @@ const SingleDemo = ({ data }) => {
             <div><BsFillCloudSunFill /></div> <p>খরিপ-১/২০২৩-২৪</p>
           </div>
           <div className="mt-3">
-            আলোছ্য বিষয়ঃ {discussion}
+            আলোচ্য বিষয়ঃ {discussion}
           </div>
           <h2 className="text-xl mt-4 font-extrabold">
             উপসহকারী কৃষি কর্মকর্তার তথ্য
