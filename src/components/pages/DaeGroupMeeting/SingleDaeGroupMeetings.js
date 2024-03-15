@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaMobileAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { RiImageAddFill } from "react-icons/ri";
 import { toBengaliNumber } from "bengali-number";
+import './gallery.image.css'
 
 const SingleDemo = ({ data }) => {
   const {
@@ -25,37 +26,18 @@ const SingleDemo = ({ data }) => {
     updatedAt,
     username,
   } = data;
-  console.log(images)
-  const imagesArr = [
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-  ];
+
+  const imagesArr = [];
+  useEffect(() => {
+    if (images?.length > 0) {
+      for (const image of images) {
+        console.log(image)
+        imagesArr.push({ original: image, thumbnail: image })
+      }
+    }
+  }, [images])
+
+  // console.log(imagesArr)
   return (
     <div className="rounded-lg relative shadow-xl">
       <div className="relative">
