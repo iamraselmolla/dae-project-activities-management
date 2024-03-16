@@ -3,9 +3,9 @@ import { FaMobileAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
-import { RiImageAddFill } from "react-icons/ri";
 import { toBengaliNumber } from "bengali-number";
-import './gallery.image.css'
+import { CiCalendarDate } from "react-icons/ci";
+
 
 const SingleDemo = ({ data }) => {
   const {
@@ -14,7 +14,6 @@ const SingleDemo = ({ data }) => {
     discussion,
     groupInfo,
     images,
-    presentOfficers,
     time,
     updatedAt,
     username,
@@ -46,6 +45,9 @@ const SingleDemo = ({ data }) => {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <div><CiCalendarDate /></div> <p>{toBengaliNumber(time?.date?.startDate)}, {time?.day}</p>
+          </div>
+          <div className="flex items-center gap-2">
             <div>
               <MdLocationPin />
             </div>
@@ -57,6 +59,7 @@ const SingleDemo = ({ data }) => {
           <div className="flex items-center gap-2">
             <div><BsFillCloudSunFill /></div> <p>খরিপ-১/২০২৩-২৪</p>
           </div>
+
           <div className="mt-3">
             আলোচ্য বিষয়ঃ {discussion}
           </div>

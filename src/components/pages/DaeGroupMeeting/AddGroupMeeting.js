@@ -59,11 +59,11 @@ const AddGroupMeeting = () => {
 
     const validationSchema = Yup.object({
         groupInfo: Yup.object({
-            // name: Yup.string().required("কৃষক গ্রুপের নাম প্রয়োজন"),
-            // place: Yup.string().required("স্থানের নাম দিন"),
-            // mobile: Yup.string()
-            //     .required("মোবাইল নম্বর দিন")
-            //     .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
+            name: Yup.string().required("কৃষক গ্রুপের নাম প্রয়োজন"),
+            place: Yup.string().required("স্থানের নাম দিন"),
+            mobile: Yup.string()
+                .required("মোবাইল নম্বর দিন")
+                .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
         }),
         address: Yup.object({
             village: Yup.string().required("গ্রামের নাম দিন"),
@@ -76,6 +76,10 @@ const AddGroupMeeting = () => {
         initialValues,
         validationSchema,
         onSubmit: async (values) => {
+            if (!values.time.date || !values.time
+                .day) {
+                return toast.error("অবশ্যই আপনাকে তারিখ সিলেক্ট করতে হবে")
+            }
             setLoading(true)
             values.SAAO.name = user?.SAAO.name;
             values.SAAO.mobile = user?.SAAO.mobile;
