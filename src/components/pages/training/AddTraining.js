@@ -1,21 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 import SectionTitle from "../../shared/SectionTitle";
 import * as Yup from "yup";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import { useFormik } from "formik";
+import { getAllProjects } from "../../../services/userServices";
+import toast from "react-hot-toast";
+
 
 const AddTraining = () => {
+  const [allProject, setAllProjects] = useState([]);
+  const [selectedOption, setSelectedOption] = useState({});
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
   });
-  const [selectedOption, setSelectedOption] = useState("");
   const [selectedImages, setSelectedImages] = useState([]); // Initialize as an empty array
 
   const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
+    if (e.target.value) {
+      const findProject = allProject?.find(
+        (s) => s?.name?.details === e.target.value
+      );
+      setSelectedOption(findProject);
+    }
   };
 
   const handleValueChange = (newValue) => {
@@ -40,7 +49,7 @@ const AddTraining = () => {
   });
 
   const initialValues = {
-    project: {
+    projectInfo: {
       full: "",
       short: "",
     },
@@ -66,6 +75,30 @@ const AddTraining = () => {
       values.season = formik.values.season;
     },
   });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getAllProjects();
+        if (result?.data?.success) {
+          setAllProjects(result.data.data);
+        } else {
+          setAllProjects([]);
+          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি"); // Notify user if data retrieval was not successful
+        }
+      } catch (error) {
+        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
+        toast.error(
+          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
+        );
+      }
+    };
+
+    if (navigator.onLine) {
+      fetchData();
+    } else {
+      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+    }
+  }, []);
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -78,22 +111,30 @@ const AddTraining = () => {
             </label>
             <select
               className="input input-bordered w-full"
-              id="project.full"
-              name="project.full"
-              value={formik.values.project.full}
-              onChange={formik.handleChange}
+              id="projectInfo.full"
+              name="projectInfo.full"
+              value={selectedOption?.name?.details}
+              onChange={handleSelectChange}
               onBlur={formik.handleBlur}
             >
               <option value="" label="প্রকল্প সিলেক্ট করুন" />
-              <option value="option1" label="Option 1" />
-              <option value="option2" label="Option 2" />
-              <option value="option3" label="Option 3" />
+              {allProject && allProject?.length > 0 && (
+                <>
+                  {allProject.map((single) => (
+                    <option
+                      key={single?.name.details}
+                      value={single?.name?.details}
+                      label={single?.name?.details}
+                    />
+                  ))}
+                </>
+              )}
             </select>
-            {formik.touched.project &&
-            formik.touched.project.full &&
-            formik.errors.project?.full ? (
+            {formik.touched.projectInfo &&
+              formik.touched.projectInfo.full &&
+              formik.errors.projectInfo?.full ? (
               <div className="text-red-600 font-bold">
-                {formik.errors.project.full}
+                {formik.errors.projectInfo.full}
               </div>
             ) : null}
           </div>
@@ -104,18 +145,24 @@ const AddTraining = () => {
             <input
               type="text"
               className="input input-bordered w-full"
-              id="name.short"
-              name="name.short"
-              onChange={formik.handleChange}
+              id="projectInfo.short"
+              disabled={true}
+              name="projectInfo.short"
               onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
               placeholder="প্রকল্পের সংক্ষেপ নাম"
-              value={formik.values.name ? formik.values.name.short : ""}
+              value={
+                selectedOption.name?.short
+                  ? selectedOption.name?.short
+                  : formik.values.projectInfo?.short
+              }
             />
-            {formik.touched.name &&
-            formik.touched.name.short &&
-            formik.errors.name?.short ? (
+
+            {formik.touched.projectInfo &&
+              formik.touched.projectInfo.short &&
+              formik.errors.projectInfo?.short ? (
               <div className="text-red-600 font-bold">
-                {formik.errors.name.short}
+                {formik.errors.projectInfo.short}
               </div>
             ) : null}
           </div>
