@@ -55,7 +55,24 @@ const AddTraining = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    // Add your validation schema here
+    projectInfo: Yup.object().shape({
+      details: Yup.string().required("প্রকল্পের পুরো নাম প্রয়োজন"),
+      short: Yup.string().required("প্রকল্পের সংক্ষেপ নাম প্রয়োজন"),
+    }),
+    fiscalYear: Yup.string().required("অর্থবছর প্রয়োজন"),
+    season: Yup.string().required("মৌসুম প্রয়োজন"),
+    subject: Yup.string().required("বিষয় প্রয়োজন"),
+    guests: Yup.string().required("অতিথিদের নাম প্রয়োজন"),
+    farmers: Yup.object().shape({
+      male: Yup.number().required("পুরুষ কৃষকের সংখ্যা প্রয়োজন").min(0, "অক্ষত পুরুষ কৃষক সংখ্যা"),
+      female: Yup.number().required("নারী কৃষকের সংখ্যা প্রয়োজন").min(0, "অক্ষত নারী কৃষক সংখ্যা"),
+    }),
+    date: Yup.object().shape({
+      startDate: Yup.date().required("প্রশিক্ষণ শুরু তারিখ প্রয়োজন"),
+      endDate: Yup.date().required("প্রশিক্ষণ শেষ তারিখ প্রয়োজন"),
+    }),
+    images: Yup.array().min(1, "কমপক্ষে একটি ছবি প্রয়োজন"),
+    comment: Yup.string().required("মন্তব্য প্রয়োজন"),
   });
 
   const initialValues = {
@@ -202,6 +219,13 @@ const AddTraining = () => {
             >
               <FiscalYear />
             </select>
+            {formik.touched.fiscalYear &&
+              formik.touched.fiscalYear &&
+              formik.errors.fiscalYear ? (
+              <div className="text-red-600 font-bold">
+                {formik.errors.fiscalYear}
+              </div>
+            ) : null}
           </div>
           <div>
             <label className="font-extrabold mb-1 block">মৌসুম</label>
@@ -215,6 +239,12 @@ const AddTraining = () => {
             >
               <Season />
             </select>
+            {formik.touched.season &&
+              formik.errors.season ? (
+              <div className="text-red-600 font-bold">
+                {formik.errors.season}
+              </div>
+            ) : null}
           </div>
           <div>
             <label className="font-extrabold mb-1 block">বিষয়</label>
@@ -228,6 +258,12 @@ const AddTraining = () => {
               value={formik.values.subject ? formik.values.subject : ""}
               onChange={formik.handleChange}
             />
+            {formik.touched.subject &&
+              formik.errors.subject ? (
+              <div className="text-red-600 font-bold">
+                {formik.errors.subject}
+              </div>
+            ) : null}
           </div>
           <div>
             <label className="font-extrabold mb-1 block">
@@ -243,7 +279,15 @@ const AddTraining = () => {
               onChange={formik.handleChange}
               value={formik.values.guests ? formik.values.guests : ""}
             />
+            {formik.touched.guests &&
+              formik.errors.guests ? (
+              <div className="text-red-600 font-bold">
+                {formik.errors.guests}
+              </div>
+            ) : null}
           </div>
+        </div>
+        <div className="grid grid-cols-1 mt-3 mb-3 gap-4 lg:grid-cols-3">
           <div>
             <label className="font-extrabold mb-1 block">
               উপস্থিত কৃষক (পুরুষ)
@@ -260,6 +304,13 @@ const AddTraining = () => {
                 formik.values?.farmers?.male
               }
             />
+            {formik.touched.farmers &&
+              formik.touched.farmers.male &&
+              formik.errors.farmers?.male ? (
+              <div className="text-red-600 font-bold">
+                {formik.errors.farmers.male}
+              </div>
+            ) : null}
           </div>
           <div>
             <label className="font-extrabold mb-1 block">
@@ -276,7 +327,29 @@ const AddTraining = () => {
               value={
                 formik.values.farmers?.female}
             />
+            {formik.touched.farmers &&
+              formik.touched.farmers.female &&
+              formik.errors.farmers?.female ? (
+              <div className="text-red-600 font-bold">
+                {formik.errors.farmers.female}
+              </div>
+            ) : null}
           </div>
+          <div>
+            <label className="font-extrabold mb-1 block">
+              উপস্থিত মোট কৃষক
+            </label>
+            <input
+              type="number"
+              className="input input-bordered w-full"
+              readOnly
+              disabled={true}
+              value={
+                Number.parseInt(formik.values.farmers?.female) + Number.parseFloat(formik.values.farmers?.male)}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div className="mt-3 input input-bordered w-full">
             <label className="font-extrabold mb-1 block">
               প্রশিক্ষণ শুরু ও শেষের তারিখ
@@ -288,6 +361,12 @@ const AddTraining = () => {
               onChange={handleValueChange}
               showShortcuts={true}
             />
+            {formik.touched.date &&
+              formik.errors.date ? (
+              <div className="text-red-600 font-bold">
+                {formik.errors.date}
+              </div>
+            ) : null}
           </div>
           <div>
             <label className="font-extrabold mb-1 block">
@@ -313,6 +392,12 @@ const AddTraining = () => {
                 ))}
               </div>
             )}
+            {formik.touched.images &&
+              formik.errors.images ? (
+              <div className="text-red-600 font-bold">
+                {formik.errors.images}
+              </div>
+            ) : null}
           </div>
         </div>
         <div className="mt-5">
@@ -326,6 +411,12 @@ const AddTraining = () => {
             className="input h-20 input-bordered w-full"
             rows={10}
           ></textarea>
+          {formik.touched.comment &&
+            formik.errors.comment ? (
+            <div className="text-red-600 font-bold">
+              {formik.errors.comment}
+            </div>
+          ) : null}
         </div>
         <button
           type="submit"
@@ -334,7 +425,7 @@ const AddTraining = () => {
           প্রশিক্ষণ যুক্ত করুন
         </button>
       </form>
-    </section>
+    </section >
   );
 };
 
