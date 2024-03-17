@@ -8,10 +8,13 @@ import { useFormik } from "formik";
 import { createTraining, getAllProjects } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
+import { FaTimes } from "react-icons/fa";
 
 
 const AddTraining = () => {
   const [allProject, setAllProjects] = useState([]);
+  const [images, setImages] = useState([]);
+  const [rawImages, setRawImages] = useState([]);
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
@@ -46,16 +49,18 @@ const AddTraining = () => {
   };
 
   const handleImageChange = (e) => {
-    const files = e.target.files;
-    const imageFiles = [];
+    const files = Array.from(e.target.files);
 
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].type.startsWith("image/")) {
-        imageFiles.push(URL.createObjectURL(files[i]));
-      }
-    }
+    setRawImages([...rawImages, ...files])
+    const imagesArray = files.map((file) => URL.createObjectURL(file));
+    setImages((prevImages) => prevImages.concat(imagesArray));
+  };
 
-    setSelectedImages(imageFiles);
+  const handleRemoveImage = (index) => {
+    const updatedImages = [...images];
+    updatedImages.splice(index, 1);
+    setImages(updatedImages);
+    formik.setFieldValue("images", updatedImages);
   };
 
   const validationSchema = Yup.object().shape({
@@ -382,19 +387,28 @@ const AddTraining = () => {
               className="file-input input-bordered w-full"
               onChange={handleImageChange}
             />
-            {selectedImages?.length > 0 && (
+            {images?.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-3 justify-center">
-                {selectedImages.map((image, index) => (
-                  <img
-                    width={100}
-                    key={index}
-                    src={image}
-                    alt={`Selected Image ${index + 1}`}
-                    className="mt-2 max-w-64 h-auto"
-                  />
+                {images?.map((image, index) => (
+                  <div key={index} className="relative"> {/* Added a wrapper div */}
+                    <img
+                      width={100}
+                      src={image}
+                      alt={`Selected Image ${index + 1}`}
+                      className="mt-2 max-w-64 h-auto"
+                    />
+                    <button
+                      type="button"
+                      className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
                 ))}
               </div>
             )}
+
             {formik.touched.images &&
               formik.errors.images ? (
               <div className="text-red-600 font-bold">
