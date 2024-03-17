@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 import SectionTitle from "../../shared/SectionTitle";
 import * as Yup from "yup";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import { useFormik } from "formik";
-import { getAllProjects } from "../../../services/userServices";
+import { createTraining, getAllProjects } from "../../../services/userServices";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../AuthContext/AuthProvider";
 
 
 const AddTraining = () => {
   const [allProject, setAllProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState({});
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
   });
   const [selectedImages, setSelectedImages] = useState([]); // Initialize as an empty array
+  const { user } = useContext(AuthContext)
 
   const handleSelectChange = (e) => {
     if (e.target.value) {
@@ -82,7 +83,25 @@ const AddTraining = () => {
       values.images = selectedImages;
       values.date = value;
       values.season = formik.values.season;
-      console.log(values)
+      if (!user) {
+        return toast.error("প্রশিক্ষণের তথ্য যুক্ত কর‍তে হলে আপনাকে অবশ্যই লগিন করতে হবে।")
+      }
+      const postTrainingData = async () => {
+        try {
+          const result = await createTraining(values);
+          if (result?.status === 200) {
+            toast.success("প্রশিক্ষণ তথ্য যুক্ত করা হয়েছে।")
+          }
+        }
+        catch (err) {
+          console.log(err)
+        }
+      }
+      if (navigator.onLine) {
+        postTrainingData()
+      } else {
+        toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্টারনেট সংযোগ যুক্ত করুন");
+      }
     },
   });
   useEffect(() => {
@@ -130,7 +149,7 @@ const AddTraining = () => {
               <option value="" label="প্রকল্প সিলেক্ট করুন" />
               {allProject && allProject?.length > 0 && (
                 <>
-                  {allProject.map((single) => (
+                  {allProject?.map((single) => (
                     <option
                       key={single?.name?.details}
                       value={single?.name?.details}

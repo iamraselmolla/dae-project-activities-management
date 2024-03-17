@@ -76,8 +76,7 @@ const AddGroupMeeting = () => {
         initialValues,
         validationSchema,
         onSubmit: async (values) => {
-            if (!values.time.date || !values.time
-                .day) {
+            if (!values.time.date || !values.time.day) {
                 return toast.error("অবশ্যই আপনাকে তারিখ সিলেক্ট করতে হবে")
             }
             setLoading(true)

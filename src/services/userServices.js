@@ -12,6 +12,7 @@ const BASE_URL = {
   updateUser: "/user/update-user",
   createGroup: "/group/create-group",
   fetchAllGroupsInfo: "/group/get-groups",
+  createATraining: "/training/create-training"
 };
 
 export function addProjectByAdmin(values) {
@@ -46,4 +47,8 @@ export function createAGroup(values) {
 }
 export function fetchAllGroups() {
   return http.get(BASE_URL.fetchAllGroupsInfo);
+}
+
+export function createTraining(values) {
+  return http.post(BASE_URL.createATraining, values)
 }
