@@ -37,8 +37,12 @@ const AddTraining = () => {
   };
 
 
-  const handleValueChange = (newValue) => {
+  const setDateChange = (newValue) => {
     setValue(newValue);
+    formik.setValues({
+      ...formik.values,
+      date: { ...newValue }
+    });
   };
 
   const handleImageChange = (e) => {
@@ -71,7 +75,7 @@ const AddTraining = () => {
       startDate: Yup.date().required("প্রশিক্ষণ শুরু তারিখ প্রয়োজন"),
       endDate: Yup.date().required("প্রশিক্ষণ শেষ তারিখ প্রয়োজন"),
     }),
-    images: Yup.array().min(1, "কমপক্ষে একটি ছবি প্রয়োজন"),
+    // images: Yup.array().min(1, "কমপক্ষে একটি ছবি প্রয়োজন"),
     comment: Yup.string().required("মন্তব্য প্রয়োজন"),
   });
 
@@ -98,8 +102,6 @@ const AddTraining = () => {
     validationSchema,
     onSubmit: (values) => {
       values.images = selectedImages;
-      values.date = value;
-      values.season = formik.values.season;
       if (!user) {
         return toast.error("প্রশিক্ষণের তথ্য যুক্ত কর‍তে হলে আপনাকে অবশ্যই লগিন করতে হবে।")
       }
@@ -358,7 +360,7 @@ const AddTraining = () => {
               id="date"
               name="date"
               value={value}
-              onChange={handleValueChange}
+              onChange={setDateChange}
               showShortcuts={true}
             />
             {formik.touched.date &&
