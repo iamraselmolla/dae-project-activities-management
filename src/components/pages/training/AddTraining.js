@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 
 const AddTraining = () => {
   const [allProject, setAllProjects] = useState([]);
-  const [selectedOption, setSelectedOption] = useState({});
+  const [selectedProject, setSelectedProject] = useState({});
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
@@ -23,9 +23,18 @@ const AddTraining = () => {
       const findProject = allProject?.find(
         (s) => s?.name?.details === e.target.value
       );
-      setSelectedOption(findProject);
+      if (findProject) {
+        formik.setValues({
+          ...formik.values,
+          projectInfo: {
+            details: findProject?.name?.details,
+            short: findProject?.name?.short
+          }
+        });
+      }
     }
   };
+
 
   const handleValueChange = (newValue) => {
     setValue(newValue);
@@ -50,8 +59,8 @@ const AddTraining = () => {
 
   const initialValues = {
     projectInfo: {
-      full: "",
-      short: "",
+      details: '',
+      short: '',
     },
     fiscalYear: "",
     season: "",
@@ -73,6 +82,7 @@ const AddTraining = () => {
       values.images = selectedImages;
       values.date = value;
       values.season = formik.values.season;
+      console.log(values)
     },
   });
   useEffect(() => {
@@ -111,9 +121,9 @@ const AddTraining = () => {
             </label>
             <select
               className="input input-bordered w-full"
-              id="projectInfo.full"
-              name="projectInfo.full"
-              value={selectedOption?.name?.details}
+              id="projectInfo.details"
+              name="projectInfo.details"
+              value={formik.values?.name?.details}
               onChange={handleSelectChange}
               onBlur={formik.handleBlur}
             >
@@ -122,7 +132,7 @@ const AddTraining = () => {
                 <>
                   {allProject.map((single) => (
                     <option
-                      key={single?.name.details}
+                      key={single?.name?.details}
                       value={single?.name?.details}
                       label={single?.name?.details}
                     />
@@ -131,10 +141,10 @@ const AddTraining = () => {
               )}
             </select>
             {formik.touched.projectInfo &&
-              formik.touched.projectInfo.full &&
-              formik.errors.projectInfo?.full ? (
+              formik.touched.projectInfo.details &&
+              formik.errors.projectInfo?.details ? (
               <div className="text-red-600 font-bold">
-                {formik.errors.projectInfo.full}
+                {formik.errors.projectInfo.details}
               </div>
             ) : null}
           </div>
@@ -151,11 +161,7 @@ const AddTraining = () => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               placeholder="প্রকল্পের সংক্ষেপ নাম"
-              value={
-                selectedOption.name?.short
-                  ? selectedOption.name?.short
-                  : formik.values.projectInfo?.short
-              }
+              value={formik.values.projectInfo?.short}
             />
 
             {formik.touched.projectInfo &&
@@ -184,8 +190,8 @@ const AddTraining = () => {
               className="input input-bordered w-full"
               id="season"
               name="season"
-              value={selectedOption}
-              onChange={handleSelectChange}
+              value={formik.values.season}
+              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             >
               <Season />
@@ -232,7 +238,7 @@ const AddTraining = () => {
               placeholder="কৃষক (পুরুষ)"
               onChange={formik.handleChange}
               value={
-                formik.values.farmers.male ? formik.values.farmers.male : ""
+                formik.values?.farmers?.male
               }
             />
           </div>
@@ -249,8 +255,7 @@ const AddTraining = () => {
               placeholder="কৃষক (নারী)"
               onChange={formik.handleChange}
               value={
-                formik.values.farmers.female ? formik.values.farmers.female : ""
-              }
+                formik.values.farmers?.female}
             />
           </div>
           <div className="mt-3 input input-bordered w-full">
