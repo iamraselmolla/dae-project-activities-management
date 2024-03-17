@@ -398,7 +398,7 @@ const AddGroupMeeting = () => {
                             multiple
                             accept="image/*"
                             onChange={handleImageChange}
-                            className="input"
+                            className="file-input input-bordered w-full"
                         />
                         {formik.touched.images && formik.errors.images ? (
                             <div className="text-red-600">{formik.errors.images}</div>

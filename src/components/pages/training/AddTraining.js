@@ -107,6 +107,7 @@ const AddTraining = () => {
       }
       const postTrainingData = async () => {
         try {
+          console.log(selectedImages)
           const result = await createTraining(values);
           if (result?.status === 200) {
             toast.success("প্রশিক্ষণ তথ্য যুক্ত করা হয়েছে।")
