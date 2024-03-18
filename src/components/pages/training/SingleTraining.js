@@ -23,7 +23,7 @@ const SingleTraining = ({ data }) => {
   }, [images])
 
   return (
-    <div className="rounded-lg shadow-xl">
+    <div className="rounded-lg border relative shadow-xl">
       <div className="relative">
         <ImageGallery autoPlay={true} items={imagesArr} />
         <div className="flex items-center absolute top-3">

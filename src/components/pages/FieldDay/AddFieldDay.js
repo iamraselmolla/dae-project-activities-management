@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SectionTitle from "../../shared/SectionTitle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
-import { getUser } from "../../../services/userServices";
+import { getAllProjects, getUser } from "../../../services/userServices";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../AuthContext/AuthProvider";
+import { toBengaliNumber } from "bengali-number";
 
 const AddFieldDay = () => {
   const [value, setValue] = useState({
@@ -17,6 +19,8 @@ const AddFieldDay = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [findBlock, setFindBlock] = useState(null);
   const [findUnion, setFindUnion] = useState(null);
+  const [allProject, setAllProjects] = useState([]);
+  const { user } = useContext(AuthContext)
 
   const handleImageChange = (e) => {
     const files = e.target.files;
@@ -37,8 +41,8 @@ const AddFieldDay = () => {
     setValue(newValue);
   };
   const initialValues = {
-    project: {
-      full: "",
+    projectInfo: {
+      details: "",
       short: "",
     },
     fiscalYear: "",
@@ -57,6 +61,10 @@ const AddFieldDay = () => {
       union: "",
     },
     comment: "",
+    SAAO: {
+      name: '',
+      mobile: '',
+    }
   };
   const validationSchema = Yup.object().shape({
     // project: Yup.object().shape({
@@ -72,7 +80,30 @@ const AddFieldDay = () => {
     // date: Yup.string().required('মাঠ দিবসের তারিখ'),
     // images: Yup.array().min(1, 'মাঠ দিবসের ছবি দিন'),
   });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getAllProjects();
+        if (result?.data?.success) {
+          setAllProjects(result.data.data);
+        } else {
+          setAllProjects([]);
+          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি"); // Notify user if data retrieval was not successful
+        }
+      } catch (error) {
+        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
+        toast.error(
+          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
+        );
+      }
+    };
 
+    if (navigator.onLine) {
+      fetchData();
+    } else {
+      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+    }
+  }, []);
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -86,25 +117,21 @@ const AddFieldDay = () => {
     },
   });
   const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
-
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const result = await getUser('noapara');
-        setFindUnion(result?.data?.data);
-      } catch (err) {
-        console.error(err);
-        toast.error(
-          "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
-        );
+    if (e.target.value) {
+      const findProject = allProject?.find(
+        (s) => s?.name?.details === e.target.value
+      );
+      if (findProject) {
+        formik.setValues({
+          ...formik.values,
+          projectInfo: {
+            details: findProject?.name?.details,
+            short: findProject?.name?.short,
+          },
+        });
       }
-    };
-
-    fetchUser();
-  }, []);
+    }
+  };
 
 
   return (
@@ -119,16 +146,24 @@ const AddFieldDay = () => {
               </label>
               <select
                 className="input input-bordered w-full"
-                id="project.full"
+                id="projectInfo.full"
                 name="project.full"
                 value={formik.values.project.full}
-                onChange={formik.handleChange}
+                onChange={handleSelectChange}
                 onBlur={formik.handleBlur}
               >
                 <option value="" label="প্রকল্প সিলেক্ট করুন" />
-                <option value="option1" label="Option 1" />
-                <option value="option2" label="Option 2" />
-                <option value="option3" label="Option 3" />
+                {allProject && allProject?.length > 0 && (
+                  <>
+                    {allProject?.map((single) => (
+                      <option
+                        key={single?.name?.details}
+                        value={single?.name?.details}
+                        label={single?.name?.details}
+                      />
+                    ))}
+                  </>
+                )}
               </select>
               {formik.touched.project &&
                 formik.touched.project.full &&
@@ -309,23 +344,14 @@ const AddFieldDay = () => {
             </div>
             <div>
               <label className="font-extrabold mb-1 block">ব্লকের নাম</label>
-              <select
+              <input
                 className="input input-bordered w-full"
                 id="address.block"
                 name="address.block"
-
-                value={findUnion?.blockB}
-                onBlur={formik.handleBlur}
+                value={user?.blockB}
                 disabled
-              >
-                <option value="" label="ব্লক সিলেক্ট করুন" />
+              />
 
-                <option
-                  key={findUnion?.username}
-                  value={findUnion?.blockB}
-                  label={findUnion?.blockB}
-                />
-              </select>
               {formik.touched.address &&
                 formik.touched.address.block &&
                 formik.errors.address?.block ? (
@@ -339,7 +365,7 @@ const AddFieldDay = () => {
               <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
               <input
                 className="input input-bordered w-full"
-                value={findUnion?.unionB}
+                value={user?.unionB}
                 disabled={true}
               />
               {formik.touched.address &&
@@ -352,6 +378,41 @@ const AddFieldDay = () => {
             </div>
           </div>
 
+
+          <div className="grid grid-cols-1 gap-4 my-5 lg:grid-cols-2">
+            <div>
+              <label className="font-extrabold mb-1 block">এসএএও এর নাম</label>
+              <input
+                type="text"
+                className="input input-bordered w-full"
+                id="SAAO.name"
+                name="SAAO.name"
+                readOnly
+                placeholder="এসএএও নাম"
+                value={user?.SAAO.name}
+              />
+              {formik.touched.SAAO?.name && formik.errors.SAAO?.name ? (
+                <div className="text-red-600">{formik.errors.SAAO?.name}</div>
+              ) : null}
+            </div>
+            <div>
+              <label className="font-extrabold mb-1 block">
+                এসএএও এর মোবাইল
+              </label>
+              <input
+                type="text"
+                className="input input-bordered w-full"
+                id="SAAO.mobile"
+                name="SAAO.mobile"
+                placeholder="এসএএও মোবাইল"
+                readOnly
+                value={toBengaliNumber(user?.SAAO?.mobile)}
+              />
+              {formik.touched.SAAO?.mobile && formik.errors.SAAO?.mobile ? (
+                <div className="text-red-600">{formik.errors.SAAO?.mobile}</div>
+              ) : null}
+            </div>
+          </div>
           <div className="mt-5">
             <label className="font-extrabold mb-1 block">
               মন্তব্য যুক্ত করুন
