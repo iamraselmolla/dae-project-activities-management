@@ -9,18 +9,24 @@ import { createTraining, getAllProjects } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { FaTimes } from "react-icons/fa";
-
+import { toBengaliNumber } from "bengali-number";
+import compressAndUploadImage from "../../utilis/compressImages";
+import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
+import Loader from "../../shared/Loader";
 
 const AddTraining = () => {
   const [allProject, setAllProjects] = useState([]);
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [rawImages, setRawImages] = useState([]);
+  const [loadingMessage, setLoadingMessage] = useState(null);
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
   });
+  const [imageLinks, setImageLinks] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]); // Initialize as an empty array
-  const { user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
 
   const handleSelectChange = (e) => {
     if (e.target.value) {
@@ -32,26 +38,25 @@ const AddTraining = () => {
           ...formik.values,
           projectInfo: {
             details: findProject?.name?.details,
-            short: findProject?.name?.short
-          }
+            short: findProject?.name?.short,
+          },
         });
       }
     }
   };
 
-
   const setDateChange = (newValue) => {
     setValue(newValue);
     formik.setValues({
       ...formik.values,
-      date: { ...newValue }
+      date: { ...newValue },
     });
   };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
 
-    setRawImages([...rawImages, ...files])
+    setRawImages([...rawImages, ...files]);
     const imagesArray = files.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => prevImages.concat(imagesArray));
   };
@@ -73,8 +78,12 @@ const AddTraining = () => {
     subject: Yup.string().required("বিষয় প্রয়োজন"),
     guests: Yup.string().required("অতিথিদের নাম প্রয়োজন"),
     farmers: Yup.object().shape({
-      male: Yup.number().required("পুরুষ কৃষকের সংখ্যা প্রয়োজন").min(0, "অক্ষত পুরুষ কৃষক সংখ্যা"),
-      female: Yup.number().required("নারী কৃষকের সংখ্যা প্রয়োজন").min(0, "অক্ষত নারী কৃষক সংখ্যা"),
+      male: Yup.number()
+        .required("পুরুষ কৃষকের সংখ্যা প্রয়োজন")
+        .min(0, "অক্ষত পুরুষ কৃষক সংখ্যা"),
+      female: Yup.number()
+        .required("নারী কৃষকের সংখ্যা প্রয়োজন")
+        .min(0, "অক্ষত নারী কৃষক সংখ্যা"),
     }),
     date: Yup.object().shape({
       startDate: Yup.date().required("প্রশিক্ষণ শুরু তারিখ প্রয়োজন"),
@@ -86,8 +95,8 @@ const AddTraining = () => {
 
   const initialValues = {
     projectInfo: {
-      details: '',
-      short: '',
+      details: "",
+      short: "",
     },
     fiscalYear: "",
     season: "",
@@ -108,22 +117,47 @@ const AddTraining = () => {
     onSubmit: (values) => {
       values.images = selectedImages;
       if (!user) {
-        return toast.error("প্রশিক্ষণের তথ্য যুক্ত কর‍তে হলে আপনাকে অবশ্যই লগিন করতে হবে।")
+        return toast.error(
+          "প্রশিক্ষণের তথ্য যুক্ত কর‍তে হলে আপনাকে অবশ্যই লগিন করতে হবে।"
+        );
       }
       const postTrainingData = async () => {
         try {
-          console.log(selectedImages)
+          if (setRawImages?.length > 0) {
+            setLoadingMessage("ছবি আপ্লোড হচ্ছে");
+            setLoading(true);
+            const uploadedImageLinks = [];
+            for (let i = 0; i < rawImages?.length; i++) {
+              setLoadingMessage(
+                `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
+              );
+
+              const compressedImage = await compressAndUploadImage(
+                rawImages[i]
+              );
+              setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
+              const result = await uploadToCloudinary(compressedImage);
+              uploadedImageLinks.push(result);
+              setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
+            }
+            setImageLinks(uploadedImageLinks); // Set all image links at once
+            values.images = uploadedImageLinks;
+            setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
+
+            setLoadingMessage("কৃষক প্রশিক্ষণ তথ্য আপ্লোড হচ্ছে");
+          }
           const result = await createTraining(values);
           if (result?.status === 200) {
-            toast.success("প্রশিক্ষণ তথ্য যুক্ত করা হয়েছে।")
+            toast.success("কৃষক প্রশিক্ষণ তথ্য যুক্ত করা হয়েছে।");
+            setLoading(false);
           }
+        } catch (err) {
+          console.log(err);
+          setLoading(false);
         }
-        catch (err) {
-          console.log(err)
-        }
-      }
+      };
       if (navigator.onLine) {
-        postTrainingData()
+        postTrainingData();
       } else {
         toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্টারনেট সংযোগ যুক্ত করুন");
       }
@@ -185,8 +219,8 @@ const AddTraining = () => {
               )}
             </select>
             {formik.touched.projectInfo &&
-              formik.touched.projectInfo.details &&
-              formik.errors.projectInfo?.details ? (
+            formik.touched.projectInfo.details &&
+            formik.errors.projectInfo?.details ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.details}
               </div>
@@ -209,8 +243,8 @@ const AddTraining = () => {
             />
 
             {formik.touched.projectInfo &&
-              formik.touched.projectInfo.short &&
-              formik.errors.projectInfo?.short ? (
+            formik.touched.projectInfo.short &&
+            formik.errors.projectInfo?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.short}
               </div>
@@ -228,8 +262,8 @@ const AddTraining = () => {
               <FiscalYear />
             </select>
             {formik.touched.fiscalYear &&
-              formik.touched.fiscalYear &&
-              formik.errors.fiscalYear ? (
+            formik.touched.fiscalYear &&
+            formik.errors.fiscalYear ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.fiscalYear}
               </div>
@@ -247,8 +281,7 @@ const AddTraining = () => {
             >
               <Season />
             </select>
-            {formik.touched.season &&
-              formik.errors.season ? (
+            {formik.touched.season && formik.errors.season ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.season}
               </div>
@@ -266,8 +299,7 @@ const AddTraining = () => {
               value={formik.values.subject ? formik.values.subject : ""}
               onChange={formik.handleChange}
             />
-            {formik.touched.subject &&
-              formik.errors.subject ? (
+            {formik.touched.subject && formik.errors.subject ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.subject}
               </div>
@@ -287,8 +319,7 @@ const AddTraining = () => {
               onChange={formik.handleChange}
               value={formik.values.guests ? formik.values.guests : ""}
             />
-            {formik.touched.guests &&
-              formik.errors.guests ? (
+            {formik.touched.guests && formik.errors.guests ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.guests}
               </div>
@@ -308,13 +339,11 @@ const AddTraining = () => {
               onBlur={formik.handleBlur}
               placeholder="কৃষক (পুরুষ)"
               onChange={formik.handleChange}
-              value={
-                formik.values?.farmers?.male
-              }
+              value={formik.values?.farmers?.male}
             />
             {formik.touched.farmers &&
-              formik.touched.farmers.male &&
-              formik.errors.farmers?.male ? (
+            formik.touched.farmers.male &&
+            formik.errors.farmers?.male ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.farmers.male}
               </div>
@@ -332,12 +361,11 @@ const AddTraining = () => {
               onBlur={formik.handleBlur}
               placeholder="কৃষক (নারী)"
               onChange={formik.handleChange}
-              value={
-                formik.values.farmers?.female}
+              value={formik.values.farmers?.female}
             />
             {formik.touched.farmers &&
-              formik.touched.farmers.female &&
-              formik.errors.farmers?.female ? (
+            formik.touched.farmers.female &&
+            formik.errors.farmers?.female ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.farmers.female}
               </div>
@@ -353,7 +381,9 @@ const AddTraining = () => {
               readOnly
               disabled={true}
               value={
-                Number.parseInt(formik.values.farmers?.female) + Number.parseFloat(formik.values.farmers?.male)}
+                Number.parseInt(formik.values.farmers?.female) +
+                Number.parseFloat(formik.values.farmers?.male)
+              }
             />
           </div>
         </div>
@@ -369,11 +399,8 @@ const AddTraining = () => {
               onChange={setDateChange}
               showShortcuts={true}
             />
-            {formik.touched.date &&
-              formik.errors.date ? (
-              <div className="text-red-600 font-bold">
-                {formik.errors.date}
-              </div>
+            {formik.touched.date && formik.errors.date ? (
+              <div className="text-red-600 font-bold">{formik.errors.date}</div>
             ) : null}
           </div>
           <div>
@@ -390,7 +417,9 @@ const AddTraining = () => {
             {images?.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-3 justify-center">
                 {images?.map((image, index) => (
-                  <div key={index} className="relative"> {/* Added a wrapper div */}
+                  <div key={index} className="relative">
+                    {" "}
+                    {/* Added a wrapper div */}
                     <img
                       width={100}
                       src={image}
@@ -409,8 +438,7 @@ const AddTraining = () => {
               </div>
             )}
 
-            {formik.touched.images &&
-              formik.errors.images ? (
+            {formik.touched.images && formik.errors.images ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.images}
               </div>
@@ -428,21 +456,30 @@ const AddTraining = () => {
             className="input h-20 input-bordered w-full"
             rows={10}
           ></textarea>
-          {formik.touched.comment &&
-            formik.errors.comment ? (
+          {formik.touched.comment && formik.errors.comment ? (
             <div className="text-red-600 font-bold">
               {formik.errors.comment}
             </div>
           ) : null}
         </div>
-        <button
-          type="submit"
-          className="btn mt-5 w-full font-extrabold text-white btn-success"
-        >
-          প্রশিক্ষণ যুক্ত করুন
-        </button>
+        {!loading && (
+          <button
+            type="submit"
+            className="btn mt-5 w-full font-extrabold text-white btn-success"
+          >
+            প্রশিক্ষণ যুক্ত করুন
+          </button>
+        )}
       </form>
-    </section >
+      {loading && (
+        <div className="fixed daeLoader">
+          <Loader />
+          <h2 className="text-green-600 mt-3 text-4xl">
+            {loadingMessage && loadingMessage}
+          </h2>
+        </div>
+      )}
+    </section>
   );
 };
 
