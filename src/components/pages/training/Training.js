@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SingleTraining from "./SingleTraining";
 import { Link } from "react-router-dom";
 
 const Training = () => {
+  useEffect(() => {
+    const fetchAllTraining = async () => {};
+  }, []);
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold">
