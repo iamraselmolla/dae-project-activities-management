@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
-import { getAllProjects, getUser } from "../../../services/userServices";
+import { getAllProjects } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { toBengaliNumber } from "bengali-number";
@@ -120,10 +120,20 @@ const AddFieldDay = () => {
             details: findProject?.name?.details,
             short: findProject?.name?.short,
           },
+          SAAO: {
+            name: user?.SAAO.name,
+            mobile: user?.SAAO.mobile,
+          },
+          address: {
+            ...formik.values.address,
+            block: user?.blockB,
+            union: user?.unionB,
+          },
         });
       }
     }
   };
+
   const handleValueChangeofDate = (newValue) => {
     setValue(newValue);
     formik.setValues({
@@ -335,9 +345,7 @@ const AddFieldDay = () => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="গ্রাম"
-                value={
-                  formik.values.address ? formik.values.address?.village : ""
-                }
+                value={formik.values.address?.village}
               />
             </div>
             <div>
