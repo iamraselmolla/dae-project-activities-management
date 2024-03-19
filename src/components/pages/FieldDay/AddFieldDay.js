@@ -9,12 +9,15 @@ import { getAllProjects } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { toBengaliNumber } from "bengali-number";
+import { format } from "date-fns";
+import { bn } from "date-fns/locale";
 
 const AddFieldDay = () => {
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
   });
+  const [dateMessage, setDateMessage] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext)
@@ -133,13 +136,34 @@ const AddFieldDay = () => {
       }
     }
   };
+  const formatDate = (date) => {
 
+    if (!date) return;
+    const dayName = format(new Date(date?.startDate), "EEEE", { locale: bn });
+    console.log(dayName)
+    if (dayName === "শুক্রবার" || dayName === "শনিবার") {
+      return (
+        <span className="text-red-600 font-extrabold">
+          আপনি সাপ্তাহিক ছুটির দিনে গ্রুপ সভার তারিখ সিলেক্ট করেছেন!
+        </span>
+      );
+    }
+    return dayName;
+  };
   const handleValueChangeofDate = (newValue) => {
     setValue(newValue);
-    formik.setValues({
+    // Update the 'date' field in formik.values
+    formik.setFieldValue({
       ...formik.values,
-      date: newValue?.startDate
-    })
+      date: newValue.startDate
+    }); // Assuming 'startDate' holds the selected date
+    const selectedDate = new Date(newValue.startDate);
+    const today = new Date();
+    if (selectedDate > today) {
+      setDateMessage("আপনি ভবিষ্যতের তারিখ নির্বাচন করেছেন!");
+    } else {
+      setDateMessage(null);
+    }
   };
 
   return (
@@ -307,30 +331,17 @@ const AddFieldDay = () => {
             </div>
 
             <div>
-              <label className="font-extrabold mb-1 block">
-                মাঠ দিবসের ছবিসমূহ
-              </label>
-              <input
-                multiple
-                name="images"
-                type="file"
-                className="file-input input-bordered w-full"
-                onChange={handleImageChange} // Add the onChange event
-              />
-              {/* Display the selected images */}
-              {selectedImages?.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-3 justify-center">
-                  {selectedImages?.map((image, index) => (
-                    <img
-                      width={100}
-                      key={index}
-                      src={image}
-                      alt={`Selected Image ${index + 1}`}
-                      className="mt-2 max-w-64 h-auto"
-                    />
-                  ))}
+              {/* {formik.values.date && ( */}
+              <div>
+                <label className="font-extrabold mb-1 block">
+                  মাঠ দিবসের দিন
+                </label>
+                <div className="input input-bordered w-full">
+                  {formatDate(value)}
                 </div>
-              )}
+                <p className="text-red-600">{dateMessage && dateMessage}</p>
+              </div>
+              {/* )} */}
             </div>
           </div>
 
@@ -421,6 +432,32 @@ const AddFieldDay = () => {
               ) : null}
             </div>
           </div>
+          <div>
+            <label className="font-extrabold mb-1 block">
+              মাঠ দিবসের ছবিসমূহ
+            </label>
+            <input
+              multiple
+              name="images"
+              type="file"
+              className="file-input input-bordered w-full"
+              onChange={handleImageChange} // Add the onChange event
+            />
+            {/* Display the selected images */}
+            {selectedImages?.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-3 justify-center">
+                {selectedImages?.map((image, index) => (
+                  <img
+                    width={100}
+                    key={index}
+                    src={image}
+                    alt={`Selected Image ${index + 1}`}
+                    className="mt-2 max-w-64 h-auto"
+                  />
+                ))}
+              </div>
+            )}
+          </div>
           <div className="mt-5">
             <label className="font-extrabold mb-1 block">
               মন্তব্য যুক্ত করুন
@@ -440,7 +477,7 @@ const AddFieldDay = () => {
             type="submit"
             className="btn mt-5 w-full font-extrabold text-white btn-success"
           >
-            প্রকল্প যুক্ত করুন
+            মাঠদিবস যুক্ত করুন
           </button>
         </form>
       </div>

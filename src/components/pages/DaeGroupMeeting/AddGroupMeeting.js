@@ -14,7 +14,6 @@ import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import "./daegroupMeeting.css";
 import compressAndUploadImage from "../../utilis/compressImages";
-import formatDateToday from "../../utilis/formatDate";
 
 const AddGroupMeeting = () => {
   const { user } = useContext(AuthContext);
