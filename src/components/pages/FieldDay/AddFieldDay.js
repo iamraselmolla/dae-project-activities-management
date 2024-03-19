@@ -20,7 +20,7 @@ const AddFieldDay = () => {
   const [dateMessage, setDateMessage] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([]);
-  const { user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
 
   const handleImageChange = (e) => {
     const files = e.target.files;
@@ -36,7 +36,6 @@ const AddFieldDay = () => {
     // Update the selected images
     setSelectedImages(imageFiles);
   };
-
 
   const initialValues = {
     projectInfo: {
@@ -60,24 +59,31 @@ const AddFieldDay = () => {
     },
     comment: "",
     SAAO: {
-      name: '',
-      mobile: '',
-    }
+      name: "",
+      mobile: "",
+    },
   };
+
   const validationSchema = Yup.object().shape({
-    // project: Yup.object().shape({
-    //     full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
-    // }),
-    // season: Yup.string().required('মৌসুম সিলেক্ট করুন'),
-    // subject: Yup.string().required('মাঠদিবসের বিষয় সিলেক্ট করুন'),
-    // guests: Yup.string().required('উপস্থিত কর্মকর্তা ও অতিথিদের তালিকা দিন'),
-    // farmers: Yup.object().shape({
-    //     male: Yup.number().min(0, 'Male farmers should be 0 or more').required('উপস্থিত পুরুষ কৃষক সংখ্যা'),
-    //     female: Yup.number().min(0, 'Female farmers should be 0 or more').required('উপস্থিত নারী কৃষক সংখ্যা'),
-    // }),
-    // date: Yup.string().required('মাঠ দিবসের তারিখ'),
-    // images: Yup.array().min(1, 'মাঠ দিবসের ছবি দিন'),
+    projectInfo: Yup.object().shape({
+      details: Yup.string().required("প্রকল্প সিলেক্ট করুন"),
+    }),
+    fiscalYear: Yup.string().required("অর্থবছর নির্বাচন করুন"),
+    season: Yup.string().required("মৌসুম সিলেক্ট করুন"),
+    subject: Yup.string().required("মাঠদিবসের বিষয় সিলেক্ট করুন"),
+    guests: Yup.string().required(
+      "উপস্থিত কর্মকর্তা ও অতিথিদের তালিকা দিন"
+    ),
+    "farmers.male": Yup.number()
+      .min(18, "পুরুষ কৃষক সংখ্যা ০ বা তার বেশি হতে হবে")
+      .required("উপস্থিত পুরুষ কৃষক সংখ্যা দিন"),
+    "farmers.female": Yup.number()
+      .min(1, "নারী কৃষক সংখ্যা ০ বা তার বেশি হতে হবে")
+      .required("উপস্থিত নারী কৃষক সংখ্যা দিন"),
+    date: Yup.string().required("মাঠ দিবসের তারিখ"),
+    images: Yup.array().min(1, "মাঠ দিবসের ছবি দিন"),
   });
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -102,15 +108,20 @@ const AddFieldDay = () => {
       toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
     }
   }, []);
+
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: (values) => {
+      if (!formik.values.date) {
+        return toast.error("অবশ্যই তারিখ সিলেক্ট করতে হবে।");
+      }
       // Access the season field value correctly
       // Handle form submission logic here
-      console.log(values)
+      console.log(values);
     },
   });
+
   const handleSelectChange = (e) => {
     if (e.target.value) {
       const findProject = allProject?.find(
@@ -136,11 +147,11 @@ const AddFieldDay = () => {
       }
     }
   };
-  const formatDate = (date) => {
 
+  const formatDate = (date) => {
     if (!date) return;
     const dayName = format(new Date(date?.startDate), "EEEE", { locale: bn });
-    console.log(dayName)
+
     if (dayName === "শুক্রবার" || dayName === "শনিবার") {
       return (
         <span className="text-red-600 font-extrabold">
@@ -150,6 +161,7 @@ const AddFieldDay = () => {
     }
     return dayName;
   };
+
   const handleValueChangeofDate = (newValue) => {
     setValue(newValue);
 
@@ -164,7 +176,6 @@ const AddFieldDay = () => {
       setDateMessage(null);
     }
   };
-
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -185,25 +196,22 @@ const AddFieldDay = () => {
                 onBlur={formik.handleBlur}
               >
                 <option value="" label="প্রকল্প সিলেক্ট করুন" />
-                {allProject && allProject?.length > 0 && (
-                  <>
-                    {allProject?.map((single) => (
-                      <option
-                        key={single?.name?.details}
-                        value={single?.name?.details}
-                        label={single?.name?.details}
-                      />
-                    ))}
-                  </>
-                )}
+                {allProject &&
+                  allProject?.length > 0 &&
+                  allProject?.map((single) => (
+                    <option
+                      key={single?.name?.details}
+                      value={single?.name?.details}
+                      label={single?.name?.details}
+                    />
+                  ))}
               </select>
-              {formik.touched.projectInfo &&
-                formik.touched.projectInfo.details &&
-                formik.errors.projectInfo?.details ? (
-                <div className="text-red-600 font-bold">
-                  {formik.errors.projectInfo.details}
-                </div>
-              ) : null}
+              {formik.touched.projectInfo?.details &&
+                formik.errors.projectInfo?.details && (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.projectInfo.details}
+                  </div>
+                )}
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
@@ -214,21 +222,19 @@ const AddFieldDay = () => {
                 className="input input-bordered w-full"
                 id="projectInfo.short"
                 name="projectInfo.short"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+                disabled={true}
+                readOnly
                 placeholder="প্রকল্পের সংক্ষেপ নাম"
-                value={
-                  formik.values.projectInfo ? formik.values.projectInfo?.short : ""
-                }
+                value={formik.values.projectInfo?.short}
               />
 
               {formik.touched.projectInfo &&
                 formik.touched.projectInfo.short &&
-                formik.errors.projectInfo?.short ? (
-                <div className="text-red-600 font-bold">
-                  {formik.errors.projectInfo.short}
-                </div>
-              ) : null}
+                formik.errors.projectInfo?.short && (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.projectInfo.short}
+                  </div>
+                )}
             </div>
             <div>
               <label className="font-extrabold mb-1 block">অর্থবছর</label>
@@ -254,6 +260,11 @@ const AddFieldDay = () => {
               >
                 <Season />
               </select>
+              {formik.touched.season && formik.errors.season && (
+                <div className="text-red-600 font-bold">
+                  {formik.errors.season}
+                </div>
+              )}
             </div>
             <div>
               <label className="font-extrabold mb-1 block">বিষয়</label>
@@ -265,8 +276,13 @@ const AddFieldDay = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="মাঠদিবসের বিষয় বা ফসল"
-              // value={formik.values.subject ? formik.values.subject : ''}
+                value={formik.values.subject}
               />
+              {formik.touched.subject && formik.errors.subject && (
+                <div className="text-red-600 font-bold">
+                  {formik.errors.subject}
+                </div>
+              )}
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
@@ -280,8 +296,13 @@ const AddFieldDay = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="কর্মকর্তা ও গন্যমান্য অতিথি"
-              // value={formik.values.guests ? formik.values.guests : ''}
+                value={formik.values.guests}
               />
+              {formik.touched.guests && formik.errors.guests && (
+                <div className="text-red-600 font-bold">
+                  {formik.errors.guests}
+                </div>
+              )}
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
@@ -295,8 +316,14 @@ const AddFieldDay = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="কৃষক (পুরুষ)"
-              // value={formik.values.farmers.male ? formik.values.farmers.male : ''}
+                value={formik.values.farmers.male}
               />
+              {formik.touched.farmers?.male &&
+                formik.errors.farmers?.male && (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.farmers.male}
+                  </div>
+                )}
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
@@ -310,11 +337,14 @@ const AddFieldDay = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="কৃষক (নারী)"
-              // value={formik.values.farmers.female ? formik.values.farmers.female : ''}
+                value={formik.values.farmers.female}
               />
-              {/* {formik.touched.name && formik.touched.name.details && formik.errors.name?.details ? (
-                                <div className='text-red-600 font-bold'>{formik.errors.name.details}</div>
-                            ) : null} */}
+              {formik.touched.farmers?.female &&
+                formik.errors.farmers?.female && (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.farmers.female}
+                  </div>
+                )}
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
@@ -328,20 +358,22 @@ const AddFieldDay = () => {
                 value={value}
                 showShortcuts={true}
               />
-            </div>
-
-            <div>
-              {/* {formik.values.date && ( */}
-              <div>
-                <label className="font-extrabold mb-1 block">
-                  মাঠ দিবসের দিন
-                </label>
-                <div className="input input-bordered w-full">
-                  {formatDate(value)}
+              {formik.touched.date && formik.errors.date && (
+                <div className="text-red-600 font-bold">
+                  {formik.errors.date}
                 </div>
-                <p className="text-red-600">{dateMessage && dateMessage}</p>
+              )}
+            </div>
+            <div>
+              <label className="font-extrabold mb-1 block">
+                মাঠ দিবসের দিন
+              </label>
+              <div className="input input-bordered w-full">
+                {formatDate(value)}
               </div>
-              {/* )} */}
+              {dateMessage && (
+                <p className="text-red-600">{dateMessage}</p>
+              )}
             </div>
           </div>
 
@@ -368,16 +400,13 @@ const AddFieldDay = () => {
                 value={user?.blockB}
                 disabled={true}
               />
-
-              {formik.touched.address &&
-                formik.touched.address.block &&
-                formik.errors.address?.block ? (
-                <div className="text-red-600 font-bold">
-                  {formik.errors.address.block}
-                </div>
-              ) : null}
+              {formik.touched.address?.block &&
+                formik.errors.address?.block && (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.address.block}
+                  </div>
+                )}
             </div>
-
             <div>
               <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
               <input
@@ -385,20 +414,20 @@ const AddFieldDay = () => {
                 value={user?.unionB}
                 disabled={true}
               />
-              {formik.touched.address &&
-                formik.touched.address.union &&
-                formik.errors.address?.union ? (
-                <div className="text-red-600 font-bold">
-                  {formik.errors.address.union}
-                </div>
-              ) : null}
+              {formik.touched.address?.union &&
+                formik.errors.address?.union && (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.address.union}
+                  </div>
+                )}
             </div>
           </div>
 
-
           <div className="grid grid-cols-1 gap-4 my-5 lg:grid-cols-2">
             <div>
-              <label className="font-extrabold mb-1 block">এসএএও এর নাম</label>
+              <label className="font-extrabold mb-1 block">
+                এসএএও এর নাম
+              </label>
               <input
                 type="text"
                 className="input input-bordered w-full"
@@ -409,9 +438,12 @@ const AddFieldDay = () => {
                 placeholder="এসএএও নাম"
                 value={user?.SAAO.name}
               />
-              {formik.touched.SAAO?.name && formik.errors.SAAO?.name ? (
-                <div className="text-red-600">{formik.errors.SAAO?.name}</div>
-              ) : null}
+              {formik.touched.SAAO?.name &&
+                formik.errors.SAAO?.name && (
+                  <div className="text-red-600">
+                    {formik.errors.SAAO?.name}
+                  </div>
+                )}
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
@@ -427,11 +459,15 @@ const AddFieldDay = () => {
                 disabled={true}
                 value={toBengaliNumber(user?.SAAO?.mobile)}
               />
-              {formik.touched.SAAO?.mobile && formik.errors.SAAO?.mobile ? (
-                <div className="text-red-600">{formik.errors.SAAO?.mobile}</div>
-              ) : null}
+              {formik.touched.SAAO?.mobile &&
+                formik.errors.SAAO?.mobile && (
+                  <div className="text-red-600">
+                    {formik.errors.SAAO?.mobile}
+                  </div>
+                )}
             </div>
           </div>
+
           <div>
             <label className="font-extrabold mb-1 block">
               মাঠ দিবসের ছবিসমূহ
@@ -458,6 +494,7 @@ const AddFieldDay = () => {
               </div>
             )}
           </div>
+
           <div className="mt-5">
             <label className="font-extrabold mb-1 block">
               মন্তব্য যুক্ত করুন
@@ -466,18 +503,18 @@ const AddFieldDay = () => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.comment}
-              id="comment"
               name="comment"
-              className="input h-20 input-bordered w-full"
-              rows={10}
+              className="textarea textarea-bordered w-full"
+              placeholder="মন্তব্য"
+              rows="3"
             ></textarea>
           </div>
 
           <button
             type="submit"
-            className="btn mt-5 w-full font-extrabold text-white btn-success"
+            className="btn mt-5 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            মাঠদিবস যুক্ত করুন
+            মাঠ দিবসের তথ্য যুক্ত করুন
           </button>
         </form>
       </div>
