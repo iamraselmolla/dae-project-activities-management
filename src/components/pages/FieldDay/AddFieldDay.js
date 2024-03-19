@@ -15,10 +15,7 @@ const AddFieldDay = () => {
     startDate: null,
     endDate: null,
   });
-  const [selectedOption, setSelectedOption] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
-  const [findBlock, setFindBlock] = useState(null);
-  const [findUnion, setFindUnion] = useState(null);
   const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext)
 
@@ -37,9 +34,7 @@ const AddFieldDay = () => {
     setSelectedImages(imageFiles);
   };
 
-  const handleValueChangeofDate = (newValue) => {
-    setValue(newValue);
-  };
+
   const initialValues = {
     projectInfo: {
       details: "",
@@ -108,12 +103,9 @@ const AddFieldDay = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      values.date = value.startDate;
-      values.address.block = findBlock;
-      values.address.union = findUnion;
-      values.season = selectedOption; // Access the season field value correctly
-      values.project.full = formik.values.project.full;
+      // Access the season field value correctly
       // Handle form submission logic here
+      console.log(values)
     },
   });
   const handleSelectChange = (e) => {
@@ -132,7 +124,13 @@ const AddFieldDay = () => {
       }
     }
   };
-
+  const handleValueChangeofDate = (newValue) => {
+    setValue(newValue);
+    formik.setValues({
+      ...formik.values,
+      date: newValue?.startDate
+    })
+  };
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -146,9 +144,9 @@ const AddFieldDay = () => {
               </label>
               <select
                 className="input input-bordered w-full"
-                id="projectInfo.full"
-                name="project.full"
-                value={formik.values.project.full}
+                id="projectInfo.details"
+                name="project.details"
+                value={formik.values.projectInfo?.details}
                 onChange={handleSelectChange}
                 onBlur={formik.handleBlur}
               >
@@ -165,11 +163,11 @@ const AddFieldDay = () => {
                   </>
                 )}
               </select>
-              {formik.touched.project &&
-                formik.touched.project.full &&
-                formik.errors.project?.full ? (
+              {formik.touched.projectInfo &&
+                formik.touched.projectInfo.details &&
+                formik.errors.projectInfo?.details ? (
                 <div className="text-red-600 font-bold">
-                  {formik.errors.project.full}
+                  {formik.errors.projectInfo.details}
                 </div>
               ) : null}
             </div>
@@ -180,21 +178,21 @@ const AddFieldDay = () => {
               <input
                 type="text"
                 className="input input-bordered w-full"
-                id="project.short"
-                name="project.short"
+                id="projectInfo.short"
+                name="projectInfo.short"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="প্রকল্পের সংক্ষেপ নাম"
                 value={
-                  formik.values.project ? formik.values.project?.short : ""
+                  formik.values.projectInfo ? formik.values.projectInfo?.short : ""
                 }
               />
 
-              {formik.touched.project &&
-                formik.touched.project.short &&
-                formik.errors.project?.short ? (
+              {formik.touched.projectInfo &&
+                formik.touched.projectInfo.short &&
+                formik.errors.projectInfo?.short ? (
                 <div className="text-red-600 font-bold">
-                  {formik.errors.project.short}
+                  {formik.errors.projectInfo.short}
                 </div>
               ) : null}
             </div>
@@ -216,8 +214,8 @@ const AddFieldDay = () => {
                 className="input input-bordered w-full"
                 id="season"
                 name="season"
-                value={selectedOption}
-                onChange={handleSelectChange}
+                value={formik.values.season}
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
                 <Season />
@@ -349,7 +347,7 @@ const AddFieldDay = () => {
                 id="address.block"
                 name="address.block"
                 value={user?.blockB}
-                disabled
+                disabled={true}
               />
 
               {formik.touched.address &&
@@ -388,6 +386,7 @@ const AddFieldDay = () => {
                 id="SAAO.name"
                 name="SAAO.name"
                 readOnly
+                disabled={true}
                 placeholder="এসএএও নাম"
                 value={user?.SAAO.name}
               />
@@ -406,6 +405,7 @@ const AddFieldDay = () => {
                 name="SAAO.mobile"
                 placeholder="এসএএও মোবাইল"
                 readOnly
+                disabled={true}
                 value={toBengaliNumber(user?.SAAO?.mobile)}
               />
               {formik.touched.SAAO?.mobile && formik.errors.SAAO?.mobile ? (
