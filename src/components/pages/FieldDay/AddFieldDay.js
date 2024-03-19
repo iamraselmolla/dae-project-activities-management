@@ -152,11 +152,10 @@ const AddFieldDay = () => {
   };
   const handleValueChangeofDate = (newValue) => {
     setValue(newValue);
-    // Update the 'date' field in formik.values
-    formik.setFieldValue({
-      ...formik.values,
-      date: newValue.startDate
-    }); // Assuming 'startDate' holds the selected date
+
+    // Update the 'date' field in formik.values correctly
+    formik.setFieldValue("date", newValue.startDate);
+
     const selectedDate = new Date(newValue.startDate);
     const today = new Date();
     if (selectedDate > today) {
@@ -165,6 +164,7 @@ const AddFieldDay = () => {
       setDateMessage(null);
     }
   };
+
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
