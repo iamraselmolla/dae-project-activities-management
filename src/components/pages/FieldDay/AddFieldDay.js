@@ -20,10 +20,12 @@ const AddFieldDay = () => {
   const [dateMessage, setDateMessage] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([]);
+  const [rawImages, setRawImages] = useState([]);
   const { user } = useContext(AuthContext);
 
   const handleImageChange = (e) => {
     const files = e.target.files;
+    setRawImages([...rawImages, ...files]);
     const imageFiles = [];
 
     for (let i = 0; i < files.length; i++) {
@@ -71,9 +73,7 @@ const AddFieldDay = () => {
     fiscalYear: Yup.string().required("অর্থবছর নির্বাচন করুন"),
     season: Yup.string().required("মৌসুম সিলেক্ট করুন"),
     subject: Yup.string().required("মাঠদিবসের বিষয় সিলেক্ট করুন"),
-    guests: Yup.string().required(
-      "উপস্থিত কর্মকর্তা ও অতিথিদের তালিকা দিন"
-    ),
+    guests: Yup.string().required("উপস্থিত কর্মকর্তা ও অতিথিদের তালিকা দিন"),
     "farmers.male": Yup.number()
       .min(18, "পুরুষ কৃষক সংখ্যা ০ বা তার বেশি হতে হবে")
       .required("উপস্থিত পুরুষ কৃষক সংখ্যা দিন"),
@@ -118,7 +118,6 @@ const AddFieldDay = () => {
       }
       // Access the season field value correctly
       // Handle form submission logic here
-      console.log(values);
     },
   });
 
@@ -176,7 +175,7 @@ const AddFieldDay = () => {
       setDateMessage(null);
     }
   };
-
+  console.log(rawImages);
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"নতুন মাঠ দিবসের তথ্য যুক্ত করুন"} />
@@ -318,12 +317,11 @@ const AddFieldDay = () => {
                 placeholder="কৃষক (পুরুষ)"
                 value={formik.values.farmers.male}
               />
-              {formik.touched.farmers?.male &&
-                formik.errors.farmers?.male && (
-                  <div className="text-red-600 font-bold">
-                    {formik.errors.farmers.male}
-                  </div>
-                )}
+              {formik.touched.farmers?.male && formik.errors.farmers?.male && (
+                <div className="text-red-600 font-bold">
+                  {formik.errors.farmers.male}
+                </div>
+              )}
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
@@ -371,9 +369,7 @@ const AddFieldDay = () => {
               <div className="input input-bordered w-full">
                 {formatDate(value)}
               </div>
-              {dateMessage && (
-                <p className="text-red-600">{dateMessage}</p>
-              )}
+              {dateMessage && <p className="text-red-600">{dateMessage}</p>}
             </div>
           </div>
 
@@ -425,9 +421,7 @@ const AddFieldDay = () => {
 
           <div className="grid grid-cols-1 gap-4 my-5 lg:grid-cols-2">
             <div>
-              <label className="font-extrabold mb-1 block">
-                এসএএও এর নাম
-              </label>
+              <label className="font-extrabold mb-1 block">এসএএও এর নাম</label>
               <input
                 type="text"
                 className="input input-bordered w-full"
@@ -438,12 +432,9 @@ const AddFieldDay = () => {
                 placeholder="এসএএও নাম"
                 value={user?.SAAO.name}
               />
-              {formik.touched.SAAO?.name &&
-                formik.errors.SAAO?.name && (
-                  <div className="text-red-600">
-                    {formik.errors.SAAO?.name}
-                  </div>
-                )}
+              {formik.touched.SAAO?.name && formik.errors.SAAO?.name && (
+                <div className="text-red-600">{formik.errors.SAAO?.name}</div>
+              )}
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
@@ -459,12 +450,9 @@ const AddFieldDay = () => {
                 disabled={true}
                 value={toBengaliNumber(user?.SAAO?.mobile)}
               />
-              {formik.touched.SAAO?.mobile &&
-                formik.errors.SAAO?.mobile && (
-                  <div className="text-red-600">
-                    {formik.errors.SAAO?.mobile}
-                  </div>
-                )}
+              {formik.touched.SAAO?.mobile && formik.errors.SAAO?.mobile && (
+                <div className="text-red-600">{formik.errors.SAAO?.mobile}</div>
+              )}
             </div>
           </div>
 
