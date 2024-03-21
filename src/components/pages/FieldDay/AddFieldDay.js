@@ -11,6 +11,8 @@ import { AuthContext } from "../../AuthContext/AuthProvider";
 import { toBengaliNumber } from "bengali-number";
 import { format } from "date-fns";
 import { bn } from "date-fns/locale";
+import compressAndUploadImage from "../../utilis/compressImages";
+import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 
 const AddFieldDay = () => {
   const [value, setValue] = useState({
@@ -20,7 +22,10 @@ const AddFieldDay = () => {
   const [dateMessage, setDateMessage] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [imageLinks, setImageLinks] = useState([]);
   const [rawImages, setRawImages] = useState([]);
+  const [loadingMessage, setLoadingMessage] = useState(null);
   const { user } = useContext(AuthContext);
 
   const handleImageChange = (e) => {
@@ -64,6 +69,7 @@ const AddFieldDay = () => {
       name: "",
       mobile: "",
     },
+    user: user?.username
   };
 
   const validationSchema = Yup.object().shape({
@@ -74,14 +80,14 @@ const AddFieldDay = () => {
     season: Yup.string().required("মৌসুম সিলেক্ট করুন"),
     subject: Yup.string().required("মাঠদিবসের বিষয় সিলেক্ট করুন"),
     guests: Yup.string().required("উপস্থিত কর্মকর্তা ও অতিথিদের তালিকা দিন"),
-    "farmers.male": Yup.number()
-      .min(18, "পুরুষ কৃষক সংখ্যা ০ বা তার বেশি হতে হবে")
-      .required("উপস্থিত পুরুষ কৃষক সংখ্যা দিন"),
-    "farmers.female": Yup.number()
-      .min(1, "নারী কৃষক সংখ্যা ০ বা তার বেশি হতে হবে")
-      .required("উপস্থিত নারী কৃষক সংখ্যা দিন"),
+    // "farmers.male": Yup.number()
+    //   .min(18, "পুরুষ কৃষক সংখ্যা ০ বা তার বেশি হতে হবে")
+    //   .required("উপস্থিত পুরুষ কৃষক সংখ্যা দিন"),
+    // "farmers.female": Yup.number()
+    //   .min(1, "নারী কৃষক সংখ্যা ০ বা তার বেশি হতে হবে")
+    //   .required("উপস্থিত নারী কৃষক সংখ্যা দিন"),
     date: Yup.string().required("মাঠ দিবসের তারিখ"),
-    images: Yup.array().min(1, "মাঠ দিবসের ছবি দিন"),
+    // images: Yup.array().min(1, "মাঠ দিবসের ছবি দিন"),
   });
 
   useEffect(() => {
@@ -112,9 +118,41 @@ const AddFieldDay = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       if (!formik.values.date) {
         return toast.error("অবশ্যই তারিখ সিলেক্ট করতে হবে।");
+      }
+      try {
+        if (rawImages?.length > 0) {
+          setLoadingMessage("ছবি আপ্লোড হচ্ছে");
+          const uploadedImageLinks = [];
+          for (let i = 0; i < rawImages?.length; i++) {
+            setLoadingMessage(
+              `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
+            );
+
+            const compressedImage = await compressAndUploadImage(rawImages[i]);
+            setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
+            const result = await uploadToCloudinary(compressedImage);
+            uploadedImageLinks.push(result);
+            setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
+          }
+          setImageLinks(uploadedImageLinks); // Set all image links at once
+          values.images = uploadedImageLinks;
+          setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
+
+          setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড হচ্ছে");
+          const result = await createAGroup(values);
+          if (result?.status === 200) {
+            toast.success(result?.data?.message);
+            setLoading(false);
+            setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড শেষ হয়েছে");
+          }
+        }
+      } catch (err) {
+        toast.error(err?.response?.data?.message);
+        console.log(err, "error");
+        setLoading(false);
       }
       // Access the season field value correctly
       // Handle form submission logic here
@@ -175,7 +213,6 @@ const AddFieldDay = () => {
       setDateMessage(null);
     }
   };
-  console.log(rawImages);
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"নতুন মাঠ দিবসের তথ্য যুক্ত করুন"} />

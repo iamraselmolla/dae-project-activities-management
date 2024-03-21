@@ -217,7 +217,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.groupInfo.name}
               />
               {formik.touched.groupInfo?.name &&
-              formik.errors.groupInfo?.name ? (
+                formik.errors.groupInfo?.name ? (
                 <div className="text-red-600">
                   {formik.errors.groupInfo.name}
                 </div>
@@ -236,7 +236,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.groupInfo.place}
               />
               {formik.touched.groupInfo?.place &&
-              formik.errors.groupInfo?.place ? (
+                formik.errors.groupInfo?.place ? (
                 <div className="text-red-600">
                   {formik.errors.groupInfo.place}
                 </div>
@@ -255,7 +255,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.groupInfo.mobile}
               />
               {formik.touched.groupInfo?.mobile &&
-              formik.errors.groupInfo?.mobile ? (
+                formik.errors.groupInfo?.mobile ? (
                 <div className="text-red-600">
                   {formik.errors.groupInfo.mobile}
                 </div>
@@ -274,7 +274,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.address.village}
               />
               {formik.touched.address?.village &&
-              formik.errors.address?.village ? (
+                formik.errors.address?.village ? (
                 <div className="text-red-600">
                   {formik.errors.address?.village}
                 </div>
