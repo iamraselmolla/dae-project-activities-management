@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
-import { getAllProjects } from "../../../services/userServices";
+import { createAFieldDay, getAllProjects } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { toBengaliNumber } from "bengali-number";
@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import { bn } from "date-fns/locale";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
+import Loader from "../../shared/Loader";
 
 const AddFieldDay = () => {
   const [value, setValue] = useState({
@@ -69,7 +70,7 @@ const AddFieldDay = () => {
       name: "",
       mobile: "",
     },
-    user: user?.username
+    username: user?.username
   };
 
   const validationSchema = Yup.object().shape({
@@ -118,10 +119,15 @@ const AddFieldDay = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       if (!formik.values.date) {
         return toast.error("অবশ্যই তারিখ সিলেক্ট করতে হবে।");
       }
+      if (!user) {
+        return toast.error("আপনাকে অবশ্যই লগিন করতে হবে।");
+      }
+      values.username = user?.username;
+      setLoading(true);
       try {
         if (rawImages?.length > 0) {
           setLoadingMessage("ছবি আপ্লোড হচ্ছে");
@@ -141,12 +147,15 @@ const AddFieldDay = () => {
           values.images = uploadedImageLinks;
           setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
 
-          setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড হচ্ছে");
-          const result = await createAGroup(values);
+          setLoadingMessage("মাঠ দিবস তথ্য আপ্লোড হচ্ছে");
+          const result = await createAFieldDay(values);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
+            setLoadingMessage("মাঠ দিবস তথ্য আপ্লোড শেষ হয়েছে");
             setLoading(false);
-            setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড শেষ হয়েছে");
+            resetForm()
+            setRawImages([])
+
           }
         }
       } catch (err) {
@@ -534,14 +543,23 @@ const AddFieldDay = () => {
               rows="3"
             ></textarea>
           </div>
-
-          <button
-            type="submit"
-            className="btn mt-5 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            মাঠ দিবসের তথ্য যুক্ত করুন
-          </button>
+          {!loading && (
+            <button
+              type="submit"
+              className="btn mt-5 bg-green-600 hover:bg-green-700 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              মাঠ দিবসের তথ্য যুক্ত করুন
+            </button>
+          )}
         </form>
+        {loading && (
+          <div className="fixed daeLoader">
+            <Loader />
+            <h2 className="text-green-600 mt-3 text-4xl">
+              {loadingMessage && loadingMessage}
+            </h2>
+          </div>
+        )}
       </div>
     </section>
   );
