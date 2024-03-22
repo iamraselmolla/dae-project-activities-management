@@ -14,6 +14,7 @@ const BASE_URL = {
   fetchAllGroupsInfo: "/group/get-groups",
   createATraining: "/training/create-training",
   getTraining: "/training/get-trainings",
+  createAFieldDay: "/fieldDay/create-fieldDay"
 };
 
 export function addProjectByAdmin(values) {
@@ -56,4 +57,7 @@ export function createTraining(values) {
 
 export function getAllTraining() {
   return http.get(BASE_URL.getTraining);
+}
+export function createAFieldDay(values) {
+  return http.post(BASE_URL.createAFieldDay, values)
 }
