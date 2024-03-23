@@ -49,6 +49,9 @@ const SingleTraining = ({ data }) => {
           <div className="flex items-center gap-2">
             <BsFillCloudSunFill /> <p>{season}/{fiscalYear}</p>
           </div>
+          <div className="flex items-center gap-2">
+            <img src="images/project.png" alt="Project Icon" /> <p>{projectInfo?.details}</p>
+          </div>
         </div>
       </div>
     </div>

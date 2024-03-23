@@ -155,6 +155,12 @@ const AddFieldDay = () => {
             setLoading(false);
             resetForm()
             setRawImages([])
+            setValue({
+              endDate: null,
+              startDate: null
+            });
+            setSelectedImages([])
+
 
           }
         }
