@@ -5,7 +5,10 @@ import * as Yup from "yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
-import { createAFieldDay, getAllProjects } from "../../../services/userServices";
+import {
+  createAFieldDay,
+  getAllProjects,
+} from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { toBengaliNumber } from "bengali-number";
@@ -70,7 +73,7 @@ const AddFieldDay = () => {
       name: "",
       mobile: "",
     },
-    username: user?.username
+    username: user?.username,
   };
 
   const validationSchema = Yup.object().shape({
@@ -127,6 +130,7 @@ const AddFieldDay = () => {
         return toast.error("আপনাকে অবশ্যই লগিন করতে হবে।");
       }
       values.username = user?.username;
+
       setLoading(true);
       try {
         if (rawImages?.length > 0) {
@@ -153,15 +157,13 @@ const AddFieldDay = () => {
             toast.success(result?.data?.message);
             setLoadingMessage("মাঠ দিবস তথ্য আপ্লোড শেষ হয়েছে");
             setLoading(false);
-            resetForm()
-            setRawImages([])
+            resetForm();
+            setRawImages([]);
             setValue({
               endDate: null,
-              startDate: null
+              startDate: null,
             });
-            setSelectedImages([])
-
-
+            setSelectedImages([]);
           }
         }
       } catch (err) {

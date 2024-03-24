@@ -6,7 +6,6 @@ import ImageGallery from "react-image-gallery";
 import { toBengaliNumber } from "bengali-number";
 import { CiCalendarDate } from "react-icons/ci";
 
-
 const SingleDemo = ({ data }) => {
   const {
     address,
@@ -17,17 +16,17 @@ const SingleDemo = ({ data }) => {
     time,
     updatedAt,
     username,
-    SAAO
+    SAAO,
   } = data;
 
   const imagesArr = [];
   useEffect(() => {
     if (images?.length > 0) {
       for (const image of images) {
-        imagesArr.push({ original: image, thumbnail: image })
+        imagesArr.push({ original: image, thumbnail: image });
       }
     }
-  }, [images])
+  }, [images]);
 
   // console.log(imagesArr)
   return (
@@ -45,7 +44,12 @@ const SingleDemo = ({ data }) => {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div><CiCalendarDate /></div> <p>{toBengaliNumber(time?.date?.startDate)}, {time?.day}</p>
+            <div>
+              <CiCalendarDate />
+            </div>{" "}
+            <p>
+              {toBengaliNumber(time?.date?.startDate)}, {time?.day}
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <div>
@@ -57,21 +61,18 @@ const SingleDemo = ({ data }) => {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <div><BsFillCloudSunFill /></div> <p>খরিপ-১/২০২৩-২৪</p>
+            <div>
+              <BsFillCloudSunFill />
+            </div>{" "}
+            <p>খরিপ-১/২০২৩-২৪</p>
           </div>
 
-          <div className="mt-3">
-            আলোচ্য বিষয়ঃ {discussion}
-          </div>
+          <div className="mt-3">আলোচ্য বিষয়ঃ {discussion}</div>
           <h2 className="text-xl mt-4 font-extrabold">
             উপসহকারী কৃষি কর্মকর্তার তথ্য
           </h2>
-          <div className="mt-2">
-            নামঃ {SAAO.name}
-          </div>
-          <div className="mt-1">
-            মোবাইলঃ {toBengaliNumber(SAAO.mobile)}
-          </div>
+          <div className="mt-2">নামঃ {SAAO.name}</div>
+          <div className="mt-1">মোবাইলঃ {toBengaliNumber(SAAO.mobile)}</div>
         </div>
       </div>
     </div>

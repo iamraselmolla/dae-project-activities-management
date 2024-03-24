@@ -11,16 +11,25 @@ import { Link } from "react-router-dom";
 import { toBengaliNumber } from "bengali-number";
 
 const SingleTraining = ({ data }) => {
-  const { projectInfo, fiscalYear, season, subject, guests, farmers, date, images } = data;
+  const {
+    projectInfo,
+    fiscalYear,
+    season,
+    subject,
+    guests,
+    farmers,
+    date,
+    images,
+  } = data;
 
   const imagesArr = [];
   useEffect(() => {
     if (images?.length > 0) {
       for (const image of images) {
-        imagesArr.push({ original: image, thumbnail: image })
+        imagesArr.push({ original: image, thumbnail: image });
       }
     }
-  }, [images])
+  }, [images]);
 
   return (
     <div className="rounded-lg border relative shadow-xl">
@@ -44,13 +53,23 @@ const SingleTraining = ({ data }) => {
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <GiFarmer /> <p> {toBengaliNumber(farmers?.male + farmers?.female)} জন (পুরুষ {toBengaliNumber(farmers?.male)} জন, মহিলা {toBengaliNumber(farmers?.female)} জন)</p>
+            <GiFarmer />{" "}
+            <p>
+              {" "}
+              {toBengaliNumber(farmers?.male + farmers?.female)} জন (পুরুষ{" "}
+              {toBengaliNumber(farmers?.male)} জন, মহিলা{" "}
+              {toBengaliNumber(farmers?.female)} জন)
+            </p>
           </div>
           <div className="flex items-center gap-2">
-            <BsFillCloudSunFill /> <p>{season}/{fiscalYear}</p>
+            <BsFillCloudSunFill />{" "}
+            <p>
+              {season}/{fiscalYear}
+            </p>
           </div>
           <div className="flex items-center gap-2">
-            <img src="images/project.png" alt="Project Icon" /> <p>{projectInfo?.details}</p>
+            <img src="images/project.png" alt="Project Icon" />{" "}
+            <p>{projectInfo?.details}</p>
           </div>
         </div>
       </div>
