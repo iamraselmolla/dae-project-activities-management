@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import { useFormik } from "formik";
-import { createTraining, getAllProjects } from "../../../services/userServices";
+import { createTraining, getAllProjects, getTrainingById } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { FaTimes } from "react-icons/fa";
@@ -13,8 +13,13 @@ import { toBengaliNumber } from "bengali-number";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
+import { useLocation } from "react-router-dom";
 
 const AddTraining = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const trainingIdFromUrl = queryParams.get('id');
+  const [trainingId, setTrainingProjectId] = useState(trainingIdFromUrl)
   const [allProject, setAllProjects] = useState([]);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,7 +32,6 @@ const AddTraining = () => {
   const [imageLinks, setImageLinks] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]); // Initialize as an empty array
   const { user } = useContext(AuthContext);
-
   const handleSelectChange = (e) => {
     if (e.target.value) {
       const findProject = allProject?.find(
@@ -187,6 +191,49 @@ const AddTraining = () => {
       toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
     }
   }, []);
+
+  const findTrainingInfo = async () => {
+    try {
+      const result = await getTrainingById(trainingId);
+      if (result.status === 200) {
+        const trainingData = result?.data?.data;
+        formik.setValues({
+          projectInfo: {
+            details: trainingData.projectInfo.details,
+            short: trainingData.projectInfo.short,
+          },
+          fiscalYear: trainingData.fiscalYear,
+          season: trainingData.season,
+          subject: trainingData.subject,
+          guests: trainingData.guests,
+          farmers: {
+            male: trainingData.farmers.male,
+            female: trainingData.farmers.female,
+          },
+          date: {
+            startDate: new Date(trainingData.date.startDate),
+            endDate: new Date(trainingData.date.endDate),
+          },
+          images: trainingData.images,
+          comment: trainingData.comment,
+        });
+      }
+    }
+    catch (err) {
+      toast.error('প্রশিক্ষণের তথ্য আনতে অসুবিধা হচ্ছে।')
+    }
+
+  }
+  useEffect(() => {
+
+    if (navigator.onLine) {
+      if (trainingId) {
+        findTrainingInfo()
+      }
+    } else {
+      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+    }
+  }, [trainingId])
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
