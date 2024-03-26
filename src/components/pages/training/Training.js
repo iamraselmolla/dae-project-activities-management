@@ -11,6 +11,7 @@ const Training = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [fetchEnd, setFetchEnd] = useState(false);
+  const [reload, setReload] = useState(false)
 
   const fetchAllTraining = async () => {
     setLoading(true);
@@ -40,7 +41,7 @@ const Training = () => {
     } else {
       toast.error("আপনার ইন্টারনেট সংযোগটি চালু করুন");
     }
-  }, []);
+  }, [reload]);
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -62,7 +63,7 @@ const Training = () => {
           !error &&
           allTrainings?.length > 0 &&
           allTrainings?.map((singleTraining) => (
-            <SingleTraining key={singleTraining?._id} data={singleTraining} />
+            <SingleTraining setReload={setReload} reload={reload} key={singleTraining?._id} data={singleTraining} />
           ))}
 
         {!loading && allTrainings?.length < 1 && fetchEnd && (

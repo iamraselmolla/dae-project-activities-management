@@ -16,6 +16,7 @@ const BASE_URL = {
   getTraining: "/training/get-trainings",
   createAFieldDay: "/fieldDay/create-fieldDay",
   getFieldDays: '/fieldDay/get-all-fieldDays',
+  deleteTraining: '/training/delete-training'
 };
 
 export function addProjectByAdmin(values) {
@@ -64,4 +65,7 @@ export function createAFieldDay(values) {
 }
 export function getAllFieldDays() {
   return http.get(BASE_URL.getFieldDays);
+}
+export function deleteATraining(id) {
+  return http.delete(BASE_URL.deleteTraining, { data: { id } })
 }
