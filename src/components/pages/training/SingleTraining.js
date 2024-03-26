@@ -93,7 +93,7 @@ const SingleTraining = ({ data, setReload, reload }) => {
             <p>{projectInfo?.details}</p>
           </div>
           {user && role && role === 'admin' && <div className="flex absolute bottom-0 left-0 mt-3 w-full">
-            <button className="bg-green-400 flex justify-center items-center w-full py-2 px-4 text-white font-bold">এডিট করুন </button>
+            <button className="bg-green-400 flex justify-center items-center w-full py-2 px-4 text-white font-bold"><Link to={`/addTraining?=${_id}`}>এডিট করুন </Link></button>
             <button onClick={handleTrainingDelete} className="bg-red-400 w-full justify-center items-center py-2 px-4 text-white font-bold">ডিলিট করুন</button>
           </div>}
         </div>
