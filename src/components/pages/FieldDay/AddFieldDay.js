@@ -143,7 +143,7 @@ const AddFieldDay = () => {
 
             const compressedImage = await compressAndUploadImage(rawImages[i]);
             setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-            const result = await uploadToCloudinary(compressedImage);
+            const result = await uploadToCloudinary(compressedImage, 'fieldday');
             uploadedImageLinks.push(result);
             setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
           }
