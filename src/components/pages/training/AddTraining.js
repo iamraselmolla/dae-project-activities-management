@@ -5,7 +5,11 @@ import * as Yup from "yup";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import { useFormik } from "formik";
-import { createTraining, getAllProjects, getTrainingById } from "../../../services/userServices";
+import {
+  createTraining,
+  getAllProjects,
+  getTrainingById,
+} from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { FaTimes } from "react-icons/fa";
@@ -18,8 +22,8 @@ import { useLocation } from "react-router-dom";
 const AddTraining = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const trainingIdFromUrl = queryParams.get('id');
-  const [trainingId, setTrainingProjectId] = useState(trainingIdFromUrl)
+  const trainingIdFromUrl = queryParams.get("id");
+  const [trainingId, setTrainingProjectId] = useState(trainingIdFromUrl);
   const [allProject, setAllProjects] = useState([]);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -217,23 +221,21 @@ const AddTraining = () => {
           images: trainingData.images,
           comment: trainingData.comment,
         });
+        setImages([...images, ...trainingData.images]);
       }
+    } catch (err) {
+      toast.error("প্রশিক্ষণের তথ্য আনতে অসুবিধা হচ্ছে।");
     }
-    catch (err) {
-      toast.error('প্রশিক্ষণের তথ্য আনতে অসুবিধা হচ্ছে।')
-    }
-
-  }
+  };
   useEffect(() => {
-
     if (navigator.onLine) {
       if (trainingId) {
-        findTrainingInfo()
+        findTrainingInfo();
       }
     } else {
       toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
     }
-  }, [trainingId])
+  }, [trainingId]);
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -266,8 +268,8 @@ const AddTraining = () => {
               )}
             </select>
             {formik.touched.projectInfo &&
-              formik.touched.projectInfo.details &&
-              formik.errors.projectInfo?.details ? (
+            formik.touched.projectInfo.details &&
+            formik.errors.projectInfo?.details ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.details}
               </div>
@@ -290,8 +292,8 @@ const AddTraining = () => {
             />
 
             {formik.touched.projectInfo &&
-              formik.touched.projectInfo.short &&
-              formik.errors.projectInfo?.short ? (
+            formik.touched.projectInfo.short &&
+            formik.errors.projectInfo?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.short}
               </div>
@@ -309,8 +311,8 @@ const AddTraining = () => {
               <FiscalYear />
             </select>
             {formik.touched.fiscalYear &&
-              formik.touched.fiscalYear &&
-              formik.errors.fiscalYear ? (
+            formik.touched.fiscalYear &&
+            formik.errors.fiscalYear ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.fiscalYear}
               </div>
@@ -389,8 +391,8 @@ const AddTraining = () => {
               value={formik.values?.farmers?.male}
             />
             {formik.touched.farmers &&
-              formik.touched.farmers.male &&
-              formik.errors.farmers?.male ? (
+            formik.touched.farmers.male &&
+            formik.errors.farmers?.male ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.farmers.male}
               </div>
@@ -411,8 +413,8 @@ const AddTraining = () => {
               value={formik.values.farmers?.female}
             />
             {formik.touched.farmers &&
-              formik.touched.farmers.female &&
-              formik.errors.farmers?.female ? (
+            formik.touched.farmers.female &&
+            formik.errors.farmers?.female ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.farmers.female}
               </div>
