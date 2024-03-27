@@ -5,13 +5,14 @@ import { getAllTraining } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import SingleDemo from "../DaeGroupMeeting/SingleDaeGroupMeetings";
 import Loader from "../../shared/Loader";
+import SectionTitle from "../../shared/SectionTitle";
 
 const Training = () => {
   const [allTrainings, setAllTrainings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [fetchEnd, setFetchEnd] = useState(false);
-  const [reload, setReload] = useState(false)
+  const [reload, setReload] = useState(false);
 
   const fetchAllTraining = async () => {
     setLoading(true);
@@ -45,6 +46,7 @@ const Training = () => {
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <SectionTitle title={"সকল প্রশিক্ষণ"} />
       <div className="text-right font-extrabold">
         <Link to="/addTraining">
           <button className="btn btn-outline btn-accent mb-5 border-2 px-5 py-22">
@@ -63,7 +65,12 @@ const Training = () => {
           !error &&
           allTrainings?.length > 0 &&
           allTrainings?.map((singleTraining) => (
-            <SingleTraining setReload={setReload} reload={reload} key={singleTraining?._id} data={singleTraining} />
+            <SingleTraining
+              setReload={setReload}
+              reload={reload}
+              key={singleTraining?._id}
+              data={singleTraining}
+            />
           ))}
 
         {!loading && allTrainings?.length < 1 && fetchEnd && (
