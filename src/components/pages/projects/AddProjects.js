@@ -30,6 +30,7 @@ const AddProjects = () => {
   const handleAddCrop = () => {
     if (crop?.trim() !== "") {
       setCropValues([...cropValues, crop]);
+      setCrop("");
     }
   };
 
