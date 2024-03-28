@@ -1,6 +1,7 @@
 import React from "react";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
+import { CiEdit } from "react-icons/ci";
 
 const UserFieldDays = () => {
   return (
@@ -85,8 +86,15 @@ const UserFieldDays = () => {
                     New York No. 1 Lake Park
                   </td>
                   <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
-                    <AiOutlineFileDone size={35} color="green" />
-                    <MdOutlineDelete size={35} color="red" />
+                    <div className="cursor-pointer">
+                      <AiOutlineFileDone size={35} color="green" />
+                    </div>
+                    <div className="cursor-pointer">
+                      <MdOutlineDelete size={35} color="red" />
+                    </div>
+                    <div className="cursor-pointer">
+                      <CiEdit size={35} color="black" />
+                    </div>
                   </td>
                 </tr>
               </tbody>
