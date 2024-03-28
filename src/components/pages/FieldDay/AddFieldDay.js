@@ -129,6 +129,10 @@ const AddFieldDay = () => {
       if (!user) {
         return toast.error("আপনাকে অবশ্যই লগিন করতে হবে।");
       }
+      if (rawImages?.length < 1) {
+        toast.error("অবশ্যই মাঠ দিবসের ছবি দিতে হবে।");
+        return;
+      }
       values.username = user?.username;
 
       setLoading(true);
@@ -143,7 +147,10 @@ const AddFieldDay = () => {
 
             const compressedImage = await compressAndUploadImage(rawImages[i]);
             setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-            const result = await uploadToCloudinary(compressedImage, 'fieldday');
+            const result = await uploadToCloudinary(
+              compressedImage,
+              "fieldday"
+            );
             uploadedImageLinks.push(result);
             setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
           }

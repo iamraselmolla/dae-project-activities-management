@@ -470,8 +470,6 @@ const AddTraining = () => {
               <div className="mt-3 flex flex-wrap gap-3 justify-center">
                 {images?.map((image, index) => (
                   <div key={index} className="relative">
-                    {" "}
-                    {/* Added a wrapper div */}
                     <img
                       width={100}
                       src={image}
