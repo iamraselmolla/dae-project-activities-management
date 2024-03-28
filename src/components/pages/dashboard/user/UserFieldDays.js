@@ -1,4 +1,6 @@
 import React from "react";
+import { AiOutlineFileDone } from "react-icons/ai";
+import { MdOutlineDelete } from "react-icons/md";
 
 const UserFieldDays = () => {
   return (
@@ -11,49 +13,49 @@ const UserFieldDays = () => {
                 <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
                   <th
                     scope="col"
-                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                    className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
                     ক্রমিক নং
                   </th>
                   <th
                     scope="col"
-                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                    className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
                     প্রকল্পের নাম
                   </th>
                   <th
                     scope="col"
-                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                    className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
                     মাঠ দিবসের বিষয়
                   </th>
                   <th
                     scope="col"
-                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                    className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
                     অর্থবছর ও মৌসুম
                   </th>
                   <th
                     scope="col"
-                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                    className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
                     উপস্থিত কৃষক/কৃষাণীর সংখ্যা
                   </th>
                   <th
                     scope="col"
-                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                    className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
                     মাঠ দিবসের স্থান
                   </th>
                   <th
                     scope="col"
-                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                    className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
                     উপসহকারীর নাম ও মোবাইল নং
                   </th>
                   <th
                     scope="col"
-                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                    className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
                     একশন
                   </th>
@@ -61,34 +63,30 @@ const UserFieldDays = () => {
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 <tr className="divide-x divide-gray-200 dark:divide-gray-700">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                  <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                     John Brown
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                  <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                     John Brown
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                     45
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                     45
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                     45
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                     45
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                     New York No. 1 Lake Park
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                    <button
-                      type="button"
-                      className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    >
-                      Delete
-                    </button>
+                  <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
+                    <AiOutlineFileDone size={35} color="green" />
+                    <MdOutlineDelete size={35} color="red" />
                   </td>
                 </tr>
               </tbody>
