@@ -13,25 +13,49 @@ const UserDemos = () => {
                     scope="col"
                     className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
                   >
-                    Name
+                    ক্রমিক নং
                   </th>
                   <th
                     scope="col"
                     className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
                   >
-                    Age
+                    প্রকল্পের নাম
                   </th>
                   <th
                     scope="col"
                     className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
                   >
-                    Address
+                    প্রযুক্তি ও ফসলের নাম
                   </th>
                   <th
                     scope="col"
                     className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
                   >
-                    Action
+                    অর্থবছর ও মৌসুম
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                  >
+                    কৃষকের নাম ও পিতার নাম
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                  >
+                    ঠিকানা
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                  >
+                    মোবাইল নং, এনআইডি নং, কৃষি কার্ড নং, বিআইডি নং
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 font-extrabold py-3 text-start  text-gray-500 uppercase"
+                  >
+                    একশন
                   </th>
                 </tr>
               </thead>
@@ -39,6 +63,18 @@ const UserDemos = () => {
                 <tr className="divide-x divide-gray-200 dark:divide-gray-700">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                     John Brown
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                    John Brown
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                    45
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                    45
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                    45
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                     45
