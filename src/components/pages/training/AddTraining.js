@@ -144,7 +144,10 @@ const AddTraining = () => {
                 rawImages[i]
               );
               setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-              const result = await uploadToCloudinary(compressedImage, 'training');
+              const result = await uploadToCloudinary(
+                compressedImage,
+                "training"
+              );
               uploadedImageLinks.push(result);
               setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
             }
@@ -268,8 +271,8 @@ const AddTraining = () => {
               )}
             </select>
             {formik.touched.projectInfo &&
-              formik.touched.projectInfo.details &&
-              formik.errors.projectInfo?.details ? (
+            formik.touched.projectInfo.details &&
+            formik.errors.projectInfo?.details ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.details}
               </div>
@@ -292,8 +295,8 @@ const AddTraining = () => {
             />
 
             {formik.touched.projectInfo &&
-              formik.touched.projectInfo.short &&
-              formik.errors.projectInfo?.short ? (
+            formik.touched.projectInfo.short &&
+            formik.errors.projectInfo?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.short}
               </div>
@@ -311,8 +314,8 @@ const AddTraining = () => {
               <FiscalYear />
             </select>
             {formik.touched.fiscalYear &&
-              formik.touched.fiscalYear &&
-              formik.errors.fiscalYear ? (
+            formik.touched.fiscalYear &&
+            formik.errors.fiscalYear ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.fiscalYear}
               </div>
@@ -391,8 +394,8 @@ const AddTraining = () => {
               value={formik.values?.farmers?.male}
             />
             {formik.touched.farmers &&
-              formik.touched.farmers.male &&
-              formik.errors.farmers?.male ? (
+            formik.touched.farmers.male &&
+            formik.errors.farmers?.male ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.farmers.male}
               </div>
@@ -413,8 +416,8 @@ const AddTraining = () => {
               value={formik.values.farmers?.female}
             />
             {formik.touched.farmers &&
-              formik.touched.farmers.female &&
-              formik.errors.farmers?.female ? (
+            formik.touched.farmers.female &&
+            formik.errors.farmers?.female ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.farmers.female}
               </div>

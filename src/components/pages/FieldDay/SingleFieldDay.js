@@ -78,6 +78,11 @@ const SingleFieldDay = ({ data }) => {
             <img src="images/project.png" alt="Project Icon" />{" "}
             <p>{projectInfo?.details}</p>
           </div>
+          <h2 className="text-xl mt-4 font-extrabold">
+            উপসহকারী কৃষি কর্মকর্তার তথ্য
+          </h2>
+          <div className="mt-2">নামঃ {SAAO.name}</div>
+          <div className="mt-1">মোবাইলঃ {toBengaliNumber(SAAO.mobile)}</div>
         </div>
       </div>
     </div>
