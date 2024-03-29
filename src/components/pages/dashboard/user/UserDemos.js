@@ -46,7 +46,7 @@ const UserDemos = () => {
                     scope="col"
                     className="py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
-                    ঠিকানা
+                    গ্রাম, ব্লক ও ইউনিয়ন
                   </th>
                   <th
                     scope="col"
@@ -58,7 +58,7 @@ const UserDemos = () => {
                     scope="col"
                     className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
-                    ব্লকের নাম, উপসহকারীর নাম ও মোবাইল নং
+                    SAAO-এর নাম ও মোবাইল নং
                   </th>
                   <th
                     scope="col"

@@ -28,7 +28,7 @@ const UserFieldDays = () => {
                     scope="col"
                     className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
-                    মাঠ দিবসের বিষয়
+                    বিষয়
                   </th>
                   <th
                     scope="col"
@@ -40,19 +40,37 @@ const UserFieldDays = () => {
                     scope="col"
                     className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
-                    উপস্থিত কৃষক/কৃষাণীর সংখ্যা
+                    তারিখ ও বার
                   </th>
                   <th
                     scope="col"
                     className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
-                    মাঠ দিবসের স্থান
+                    কৃষক/কৃষাণীর সংখ্যা
                   </th>
                   <th
                     scope="col"
                     className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
-                    ব্লকের নাম, উপসহকারীর নাম ও মোবাইল নং
+                    স্থান, ব্লক ও ইউনিয়ন
+                  </th>
+                  <th
+                    scope="col"
+                    className=" py-4 font-extrabold px-2  text-black text-center uppercase"
+                  >
+                    উপস্থিত কর্মকর্তাগণ
+                  </th>
+                  <th
+                    scope="col"
+                    className=" py-4 font-extrabold px-2  text-black text-center uppercase"
+                  >
+                    ছবিসমূহ
+                  </th>
+                  <th
+                    scope="col"
+                    className=" py-4 font-extrabold px-2  text-black text-center uppercase"
+                  >
+                    SAAO-এর নাম ও মোবাইল নং
                   </th>
                   <th
                     scope="col"
@@ -70,8 +88,8 @@ const UserFieldDays = () => {
                   <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                     John Brown
                   </td>
-                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                    45
+                  <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                    John Brown
                   </td>
                   <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                     45
@@ -83,7 +101,16 @@ const UserFieldDays = () => {
                     45
                   </td>
                   <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                    New York No. 1 Lake Park
+                    45
+                  </td>
+                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                    45
+                  </td>
+                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                    45
+                  </td>
+                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                    New York
                   </td>
                   <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
 
