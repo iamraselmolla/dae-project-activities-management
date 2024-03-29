@@ -52,7 +52,7 @@ const UserFieldDays = () => {
                     scope="col"
                     className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
-                    উপসহকারীর নাম ও মোবাইল নং
+                    ব্লকের নাম, উপসহকারীর নাম ও মোবাইল নং
                   </th>
                   <th
                     scope="col"
@@ -86,9 +86,7 @@ const UserFieldDays = () => {
                     New York No. 1 Lake Park
                   </td>
                   <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
-                    <div className="cursor-pointer">
-                      <AiOutlineFileDone size={35} color="green" />
-                    </div>
+
                     <div className="cursor-pointer">
                       <MdOutlineDelete size={35} color="red" />
                     </div>

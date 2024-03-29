@@ -58,7 +58,7 @@ const UserDemos = () => {
                     scope="col"
                     className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
-                    উপসহকারীর নাম ও মোবাইল নং
+                    ব্লকের নাম, উপসহকারীর নাম ও মোবাইল নং
                   </th>
                   <th
                     scope="col"
