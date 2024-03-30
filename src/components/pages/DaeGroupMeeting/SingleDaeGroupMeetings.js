@@ -1,78 +1,82 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { FaMobileAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
-import { RiImageAddFill } from "react-icons/ri";
+import { toBengaliNumber } from "bengali-number";
+import { CiCalendarDate } from "react-icons/ci";
 
-const SingleDemo = () => {
-    const images = [
-        {
-            original: "images/features/1.jpg",
-            thumbnail: "images/features/1.jpg",
-        },
-        {
-            original: "images/features/1.jpg",
-            thumbnail: "images/features/1.jpg",
-        },
-        {
-            original: "images/features/1.jpg",
-            thumbnail: "images/features/1.jpg",
-        },
-        {
-            original: "images/features/1.jpg",
-            thumbnail: "images/features/1.jpg",
-        },
-        {
-            original: "images/features/1.jpg",
-            thumbnail: "images/features/1.jpg",
-        },
-        {
-            original: "images/features/1.jpg",
-            thumbnail: "images/features/1.jpg",
-        },
-        {
-            original: "images/features/1.jpg",
-            thumbnail: "images/features/1.jpg",
-        },
-    ];
-    return (
-        <div className="rounded-lg relative shadow-xl">
-            <div className="relative">
-                <ImageGallery autoPlay={true} items={images} />
-                <div className="flex items-center absolute top-3">
-                    <p className="px-2 py-1 bg-black text-white rounded-r-md ">
-                        জিকেবিএসপি
-                    </p>
-                </div>
-                <div className="flex items-center absolute top-3 right-0">
-                    <p className="px-2 py-1 bg-black text-white rounded-l-md ">মূগ</p>
-                </div>
+const SingleDemo = ({ data }) => {
+  const {
+    address,
+    createdAt,
+    discussion,
+    groupInfo,
+    images,
+    time,
+    updatedAt,
+    username,
+    SAAO,
+  } = data;
+
+  const imagesArr = [];
+  useEffect(() => {
+    if (images?.length > 0) {
+      for (const image of images) {
+        imagesArr.push({ original: image, thumbnail: image });
+      }
+    }
+  }, [images]);
+
+  // console.log(imagesArr)
+  return (
+    <div className="rounded-lg border relative shadow-xl">
+      <div className="relative">
+        <ImageGallery autoPlay={true} items={imagesArr} />
+      </div>
+
+      <div className="content-part px-3 py-2   ">
+        <h2 className="text-xl mb-3 font-extrabold">{groupInfo?.name}</h2>
+        <div>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
+              <FaMobileAlt /> <p>{toBengaliNumber(groupInfo?.mobile)}</p>
             </div>
-            <div className="add-image cursor-pointer bg-black flex h-12 absolute items-center justify-center opacity-50 rounded-full text-3xl text-white w-12">
-                <RiImageAddFill
-
-                />
+          </div>
+          <div className="flex items-center gap-2">
+            <div>
+              <CiCalendarDate />
+            </div>{" "}
+            <p>
+              {toBengaliNumber(time?.date?.startDate)}, {time?.day}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div>
+              <MdLocationPin />
             </div>
+            <p>
+              স্থানঃ {groupInfo?.place}, গ্রামঃ {address?.village}, ব্লকঃ
+              {address?.block}, ইউনিয়নঃ {address?.union}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div>
+              <BsFillCloudSunFill />
+            </div>{" "}
+            <p>খরিপ-১/২০২৩-২৪</p>
+          </div>
 
-
-            <div className="content-part px-3 py-2   ">
-                <h2 className="text-xl font-extrabold">মোঃ শাহাজাহান মিয়া</h2>
-                <div>
-                    <div className="flex items-center gap-2">
-                        <FaMobileAlt /> <p>01944835365</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <MdLocationPin /> <p>গ্রামঃ নলধা, ব্লকঃ নলধা, ইউনিয়নঃ নলধা</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <BsFillCloudSunFill /> <p>খরিপ-১/২০২৩-২৪</p>
-                    </div>
-
-                </div>
-            </div>
+          <div className="mt-3">আলোচ্য বিষয়ঃ {discussion}</div>
+          <h2 className="text-xl mt-4 font-extrabold">
+            উপসহকারী কৃষি কর্মকর্তার তথ্য
+          </h2>
+          <div className="mt-2">নামঃ {SAAO.name}</div>
+          <div className="mt-1">মোবাইলঃ {toBengaliNumber(SAAO.mobile)}</div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default SingleDemo;

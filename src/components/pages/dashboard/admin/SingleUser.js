@@ -59,7 +59,7 @@ const SingleUser = ({ index, user, setReload, reload }) => {
       <div className="collapse">
         <input type="checkbox" />
         <div className="collapse-title text-xl font-medium">
-          <UserTitle block={user.blockB} union={user.unionB} index={index} />
+          <UserTitle block={user?.blockB} union={user?.unionB} index={index} />
         </div>
         <div className="collapse-content">
           <div className="mt-3">
@@ -81,7 +81,7 @@ const SingleUser = ({ index, user, setReload, reload }) => {
                         name={`block`}
                         className="input input-bordered w-full"
                         readOnly
-                        value={userValues.block}
+                        value={userValues?.block}
                       />
                     </div>
 
@@ -93,7 +93,7 @@ const SingleUser = ({ index, user, setReload, reload }) => {
                         name={`blockB`}
                         className="input input-bordered w-full"
                         readOnly
-                        value={userValues.blockB}
+                        value={userValues?.blockB}
                       />
                     </div>
 
@@ -105,7 +105,7 @@ const SingleUser = ({ index, user, setReload, reload }) => {
                         name={`union`}
                         className="input input-bordered w-full"
                         readOnly
-                        value={userValues.union}
+                        value={userValues?.union}
                       />
                     </div>
 
@@ -117,7 +117,7 @@ const SingleUser = ({ index, user, setReload, reload }) => {
                         name={`unionB`}
                         className="input input-bordered w-full"
                         readOnly
-                        value={userValues.unionB}
+                        value={userValues?.unionB}
                       />
                     </div>
                     <div>
@@ -128,7 +128,7 @@ const SingleUser = ({ index, user, setReload, reload }) => {
                         name={`username`}
                         className="input input-bordered w-full"
                         readOnly
-                        value={userValues.username}
+                        value={userValues?.username}
                       />
                     </div>
                     <div>

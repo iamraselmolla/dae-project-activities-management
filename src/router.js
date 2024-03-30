@@ -19,6 +19,8 @@ import Training from "./components/pages/training/Training";
 import Profile from "./components/pages/dashboard/profile/Profile";
 import AddGroupMeeting from "./components/pages/DaeGroupMeeting/AddGroupMeeting";
 import DaeGroupMeeting from "./components/pages/DaeGroupMeeting/DaeGroupMeeting";
+import UserDaeMeetings from "./components/pages/dashboard/user/UserDaeMeetings";
+import UserNotes from "./components/pages/dashboard/user/UserNotes";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -120,6 +122,14 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/user-fielddays",
             element: <UserFieldDays />,
+          },
+          {
+            path: "/dashboard/user-dae-meetings",
+            element: <UserDaeMeetings />,
+          },
+          {
+            path: "/dashboard/user-notes",
+            element: <UserNotes />,
           },
         ],
       },
