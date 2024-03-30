@@ -12,6 +12,13 @@ const BASE_URL = {
   findProject: "/projects//get-project",
   updateUser: "/user/update-user",
 };
+export function getAllUser(jwtToken) {
+  return http.get(BASE_URL.getAllUser, {
+    headers: {
+      Authorization: `Bearer ${jwtToken}` // Pass the JWT token in the Authorization header
+    }
+  });
+}
 
 export function addProjectByAdmin(values) {
   return http.post(BASE_URL.addProject, values);
@@ -34,13 +41,13 @@ export function getLoginUser(formData) {
 // export function getAllUser() {
 //   return http.get(BASE_URL.getAllUser + '?person=admin');
 // }
-export function getAllUser(jwtToken) {
-  return http.get(BASE_URL.getAllUser, {
-    headers: {
-      Authorization: `Bearer ${jwtToken}` // Pass the JWT token in the Authorization header
-    }
-  });
-}
+// export function getAllUser(jwtToken) {
+//   return http.get(BASE_URL.getAllUser, {
+//     headers: {
+//       Authorization: `Bearer ${jwtToken}` // Pass the JWT token in the Authorization header
+//     }
+//   });
+// }
 
 
 

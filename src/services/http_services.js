@@ -2,9 +2,9 @@ import axios from 'axios';
 
 const http_create = axios.create({
     baseURL: 'http://localhost:5000/api/v1',
-    //   headers: {
+    // headers: {
     //     Authorization: `Bearer ${token}`,
-    //   },
+    // },
 });
 
 // http_create.interceptors.request.use(
@@ -36,3 +36,4 @@ const http = {
 
 
 export default http;
+

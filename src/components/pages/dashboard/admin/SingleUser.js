@@ -51,8 +51,10 @@ const SingleUser = ({ index, user }) => {
         }
     };
 
+    // make the function to show & hide the password
     const [show, setShow] = useState(false);
-    const handleToShow = () => {
+    const handleToShow = (e) => {
+        e.preventDefault(); // Prevent form submission
         setShow(!show);
     };
 
@@ -143,7 +145,7 @@ const SingleUser = ({ index, user }) => {
                                                     value={password}
                                                     onChange={(e) => setPassword(e.target.value)}
                                                 />
-                                                <button className="right-0 pr-2" onClick={() => handleToShow()}>
+                                                <button className="right-0 pr-2" onClick={(e) => handleToShow(e)}>
                                                     {show ? <BsEyeFill className="text-slate-500" /> : <RiEyeCloseLine className="text-slate-500" />}
                                                 </button>
                                             </div>

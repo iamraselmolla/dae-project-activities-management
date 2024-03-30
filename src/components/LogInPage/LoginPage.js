@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../AuthContext/AuthProvider";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getLoginUser } from "../../services/userServices";
+import { BsEyeFill } from "react-icons/bs";
+import { RiEyeCloseLine } from "react-icons/ri";
 
 const LoginPage = () => {
     const location = useLocation();
@@ -75,6 +77,15 @@ const LoginPage = () => {
     };
 
 
+    //make the function show & hide password
+    const [show, setShow] = useState(false);
+    const handleToShow = (e) => {
+        e.preventDefault(); // Prevent form submission
+        setShow(!show);
+    };
+
+
+
     return (
         <div className=" h-screen w-full pt-12">
             <div className="text-center flex justify-center">
@@ -95,12 +106,15 @@ const LoginPage = () => {
                             <label className="input input-bordered mb-3 w-full flex items-center gap-2">
                                 <input
                                     placeholder="পাসওয়ার্ড"
-                                    type="password"
+                                    type={show ? "text" : "password"}
                                     className="grow"
                                     name="password"
                                     value={formData.password}
                                     onChange={handleInputChange}
                                 />
+                                <button className="right-0 pr-2" onClick={(e) => handleToShow(e)}>
+                                    {show ? <BsEyeFill className="text-slate-500" /> : <RiEyeCloseLine className="text-slate-500" />}
+                                </button>
                             </label>
                             <button
                                 type="submit"

@@ -5,6 +5,8 @@ import { AuthContext } from "../AuthContext/AuthProvider";
 import { Navigate } from "react-router-dom";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getLoginUser } from "../../services/userServices";
+import { BsEyeFill } from "react-icons/bs";
+import { RiEyeCloseLine } from "react-icons/ri";
 
 
 
@@ -59,6 +61,7 @@ const Login = () => {
         };
 
         const userToken = response?.data?.token;
+        console.log(userToken, "check token")
         // Stringify the formatted user data before storing it in local storage
         localStorage.setItem('CurrentUser', JSON.stringify(userFormattedForLocalStorage));
         localStorage.setItem('CurrentUserToken', JSON.stringify(userToken));
@@ -81,6 +84,12 @@ const Login = () => {
   };
 
 
+  //make the function show & hide password
+  const [show, setShow] = useState(false);
+  const handleToShow = (e) => {
+    e.preventDefault(); // Prevent form submission
+    setShow(!show);
+  };
 
   return (
     <dialog id="my_modal_3" className="modal text-center">
@@ -104,12 +113,15 @@ const Login = () => {
               {/* Your SVG icon */}
               <input
                 placeholder="পাসওয়ার্ড"
-                type="password"
+                type={show ? "text" : "password"}
                 className="grow"
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
               />
+              <button className="right-0 pr-2" onClick={(e) => handleToShow(e)}>
+                {show ? <BsEyeFill className="text-slate-500" /> : <RiEyeCloseLine className="text-slate-500" />}
+              </button>
             </label>
             <button
               type="submit"
