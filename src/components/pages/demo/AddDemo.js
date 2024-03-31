@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SectionTitle from "../../shared/SectionTitle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -9,12 +9,13 @@ import { getAllProjects, getUser } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
+import { AuthContext } from "../../AuthContext/AuthProvider";
 
 const AddDemo = () => {
   const [selectedOption, setSelectedOption] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([]);
-  const [findUnion, setFindUnion] = useState({});
+  const { user } = useContext(AuthContext);
   const [datePickers, setDatePickers] = useState({
     bopon: {
       startDate: null,
@@ -157,8 +158,8 @@ const AddDemo = () => {
     validationSchema,
     onSubmit: (values) => {
       values.demoDate = datePickers;
-      values.address.block = findUnion?.blockB;
-      values.address.union = findUnion?.unionB;
+      values.address.block = user?.blockB;
+      values.address.union = user?.unionB;
       values.demoTime.season = formik.values.demoTime.season;
       values.projectInfo.full = selectedOption.name.details;
       values.projectInfo.short = selectedOption.name.short;
@@ -194,24 +195,24 @@ const AddDemo = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const result = await getUser("noapara");
-        setFindUnion(result?.data?.data);
-      } catch (err) {
-        console.error(err);
-        toast.error(
-          "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
-        );
-      }
-    };
-    if (navigator.onLine) {
-      fetchUser();
-    } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const result = await getUser();
+  //       setFindUnion(result?.data?.data);
+  //     } catch (err) {
+  //       console.error(err);
+  //       toast.error(
+  //         "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
+  //       );
+  //     }
+  //   };
+  //   if (navigator.onLine) {
+  //     fetchUser();
+  //   } else {
+  //     toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+  //   }
+  // }, []);
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -386,16 +387,16 @@ const AddDemo = () => {
                 className="input input-bordered w-full"
                 id="address.block"
                 name="address.block"
-                value={findUnion?.blockB}
+                value={user?.blockB}
                 onBlur={formik.handleBlur}
                 disabled
               >
                 <option value="" label="ব্লক সিলেক্ট করুন" />
 
                 <option
-                  key={findUnion?.username}
-                  value={findUnion?.blockB}
-                  label={findUnion?.blockB}
+                  key={user?.username}
+                  value={user?.blockB}
+                  label={user?.blockB}
                 />
               </select>
               {formik.touched.address &&
@@ -411,7 +412,7 @@ const AddDemo = () => {
               <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
               <input
                 className="input input-bordered w-full"
-                value={findUnion?.unionB}
+                value={user?.unionB}
                 disabled={true}
               />
               {formik.touched.address &&
