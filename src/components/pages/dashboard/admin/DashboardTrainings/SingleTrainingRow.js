@@ -6,8 +6,12 @@ import { AuthContext } from '../../../../AuthContext/AuthProvider';
 import toast from 'react-hot-toast';
 import { deleteATraining } from '../../../../../services/userServices';
 import { toBengaliNumber } from 'bengali-number';
+import TableDivision from './TableComponent/TableDivision';
+import { comment } from 'postcss';
 
-const SingleTrainingRow = ({ data, setReload, reload }) => {
+import ImageGallery from "react-image-gallery";
+
+const SingleTrainingRow = ({ index, data, setReload, reload }) => {
     const { user, role } = useContext(AuthContext)
     const {
         projectInfo,
@@ -49,41 +53,38 @@ const SingleTrainingRow = ({ data, setReload, reload }) => {
         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             <tr className="divide-x divide-gray-200 dark:divide-gray-700">
                 <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                    {toBengaliNumber(index + 1)}
+                </td>
+                <TableDivision text={projectInfo?.short} />
+                <TableDivision text={fiscalYear + '/' + season} />
+                <TableDivision text={subject} />
+                <TableDivision text={toBengaliNumber(date?.startDate)} />
+                <TableDivision text={
+                    `কৃষকঃ ${toBengaliNumber(farmers?.male)} জন, \n` +
+                    `কৃষাণীঃ ${toBengaliNumber(farmers?.female)} জন, ` +
+                    `মোটঃ ${toBengaliNumber(farmers?.male + farmers?.female)} জন`
+                } />
 
+
+                <TableDivision text={guests} />
+                <td className="p-3 text-center text-sm font-medium text-gray-800 dark:text-gray-200">
+                    <div className="flex admin-dashboard-training flex-wrap gap-1">
+                        {images?.length > 0 && <ImageGallery showFullscreenButton={true} showPlayButton={false} showNav={false} showThumbnails={false} autoPlay={true} items={imagesArr} />}
+                    </div>
                 </td>
-                <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                    John Brown
-                </td>
-                <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                    John Brown
-                </td>
-                <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                    45
-                </td>
-                <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                    45
-                </td>
-                <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                    45
-                </td>
-                <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                    45
-                </td>
-                <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                    45
-                </td>
-                <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                    New York No. 1 Lake Park
-                </td>
+                <TableDivision text={comment} />
+
+
+
 
                 <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
 
                     <div className="cursor-pointer">
-                        <Link to={`/addTraining?id=${_id}`}><MdOutlineDelete size={35} color="red" /></Link>
+                        <Link to={`/addTraining?id=${_id}`}><CiEdit size={35} color="red" /></Link>
 
                     </div>
                     <div className="cursor-pointer">
-                        <CiEdit onClick={handleTrainingDelete} size={35} color="black" />
+                        <MdOutlineDelete onClick={handleTrainingDelete} size={35} color="black" />
                     </div>
                 </td>
             </tr>

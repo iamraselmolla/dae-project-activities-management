@@ -35,7 +35,12 @@ section {
 .image-gallery-thumbnail {
   width: 50px;
 }
-
+.admin-dashboard-training
+  .image-gallery-content.image-gallery-thumbnails-bottom
+  .image-gallery-slide
+  .image-gallery-image {
+  height: auto;
+}
 .image-gallery-content.image-gallery-thumbnails-bottom
   .image-gallery-slide
   .image-gallery-image {

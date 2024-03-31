@@ -3,6 +3,7 @@ import { getAllTraining } from '../../../../../services/userServices';
 import toast from 'react-hot-toast';
 import SingleTrainingRow from './SingleTrainingRow';
 import TableHead from './TableComponent/TableHead';
+import Loader from '../../../../shared/Loader';
 
 const AdminTrainings = () => {
     const [allTrainings, setAllTrainings] = useState([]);
@@ -61,16 +62,31 @@ const AdminTrainings = () => {
                             {!loading &&
                                 !error &&
                                 allTrainings?.length > 0 &&
-                                allTrainings?.map((training) => (
+                                allTrainings?.map((training, index) => (
                                     <SingleTrainingRow
+                                        index={index}
                                         setReload={setReload}
                                         reload={reload}
                                         key={training?._id}
                                         data={training}
                                     />
                                 ))}
+                            {!loading && allTrainings?.length < 1 && fetchEnd && (
+                                <div className="flex justify-center items-center">
+                                    <h2 className="text-red-600 text-2xl  font-extrabold">
+                                        কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।
+                                    </h2>
+                                </div>
+                            )}
+
 
                         </table>
+                        {loading && !error && (
+                            <div className="flex justify-center items-center">
+                                <Loader />
+                            </div>
+                        )}
+
                     </div>
                 </div>
             </div>
