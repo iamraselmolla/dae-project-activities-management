@@ -205,6 +205,7 @@ const AddTraining = () => {
       if (result.status === 200) {
         const trainingData = result?.data?.data;
         formik.setValues({
+          ...formik.values,
           projectInfo: {
             details: trainingData.projectInfo.details,
             short: trainingData.projectInfo.short,
@@ -217,19 +218,25 @@ const AddTraining = () => {
             male: trainingData.farmers.male,
             female: trainingData.farmers.female,
           },
-          date: {
-            startDate: new Date(trainingData.date.startDate),
-            endDate: new Date(trainingData.date.endDate),
+          date: { // Set the date object directly
+            startDate: trainingData.date.startDate,
+            endDate: trainingData.date.endDate,
           },
           images: trainingData.images,
           comment: trainingData.comment,
         });
+        setValue({
+          startDate: trainingData.date.startDate,
+          endDate: trainingData.date.endDate,
+        });
+
         setImages([...images, ...trainingData.images]);
       }
     } catch (err) {
       toast.error("প্রশিক্ষণের তথ্য আনতে অসুবিধা হচ্ছে।");
     }
   };
+
   useEffect(() => {
     if (navigator.onLine) {
       if (trainingId) {
