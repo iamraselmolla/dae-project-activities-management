@@ -1,18 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { getAllProjects } from "../../../../../services/userServices";
+import { toBengaliNumber } from "bengali-number";
+import getFiscalYear from "../../../../shared/commonDataStores";
+import FiscalYear from "../../../../shared/FiscalYear";
+import Season from "../../../../shared/Season";
+import Datepicker from "react-tailwindcss-datepicker";
+import { AuthContext } from "../../../../AuthContext/AuthProvider";
 
 const AddNotes = () => {
   const [allProject, setAllProjects] = useState([]);
+  const [images, setImages] = useState([]);
+  const [rawImages, setRawImages] = useState([]);
+  const { user } = useContext(AuthContext);
   const initialValues = {
     projectInfo: {
       details: "",
       short: "",
     },
-    season: "",
-    purpose: "",
+    timeFrame: {
+      season: "",
+      fiscalYear: toBengaliNumber(getFiscalYear()),
+    },
+    purpose: {
+      target: "",
+      comment: "",
+      date: "",
+    },
     farmersInfo: {
       name: "",
       fathersOrHusbandName: "",
@@ -26,17 +42,24 @@ const AddNotes = () => {
     },
     attachment: "",
   };
+  const handleImageChange = (event) => {
+    const files = Array.from(event.target.files);
+
+    setRawImages([...rawImages, ...files]);
+    const imagesArray = files.map((file) => URL.createObjectURL(file));
+    setImages((prevImages) => prevImages.concat(imagesArray));
+  };
 
   const validationSchema = Yup.object().shape({
-    season: Yup.string().required(),
-    purpose: Yup.string().required(),
     farmersInfo: Yup.object().shape({
-      name: Yup.string().required(),
-      fathersOrHusbandName: Yup.string().required(),
-      mobile: Yup.string().required(),
+      name: Yup.string().required("অবশ্যই কৃষকের নাম দিন"),
+      fathersOrHusbandName: Yup.string().required("পিতা/স্বামীর নাম দিন"),
+      mobile: Yup.string()
+        .required("মোবাইল নম্বর দিন")
+        .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
     }),
     address: Yup.object().shape({
-      village: Yup.string().required(),
+      village: Yup.string().required("গ্রামের নাম দিন"),
     }),
   });
 
@@ -60,31 +83,6 @@ const AddNotes = () => {
       }
     }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllProjects();
-        if (result?.data?.success) {
-          setAllProjects(result.data.data);
-        } else {
-          setAllProjects([]);
-          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি");
-        }
-      } catch (error) {
-        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
-        toast.error(
-          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
-        );
-      }
-    };
-
-    if (navigator.onLine) {
-      fetchData();
-    } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
-    }
-  }, []);
 
   return (
     <div className="container mx-auto">
@@ -156,32 +154,102 @@ const AddNotes = () => {
               </div>
 
               <div>
-                <label htmlFor="season" className="block font-semibold mb-1">
-                  মৌসুম
+                <label className="font-extrabold mb-1 block">অর্থবছর</label>
+                <select
+                  className="input input-bordered w-full"
+                  id="timeFrame.fiscalYear"
+                  name="timeFrame.fiscalYear"
+                  value={formik.values.timeFrame.fiscalYear}
+                  onChange={formik.handleChange}
+                  defaultValue={toBengaliNumber(getFiscalYear())}
+                >
+                  <FiscalYear />
+                </select>
+              </div>
+              <div>
+                <label className="font-extrabold mb-1 block">মৌসুম</label>
+                <select
+                  className="input input-bordered w-full"
+                  id="timeFrame.season"
+                  name="timeFrame.season"
+                  value={formik.values.timeFrame.season} // Update value to use formik values
+                  onChange={formik.handleChange} // Update the onChange handler
+                  onBlur={formik.handleBlur}
+                >
+                  <Season />
+                </select>
+                {formik.touched.timeFrame &&
+                formik.touched.timeFrame.season &&
+                formik.errors.timeFrame?.season ? (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.timeFrame.season}
+                  </div>
+                ) : null}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="purpose.target"
+                  className="block font-semibold mb-1"
+                >
+                  উদ্দেশ্য
                 </label>
                 <Field
-                  type="text"
-                  name="season"
+                  as="select"
+                  name="purpose.target"
                   className="w-full p-2 border border-gray-300 rounded-md"
-                />
+                >
+                  <option value="" label="উদ্দেশ্য নির্বাচন করুন" />
+                  <option value="প্রদর্শনী">প্রদর্শনী</option>
+                  <option value="প্রশিক্ষণ">প্রশিক্ষণ</option>
+                  <option value="মাঠ দিবস">মাঠ দিবস</option>
+                  <option value="ভ্রমণ">ভ্রমণ</option>
+                  <option value="উদ্বুদ্ধকরণভ্রমণ">উদ্বুদ্ধকরণভ্রমণ</option>
+                  <option value="মাঠ পরামর্শ প্রদান">মাঠ পরামর্শ প্রদান</option>
+                </Field>
                 <ErrorMessage
-                  name="season"
+                  name="purpose.target"
                   component="div"
                   className="text-red-600"
                 />
               </div>
 
               <div>
-                <label htmlFor="purpose" className="block font-semibold mb-1">
-                  উদ্দেশ্য
+                <label
+                  htmlFor="purpose.comment"
+                  className="block font-semibold mb-1"
+                >
+                  মন্তব্য
                 </label>
                 <Field
                   type="text"
-                  name="purpose"
+                  name="purpose.comment"
                   className="w-full p-2 border border-gray-300 rounded-md"
                 />
                 <ErrorMessage
-                  name="purpose"
+                  name="purpose.comment"
+                  component="div"
+                  className="text-red-600"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="purpose.date"
+                  className="block font-semibold mb-1"
+                >
+                  তারিখ
+                </label>
+                <Datepicker
+                  name="purpose.date"
+                  selected={formik.values.purpose.date}
+                  onChange={(date) =>
+                    formik.setFieldValue("purpose.date", date)
+                  }
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
+                <ErrorMessage
+                  name="purpose.date"
                   component="div"
                   className="text-red-600"
                 />
@@ -211,7 +279,7 @@ const AddNotes = () => {
                   htmlFor="farmersInfo.fathersOrHusbandName"
                   className="block font-semibold mb-1"
                 >
-                  ্পিতা/স্বামীর নাম
+                  পিতা/স্বামীর নাম
                 </label>
                 <Field
                   type="text"
@@ -233,7 +301,7 @@ const AddNotes = () => {
                   মোবাইল
                 </label>
                 <Field
-                  type="text"
+                  type="number"
                   name="farmersInfo.mobile"
                   className="w-full p-2 border border-gray-300 rounded-md"
                 />
@@ -262,7 +330,8 @@ const AddNotes = () => {
                   className="text-red-600"
                 />
               </div>
-
+            </div>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               <div>
                 <label
                   htmlFor="address.village"
@@ -292,6 +361,7 @@ const AddNotes = () => {
                 <Field
                   type="text"
                   name="address.block"
+                  value={user?.blockB}
                   className="w-full p-2 border border-gray-300 rounded-md"
                 />
                 <ErrorMessage
@@ -311,6 +381,7 @@ const AddNotes = () => {
                 <Field
                   type="text"
                   name="address.union"
+                  value={user?.unionB}
                   className="w-full p-2 border border-gray-300 rounded-md"
                 />
                 <ErrorMessage
@@ -319,24 +390,23 @@ const AddNotes = () => {
                   className="text-red-600"
                 />
               </div>
-
               <div>
-                <label
-                  htmlFor="attachment"
-                  className="block font-semibold mb-1"
-                >
-                  সংযুক্ত
+                <label className="font-extrabold mb-1 block">
+                  কৃষক গ্রুপ সভার ছবি/ ছবি সমূহ
                 </label>
-                <Field
-                  type="text"
-                  name="attachment"
-                  className="w-full p-2 border border-gray-300 rounded-md"
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="file-input input-bordered w-full"
                 />
-                <ErrorMessage
-                  name="attachment"
-                  component="div"
-                  className="text-red-600"
-                />
+                {formik.touched.images && formik.errors.images ? (
+                  <div className="text-red-600">{formik.errors.images}</div>
+                ) : null}
+                <div className="mt-4">
+                  {/* <div className="">{renderImages()}</div> */}
+                </div>
               </div>
             </div>
 
