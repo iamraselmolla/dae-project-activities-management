@@ -49,7 +49,11 @@ const Training = () => {
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"সকল প্রশিক্ষণ"} />
       <div className="text-right font-extrabold">
-        <AddModuleButton btnText={'প্রশিক্ষণ যুক্ত করুন'} link={'addTraining'} key={'addTraining'} />
+        <AddModuleButton
+          btnText={"প্রশিক্ষণ যুক্ত করুন"}
+          link={"addTraining"}
+          key={"addTraining"}
+        />
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-6">
         {!loading &&
