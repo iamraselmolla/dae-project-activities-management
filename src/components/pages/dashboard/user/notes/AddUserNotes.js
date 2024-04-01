@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import toast from "react-hot-toast";
+import { getAllProjects } from "../../../../../services/userServices";
 
 const AddNotes = () => {
+  const [allProject, setAllProjects] = useState([]);
   const initialValues = {
-    projectDetails: "",
+    projectInfo: {
+      details: "",
+      short: "",
+    },
     season: "",
     purpose: "",
     farmersInfo: {
@@ -22,21 +28,63 @@ const AddNotes = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    season: Yup.string().required("Season is required"),
-    purpose: Yup.string().required("উদ্দেশ্য দিতে হবে"),
+    season: Yup.string().required(),
+    purpose: Yup.string().required(),
     farmersInfo: Yup.object().shape({
-      name: Yup.string().required("নাম দিন"),
-      fathersOrHusbandName: Yup.string().required("পিতা/স্বামীর নাম দিন"),
-      mobile: Yup.string().required("মোবাইল নং দিন"),
+      name: Yup.string().required(),
+      fathersOrHusbandName: Yup.string().required(),
+      mobile: Yup.string().required(),
     }),
     address: Yup.object().shape({
-      village: Yup.string().required("গ্রামের নাম দিন"),
+      village: Yup.string().required(),
     }),
   });
 
   const handleSubmit = (values) => {
     console.log(values);
   };
+
+  const handleSelectChange = (formik, e) => {
+    if (e.target.value) {
+      const findProject = allProject?.find(
+        (s) => s?.name?.details === e.target.value
+      );
+      if (findProject) {
+        formik.setValues({
+          ...formik.values,
+          projectInfo: {
+            details: findProject?.name?.details,
+            short: findProject?.name?.short,
+          },
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getAllProjects();
+        if (result?.data?.success) {
+          setAllProjects(result.data.data);
+        } else {
+          setAllProjects([]);
+          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি");
+        }
+      } catch (error) {
+        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
+        toast.error(
+          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
+        );
+      }
+    };
+
+    if (navigator.onLine) {
+      fetchData();
+    } else {
+      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+    }
+  }, []);
 
   return (
     <div className="container mx-auto">
@@ -46,26 +94,65 @@ const AddNotes = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {(formik) => (
           <Form className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div>
-                <label
-                  htmlFor="projectDetails"
-                  className="block font-semibold mb-1"
-                >
-                  প্রকল্পের তথ্য
+                <label className="font-extrabold mb-1 block">
+                  প্রকল্পের পুরো নাম
                 </label>
-                <Field
+                <select
+                  className="input input-bordered w-full"
+                  id="projectInfo.details"
+                  name="projectInfo.details"
+                  value={formik.values?.name?.details}
+                  onChange={(e) => handleSelectChange(formik, e)}
+                  onBlur={formik.handleBlur}
+                >
+                  <option value="" label="প্রকল্প সিলেক্ট করুন" />
+                  {allProject && allProject?.length > 0 && (
+                    <>
+                      {allProject?.map((single) => (
+                        <option
+                          key={single?.name?.details}
+                          value={single?.name?.details}
+                          label={single?.name?.details}
+                        />
+                      ))}
+                    </>
+                  )}
+                </select>
+                {formik.touched.projectInfo &&
+                formik.touched.projectInfo.details &&
+                formik.errors.projectInfo?.details ? (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.projectInfo.details}
+                  </div>
+                ) : null}
+              </div>
+              <div>
+                <label className="font-extrabold mb-1 block">
+                  প্রকল্পের সংক্ষেপ নাম
+                </label>
+                <input
                   type="text"
-                  name="projectDetails"
-                  className="w-full p-2 border border-gray-300 rounded-md"
+                  className="input input-bordered w-full"
+                  id="projectInfo.short"
+                  disabled={true}
+                  name="projectInfo.short"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  placeholder="প্রকল্পের সংক্ষেপ নাম"
+                  value={formik.values.projectInfo?.short}
                 />
-                <ErrorMessage
-                  name="projectDetails"
-                  component="div"
-                  className="text-red-600"
-                />
+
+                {formik.touched.projectInfo &&
+                formik.touched.projectInfo.short &&
+                formik.errors.projectInfo?.short ? (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.projectInfo.short}
+                  </div>
+                ) : null}
               </div>
 
               <div>
@@ -255,7 +342,7 @@ const AddNotes = () => {
 
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={formik.isSubmitting}
               className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200"
             >
               Submit
