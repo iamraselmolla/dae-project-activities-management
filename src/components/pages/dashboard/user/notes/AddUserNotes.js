@@ -41,6 +41,10 @@ const AddNotes = () => {
       block: "",
       union: "",
     },
+    SAAO: {
+      name: "",
+      mobile: "",
+    },
     attachment: "",
   };
   const handleImageChange = (event) => {
@@ -89,6 +93,30 @@ const AddNotes = () => {
       }
     }
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getAllProjects();
+        if (result?.data?.success) {
+          setAllProjects(result.data.data);
+        } else {
+          setAllProjects([]);
+          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি"); // Notify user if data retrieval was not successful
+        }
+      } catch (error) {
+        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
+        toast.error(
+          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
+        );
+      }
+    };
+
+    if (navigator.onLine) {
+      fetchData();
+    } else {
+      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+    }
+  }, []);
 
   return (
     <div className="container py-8 px-6 mx-auto">
@@ -158,6 +186,8 @@ const AddNotes = () => {
                   </div>
                 ) : null}
               </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
 
               <div>
                 <label className="font-extrabold mb-1 block">অর্থবছর</label>
@@ -192,6 +222,29 @@ const AddNotes = () => {
                   </div>
                 ) : null}
               </div>
+              <div>
+                <label
+                  htmlFor="purpose.date"
+                  className="block font-semibold mb-1"
+                >
+                  তারিখ
+                </label>
+                <Datepicker
+                  name="purpose.date"
+                  selected={formik.values.purpose.date}
+                  onChange={(date) =>
+                    formik.setFieldValue("purpose.date", date)
+                  }
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
+                <ErrorMessage
+                  name="purpose.date"
+                  component="div"
+                  className="text-red-600"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
 
               <div>
                 <label
@@ -238,29 +291,8 @@ const AddNotes = () => {
                   className="text-red-600"
                 />
               </div>
-
-              <div>
-                <label
-                  htmlFor="purpose.date"
-                  className="block font-semibold mb-1"
-                >
-                  তারিখ
-                </label>
-                <Datepicker
-                  name="purpose.date"
-                  selected={formik.values.purpose.date}
-                  onChange={(date) =>
-                    formik.setFieldValue("purpose.date", date)
-                  }
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                />
-                <ErrorMessage
-                  name="purpose.date"
-                  component="div"
-                  className="text-red-600"
-                />
-              </div>
-
+            </div>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div>
                 <label
                   htmlFor="farmersInfo.name"
@@ -396,38 +428,75 @@ const AddNotes = () => {
                   className="text-red-600"
                 />
               </div>
+
+            </div>
+            <div className="grid grid-cols-1 gap-4 my-5 lg:grid-cols-2">
+              <div>
+                <label className="font-extrabold mb-1 block">এসএএও এর নাম</label>
+                <input
+                  type="text"
+                  className="input input-bordered w-full"
+                  id="SAAO.name"
+                  name="SAAO.name"
+                  readOnly
+                  disabled
+                  placeholder="এসএএও নাম"
+                  value={user?.SAAO.name}
+                />
+                {formik.touched.SAAO?.name && formik.errors.SAAO?.name ? (
+                  <div className="text-red-600">{formik.errors.SAAO?.name}</div>
+                ) : null}
+              </div>
               <div>
                 <label className="font-extrabold mb-1 block">
-                  কৃষক গ্রুপ সভার ছবি/ ছবি সমূহ
+                  এসএএও এর মোবাইল
                 </label>
                 <input
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="file-input input-bordered w-full"
+                  type="text"
+                  disabled
+                  className="input input-bordered w-full"
+                  id="SAAO.mobile"
+                  name="SAAO.mobile"
+                  placeholder="এসএএও মোবাইল"
+                  readOnly
+                  value={toBengaliNumber(user?.SAAO?.mobile)}
                 />
-                {formik.touched.images && formik.errors.images ? (
-                  <div className="text-red-600">{formik.errors.images}</div>
+                {formik.touched.SAAO?.mobile && formik.errors.SAAO?.mobile ? (
+                  <div className="text-red-600">{formik.errors.SAAO?.mobile}</div>
                 ) : null}
-                <div className="mt-4 flex-wrap flex gap-2">
-                  {images.map((image, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={image}
-                        alt={`Image ${index + 1}`}
-                        className="w-24 h-24 object-cover rounded-md mr-2 mb-2"
-                      />
-                      <button
-                        type="button"
-                        className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
-                        onClick={() => handleRemoveImage(index)}
-                      >
-                        <FaTimes />
-                      </button>
-                    </div>
-                  ))}
-                </div>
+              </div>
+            </div>
+            <div>
+              <label className="font-extrabold mb-1 block">
+                কৃষক গ্রুপ সভার ছবি/ ছবি সমূহ
+              </label>
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleImageChange}
+                className="file-input w-100 input-bordered w-full"
+              />
+              {formik.touched.images && formik.errors.images ? (
+                <div className="text-red-600">{formik.errors.images}</div>
+              ) : null}
+              <div className="mt-4 flex-wrap flex gap-2">
+                {images.map((image, index) => (
+                  <div key={index} className="relative">
+                    <img
+                      src={image}
+                      alt={`Image ${index + 1}`}
+                      className="w-24 h-24 object-cover rounded-md mr-2 mb-2"
+                    />
+                    <button
+                      type="button"
+                      className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
             <button
@@ -440,7 +509,7 @@ const AddNotes = () => {
           </Form>
         )}
       </Formik>
-    </div>
+    </div >
   );
 };
 
