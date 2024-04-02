@@ -9,6 +9,7 @@ import FiscalYear from "../../../../shared/FiscalYear";
 import Season from "../../../../shared/Season";
 import Datepicker from "react-tailwindcss-datepicker";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
+import { FaTimes } from "react-icons/fa";
 
 const AddNotes = () => {
   const [allProject, setAllProjects] = useState([]);
@@ -49,6 +50,11 @@ const AddNotes = () => {
     const imagesArray = files.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => prevImages.concat(imagesArray));
   };
+  const handleRemoveImage = (index) => {
+    const updatedImages = [...images];
+    updatedImages.splice(index, 1);
+    setImages(updatedImages);
+  };
 
   const validationSchema = Yup.object().shape({
     farmersInfo: Yup.object().shape({
@@ -85,7 +91,7 @@ const AddNotes = () => {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="container py-8 px-6 mx-auto">
       <h1 className="text-2xl font-bold mb-4">নোটস যুক্ত করুন</h1>
       <Formik
         initialValues={initialValues}
@@ -121,8 +127,8 @@ const AddNotes = () => {
                   )}
                 </select>
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.details &&
-                formik.errors.projectInfo?.details ? (
+                  formik.touched.projectInfo.details &&
+                  formik.errors.projectInfo?.details ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.details}
                   </div>
@@ -145,8 +151,8 @@ const AddNotes = () => {
                 />
 
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.short &&
-                formik.errors.projectInfo?.short ? (
+                  formik.touched.projectInfo.short &&
+                  formik.errors.projectInfo?.short ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.short}
                   </div>
@@ -179,8 +185,8 @@ const AddNotes = () => {
                   <Season />
                 </select>
                 {formik.touched.timeFrame &&
-                formik.touched.timeFrame.season &&
-                formik.errors.timeFrame?.season ? (
+                  formik.touched.timeFrame.season &&
+                  formik.errors.timeFrame?.season ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.timeFrame.season}
                   </div>
@@ -404,18 +410,32 @@ const AddNotes = () => {
                 {formik.touched.images && formik.errors.images ? (
                   <div className="text-red-600">{formik.errors.images}</div>
                 ) : null}
-                <div className="mt-4">
-                  {/* <div className="">{renderImages()}</div> */}
+                <div className="mt-4 flex-wrap flex gap-2">
+                  {images.map((image, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={image}
+                        alt={`Image ${index + 1}`}
+                        className="w-24 h-24 object-cover rounded-md mr-2 mb-2"
+                      />
+                      <button
+                        type="button"
+                        className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
+                        onClick={() => handleRemoveImage(index)}
+                      >
+                        <FaTimes />
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-
             <button
-              type="submit"
               disabled={formik.isSubmitting}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200"
+              type="submit"
+              className="btn mt-5 w-full font-extrabold text-white btn-success"
             >
-              Submit
+              কৃষক গ্রুপ সভার তথ্য যুক্ত করুন
             </button>
           </Form>
         )}
