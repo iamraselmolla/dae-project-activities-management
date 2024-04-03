@@ -29,7 +29,4 @@ const http = {
     put: http_create.put,
     delete: http_create.delete,
 };
-console.log(http)
-
-
 export default http;

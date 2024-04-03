@@ -13,12 +13,17 @@ import Season from "../../../../shared/Season";
 import Datepicker from "react-tailwindcss-datepicker";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
 import { FaTimes } from "react-icons/fa";
+import compressAndUploadImage from "../../../../utilis/compressImages";
+import { uploadToCloudinary } from "../../../../utilis/uploadToCloudinary";
+import Loader from "../../../../shared/Loader";
 
 const AddNotes = () => {
   const [allProject, setAllProjects] = useState([]);
   const [images, setImages] = useState([]);
   const [rawImages, setRawImages] = useState([]);
   const { user } = useContext(AuthContext);
+  const [loadingMessage, setLoadingMessage] = useState(null);
+  const [loading, setLoading] = useState(false)
   const [notesDate, setNotesDate] = useState({
     startDate: "",
     endDate: "",
@@ -110,7 +115,9 @@ const AddNotes = () => {
   };
   const handleSubmit = async (values, formikBag) => {
     try {
+      setLoading(true);
       // Prepare data for submission
+      const uploadingImg = [];
       const data = {
         projectInfo: values.projectInfo,
         timeFrame: values.timeFrame,
@@ -122,21 +129,38 @@ const AddNotes = () => {
           union: user?.unionB,
         },
         SAAO: user?.SAAO,
-        attachment: images,
         username: user?.username,
       };
+      if (rawImages?.length > 0) {
+        setLoadingMessage("ছবি আপ্লোড হচ্ছে");
+        for (let i = 0; i < rawImages?.length; i++) {
+          setLoadingMessage(
+            `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
+          );
+          const compressedImage = await compressAndUploadImage(rawImages[i]);
+          setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
+          const result = await uploadToCloudinary(
+            compressedImage,
+            "notenote"
+          );
+          uploadingImg.push(result);
+        }
+
+        data.attachment = uploadingImg;
+      }
+
       const result = await createANote(data);
+      if (result.status === 200) {
+        toast.success(result?.data?.data?.message)
+        formikBag.resetForm();
+        setImages([]);
+        setLoading(false);
+      }
 
-      // Send data to API
-      // Example: const response = await submitDataToApi(data);
-
-      // Clear form and state after successful submission
-      formikBag.resetForm();
-      setImages([]);
-      toast.success("তথ্য সফলভাবে সাবমিট হয়েছে!");
     } catch (error) {
       console.error("Submission Error:", error);
       toast.error("তথ্য সাবমিট করা যায়নি। দয়া করে পুনরায় চেষ্টা করুন।");
+      setLoading(false);
     }
   };
 
@@ -202,8 +226,8 @@ const AddNotes = () => {
                   )}
                 </select>
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.details &&
-                formik.errors.projectInfo?.details ? (
+                  formik.touched.projectInfo.details &&
+                  formik.errors.projectInfo?.details ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.details}
                   </div>
@@ -226,8 +250,8 @@ const AddNotes = () => {
                 />
 
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.short &&
-                formik.errors.projectInfo?.short ? (
+                  formik.touched.projectInfo.short &&
+                  formik.errors.projectInfo?.short ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.short}
                   </div>
@@ -260,8 +284,8 @@ const AddNotes = () => {
                   <Season />
                 </select>
                 {formik.touched.timeFrame &&
-                formik.touched.timeFrame.season &&
-                formik.errors.timeFrame?.season ? (
+                  formik.touched.timeFrame.season &&
+                  formik.errors.timeFrame?.season ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.timeFrame.season}
                   </div>
@@ -548,16 +572,24 @@ const AddNotes = () => {
                 ))}
               </div>
             </div>
-            <button
+            {!loading && <button
               disabled={formik.isSubmitting}
               type="submit"
               className="btn mt-5 w-full font-extrabold text-white btn-success"
             >
               কৃষক গ্রুপ সভার তথ্য যুক্ত করুন
-            </button>
+            </button>}
           </Form>
         )}
       </Formik>
+      {loading && (
+        <div className="fixed daeLoader">
+          <Loader />
+          <h2 className="text-green-600 mt-3 text-4xl">
+            {loadingMessage && loadingMessage}
+          </h2>
+        </div>
+      )}
     </div>
   );
 };
