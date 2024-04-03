@@ -92,7 +92,19 @@ const AddNotes = () => {
       }
     }
   };
+  const handleDateValue = (date, formik) => {
+    // Update purpose date in formik values
+    formik.setValues({
+      ...formik.values,
+      purpose: {
+        ...formik.values.purpose,
+        date: date.startDate, // Set the date property to the start date of the selected date range
+      },
+    });
 
+    // Update local state for notesDate
+    setNotesDate(date);
+  };
   const handleSubmit = async (values, formikBag) => {
     try {
       // Prepare data for submission
@@ -165,7 +177,7 @@ const AddNotes = () => {
                   className="input input-bordered w-full"
                   id="projectInfo.details"
                   name="projectInfo.details"
-                  value={formik.values?.projectInfo.details}
+                  value={formik.values?.projectInfo?.details}
                   onChange={(e) => handleSelectChange(formik, e)}
                   onBlur={formik.handleBlur}
                 >
@@ -203,7 +215,7 @@ const AddNotes = () => {
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   placeholder="প্রকল্পের সংক্ষেপ নাম"
-                  value={formik.values.projectInfo.short}
+                  value={formik.values?.projectInfo?.short}
                 />
 
                 {formik.touched.projectInfo &&
@@ -258,7 +270,7 @@ const AddNotes = () => {
                 <Datepicker
                   name="purpose.date"
                   selected={formik.values.purpose.date}
-                  onChange={(date) => setNotesDate(date)}
+                  onChange={(date) => handleDateValue(date, formik)}
                   value={notesDate}
                   asSingle={true}
                   className="w-full p-2 border border-gray-300 rounded-md"
@@ -495,9 +507,7 @@ const AddNotes = () => {
               </div>
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">
-                কৃষক গ্রুপ সভার ছবি/ ছবি সমূহ
-              </label>
+              <label className="font-extrabold mb-1 block">সংযুক্তি</label>
               <input
                 type="file"
                 multiple
