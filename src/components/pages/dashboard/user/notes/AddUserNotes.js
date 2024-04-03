@@ -16,6 +16,10 @@ const AddNotes = () => {
   const [images, setImages] = useState([]);
   const [rawImages, setRawImages] = useState([]);
   const { user } = useContext(AuthContext);
+  const [notesDate, setNotesDate] = useState({
+    startDate: "",
+    endDate: "",
+  });
   const initialValues = {
     projectInfo: {
       details: "",
@@ -38,12 +42,12 @@ const AddNotes = () => {
     },
     address: {
       village: "",
-      block: "",
-      union: "",
+      block: user?.blockB || "", // Set default value
+      union: user?.unionB || "", // Set default value
     },
     SAAO: {
-      name: "",
-      mobile: "",
+      name: user?.SAAO.name || "", // Set default value
+      mobile: toBengaliNumber(user?.SAAO.mobile) || "", // Set default value
     },
     attachment: "",
   };
@@ -72,11 +76,6 @@ const AddNotes = () => {
       village: Yup.string().required("গ্রামের নাম দিন"),
     }),
   });
-
-  const handleSubmit = (values) => {
-    console.log(values);
-  };
-
   const handleSelectChange = (formik, e) => {
     if (e.target.value) {
       const findProject = allProject?.find(
@@ -93,6 +92,35 @@ const AddNotes = () => {
       }
     }
   };
+
+  const handleSubmit = async (values, formikBag) => {
+    try {
+      // Prepare data for submission
+      const data = {
+        projectInfo: values.projectInfo,
+        timeFrame: values.timeFrame,
+        purpose: values.purpose,
+        farmersInfo: values.farmersInfo,
+        address: values.address,
+        SAAO: user?.SAAO,
+        images: images,
+        username: user?.username,
+      };
+      console.log(data);
+
+      // Send data to API
+      // Example: const response = await submitDataToApi(data);
+
+      // Clear form and state after successful submission
+      formikBag.resetForm();
+      setImages([]);
+      toast.success("তথ্য সফলভাবে সাবমিট হয়েছে!");
+    } catch (error) {
+      console.error("Submission Error:", error);
+      toast.error("তথ্য সাবমিট করা যায়নি। দয়া করে পুনরায় চেষ্টা করুন।");
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -137,14 +165,14 @@ const AddNotes = () => {
                   className="input input-bordered w-full"
                   id="projectInfo.details"
                   name="projectInfo.details"
-                  value={formik.values?.name?.details}
+                  value={formik.values?.projectInfo.details}
                   onChange={(e) => handleSelectChange(formik, e)}
                   onBlur={formik.handleBlur}
                 >
                   <option value="" label="প্রকল্প সিলেক্ট করুন" />
-                  {allProject && allProject?.length > 0 && (
+                  {allProject && allProject.length > 0 && (
                     <>
-                      {allProject?.map((single) => (
+                      {allProject.map((single) => (
                         <option
                           key={single?.name?.details}
                           value={single?.name?.details}
@@ -155,8 +183,8 @@ const AddNotes = () => {
                   )}
                 </select>
                 {formik.touched.projectInfo &&
-                  formik.touched.projectInfo.details &&
-                  formik.errors.projectInfo?.details ? (
+                formik.touched.projectInfo.details &&
+                formik.errors.projectInfo?.details ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.details}
                   </div>
@@ -175,12 +203,12 @@ const AddNotes = () => {
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   placeholder="প্রকল্পের সংক্ষেপ নাম"
-                  value={formik.values.projectInfo?.short}
+                  value={formik.values.projectInfo.short}
                 />
 
                 {formik.touched.projectInfo &&
-                  formik.touched.projectInfo.short &&
-                  formik.errors.projectInfo?.short ? (
+                formik.touched.projectInfo.short &&
+                formik.errors.projectInfo?.short ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.short}
                   </div>
@@ -188,7 +216,6 @@ const AddNotes = () => {
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-
               <div>
                 <label className="font-extrabold mb-1 block">অর্থবছর</label>
                 <select
@@ -197,7 +224,6 @@ const AddNotes = () => {
                   name="timeFrame.fiscalYear"
                   value={formik.values.timeFrame.fiscalYear}
                   onChange={formik.handleChange}
-                  defaultValue={toBengaliNumber(getFiscalYear())}
                 >
                   <FiscalYear />
                 </select>
@@ -208,15 +234,15 @@ const AddNotes = () => {
                   className="input input-bordered w-full"
                   id="timeFrame.season"
                   name="timeFrame.season"
-                  value={formik.values.timeFrame.season} // Update value to use formik values
-                  onChange={formik.handleChange} // Update the onChange handler
+                  value={formik.values.timeFrame.season}
+                  onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 >
                   <Season />
                 </select>
                 {formik.touched.timeFrame &&
-                  formik.touched.timeFrame.season &&
-                  formik.errors.timeFrame?.season ? (
+                formik.touched.timeFrame.season &&
+                formik.errors.timeFrame?.season ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.timeFrame.season}
                   </div>
@@ -232,9 +258,9 @@ const AddNotes = () => {
                 <Datepicker
                   name="purpose.date"
                   selected={formik.values.purpose.date}
-                  onChange={(date) =>
-                    formik.setFieldValue("purpose.date", date)
-                  }
+                  onChange={(date) => setNotesDate(date)}
+                  value={notesDate}
+                  asSingle={true}
                   className="w-full p-2 border border-gray-300 rounded-md"
                 />
                 <ErrorMessage
@@ -245,7 +271,6 @@ const AddNotes = () => {
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-
               <div>
                 <label
                   htmlFor="purpose.target"
@@ -358,7 +383,7 @@ const AddNotes = () => {
                   জাতীয় পরিচয়পত্র নম্বর
                 </label>
                 <Field
-                  type="text"
+                  type="number"
                   name="farmersInfo.NID"
                   className="w-full p-2 border border-gray-300 rounded-md"
                 />
@@ -428,18 +453,19 @@ const AddNotes = () => {
                   className="text-red-600"
                 />
               </div>
-
             </div>
             <div className="grid grid-cols-1 gap-4 my-5 lg:grid-cols-2">
               <div>
-                <label className="font-extrabold mb-1 block">এসএএও এর নাম</label>
+                <label className="font-extrabold mb-1 block">
+                  এসএএও এর নাম
+                </label>
                 <input
                   type="text"
                   className="input input-bordered w-full"
                   id="SAAO.name"
                   name="SAAO.name"
                   readOnly
-                  disabled
+                  disabled={true}
                   placeholder="এসএএও নাম"
                   value={user?.SAAO.name}
                 />
@@ -453,16 +479,18 @@ const AddNotes = () => {
                 </label>
                 <input
                   type="text"
-                  disabled
+                  disabled={true}
                   className="input input-bordered w-full"
                   id="SAAO.mobile"
                   name="SAAO.mobile"
                   placeholder="এসএএও মোবাইল"
                   readOnly
-                  value={toBengaliNumber(user?.SAAO?.mobile)}
+                  value={toBengaliNumber(user?.SAAO.mobile)}
                 />
                 {formik.touched.SAAO?.mobile && formik.errors.SAAO?.mobile ? (
-                  <div className="text-red-600">{formik.errors.SAAO?.mobile}</div>
+                  <div className="text-red-600">
+                    {formik.errors.SAAO?.mobile}
+                  </div>
                 ) : null}
               </div>
             </div>
@@ -509,7 +537,7 @@ const AddNotes = () => {
           </Form>
         )}
       </Formik>
-    </div >
+    </div>
   );
 };
 
