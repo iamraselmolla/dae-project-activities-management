@@ -22,6 +22,7 @@ const SingleTrainingRow = ({ index, data, setReload, reload }) => {
     farmers,
     date,
     images,
+    comment,
     _id,
   } = data;
 

@@ -195,7 +195,7 @@ const AddTraining = () => {
     if (navigator.onLine) {
       fetchData();
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্টারনেট সংযোগ যুক্ত করুন");
     }
   }, []);
 
