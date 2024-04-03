@@ -58,6 +58,8 @@ const AddNotes = () => {
       mobile: toBengaliNumber(user?.SAAO.mobile) || "", // Set default value
     },
     attachment: "",
+    comment: "",
+    username: user?.username
   };
   const handleImageChange = (event) => {
     const files = Array.from(event.target.files);
@@ -325,15 +327,15 @@ const AddNotes = () => {
                 <Field
                   as="select"
                   name="purpose.target"
+                  defaultValue="কৃষি পরামর্শ প্রদান"
                   className="w-full p-2 border border-gray-300 rounded-md"
                 >
                   <option value="" label="উদ্দেশ্য নির্বাচন করুন" />
-                  <option value="প্রদর্শনী">প্রদর্শনী</option>
-                  <option value="প্রশিক্ষণ">প্রশিক্ষণ</option>
-                  <option value="মাঠ দিবস">মাঠ দিবস</option>
-                  <option value="ভ্রমণ">ভ্রমণ</option>
-                  <option value="উদ্বুদ্ধকরণভ্রমণ">উদ্বুদ্ধকরণভ্রমণ</option>
-                  <option value="মাঠ পরামর্শ প্রদান">মাঠ পরামর্শ প্রদান</option>
+                  <option value="প্রদর্শনী দেওয়া">প্রদর্শনী দেওয়া</option>
+                  <option value="প্রশিক্ষণে নাম দেয়া">প্রশিক্ষণে নাম দেয়া</option>
+                  <option value="মাঠ দিবসে উপস্থিত থাকতে বলা">মাঠ দিবসে উপস্থিত থাকতে বলা</option>
+                  <option value="উদ্বুদ্ধকরণভ্রমণে নেওয়া">উদ্বুদ্ধকরণভ্রমণে নেওয়া</option>
+                  <option value="কৃষি পরামর্শ প্রদান">কৃষি পরামর্শ প্রদান</option>
                 </Field>
                 <ErrorMessage
                   name="purpose.target"
