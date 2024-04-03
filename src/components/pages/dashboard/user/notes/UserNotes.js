@@ -8,6 +8,7 @@ import { CiEdit } from 'react-icons/ci';
 import UserNoteTH from './UserNoteTH';
 import UserNoteTD from './UserNoteTD';
 import Loader from '../../../../shared/Loader';
+import { toBengaliNumber } from 'bengali-number';
 
 const UserNotes = () => {
     const { user } = useContext(AuthContext)
@@ -57,35 +58,47 @@ const UserNotes = () => {
                                     <UserNoteTH text="একশন" />
                                 </tr>
                             </thead>
-                            {!loading && fetchEnd && allNotes?.length > 0 ? <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                <tr className="divide-x divide-gray-200 dark:divide-gray-700">
-                                    <UserNoteTD />
-                                    <UserNoteTD />
-                                    <UserNoteTD />
-                                    <UserNoteTD />
-                                    <UserNoteTD />
-                                    <UserNoteTD />
-                                    <UserNoteTD />
-                                    <UserNoteTD />
-                                    <UserNoteTD />
+                            {!loading && fetchEnd && allNotes?.length > 0 ?
+                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                    {allNotes?.map((singleNote, index) => <tr className="divide-x divide-gray-200 dark:divide-gray-700">
+                                        <UserNoteTD text={toBengaliNumber(index + 1)} />
+                                        <UserNoteTD text={singleNote?.purpose?.target} />
+                                        <UserNoteTD text={
+                                            singleNote?.farmersInfo?.name + `\n` + singleNote?.farmersInfo?.fathersOrHusbandName
+                                        } />
+                                        <UserNoteTD text={singleNote?.farmersInfo.mobile + `\n` + singleNote?.farmersInfo?.NID} />
+                                        <UserNoteTD text={singleNote?.address?.village + '\n' + singleNote?.address?.block + '\n' + singleNote?.address?.union} />
+                                        <UserNoteTD text={singleNote?.timeFrame?.season + '\n' + toBengaliNumber(singleNote?.timeFrame?.fiscalYear)} />
+                                        <UserNoteTD text={toBengaliNumber(
+                                            new Date(singleNote?.purpose?.date).toLocaleDateString("bn-BD", {
+                                                weekday: "long", // Specify to include the full day name
+                                                day: "numeric",
+                                                month: "long",
+                                                year: "numeric",
+                                            })
+                                        )} />
+                                        <UserNoteTD />
+                                        <UserNoteTD text={
+                                            singleNote?.SAAO?.name + '\n' + singleNote?.SAAO?.mobile
+                                        } />
 
-                                    <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
-                                        <div className="cursor-pointer">
-                                            <AiOutlineFileDone size={35} color="green" />
-                                        </div>
-                                        <div className="cursor-pointer">
-                                            <MdOutlineDelete size={35} color="red" />
-                                        </div>
-                                        <div className="cursor-pointer">
-                                            <CiEdit size={35} color="black" />
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody> : <div className='flex justify-center items-center'>
-                                <h2 className="text-red-600 text-2xl">
-                                    কোনো নোট খুজে পাওয়া যায়নি
-                                </h2>
-                            </div>}
+                                        <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
+                                            <div className="cursor-pointer">
+                                                <AiOutlineFileDone size={35} color="green" />
+                                            </div>
+                                            <div className="cursor-pointer">
+                                                <MdOutlineDelete size={35} color="red" />
+                                            </div>
+                                            <div className="cursor-pointer">
+                                                <CiEdit size={35} color="black" />
+                                            </div>
+                                        </td>
+                                    </tr>)}
+                                </tbody> : <div className='flex justify-center items-center'>
+                                    <h2 className="text-red-600 text-2xl">
+                                        কোনো নোট খুজে পাওয়া যায়নি
+                                    </h2>
+                                </div>}
                         </table>}
                         {loading && <Loader />}
                     </div>
