@@ -151,10 +151,11 @@ const AddNotes = () => {
 
       const result = await createANote(data);
       if (result.status === 200) {
-        toast.success(result?.data?.data?.message)
+        toast.success(result?.data?.message)
         formikBag.resetForm();
         setImages([]);
         setLoading(false);
+        setRawImages([])
       }
 
     } catch (error) {
