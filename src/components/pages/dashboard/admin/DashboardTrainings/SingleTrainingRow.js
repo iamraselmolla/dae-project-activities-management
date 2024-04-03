@@ -62,9 +62,23 @@ const SingleTrainingRow = ({ index, data, setReload, reload }) => {
           {toBengaliNumber(index + 1)}
         </td>
         <TableDivision text={projectInfo?.short} />
-        <TableDivision text={fiscalYear + "/" + season} />
+        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+          {fiscalYear} <br />
+          {season}
+        </td>
+
         <TableDivision text={subject} />
-        <TableDivision text={toBengaliNumber(date?.startDate)} />
+
+        <TableDivision
+          text={toBengaliNumber(
+            new Date(date?.startDate).toLocaleDateString("bn-BD", {
+              weekday: "long", // Specify to include the full day name
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })
+          )}
+        />
         <td className="text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
           কৃষকঃ {toBengaliNumber(farmers?.male)} জন, <br />
           কৃষাণীঃ {toBengaliNumber(farmers?.female)} জন, <br />
