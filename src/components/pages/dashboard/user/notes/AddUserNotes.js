@@ -132,6 +132,8 @@ const AddNotes = () => {
         },
         SAAO: user?.SAAO,
         username: user?.username,
+        done: false,
+        comment: ''
       };
       if (rawImages?.length > 0) {
         setLoadingMessage("ছবি আপ্লোড হচ্ছে");

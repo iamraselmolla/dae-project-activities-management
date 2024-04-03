@@ -19,6 +19,7 @@ const BASE_URL = {
   deleteTraining: "/training/delete-training",
   getSingleTraining: "/training/get-training",
   createNote: "/note/create-note",
+  findNotes: 'note/get-notes',
 };
 
 export function addProjectByAdmin(values) {
@@ -75,4 +76,7 @@ export function getTrainingById(id) {
 
 export function createANote(values) {
   return http.post(BASE_URL.createNote, values);
+}
+export function findUserAllNotes(username) {
+  return http.post(BASE_URL.findNotes, { username })
 }

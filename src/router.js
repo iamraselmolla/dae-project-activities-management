@@ -20,7 +20,7 @@ import Profile from "./components/pages/dashboard/profile/Profile";
 import AddGroupMeeting from "./components/pages/DaeGroupMeeting/AddGroupMeeting";
 import DaeGroupMeeting from "./components/pages/DaeGroupMeeting/DaeGroupMeeting";
 import UserDaeMeetings from "./components/pages/dashboard/user/UserDaeMeetings";
-import UserNotes from "./components/pages/dashboard/user/UserNotes";
+import UserNotes from "./components/pages/dashboard/user/notes/UserNotes";
 import AddUserNotes from "./components/pages/dashboard/user/notes/AddUserNotes";
 import AdminTrainings from "./components/pages/dashboard/admin/DashboardTrainings/AdminTrainings";
 
