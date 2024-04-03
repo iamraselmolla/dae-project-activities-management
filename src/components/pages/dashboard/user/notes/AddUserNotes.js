@@ -119,7 +119,7 @@ const AddNotes = () => {
           union: user?.unionB,
         },
         SAAO: user?.SAAO,
-        images: images,
+        attachment: images,
         username: user?.username,
       };
       console.log(data);
