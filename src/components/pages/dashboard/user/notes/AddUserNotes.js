@@ -32,7 +32,7 @@ const AddNotes = () => {
     purpose: {
       target: "",
       comment: "",
-      date: "",
+      date: new Date(),
     },
     farmersInfo: {
       name: "",
@@ -113,7 +113,11 @@ const AddNotes = () => {
         timeFrame: values.timeFrame,
         purpose: values.purpose,
         farmersInfo: values.farmersInfo,
-        address: values.address,
+        address: {
+          ...values.address,
+          block: user?.blockB,
+          union: user?.unionB,
+        },
         SAAO: user?.SAAO,
         images: images,
         username: user?.username,
@@ -437,6 +441,8 @@ const AddNotes = () => {
                   type="text"
                   name="address.block"
                   value={user?.blockB}
+                  disabled={true}
+                  readOnly
                   className="w-full p-2 border border-gray-300 rounded-md"
                 />
                 <ErrorMessage
@@ -457,6 +463,8 @@ const AddNotes = () => {
                   type="text"
                   name="address.union"
                   value={user?.unionB}
+                  disabled={true}
+                  readOnly
                   className="w-full p-2 border border-gray-300 rounded-md"
                 />
                 <ErrorMessage
