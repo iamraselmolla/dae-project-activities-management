@@ -100,7 +100,11 @@ const AddTraining = () => {
     // images: Yup.array().min(1, "কমপক্ষে একটি ছবি প্রয়োজন"),
     comment: Yup.string().required("মন্তব্য প্রয়োজন"),
   });
-
+  const resetForm = () => {
+    formik.resetForm();
+    setImages([]);
+    setRawImages([]);
+  };
   const initialValues = {
     projectInfo: {
       details: "",
@@ -161,6 +165,7 @@ const AddTraining = () => {
           if (result?.status === 200) {
             toast.success("কৃষক প্রশিক্ষণ তথ্য যুক্ত করা হয়েছে।");
             setLoading(false);
+            resetForm();
           }
         } catch (err) {
           console.log(err);

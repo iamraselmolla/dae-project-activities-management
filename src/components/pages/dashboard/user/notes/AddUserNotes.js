@@ -2,7 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
-import { getAllProjects } from "../../../../../services/userServices";
+import {
+  createANote,
+  getAllProjects,
+} from "../../../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
 import getFiscalYear from "../../../../shared/commonDataStores";
 import FiscalYear from "../../../../shared/FiscalYear";
@@ -122,7 +125,7 @@ const AddNotes = () => {
         attachment: images,
         username: user?.username,
       };
-      console.log(data);
+      const result = await createANote(data);
 
       // Send data to API
       // Example: const response = await submitDataToApi(data);

@@ -15,9 +15,10 @@ const BASE_URL = {
   createATraining: "/training/create-training",
   getTraining: "/training/get-trainings",
   createAFieldDay: "/fieldDay/create-fieldDay",
-  getFieldDays: '/fieldDay/get-all-fieldDays',
-  deleteTraining: '/training/delete-training',
-  getSingleTraining: '/training/get-training'
+  getFieldDays: "/fieldDay/get-all-fieldDays",
+  deleteTraining: "/training/delete-training",
+  getSingleTraining: "/training/get-training",
+  createNote: "/note/create-note",
 };
 
 export function addProjectByAdmin(values) {
@@ -53,23 +54,25 @@ export function createAGroup(values) {
 export function fetchAllGroups() {
   return http.get(BASE_URL.fetchAllGroupsInfo);
 }
-
 export function createTraining(values) {
   return http.post(BASE_URL.createATraining, values);
 }
-
 export function getAllTraining() {
   return http.get(BASE_URL.getTraining);
 }
 export function createAFieldDay(values) {
-  return http.post(BASE_URL.createAFieldDay, values)
+  return http.post(BASE_URL.createAFieldDay, values);
 }
 export function getAllFieldDays() {
   return http.get(BASE_URL.getFieldDays);
 }
 export function deleteATraining(id) {
-  return http.delete(BASE_URL.deleteTraining, { data: { id } })
+  return http.delete(BASE_URL.deleteTraining, { data: { id } });
 }
 export function getTrainingById(id) {
-  return http.get(BASE_URL.getSingleTraining + `?id=${id}`)
+  return http.get(BASE_URL.getSingleTraining + `?id=${id}`);
+}
+
+export function createANote(values) {
+  return http.post(BASE_URL.createNote, values);
 }
