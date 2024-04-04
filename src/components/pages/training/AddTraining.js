@@ -9,6 +9,7 @@ import {
   createTraining,
   getAllProjects,
   getTrainingById,
+  updateTraining,
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
@@ -55,10 +56,14 @@ const AddTraining = () => {
   };
 
   const setDateChange = (newValue) => {
-    setValue(newValue);
+    setValue({
+      ...newValue,
+      endDate: newValue.startDate,
+    });
+
     formik.setValues({
       ...formik.values,
-      date: { ...newValue },
+      date: newValue,
     });
   };
 
@@ -119,7 +124,7 @@ const AddTraining = () => {
       male: 0,
       female: 0,
     },
-    date: value,
+    date: value.startDate,
     images: [],
     comment: "",
   };
@@ -171,6 +176,33 @@ const AddTraining = () => {
             }
 
           } else {
+            setLoadingMessage("কৃষক প্রশিক্ষণ তথ্য আপডেট হচ্ছে");
+
+            const updatedTrainingData = {
+              projectInfo: {
+                details: values.projectInfo.details,
+                short: values.projectInfo.short,
+              },
+              fiscalYear: values.fiscalYear,
+              season: values.season,
+              subject: values.subject,
+              guests: values.guests,
+              farmers: {
+                male: values.farmers.male,
+                female: values.farmers.female,
+              },
+              date: {
+                startDate: values.date.startDate,
+                endDate: values.date.endDate,
+              },
+              comment: values.comment,
+            };
+
+            const result = await updateTraining(trainingId, updatedTrainingData);
+            if (result?.status === 200) {
+              toast.success("কৃষক প্রশিক্ষণ তথ্য আপডেট করা হয়েছে।");
+              setLoading(false);
+            }
 
           }
         } catch (err) {
@@ -234,7 +266,7 @@ const AddTraining = () => {
             startDate: trainingData.date.startDate,
             endDate: trainingData.date.endDate,
           },
-          images: trainingData.images,
+          // images: trainingData.images,
           comment: trainingData.comment,
         });
         setValue({
@@ -465,7 +497,7 @@ const AddTraining = () => {
               id="date"
               name="date"
               asSingle={true}
-              value={value?.startDate}
+              value={value}
               onChange={setDateChange}
               showShortcuts={true}
             />
@@ -495,13 +527,13 @@ const AddTraining = () => {
                       alt={`Selected Image ${index + 1}`}
                       className="mt-2 max-w-64 h-auto"
                     />
-                    <button
+                    {!trainingId && <button
                       type="button"
                       className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
                       onClick={() => handleRemoveImage(index)}
                     >
                       <FaTimes />
-                    </button>
+                    </button>}
                   </div>
                 ))}
               </div>
@@ -536,7 +568,7 @@ const AddTraining = () => {
             type="submit"
             className="btn mt-5 w-full font-extrabold text-white btn-success"
           >
-            প্রশিক্ষণ যুক্ত করুন
+            {trainingId ? "কৃষক প্রশিক্ষণ তথ্য আপডেট করুন" : "প্রশিক্ষণ যুক্ত করুন"}
           </button>
         )}
       </form>
