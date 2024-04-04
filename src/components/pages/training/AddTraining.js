@@ -168,9 +168,10 @@ const AddTraining = () => {
               toast.success("কৃষক প্রশিক্ষণ তথ্য যুক্ত করা হয়েছে।");
               setLoading(false);
               resetForm();
-            } else {
-              toast.error()
             }
+
+          } else {
+
           }
         } catch (err) {
           console.log(err);
@@ -480,6 +481,7 @@ const AddTraining = () => {
               multiple
               name="images"
               type="file"
+              disabled={trainingId ? true : false}
               className="file-input input-bordered w-full"
               onChange={handleImageChange}
             />
