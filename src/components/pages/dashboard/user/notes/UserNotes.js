@@ -93,7 +93,7 @@ const UserNotes = () => {
                     <UserNoteTH text="উদ্দেশ্য" />
                     <UserNoteTH text="কৃষকের নাম ও পিতার নাম" />
                     <UserNoteTH text="মোবাইল ও NID" />
-                    <UserNoteTH text="গ্রাম, ব্লক ও ইউনিয়ন" />
+                    <UserNoteTH text="গ্রাম" />
                     <UserNoteTH text="অর্থবছর ও মৌসুম" />
                     <UserNoteTH text="তারিখ" />
                     <UserNoteTH text="কার্য শেষের মন্তব্য" />
