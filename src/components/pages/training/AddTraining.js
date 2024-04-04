@@ -31,8 +31,8 @@ const AddTraining = () => {
   const [rawImages, setRawImages] = useState([]);
   const [loadingMessage, setLoadingMessage] = useState(null);
   const [value, setValue] = useState({
-    startDate: null,
-    endDate: null,
+    startDate: new Date(),
+    endDate: new Date(),
   });
   const [imageLinks, setImageLinks] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]); // Initialize as an empty array
@@ -119,7 +119,7 @@ const AddTraining = () => {
       male: 0,
       female: 0,
     },
-    date: "",
+    date: value,
     images: [],
     comment: "",
   };
@@ -136,37 +136,41 @@ const AddTraining = () => {
       }
       const postTrainingData = async () => {
         try {
-          if (setRawImages?.length > 0) {
-            setLoadingMessage("ছবি আপ্লোড হচ্ছে");
-            setLoading(true);
-            const uploadedImageLinks = [];
-            for (let i = 0; i < rawImages?.length; i++) {
-              setLoadingMessage(
-                `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
-              );
+          if (!trainingId) {
+            if (setRawImages?.length > 0) {
+              setLoadingMessage("ছবি আপ্লোড হচ্ছে");
+              setLoading(true);
+              const uploadedImageLinks = [];
+              for (let i = 0; i < rawImages?.length; i++) {
+                setLoadingMessage(
+                  `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
+                );
 
-              const compressedImage = await compressAndUploadImage(
-                rawImages[i]
-              );
-              setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-              const result = await uploadToCloudinary(
-                compressedImage,
-                "training"
-              );
-              uploadedImageLinks.push(result);
-              setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
+                const compressedImage = await compressAndUploadImage(
+                  rawImages[i]
+                );
+                setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
+                const result = await uploadToCloudinary(
+                  compressedImage,
+                  "training"
+                );
+                uploadedImageLinks.push(result);
+                setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
+              }
+              setImageLinks(uploadedImageLinks); // Set all image links at once
+              values.images = uploadedImageLinks;
+              setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
+
+              setLoadingMessage("কৃষক প্রশিক্ষণ তথ্য আপ্লোড হচ্ছে");
             }
-            setImageLinks(uploadedImageLinks); // Set all image links at once
-            values.images = uploadedImageLinks;
-            setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
-
-            setLoadingMessage("কৃষক প্রশিক্ষণ তথ্য আপ্লোড হচ্ছে");
-          }
-          const result = await createTraining(values);
-          if (result?.status === 200) {
-            toast.success("কৃষক প্রশিক্ষণ তথ্য যুক্ত করা হয়েছে।");
-            setLoading(false);
-            resetForm();
+            const result = await createTraining(values);
+            if (result?.status === 200) {
+              toast.success("কৃষক প্রশিক্ষণ তথ্য যুক্ত করা হয়েছে।");
+              setLoading(false);
+              resetForm();
+            } else {
+              toast.error()
+            }
           }
         } catch (err) {
           console.log(err);
@@ -460,7 +464,7 @@ const AddTraining = () => {
               id="date"
               name="date"
               asSingle={true}
-              value={value}
+              value={value?.startDate}
               onChange={setDateChange}
               showShortcuts={true}
             />
