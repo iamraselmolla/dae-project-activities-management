@@ -16,6 +16,7 @@ import { FaTimes } from "react-icons/fa";
 import compressAndUploadImage from "../../../../utilis/compressImages";
 import { uploadToCloudinary } from "../../../../utilis/uploadToCloudinary";
 import Loader from "../../../../shared/Loader";
+import { makeSureOnline } from "../../../../shared/MessageConst";
 
 const AddNotes = () => {
   const [allProject, setAllProjects] = useState([]);
@@ -190,7 +191,7 @@ const AddNotes = () => {
     if (navigator.onLine) {
       fetchData();
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+      toast.error(makeSureOnline);
     }
   }, []);
 

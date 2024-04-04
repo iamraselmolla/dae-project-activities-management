@@ -17,6 +17,7 @@ import { bn } from "date-fns/locale";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
+import { makeSureOnline } from "../../shared/MessageConst";
 
 const AddFieldDay = () => {
   const [value, setValue] = useState({
@@ -115,7 +116,7 @@ const AddFieldDay = () => {
     if (navigator.onLine) {
       fetchData();
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+      toast.error(makeSureOnline);
     }
   }, []);
 

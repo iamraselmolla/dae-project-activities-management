@@ -7,6 +7,7 @@ import SingleDemo from "../DaeGroupMeeting/SingleDaeGroupMeetings";
 import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import AddModuleButton from "../../shared/AddModuleButton";
+import { makeSureOnline } from "../../shared/MessageConst";
 
 const Training = () => {
   const [allTrainings, setAllTrainings] = useState([]);
@@ -41,7 +42,7 @@ const Training = () => {
     if (navigator.onLine) {
       fetchAllTraining();
     } else {
-      toast.error("আপনার ইন্টারনেট সংযোগটি চালু করুন");
+      toast.error(makeSureOnline);
     }
   }, [reload]);
 

@@ -5,6 +5,7 @@ import { fetchAllGroups } from "../../../services/userServices";
 import Loader from "../../shared/Loader";
 import AddModuleButton from "../../shared/AddModuleButton";
 import toast from "react-hot-toast";
+import { makeSureOnline } from "../../shared/MessageConst";
 
 const DaeGroupMeeting = () => {
   const [loading, setLoading] = useState(false);
@@ -37,7 +38,7 @@ const DaeGroupMeeting = () => {
     if (navigator.onLine) {
       fetchGroups();
     } else {
-      toast.error("আপনার ইন্টারনেট সংযোগ অথবা ওয়াইফাই চালু করুন");
+      toast.error(makeSureOnline);
     }
   }, []);
   return (

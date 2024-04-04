@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import AddModuleButton from "../../shared/AddModuleButton";
+import { makeSureOnline } from "../../shared/MessageConst";
 
 const FieldDay = () => {
   const [loading, setLoading] = useState(false);
@@ -37,7 +38,7 @@ const FieldDay = () => {
     if (navigator.onLine) {
       fetchAllFieldDays();
     } else {
-      toast.error("আপনার ইন্টারনেট সংযোগ অথবা ওয়াইফাই চালু করুন");
+      toast.error(makeSureOnline);
     }
   }, []);
   return (

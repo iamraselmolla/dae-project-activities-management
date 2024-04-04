@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import SingleTrainingRow from './SingleTrainingRow';
 import TableHead from './TableComponent/TableHead';
 import Loader from '../../../../shared/Loader';
+import { makeSureOnline } from '../../../../shared/MessageConst';
 
 const AdminTrainings = () => {
     const [allTrainings, setAllTrainings] = useState([]);
@@ -36,7 +37,7 @@ const AdminTrainings = () => {
         if (navigator.onLine) {
             fetchAllTraining();
         } else {
-            toast.error("আপনার ইন্টারনেট সংযোগটি চালু করুন");
+            toast.error(makeSureOnline);
         }
     }, [reload]);
     return (

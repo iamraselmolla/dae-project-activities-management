@@ -9,6 +9,7 @@ import { CiCirclePlus } from "react-icons/ci";
 import toast from "react-hot-toast";
 import { deleteAProject, updateProjectCrops } from "../../../../services/userServices";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { makeSureOnline } from "../../../shared/MessageConst";
 
 
 const SingleProject = ({ data, index, setRefetch, refetch }) => {
@@ -49,7 +50,7 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
         if (navigator.onLine) {
             addCropsToTheProject();
         } else {
-            toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+            toast.error(makeSureOnline);
         }
     };
     // প্রকল্প মুছুন 
@@ -79,7 +80,7 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
         if (navigator.onLine) {
             handleDelete();
         } else {
-            toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্টারনেট সংযোগ যুক্ত করুন");
+            toast.error(makeSureOnline);
         }
     };
     return (

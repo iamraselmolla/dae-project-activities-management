@@ -67,6 +67,7 @@ import SectionTitle from "../../../shared/SectionTitle";
 import Loader from "../../../shared/Loader";
 import SingleProject from "./SingleProject";
 import toast from "react-hot-toast";
+import { makeSureOnline } from "../../../shared/MessageConst";
 
 const AllProjects = () => {
   const [allProjects, setAllProjects] = useState([]);
@@ -94,7 +95,7 @@ const AllProjects = () => {
     if (navigator.onLine) {
       getAllProjectsInfo();
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্টারনেট সংযোগ যুক্ত করুন");
+      toast.error(makeSureOnline);
     }
   }, [refetch]);
 

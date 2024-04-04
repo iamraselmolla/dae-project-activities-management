@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { toBengaliNumber } from "bengali-number";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { useLocation, useParams } from "react-router-dom";
+import { makeSureOnline } from "../../shared/MessageConst";
 
 const AddProjects = () => {
   const location = useLocation();
@@ -142,7 +143,7 @@ const AddProjects = () => {
       if (navigator.onLine) {
         findProject();
       } else {
-        toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্টারনেট সংযোগ যুক্ত করুন");
+        toast.error(makeSureOnline);
       }
     }
   }, [projectId, setValue, setCropValues]); // Include dependencies in the dependency array
@@ -167,8 +168,8 @@ const AddProjects = () => {
               value={formik.values.name ? formik.values.name.details : ""}
             />
             {formik.touched.name &&
-            formik.touched.name.details &&
-            formik.errors.name?.details ? (
+              formik.touched.name.details &&
+              formik.errors.name?.details ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.name.details}
               </div>
@@ -189,8 +190,8 @@ const AddProjects = () => {
               value={formik.values.name ? formik.values.name.short : ""}
             />
             {formik.touched.name &&
-            formik.touched.name.short &&
-            formik.errors.name?.short ? (
+              formik.touched.name.short &&
+              formik.errors.name?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.name.short}
               </div>

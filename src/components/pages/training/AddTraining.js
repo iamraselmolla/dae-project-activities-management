@@ -18,6 +18,7 @@ import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import { useLocation } from "react-router-dom";
+import { makeSureOnline } from "../../shared/MessageConst";
 
 const AddTraining = () => {
   const location = useLocation();
@@ -175,7 +176,7 @@ const AddTraining = () => {
       if (navigator.onLine) {
         postTrainingData();
       } else {
-        toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্টারনেট সংযোগ যুক্ত করুন");
+        toast.error(makeSureOnline);
       }
     },
   });
@@ -200,7 +201,7 @@ const AddTraining = () => {
     if (navigator.onLine) {
       fetchData();
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্টারনেট সংযোগ যুক্ত করুন");
+      toast.error(makeSureOnline);
     }
   }, []);
 
@@ -249,7 +250,7 @@ const AddTraining = () => {
         findTrainingInfo();
       }
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+      toast.error(makeSureOnline);
     }
   }, [trainingId]);
 
@@ -284,8 +285,8 @@ const AddTraining = () => {
               )}
             </select>
             {formik.touched.projectInfo &&
-            formik.touched.projectInfo.details &&
-            formik.errors.projectInfo?.details ? (
+              formik.touched.projectInfo.details &&
+              formik.errors.projectInfo?.details ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.details}
               </div>
@@ -308,8 +309,8 @@ const AddTraining = () => {
             />
 
             {formik.touched.projectInfo &&
-            formik.touched.projectInfo.short &&
-            formik.errors.projectInfo?.short ? (
+              formik.touched.projectInfo.short &&
+              formik.errors.projectInfo?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.short}
               </div>
@@ -327,8 +328,8 @@ const AddTraining = () => {
               <FiscalYear />
             </select>
             {formik.touched.fiscalYear &&
-            formik.touched.fiscalYear &&
-            formik.errors.fiscalYear ? (
+              formik.touched.fiscalYear &&
+              formik.errors.fiscalYear ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.fiscalYear}
               </div>
@@ -407,8 +408,8 @@ const AddTraining = () => {
               value={formik.values?.farmers?.male}
             />
             {formik.touched.farmers &&
-            formik.touched.farmers.male &&
-            formik.errors.farmers?.male ? (
+              formik.touched.farmers.male &&
+              formik.errors.farmers?.male ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.farmers.male}
               </div>
@@ -429,8 +430,8 @@ const AddTraining = () => {
               value={formik.values.farmers?.female}
             />
             {formik.touched.farmers &&
-            formik.touched.farmers.female &&
-            formik.errors.farmers?.female ? (
+              formik.touched.farmers.female &&
+              formik.errors.farmers?.female ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.farmers.female}
               </div>
