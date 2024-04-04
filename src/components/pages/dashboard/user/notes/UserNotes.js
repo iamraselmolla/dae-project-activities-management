@@ -146,7 +146,7 @@ const UserNotes = () => {
                             })
                           )}
                         />
-                        <UserNoteTD />
+                        <UserNoteTD text={singleNote?.comment} />
                         <UserNoteTD
                           text={
                             singleNote?.SAAO?.name +
@@ -157,12 +157,13 @@ const UserNotes = () => {
 
                         <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
                           <span className="cursor-pointer">
-                            <AiOutlineFileDone
-                              onClick={() => handleNoteModal(singleNote)}
-                              size={35}
-                              color="green"
-                            />
-                            <CompleteModel data={modalData} />
+                            {!singleNote?.done && (
+                              <AiOutlineFileDone
+                                onClick={() => handleNoteModal(singleNote)}
+                                size={35}
+                                color="green"
+                              />
+                            )}
                           </span>
                           <span className="cursor-pointer">
                             <MdOutlineDelete
@@ -174,6 +175,11 @@ const UserNotes = () => {
                         </td>
                       </tr>
                     ))}
+                  <CompleteModel
+                    setReload={setReload}
+                    reload={reload}
+                    data={modalData}
+                  />
 
                   {fetchEnd && !loading && allNotes?.length < 1 && (
                     <tr>

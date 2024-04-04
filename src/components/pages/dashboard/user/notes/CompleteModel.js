@@ -1,17 +1,34 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { makeSureOnline } from "../../../../shared/MessageConst";
+import { markNoteAsComplete } from "../../../../../services/userServices";
 
-function CompleteModel({ data }) {
-  const [open, setOpen] = useState(false);
+function CompleteModel({ data, setReload, reload }) {
+  const [open, setOpen] = useState(true);
+  const [commentData, setCommentData] = useState("");
   // Handle Note completion
-  const handleNoteCompleted = (id) => {
-    console.log(id);
+  const handleNoteCompleted = async (id) => {
+    if (navigator.onLine) {
+      try {
+        if (id) {
+          if (!commentData) {
+            return toast.error("দয়া করে মন্তব্য যুক্ত করুন");
+          }
+          const result = await markNoteAsComplete(id, commentData);
+          if (result?.status === 200) {
+            toast.success(result?.data?.message);
+            setReload(!reload);
+          }
+        }
+      } catch (err) {
+        toast.error("নোট সম্পন্ন করতে সমস্যার সৃষ্টি হচ্ছে।");
+      }
+    } else {
+      toast.error(makeSureOnline);
+    }
   };
   return (
-    <dialog
-      id="my_modal_3"
-      className="modal text-center"
-      //  {open ? "open" : ''}
-    >
+    <dialog id="my_modal_3" className="modal text-center">
       <div className="modal-box">
         <div className="modal-action block justify-center pb-5">
           <form method="dialog">
@@ -27,6 +44,7 @@ function CompleteModel({ data }) {
                 placeholder="সম্পাদন মন্তব্য যুক্ত করুন"
                 className="input px3 py-2 h-20 input-bordered w-full"
                 rows={10}
+                onChange={(e) => setCommentData(e.target.value)}
               ></textarea>
             </div>
 
