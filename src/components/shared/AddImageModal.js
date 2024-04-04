@@ -8,7 +8,7 @@ const AddImageModal = () => {
   const [previewURL, setPreviewURL] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [presentCondition, setPresentConditin] = useState("");
-  const [presentOfficers, setPresentOfficers] = useState('')
+  const [presentOfficers, setPresentOfficers] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -49,14 +49,11 @@ const AddImageModal = () => {
 
         <div className="modal-action flex justify-center pb-5">
           <form onSubmit={handleFormData} method="dialog">
-
             <textarea
               onChange={(e) => setPresentOfficers(e.target.value)}
               className="textarea textarea-success w-full mb-2"
               placeholder="উপস্থিত কর্মকর্তা"
-            >
-
-            </textarea>
+            ></textarea>
 
             <input
               onChange={(e) => setPresentConditin(e.target.value)}

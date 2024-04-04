@@ -13,6 +13,7 @@ import UserNoteTD from "./UserNoteTD";
 import Loader from "../../../../shared/Loader";
 import { toBengaliNumber } from "bengali-number";
 import { makeSureOnline } from "../../../../shared/MessageConst";
+import CompleteModel from "./CompleteModel";
 
 const UserNotes = () => {
   const { user } = useContext(AuthContext);
@@ -20,6 +21,7 @@ const UserNotes = () => {
   const [loading, setLoading] = useState(false);
   const [fetchEnd, setFetchEnd] = useState(false);
   const [reload, setReload] = useState(false);
+  const [modalData, setModalData] = useState(null);
 
   //   Find User All Notes
   useEffect(() => {
@@ -71,6 +73,13 @@ const UserNotes = () => {
       toast.error(makeSureOnline);
     }
   };
+
+  //   Hanlde click to display modal
+
+  const handleNoteModal = (noteData) => {
+    document.getElementById("my_modal_3").showModal();
+    setModalData(noteData);
+  };
   return (
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
@@ -117,15 +126,7 @@ const UserNotes = () => {
                             singleNote?.farmersInfo?.NID
                           }
                         />
-                        <UserNoteTD
-                          text={
-                            singleNote?.address?.village +
-                            "\n" +
-                            singleNote?.address?.block +
-                            "\n" +
-                            singleNote?.address?.union
-                          }
-                        />
+                        <UserNoteTD text={singleNote?.address?.village} />
                         <UserNoteTD
                           text={
                             singleNote?.timeFrame?.season +
@@ -156,7 +157,12 @@ const UserNotes = () => {
 
                         <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
                           <span className="cursor-pointer">
-                            <AiOutlineFileDone size={35} color="green" />
+                            <AiOutlineFileDone
+                              onClick={() => handleNoteModal(singleNote)}
+                              size={35}
+                              color="green"
+                            />
+                            <CompleteModel data={modalData} />
                           </span>
                           <span className="cursor-pointer">
                             <MdOutlineDelete
