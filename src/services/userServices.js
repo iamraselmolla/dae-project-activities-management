@@ -50,7 +50,7 @@ export function findProjectByUserId(id) {
   return http.post(BASE_URL.findProject, { id });
 }
 export function updateUser(id, values) {
-  return http.put(BASE_URL, { id, values });
+  return http.put(BASE_URL.updateUser, { id, values });
 }
 export function createAGroup(values) {
   return http.post(BASE_URL.createGroup, values);
