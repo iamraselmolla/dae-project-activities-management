@@ -38,7 +38,7 @@ export function getUser(username) {
   return http.post(BASE_URL.getUser, { username });
 }
 export function getAllUser() {
-  return http.get(BASE_URL.getAllUser + "?person=admin");
+  return http.get(BASE_URL.getAllUser);
 }
 export function updateProjectCrops(values) {
   return http.put(BASE_URL.updateProjectCrops, values);
