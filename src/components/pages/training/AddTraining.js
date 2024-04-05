@@ -554,6 +554,7 @@ const AddTraining = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             name="comment"
+            value={formik.values.comment}
             className="input h-20 input-bordered w-full"
             rows={10}
           ></textarea>
