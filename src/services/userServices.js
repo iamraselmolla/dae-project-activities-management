@@ -22,7 +22,8 @@ const BASE_URL = {
   findNotes: "note/get-notes",
   deleteNote: "/note/delete-note",
   completeANote: "/note/complete-note",
-  updateTrainingData: '/training/update'
+  updateTrainingData: '/training/update',
+  userFieldDay: '/fieldDay/user-fielddays'
 };
 
 export function addProjectByAdmin(values) {
@@ -91,4 +92,7 @@ export function markNoteAsComplete(id, comment) {
 }
 export function updateTraining(id, trainingData) {
   return http.put(BASE_URL.updateTrainingData, { id, trainingData })
+}
+export function getUserAllFieldDay() {
+  return http.get(BASE_URL.userFieldDay)
 }

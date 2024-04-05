@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
+import { AuthContext } from "../../../AuthContext/AuthProvider";
+import { getUserAllFieldDay } from "../../../../services/userServices";
+import toast from "react-hot-toast";
+import { makeSureOnline } from "../../../shared/MessageConst";
 
 const UserFieldDays = () => {
+  const [allFieldDays, setAllFieldDays] = useState([])
+  const { user } = useContext(AuthContext)
+  useEffect(() => {
+    const getFieldDays = async () => {
+      try {
+        const result = await getUserAllFieldDay()
+        if (result?.status === 200) {
+          setAllFieldDays(result?.data?.data)
+          console.log(result)
+        }
+      } catch (err) {
+        toast.error("মাঠ দিবসের তথ্য আনতে অসুবিধা হচ্ছে। দয়া করে সংশ্লিষ্টকে জানান")
+      }
+    }
+    if (navigator.onLine) {
+      getFieldDays()
+    } else {
+      toast.error(makeSureOnline)
+    }
+  }, [user])
+
   return (
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
