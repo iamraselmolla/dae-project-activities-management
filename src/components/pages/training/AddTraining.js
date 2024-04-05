@@ -304,7 +304,7 @@ const AddTraining = () => {
               className="input input-bordered w-full"
               id="projectInfo.details"
               name="projectInfo.details"
-              value={formik.values?.name?.details}
+              value={formik.values.projectInfo?.details}
               onChange={handleSelectChange}
               onBlur={formik.handleBlur}
             >
