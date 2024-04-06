@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
-import { AuthContext } from "../../../AuthContext/AuthProvider";
-import { getUserAllFieldDay } from "../../../../services/userServices";
+import { AuthContext } from "../../../../AuthContext/AuthProvider";
+import { getUserAllFieldDay } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
-import { makeSureOnline } from "../../../shared/MessageConst";
-import Loader from "../../../shared/Loader";
+import { makeSureOnline } from "../../../../shared/MessageConst";
+import Loader from "../../../../shared/Loader";
+import FieldDayTD from "./FieldDayTD";
+import { toBengaliNumber } from "bengali-number";
 
 const UserFieldDays = () => {
   const [allFieldDays, setAllFieldDays] = useState([])
@@ -113,47 +115,40 @@ const UserFieldDays = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {!loading && allFieldDays?.length > 0 && fetchEnd && allFieldDays?.map(singleFieldDay => <> <tr className="divide-x divide-gray-200 dark:divide-gray-700">
-                  <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                    John Brown
-                  </td>
-                  <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                    John Brown
-                  </td>
-                  <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                    John Brown
-                  </td>
-                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                    45
-                  </td>
-                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                    45
-                  </td>
-                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                    45
-                  </td>
-                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                    45
-                  </td>
-                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                    45
-                  </td>
-                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                    45
-                  </td>
-                  <td className="p-3 text-center whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                    New York
-                  </td>
-                  <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
+                {!loading && allFieldDays?.length > 0 && fetchEnd && allFieldDays?.map((singleFieldDay, index) =>
+                  <> <tr className="divide-x divide-gray-200 dark:divide-gray-700">
+                    <FieldDayTD text={toBengaliNumber(index + 1)} />
+                    <FieldDayTD text={singleFieldDay?.projectInfo?.short} />
+                    <FieldDayTD text={singleFieldDay?.subject} />
+                    <FieldDayTD text={
+                      singleFieldDay?.season +
+                      `\n` +
+                      singleFieldDay?.fiscalYear}
+                    />
+                    <FieldDayTD text={toBengaliNumber(
+                      new Date(singleFieldDay?.date).toLocaleDateString("bn-BD", {
+                        weekday: "long", // Specify to include the full day name
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })
+                    )} />
+                    <FieldDayTD text={`কৃষকঃ ${toBengaliNumber(singleFieldDay?.farmers?.male)}জন, \n কৃষাণীঃ ${toBengaliNumber(singleFieldDay?.farmers?.female)}, \n মোটঃ ${toBengaliNumber(singleFieldDay?.farmers.male + singleFieldDay?.farmers?.female)}`} />
+                    <FieldDayTD text={singleFieldDay?.address?.village} />
+                    <FieldDayTD text={singleFieldDay?.guests} />
+                    <FieldDayTD />
+                    <FieldDayTD text={singleFieldDay?.SAAO?.name + "\n" + singleFieldDay?.SAAO?.mobile} />
 
-                    <div className="cursor-pointer">
-                      <MdOutlineDelete size={35} color="red" />
-                    </div>
-                    <div className="cursor-pointer">
-                      <CiEdit size={35} color="black" />
-                    </div>
-                  </td>
-                </tr></>)}
+                    <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
+
+                      <div className="cursor-pointer">
+                        <MdOutlineDelete size={35} color="red" />
+                      </div>
+                      <div className="cursor-pointer">
+                        <CiEdit size={35} color="black" />
+                      </div>
+                    </td>
+                  </tr></>)}
 
               </tbody>
             </table>
