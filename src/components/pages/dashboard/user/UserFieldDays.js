@@ -6,20 +6,27 @@ import { AuthContext } from "../../../AuthContext/AuthProvider";
 import { getUserAllFieldDay } from "../../../../services/userServices";
 import toast from "react-hot-toast";
 import { makeSureOnline } from "../../../shared/MessageConst";
+import Loader from "../../../shared/Loader";
 
 const UserFieldDays = () => {
   const [allFieldDays, setAllFieldDays] = useState([])
   const { user } = useContext(AuthContext)
+  const [loading, setLoading] = useState(false)
+  const [fetchEnd, setFetchEnd] = useState(false)
   useEffect(() => {
     const getFieldDays = async () => {
+      setLoading(true)
       try {
         const result = await getUserAllFieldDay()
         if (result?.status === 200) {
           setAllFieldDays(result?.data?.data)
-          console.log(result)
+          setLoading(false)
+          setFetchEnd(true)
         }
       } catch (err) {
         toast.error("মাঠ দিবসের তথ্য আনতে অসুবিধা হচ্ছে। দয়া করে সংশ্লিষ্টকে জানান")
+        setLoading(false)
+        setFetchEnd(true)
       }
     }
     if (navigator.onLine) {
@@ -106,7 +113,7 @@ const UserFieldDays = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                <tr className="divide-x divide-gray-200 dark:divide-gray-700">
+                {!loading && allFieldDays?.length > 0 && fetchEnd && allFieldDays?.map(singleFieldDay => <> <tr className="divide-x divide-gray-200 dark:divide-gray-700">
                   <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                     John Brown
                   </td>
@@ -146,9 +153,12 @@ const UserFieldDays = () => {
                       <CiEdit size={35} color="black" />
                     </div>
                   </td>
-                </tr>
+                </tr></>)}
+
               </tbody>
             </table>
+            {fetchEnd && !loading && allFieldDays?.length < 1 && <h1 className="text-2xl text-center text-red-600 font-bold">কোনো মাঠ দিবসের তথ্য পাওয়া যায়নি। দয়া করে মাঠ দিবসের তথ্য যুক্ত করুন</h1>}
+            {!fetchEnd && loading && <Loader />}
           </div>
         </div>
       </div>
