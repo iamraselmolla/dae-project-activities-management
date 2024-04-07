@@ -23,7 +23,8 @@ const BASE_URL = {
   deleteNote: "/note/delete-note",
   completeANote: "/note/complete-note",
   updateTrainingData: '/training/update',
-  userFieldDay: '/fieldDay/user-fielddays'
+  userFieldDay: '/fieldDay/user-fielddays',
+  deleteFieldDay: '/fieldDay/delete-fieldday'
 };
 
 export function addProjectByAdmin(values) {
@@ -95,4 +96,8 @@ export function updateTraining(id, trainingData) {
 }
 export function getUserAllFieldDay() {
   return http.get(BASE_URL.userFieldDay)
+}
+
+export function deleteAFieldDay(id) {
+  return http.delete(BASE_URL.deleteFieldDay, { data: { id } })
 }

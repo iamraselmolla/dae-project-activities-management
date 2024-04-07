@@ -3,7 +3,7 @@ import { AiOutlineFileDone } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
-import { getUserAllFieldDay } from "../../../../../services/userServices";
+import { deleteAFieldDay, getUserAllFieldDay } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 import Loader from "../../../../shared/Loader";
@@ -17,6 +17,7 @@ const UserFieldDays = () => {
   const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
   const [fetchEnd, setFetchEnd] = useState(false)
+  const [reload, setReload] = useState(false)
   useEffect(() => {
     const getFieldDays = async () => {
       setLoading(true)
@@ -38,8 +39,27 @@ const UserFieldDays = () => {
     } else {
       toast.error(makeSureOnline)
     }
-  }, [user])
-  const imagesArr = [];
+  }, [user, reload])
+
+  const handleFieldDayDelete = async (fieldDayData) => {
+    if (window.confirm(`আপনি কি ${fieldDayData?.projectInfo?.short} প্রকল্পের ${fieldDayData?.subject} বিষয়ক ${toBengaliNumber(new Date(fieldDayData?.date).toLocaleDateString())} তারিখের মাঠ দিবসের তথ্যটি মুছে ফেলতে চান?`)) {
+      if (!fieldDayData) {
+        toast.error("মাঠ দিবসের তথ্য যথাযথভাবে পাওয়া যাচ্ছে না। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে জানান।")
+      } else {
+        try {
+          const result = await deleteAFieldDay(fieldDayData?._id)
+          if (result.status === 200) {
+            toast.success(result?.data?.message)
+            setReload(!reload)
+          }
+        } catch (err) {
+          toast.error("মাঠ দিবসের তথ্য মুছে ফেলতে সমস্যা হচ্ছে।")
+        }
+      }
+    }
+
+
+  }
 
 
   return (
@@ -162,7 +182,7 @@ const UserFieldDays = () => {
                         <Link to={`/addFieldDay?id=${singleFieldDay?._id}`}><CiEdit size={35} color="black" /></Link>
                       </div>
                       <div className="cursor-pointer">
-                        <MdOutlineDelete size={35} color="red" />
+                        <MdOutlineDelete onClick={() => handleFieldDayDelete(singleFieldDay)} size={35} color="red" />
                       </div>
                     </td>
                   </tr></>)}
