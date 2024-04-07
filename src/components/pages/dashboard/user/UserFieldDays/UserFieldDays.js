@@ -9,6 +9,8 @@ import { makeSureOnline } from "../../../../shared/MessageConst";
 import Loader from "../../../../shared/Loader";
 import FieldDayTD from "./FieldDayTD";
 import { toBengaliNumber } from "bengali-number";
+import ImageGallery from "react-image-gallery";
+import { Link } from "react-router-dom";
 
 const UserFieldDays = () => {
   const [allFieldDays, setAllFieldDays] = useState([])
@@ -37,6 +39,8 @@ const UserFieldDays = () => {
       toast.error(makeSureOnline)
     }
   }, [user])
+  const imagesArr = [];
+
 
   return (
     <div className="flex flex-col">
@@ -136,16 +140,29 @@ const UserFieldDays = () => {
                     <FieldDayTD text={`কৃষকঃ ${toBengaliNumber(singleFieldDay?.farmers?.male)}জন, \n কৃষাণীঃ ${toBengaliNumber(singleFieldDay?.farmers?.female)}, \n মোটঃ ${toBengaliNumber(singleFieldDay?.farmers.male + singleFieldDay?.farmers?.female)}`} />
                     <FieldDayTD text={singleFieldDay?.address?.village} />
                     <FieldDayTD text={singleFieldDay?.guests} />
-                    <FieldDayTD />
+                    <td className="text-center dashboard-image-control text-balance text-sm font-medium text-gray-800 dark:text-gray-200">
+                      <ImageGallery
+                        showFullscreenButton={true}
+                        showPlayButton={false}
+                        showNav={false}
+                        showThumbnails={false}
+                        autoPlay={true}
+                        items={singleFieldDay?.images?.length > 0 && singleFieldDay?.images?.map(singleImage => ({
+                          original: singleImage,
+                          thumbnail: singleImage
+                        }))}
+                      />
+                    </td>
+
                     <FieldDayTD text={singleFieldDay?.SAAO?.name + "\n" + singleFieldDay?.SAAO?.mobile} />
 
                     <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
 
                       <div className="cursor-pointer">
-                        <MdOutlineDelete size={35} color="red" />
+                        <Link to={`/addFieldDay?id=${singleFieldDay?._id}`}><CiEdit size={35} color="black" /></Link>
                       </div>
                       <div className="cursor-pointer">
-                        <CiEdit size={35} color="black" />
+                        <MdOutlineDelete size={35} color="red" />
                       </div>
                     </td>
                   </tr></>)}

@@ -91,7 +91,7 @@ const SingleTrainingRow = ({ index, data, setReload, reload }) => {
 
         {/* <TableDivision text={guests} /> */}
         <td className="p-3 text-center text-sm font-medium text-gray-800 dark:text-gray-200">
-          <div className="flex admin-dashboard-training flex-wrap gap-1">
+          <div className="flex dashboard-image-control flex-wrap gap-1">
             {images?.length > 0 && (
               <ImageGallery
                 showFullscreenButton={true}
