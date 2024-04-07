@@ -8,6 +8,7 @@ import Season from "../../shared/Season";
 import {
   createAFieldDay,
   getAllProjects,
+  getFieldDayDataById,
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
@@ -18,8 +19,13 @@ import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import { makeSureOnline } from "../../shared/MessageConst";
+import { useLocation } from "react-router-dom";
 
 const AddFieldDay = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const fieldDayIdFromUrl = queryParams.get("id");
+  const [fieldDayId, setFieldDayId] = useState(fieldDayIdFromUrl)
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
@@ -119,6 +125,16 @@ const AddFieldDay = () => {
       toast.error(makeSureOnline);
     }
   }, []);
+  useEffect(() => {
+    const fetchFieldDayById = async () => {
+      try {
+        const result = await getFieldDayDataById(fieldDayId)
+      }
+      catch (err) {
+        toast.error("মাঠ দিবসটির তথ্য আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট অথরকে জানান।")
+      }
+    }
+  }, [fieldDayId])
 
   const formik = useFormik({
     initialValues,
