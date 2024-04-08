@@ -25,7 +25,7 @@ const AddFieldDay = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const fieldDayIdFromUrl = queryParams.get("id");
-  const [fieldDayId, setFieldDayId] = useState(fieldDayIdFromUrl)
+  const [fieldDayId, setFieldDayId] = useState(fieldDayIdFromUrl);
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
@@ -128,13 +128,61 @@ const AddFieldDay = () => {
   useEffect(() => {
     const fetchFieldDayById = async () => {
       try {
-        const result = await getFieldDayDataById(fieldDayId)
+        const result = await getFieldDayDataById(fieldDayId);
+        if (result?.status === 200) {
+          // Destructure data from result
+          const { data } = result.data;
+
+          // Extract values needed to be set into Formik
+          const {
+            projectInfo,
+            fiscalYear,
+            season,
+            subject,
+            guests,
+            farmers,
+            date,
+            images,
+            address,
+            comment,
+            SAAO,
+            username,
+          } = data;
+
+          // Set values into Formik using setValues
+          formik.setValues({
+            projectInfo,
+            fiscalYear,
+            season,
+            subject,
+            guests,
+            farmers,
+            date,
+            images,
+            address,
+            comment,
+            SAAO,
+            username: username || user?.username || "", // Ensure username is set properly
+          });
+          setSelectedImages(images);
+          setValue({
+            startDate: date,
+            endDate: date,
+          });
+        }
+      } catch (err) {
+        toast.error(
+          "মাঠ দিবসটির তথ্য আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট অথরকে জানান।"
+        );
       }
-      catch (err) {
-        toast.error("মাঠ দিবসটির তথ্য আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট অথরকে জানান।")
-      }
+    };
+
+    if (navigator.onLine) {
+      fetchFieldDayById();
+    } else {
+      toast.error(makeSureOnline);
     }
-  }, [fieldDayId])
+  }, [fieldDayId, user?.username]);
 
   const formik = useFormik({
     initialValues,
@@ -540,6 +588,7 @@ const AddFieldDay = () => {
             </label>
             <input
               multiple
+              disabled={fieldDayId ? true : false}
               name="images"
               type="file"
               className="file-input input-bordered w-full"

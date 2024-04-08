@@ -43,19 +43,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/trainings",
-        element: (
-          <PrivateRoute>
-            <Training></Training>
-          </PrivateRoute>
-        ),
+        element: <Training></Training>,
       },
       {
         path: "/fielddays",
-        element: (
-          <PrivateRoute>
-            <FieldDay></FieldDay>
-          </PrivateRoute>
-        ),
+        element: <FieldDay></FieldDay>,
       },
       {
         path: "/distributions",
