@@ -5,6 +5,7 @@ import { makeSureOnline } from '../../../shared/MessageConst';
 import { AuthContext } from '../../../AuthContext/AuthProvider';
 import { getUserAllGroupMeeting } from '../../../../services/userServices';
 import { toBengaliNumber } from 'bengali-number';
+import UserMeetingTableTD from './UserMeetingTableTD';
 
 const UserDaeMeetings = () => {
     const { user } = useContext(AuthContext)
@@ -94,26 +95,24 @@ const UserDaeMeetings = () => {
                                             {toBengaliNumber(index + 1)}
                                         </td>
                                         <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                            John Brown
+                                            {singleGroup?.groupInfo?.name}
+                                        </td>
+                                        <UserMeetingTableTD text={`${singleGroup?.groupInfo?.place} \n ${toBengaliNumber(singleGroup?.groupInfo?.mobile)}`}
+                                        />
+                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            {singleGroup?.address?.village}
+                                        </td>
+                                        <UserMeetingTableTD
+                                            text={`${toBengaliNumber(singleGroup?.time?.date?.startDate)} \n ${singleGroup?.time?.day}`} />
+                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            {singleGroup?.discussion}
                                         </td>
                                         <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                             45
                                         </td>
-                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                            45
-                                        </td>
-                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                            45
-                                        </td>
-                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                            45
-                                        </td>
-                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                            45
-                                        </td>
-                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                            New York No. 1 Lake Park
-                                        </td>
+                                        <UserMeetingTableTD
+                                            text={`${singleGroup?.SAAO?.name} \n ${toBengaliNumber(singleGroup?.SAAO?.mobile)}`}
+                                        />
 
                                         <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
                                             <div className="cursor-pointer">
@@ -131,7 +130,7 @@ const UserDaeMeetings = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
