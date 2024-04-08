@@ -72,7 +72,7 @@ const AddGroupMeeting = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       if (!values.time.date || !values.time.day) {
         return toast.error("অবশ্যই আপনাকে তারিখ সিলেক্ট করতে হবে");
       }
@@ -113,6 +113,10 @@ const AddGroupMeeting = () => {
             toast.success(result?.data?.message);
             setLoading(false);
             setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড শেষ হয়েছে");
+            resetForm();
+            setImageLinks([]);
+            setRawImages([]);
+            setImages([]);
           }
         }
       } catch (err) {
@@ -183,7 +187,6 @@ const AddGroupMeeting = () => {
 
   const formatDate = (date) => {
     if (!date) return;
-    const today = new Date();
     const dayName = format(new Date(date.startDate), "EEEE", { locale: bn });
     if (dayName === "শুক্রবার" || dayName === "শনিবার") {
       return (
@@ -220,7 +223,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.groupInfo.name}
               />
               {formik.touched.groupInfo?.name &&
-                formik.errors.groupInfo?.name ? (
+              formik.errors.groupInfo?.name ? (
                 <div className="text-red-600">
                   {formik.errors.groupInfo.name}
                 </div>
@@ -239,7 +242,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.groupInfo.place}
               />
               {formik.touched.groupInfo?.place &&
-                formik.errors.groupInfo?.place ? (
+              formik.errors.groupInfo?.place ? (
                 <div className="text-red-600">
                   {formik.errors.groupInfo.place}
                 </div>
@@ -258,7 +261,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.groupInfo.mobile}
               />
               {formik.touched.groupInfo?.mobile &&
-                formik.errors.groupInfo?.mobile ? (
+              formik.errors.groupInfo?.mobile ? (
                 <div className="text-red-600">
                   {formik.errors.groupInfo.mobile}
                 </div>
@@ -277,7 +280,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.address.village}
               />
               {formik.touched.address?.village &&
-                formik.errors.address?.village ? (
+              formik.errors.address?.village ? (
                 <div className="text-red-600">
                   {formik.errors.address?.village}
                 </div>

@@ -24,7 +24,7 @@ const AddNotes = () => {
   const [rawImages, setRawImages] = useState([]);
   const { user } = useContext(AuthContext);
   const [loadingMessage, setLoadingMessage] = useState(null);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [notesDate, setNotesDate] = useState({
     startDate: "",
     endDate: "",
@@ -60,7 +60,7 @@ const AddNotes = () => {
     },
     attachment: "",
     comment: "",
-    username: user?.username
+    username: user?.username,
   };
   const handleImageChange = (event) => {
     const files = Array.from(event.target.files);
@@ -134,20 +134,15 @@ const AddNotes = () => {
         SAAO: user?.SAAO,
         username: user?.username,
         done: false,
-        comment: ''
+        comment: "",
       };
       if (rawImages?.length > 0) {
         setLoadingMessage("ছবি আপ্লোড হচ্ছে");
         for (let i = 0; i < rawImages?.length; i++) {
-          setLoadingMessage(
-            `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
-          );
+          setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`);
           const compressedImage = await compressAndUploadImage(rawImages[i]);
           setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-          const result = await uploadToCloudinary(
-            compressedImage,
-            "notenote"
-          );
+          const result = await uploadToCloudinary(compressedImage, "notenote");
           uploadingImg.push(result);
         }
 
@@ -156,13 +151,12 @@ const AddNotes = () => {
 
       const result = await createANote(data);
       if (result.status === 200) {
-        toast.success(result?.data?.message)
+        toast.success(result?.data?.message);
         formikBag.resetForm();
         setImages([]);
         setLoading(false);
-        setRawImages([])
+        setRawImages([]);
       }
-
     } catch (error) {
       console.error("Submission Error:", error);
       toast.error("তথ্য সাবমিট করা যায়নি। দয়া করে পুনরায় চেষ্টা করুন।");
@@ -232,8 +226,8 @@ const AddNotes = () => {
                   )}
                 </select>
                 {formik.touched.projectInfo &&
-                  formik.touched.projectInfo.details &&
-                  formik.errors.projectInfo?.details ? (
+                formik.touched.projectInfo.details &&
+                formik.errors.projectInfo?.details ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.details}
                   </div>
@@ -256,8 +250,8 @@ const AddNotes = () => {
                 />
 
                 {formik.touched.projectInfo &&
-                  formik.touched.projectInfo.short &&
-                  formik.errors.projectInfo?.short ? (
+                formik.touched.projectInfo.short &&
+                formik.errors.projectInfo?.short ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.short}
                   </div>
@@ -290,8 +284,8 @@ const AddNotes = () => {
                   <Season />
                 </select>
                 {formik.touched.timeFrame &&
-                  formik.touched.timeFrame.season &&
-                  formik.errors.timeFrame?.season ? (
+                formik.touched.timeFrame.season &&
+                formik.errors.timeFrame?.season ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.timeFrame.season}
                   </div>
@@ -335,10 +329,18 @@ const AddNotes = () => {
                 >
                   <option value="" label="উদ্দেশ্য নির্বাচন করুন" />
                   <option value="প্রদর্শনী দেওয়া">প্রদর্শনী দেওয়া</option>
-                  <option value="প্রশিক্ষণে নাম দেয়া">প্রশিক্ষণে নাম দেয়া</option>
-                  <option value="মাঠ দিবসে উপস্থিত থাকতে বলা">মাঠ দিবসে উপস্থিত থাকতে বলা</option>
-                  <option value="উদ্বুদ্ধকরণভ্রমণে নেওয়া">উদ্বুদ্ধকরণভ্রমণে নেওয়া</option>
-                  <option value="কৃষি পরামর্শ প্রদান">কৃষি পরামর্শ প্রদান</option>
+                  <option value="প্রশিক্ষণে নাম দেয়া">
+                    প্রশিক্ষণে নাম দেয়া
+                  </option>
+                  <option value="মাঠ দিবসে উপস্থিত থাকতে বলা">
+                    মাঠ দিবসে উপস্থিত থাকতে বলা
+                  </option>
+                  <option value="উদ্বুদ্ধকরণভ্রমণে নেওয়া">
+                    উদ্বুদ্ধকরণভ্রমণে নেওয়া
+                  </option>
+                  <option value="কৃষি পরামর্শ প্রদান">
+                    কৃষি পরামর্শ প্রদান
+                  </option>
                 </Field>
                 <ErrorMessage
                   name="purpose.target"
@@ -578,13 +580,15 @@ const AddNotes = () => {
                 ))}
               </div>
             </div>
-            {!loading && <button
-              disabled={formik.isSubmitting}
-              type="submit"
-              className="btn mt-5 w-full font-extrabold text-white btn-success"
-            >
-              কৃষক গ্রুপ সভার তথ্য যুক্ত করুন
-            </button>}
+            {!loading && (
+              <button
+                disabled={formik.isSubmitting}
+                type="submit"
+                className="btn mt-5 w-full font-extrabold text-white btn-success"
+              >
+                কৃষক গ্রুপ সভার তথ্য যুক্ত করুন
+              </button>
+            )}
           </Form>
         )}
       </Formik>
