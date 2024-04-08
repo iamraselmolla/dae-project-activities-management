@@ -9,6 +9,7 @@ import {
   createAFieldDay,
   getAllProjects,
   getFieldDayDataById,
+  updateAFieldDay,
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
@@ -131,7 +132,7 @@ const AddFieldDay = () => {
         const result = await getFieldDayDataById(fieldDayId);
         if (result?.status === 200) {
           // Destructure data from result
-          const { data } = result.data;
+          const { data } = result?.data;
 
           // Extract values needed to be set into Formik
           const {
@@ -241,7 +242,15 @@ const AddFieldDay = () => {
             }
           }
         } else {
-          toast.error();
+          try {
+            const result = await updateAFieldDay(fieldDayId, formik.values);
+            if (result?.status === 200) {
+              toast.success(result?.data?.message);
+              setLoading(false);
+            }
+          } catch (err) {
+            toast.error("মাঠ দিবসটির তথ্য আপডেট করতে সমস্যা হচ্ছে।");
+          }
           setLoading(false);
         }
       } catch (err) {

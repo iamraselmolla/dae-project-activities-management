@@ -22,10 +22,11 @@ const BASE_URL = {
   findNotes: "note/get-notes",
   deleteNote: "/note/delete-note",
   completeANote: "/note/complete-note",
-  updateTrainingData: '/training/update',
-  userFieldDay: '/fieldDay/user-fielddays',
-  deleteFieldDay: '/fieldDay/delete-fieldday',
-  getfieldDayByid: '/fieldDay/get-fieldday-byId'
+  updateTrainingData: "/training/update",
+  userFieldDay: "/fieldDay/user-fielddays",
+  deleteFieldDay: "/fieldDay/delete-fieldday",
+  getfieldDayByid: "/fieldDay/get-fieldday-byId",
+  updateFieldDay: "/fieldDay/update-fieldDay",
 };
 
 export function addProjectByAdmin(values) {
@@ -93,15 +94,19 @@ export function markNoteAsComplete(id, comment) {
   return http.put(BASE_URL.completeANote, { id, comment });
 }
 export function updateTraining(id, trainingData) {
-  return http.put(BASE_URL.updateTrainingData, { id, trainingData })
+  return http.put(BASE_URL.updateTrainingData, { id, trainingData });
 }
 export function getUserAllFieldDay() {
-  return http.get(BASE_URL.userFieldDay)
+  return http.get(BASE_URL.userFieldDay);
 }
 
 export function deleteAFieldDay(id) {
-  return http.delete(BASE_URL.deleteFieldDay, { data: { id } })
+  return http.delete(BASE_URL.deleteFieldDay, { data: { id } });
 }
 export function getFieldDayDataById(id) {
-  return http.post(BASE_URL.getfieldDayByid, { id })
+  return http.post(BASE_URL.getfieldDayByid, { id });
+}
+
+export function updateAFieldDay(id, data) {
+  return http.put(BASE_URL.updateFieldDay, { id, data });
 }
