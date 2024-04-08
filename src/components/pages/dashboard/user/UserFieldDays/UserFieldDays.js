@@ -174,7 +174,7 @@ const UserFieldDays = () => {
                       />
                     </td>
 
-                    <FieldDayTD text={singleFieldDay?.SAAO?.name + "\n" + singleFieldDay?.SAAO?.mobile} />
+                    <FieldDayTD text={singleFieldDay?.SAAO?.name + "\n" + toBengaliNumber(singleFieldDay?.SAAO?.mobile)} />
 
                     <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
 

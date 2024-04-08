@@ -82,7 +82,7 @@ const SingleFieldDay = ({ data }) => {
             উপসহকারী কৃষি কর্মকর্তার তথ্য
           </h2>
           <div className="mt-2">নামঃ {SAAO.name}</div>
-          <div className="mt-1">মোবাইলঃ {toBengaliNumber(SAAO.mobile)}</div>
+          <div className="mt-1">মোবাইলঃ {toBengaliNumber(SAAO?.mobile)}</div>
         </div>
       </div>
     </div>
