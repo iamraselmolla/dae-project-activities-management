@@ -42,7 +42,7 @@ const Training = () => {
     if (navigator.onLine) {
       fetchAllTraining();
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline();
     }
   }, [reload]);
 

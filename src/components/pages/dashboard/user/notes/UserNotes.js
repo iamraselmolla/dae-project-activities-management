@@ -43,7 +43,7 @@ const UserNotes = () => {
     if (navigator.onLine) {
       findAllNotes();
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline();
     }
   }, [user, reload]);
 
@@ -70,7 +70,7 @@ const UserNotes = () => {
         }
       }
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline();
     }
   };
 

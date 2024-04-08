@@ -50,7 +50,7 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
         if (navigator.onLine) {
             addCropsToTheProject();
         } else {
-            toast.error(makeSureOnline);
+            makeSureOnline();
         }
     };
     // প্রকল্প মুছুন 
@@ -80,7 +80,7 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
         if (navigator.onLine) {
             handleDelete();
         } else {
-            toast.error(makeSureOnline);
+            makeSureOnline();
         }
     };
     return (

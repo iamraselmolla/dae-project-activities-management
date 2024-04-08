@@ -38,7 +38,7 @@ const DaeGroupMeeting = () => {
     if (navigator.onLine) {
       fetchGroups();
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline()
     }
   }, []);
   return (

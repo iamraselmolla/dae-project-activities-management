@@ -95,7 +95,7 @@ const AllProjects = () => {
     if (navigator.onLine) {
       getAllProjectsInfo();
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline();
     }
   }, [refetch]);
 

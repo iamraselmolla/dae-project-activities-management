@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { MdOutlineDelete } from 'react-icons/md';
+import { makeSureOnline } from '../../../shared/MessageConst';
+import { AuthContext } from '../../../AuthContext/AuthProvider';
+import { getUserAllGroupMeeting } from '../../../../services/userServices';
+import { toBengaliNumber } from 'bengali-number';
 
 const UserDaeMeetings = () => {
+    const { user } = useContext(AuthContext)
+    const [allGroupsMeeting, setAllGroupsMeeting] = useState([])
+    useEffect(() => {
+        const fetchUserAllGroups = async () => {
+            const result = await getUserAllGroupMeeting()
+            if (result?.status === 200) {
+                setAllGroupsMeeting(result?.data?.data)
+            }
+        }
+        if (navigator.onLine) {
+            fetchUserAllGroups()
+        }
+        else {
+            makeSureOnline()
+        }
+    }, [user])
     return (
         <div className="flex flex-col">
             <div className="mt-10 overflow-x-auto">
@@ -21,7 +41,7 @@ const UserDaeMeetings = () => {
                                         scope="col"
                                         className="py-4 font-extrabold px-2  text-black text-center uppercase"
                                     >
-                                        কৃষক গ্রুপের নাম
+                                        গ্রুপের নাম
                                     </th>
                                     <th
                                         scope="col"
@@ -33,13 +53,13 @@ const UserDaeMeetings = () => {
                                         scope="col"
                                         className="py-4 font-extrabold px-2  text-black text-center uppercase"
                                     >
-                                        গ্রাম, ব্লক ও ইউনিয়ন
+                                        গ্রাম
                                     </th>
                                     <th
                                         scope="col"
                                         className="py-4 font-extrabold px-2  text-black text-center uppercase"
                                     >
-                                        সভার তারিখ ও বার
+                                        তারিখ
                                     </th>
                                     <th
                                         scope="col"
@@ -68,42 +88,44 @@ const UserDaeMeetings = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                <tr className="divide-x divide-gray-200 dark:divide-gray-700">
-                                    <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        John Brown
-                                    </td>
-                                    <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        John Brown
-                                    </td>
-                                    <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        45
-                                    </td>
-                                    <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        45
-                                    </td>
-                                    <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        45
-                                    </td>
-                                    <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        45
-                                    </td>
-                                    <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        45
-                                    </td>
-                                    <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        New York No. 1 Lake Park
-                                    </td>
+                                {allGroupsMeeting?.length > 0 && allGroupsMeeting?.map((singleGroup, index) =>
+                                    <tr className="divide-x divide-gray-200 dark:divide-gray-700">
+                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            {toBengaliNumber(index + 1)}
+                                        </td>
+                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            John Brown
+                                        </td>
+                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            45
+                                        </td>
+                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            45
+                                        </td>
+                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            45
+                                        </td>
+                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            45
+                                        </td>
+                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            45
+                                        </td>
+                                        <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            New York No. 1 Lake Park
+                                        </td>
 
-                                    <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
+                                        <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
+                                            <div className="cursor-pointer">
+                                                <CiEdit size={35} color="black" />
+                                            </div>
+                                            <div className="cursor-pointer">
+                                                <MdOutlineDelete size={35} color="red" />
+                                            </div>
 
-                                        <div className="cursor-pointer">
-                                            <MdOutlineDelete size={35} color="red" />
-                                        </div>
-                                        <div className="cursor-pointer">
-                                            <CiEdit size={35} color="black" />
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>)}
+
                             </tbody>
                         </table>
                     </div>

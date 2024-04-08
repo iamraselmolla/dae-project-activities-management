@@ -213,7 +213,7 @@ const AddTraining = () => {
       if (navigator.onLine) {
         postTrainingData();
       } else {
-        toast.error(makeSureOnline);
+        makeSureOnline();
       }
     },
   });
@@ -238,7 +238,7 @@ const AddTraining = () => {
     if (navigator.onLine) {
       fetchData();
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline();
     }
   }, []);
 
@@ -287,7 +287,7 @@ const AddTraining = () => {
         findTrainingInfo();
       }
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline();
     }
   }, [trainingId]);
 

@@ -194,7 +194,7 @@ const AddDemo = () => {
     if (navigator.onLine) {
       fetchData();
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline();
     }
   }, []);
 

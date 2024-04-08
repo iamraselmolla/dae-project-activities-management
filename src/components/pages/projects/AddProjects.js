@@ -143,7 +143,7 @@ const AddProjects = () => {
       if (navigator.onLine) {
         findProject();
       } else {
-        toast.error(makeSureOnline);
+        makeSureOnline();
       }
     }
   }, [projectId, setValue, setCropValues]); // Include dependencies in the dependency array

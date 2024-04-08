@@ -24,7 +24,7 @@ function CompleteModel({ data, setReload, reload }) {
         toast.error("নোট সম্পন্ন করতে সমস্যার সৃষ্টি হচ্ছে।");
       }
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline();
     }
   };
   return (

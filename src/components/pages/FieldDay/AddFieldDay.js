@@ -123,7 +123,7 @@ const AddFieldDay = () => {
     if (navigator.onLine) {
       fetchData();
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline();
     }
   }, []);
   useEffect(() => {
@@ -181,7 +181,7 @@ const AddFieldDay = () => {
     if (navigator.onLine) {
       fetchFieldDayById();
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline();
     }
   }, [fieldDayId, user?.username]);
 

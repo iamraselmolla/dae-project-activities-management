@@ -37,7 +37,7 @@ const AdminTrainings = () => {
         if (navigator.onLine) {
             fetchAllTraining();
         } else {
-            toast.error(makeSureOnline);
+            makeSureOnline();
         }
     }, [reload]);
     return (

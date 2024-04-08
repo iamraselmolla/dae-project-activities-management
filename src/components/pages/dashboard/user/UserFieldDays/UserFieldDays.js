@@ -37,7 +37,7 @@ const UserFieldDays = () => {
     if (navigator.onLine) {
       getFieldDays()
     } else {
-      toast.error(makeSureOnline)
+      makeSureOnline()
     }
   }, [user, reload])
 

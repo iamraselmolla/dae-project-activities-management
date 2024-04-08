@@ -38,7 +38,7 @@ const FieldDay = () => {
     if (navigator.onLine) {
       fetchAllFieldDays();
     } else {
-      toast.error(makeSureOnline);
+      makeSureOnline();
     }
   }, []);
   return (
