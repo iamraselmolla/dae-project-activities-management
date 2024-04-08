@@ -6,6 +6,7 @@ import { AuthContext } from '../../../AuthContext/AuthProvider';
 import { getUserAllGroupMeeting } from '../../../../services/userServices';
 import { toBengaliNumber } from 'bengali-number';
 import UserMeetingTableTD from './UserMeetingTableTD';
+import { Link } from 'react-router-dom';
 
 const UserDaeMeetings = () => {
     const { user } = useContext(AuthContext)
@@ -103,7 +104,7 @@ const UserDaeMeetings = () => {
                                             {singleGroup?.address?.village}
                                         </td>
                                         <UserMeetingTableTD
-                                            text={`${toBengaliNumber(singleGroup?.time?.date?.startDate)} \n ${singleGroup?.time?.day}`} />
+                                            text={`${toBengaliNumber((singleGroup?.time?.date?.startDate).split("-").reverse().join("-"))} \n ${singleGroup?.time?.day}`} />
                                         <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                             {singleGroup?.discussion}
                                         </td>
@@ -116,7 +117,7 @@ const UserDaeMeetings = () => {
 
                                         <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
                                             <div className="cursor-pointer">
-                                                <CiEdit size={35} color="black" />
+                                                <Link to={`/add-dae-group-meeting?id=${singleGroup?._id}`}><CiEdit size={35} color="black" /></Link>
                                             </div>
                                             <div className="cursor-pointer">
                                                 <MdOutlineDelete size={35} color="red" />
