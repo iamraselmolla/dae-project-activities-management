@@ -9,13 +9,18 @@ import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { toBengaliNumber } from "bengali-number";
-import { createAGroup } from "../../../services/userServices";
+import { createAGroup, getGroupInfoById } from "../../../services/userServices";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import "./daegroupMeeting.css";
 import compressAndUploadImage from "../../utilis/compressImages";
+import { useLocation } from "react-router-dom"
+import { makeSureOnline } from "../../shared/MessageConst";
 
 const AddGroupMeeting = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const groupIdFromParams = queryParams.get("id");
   const { user } = useContext(AuthContext);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,6 +28,8 @@ const AddGroupMeeting = () => {
   const [rawImages, setRawImages] = useState([]);
   const [loadingMessage, setLoadingMessage] = useState(null);
   const [dateMessage, setDateMessage] = useState(null);
+  const [groupId, setGroupId] = useState(groupIdFromParams)
+  const [fetchedGroupInfo, setFetchedGroupInfo] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -42,16 +49,16 @@ const AddGroupMeeting = () => {
     },
     address: {
       village: "",
-      block: "",
-      union: "",
+      block: user?.blockB || "",
+      union: user?.unionB || "",
     },
     SAAO: {
-      name: "",
-      mobile: "",
+      name: user?.SAAO?.name || "",
+      mobile: toBengaliNumber(user?.SAAO?.mobile) || "",
     },
     discussion: "",
     images: [],
-    username: "",
+    username: user?.username || "",
   };
 
   const validationSchema = Yup.object({
@@ -82,8 +89,11 @@ const AddGroupMeeting = () => {
       values.username = user?.username;
       values.address.block = user?.blockB;
       values.address.union = user?.unionB;
-      if (!values.username) {
-        return toast.error("ভালভাবে লগিন করুন অথবা পেইজ রিলোড করুন");
+
+      if (!values.username || !values.SAAO?.name || !values?.SAAO?.mobile || !values?.address?.block || !values?.address?.union) {
+        setLoading(false)
+        return toast.error("লগিনজনিত কোনো সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে জানান");
+
       }
       try {
         if (rawImages?.length > 0) {
@@ -108,6 +118,7 @@ const AddGroupMeeting = () => {
           setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
 
           setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড হচ্ছে");
+          console.log(values);
           const result = await createAGroup(values);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
@@ -199,6 +210,32 @@ const AddGroupMeeting = () => {
     return dayName;
   };
 
+  // Fetch Group Data by Group ID
+  useEffect(() => {
+    if (navigator.onLine) {
+      if (groupId) {
+        const getGroupDataById = async () => {
+          try {
+            const result = await getGroupInfoById(groupId);
+            if (result?.status === 200) {
+              console.log(result)
+              // Assuming the group info is stored in result.data.groupInfo
+              setFetchedGroupInfo(result?.data?.data);
+
+            }
+          } catch (err) {
+            toast.error(
+              "ডিএই কৃষক গ্রুপের তথ্য পেতে সমস্যার সৃষ্টি হয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে জানান।"
+            );
+          }
+        };
+        getGroupDataById();
+      }
+    }
+    else {
+      makeSureOnline()
+    }
+  }, [groupId]);
   return (
     <section className={`mx-auto max-w-7xl px-2 sm:px-6 lg:px-8`}>
       <SectionTitle title={"ডিএই কৃষক গ্রুপ সভার তথ্য যুক্ত করুন"} />
@@ -223,7 +260,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.groupInfo.name}
               />
               {formik.touched.groupInfo?.name &&
-              formik.errors.groupInfo?.name ? (
+                formik.errors.groupInfo?.name ? (
                 <div className="text-red-600">
                   {formik.errors.groupInfo.name}
                 </div>
@@ -242,7 +279,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.groupInfo.place}
               />
               {formik.touched.groupInfo?.place &&
-              formik.errors.groupInfo?.place ? (
+                formik.errors.groupInfo?.place ? (
                 <div className="text-red-600">
                   {formik.errors.groupInfo.place}
                 </div>
@@ -261,7 +298,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.groupInfo.mobile}
               />
               {formik.touched.groupInfo?.mobile &&
-              formik.errors.groupInfo?.mobile ? (
+                formik.errors.groupInfo?.mobile ? (
                 <div className="text-red-600">
                   {formik.errors.groupInfo.mobile}
                 </div>
@@ -280,7 +317,7 @@ const AddGroupMeeting = () => {
                 value={formik.values.address.village}
               />
               {formik.touched.address?.village &&
-              formik.errors.address?.village ? (
+                formik.errors.address?.village ? (
                 <div className="text-red-600">
                   {formik.errors.address?.village}
                 </div>

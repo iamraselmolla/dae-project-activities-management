@@ -4,7 +4,7 @@ import React, { createContext, useEffect, useState } from "react";
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(false);
   const [jwtToken, setJwtToken] = useState("");
   const [role, setRole] = useState(null);
   const [username, setUsername] = useState(null);
@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
   const [union, setUnion] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
+    setInitialLoading(true);
     const storedUser = localStorage.getItem("CurrentUser");
     const storedUserToken = localStorage.getItem("CurrentUserToken");
     if (storedUser) {
@@ -30,14 +30,14 @@ const AuthProvider = ({ children }) => {
     if (storedUserToken) {
       setJwtToken(JSON.parse(storedUserToken));
     }
-    setLoading(false);
+    setInitialLoading(false);
   }, []);
 
   const authInfo = {
     user,
     setUser,
-    loading,
-    setLoading,
+    initialLoading,
+    setInitialLoading,
     jwtToken,
     setJwtToken,
     role,
@@ -48,6 +48,9 @@ const AuthProvider = ({ children }) => {
     union,
     unionB,
   };
+  if (initialLoading) {
+    return <>......</>
+  }
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );
