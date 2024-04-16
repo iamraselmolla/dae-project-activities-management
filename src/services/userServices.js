@@ -27,8 +27,9 @@ const BASE_URL = {
   deleteFieldDay: "/fieldDay/delete-fieldday",
   getfieldDayByid: "/fieldDay/get-fieldday-byId",
   updateFieldDay: "/fieldDay/update-fieldDay",
-  getUserGroups: '/group/get-user-groups',
-  getGroupbyId: '/group/get-group-by-id',
+  getUserGroups: "/group/get-user-groups",
+  getGroupbyId: "/group/get-group-by-id",
+  deleteGroupInfoById: "/group/delete-group",
 };
 
 export function addProjectByAdmin(values) {
@@ -111,8 +112,11 @@ export function updateAFieldDay(id, data) {
   return http.put(BASE_URL.updateFieldDay, { id, data });
 }
 export function getUserAllGroupMeeting() {
-  return http.get(BASE_URL.getUserGroups)
+  return http.get(BASE_URL.getUserGroups);
 }
 export function getGroupInfoById(id) {
-  return http.post(BASE_URL.getGroupbyId, { id })
+  return http.post(BASE_URL.getGroupbyId, { id });
+}
+export function deleteGroupInfoById(id) {
+  return http.delete(BASE_URL.deleteGroupInfoById, { data: { id } });
 }
