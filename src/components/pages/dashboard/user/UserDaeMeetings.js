@@ -15,14 +15,18 @@ import toast from "react-hot-toast";
 const UserDaeMeetings = () => {
   const { user } = useContext(AuthContext);
   const [allGroupsMeeting, setAllGroupsMeeting] = useState([]);
+  const [reload, setReload] = useState(false);
 
   const handleGroupDeleting = (id) => {
     if (!id) return;
     const deleteGroup = async () => {
       try {
-        const result = await deleteGroupInfoById(id);
-        if (result?.status === 200) {
-          toast.success(result?.data?.message);
+        if (window.confirm("আপনি কি গ্রুপের তথ্যটি মুছে ফেলতে চান?")) {
+          const result = await deleteGroupInfoById(id);
+          if (result?.status === 200) {
+            toast.success(result?.data?.message);
+            setReload(!reload);
+          }
         }
       } catch (err) {
         toast.error(
@@ -48,7 +52,7 @@ const UserDaeMeetings = () => {
     } else {
       makeSureOnline();
     }
-  }, [user]);
+  }, [user, reload]);
   return (
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
