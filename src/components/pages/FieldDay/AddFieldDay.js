@@ -127,61 +127,63 @@ const AddFieldDay = () => {
     }
   }, []);
   useEffect(() => {
-    const fetchFieldDayById = async () => {
-      try {
-        const result = await getFieldDayDataById(fieldDayId);
-        if (result?.status === 200) {
-          // Destructure data from result
-          const { data } = result?.data;
+    if (fieldDayId) {
+      const fetchFieldDayById = async () => {
+        try {
+          const result = await getFieldDayDataById(fieldDayId);
+          if (result?.status === 200) {
+            // Destructure data from result
+            const { data } = result?.data;
 
-          // Extract values needed to be set into Formik
-          const {
-            projectInfo,
-            fiscalYear,
-            season,
-            subject,
-            guests,
-            farmers,
-            date,
-            images,
-            address,
-            comment,
-            SAAO,
-            username,
-          } = data;
+            // Extract values needed to be set into Formik
+            const {
+              projectInfo,
+              fiscalYear,
+              season,
+              subject,
+              guests,
+              farmers,
+              date,
+              images,
+              address,
+              comment,
+              SAAO,
+              username,
+            } = data;
 
-          // Set values into Formik using setValues
-          formik.setValues({
-            projectInfo,
-            fiscalYear,
-            season,
-            subject,
-            guests,
-            farmers,
-            date,
-            images,
-            address,
-            comment,
-            SAAO,
-            username: username || user?.username || "", // Ensure username is set properly
-          });
-          setSelectedImages(images);
-          setValue({
-            startDate: date,
-            endDate: date,
-          });
+            // Set values into Formik using setValues
+            formik.setValues({
+              projectInfo,
+              fiscalYear,
+              season,
+              subject,
+              guests,
+              farmers,
+              date,
+              images,
+              address,
+              comment,
+              SAAO,
+              username: username || user?.username || "", // Ensure username is set properly
+            });
+            setSelectedImages(images);
+            setValue({
+              startDate: date,
+              endDate: date,
+            });
+          }
+        } catch (err) {
+          toast.error(
+            "মাঠ দিবসটির তথ্য আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট অথরকে জানান।"
+          );
         }
-      } catch (err) {
-        toast.error(
-          "মাঠ দিবসটির তথ্য আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট অথরকে জানান।"
-        );
-      }
-    };
+      };
 
-    if (navigator.onLine) {
-      fetchFieldDayById();
-    } else {
-      makeSureOnline();
+      if (navigator.onLine) {
+        fetchFieldDayById();
+      } else {
+        makeSureOnline();
+      }
     }
   }, [fieldDayId, user?.username]);
 
