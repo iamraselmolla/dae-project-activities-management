@@ -18,11 +18,11 @@ import Training from "./components/pages/training/Training";
 import Profile from "./components/pages/dashboard/profile/Profile";
 import AddGroupMeeting from "./components/pages/DaeGroupMeeting/AddGroupMeeting";
 import DaeGroupMeeting from "./components/pages/DaeGroupMeeting/DaeGroupMeeting";
-import UserDaeMeetings from "./components/pages/dashboard/user/UserDaeMeetings";
 import UserNotes from "./components/pages/dashboard/user/notes/UserNotes";
 import AddUserNotes from "./components/pages/dashboard/user/notes/AddUserNotes";
 import AdminTrainings from "./components/pages/dashboard/admin/DashboardTrainings/AdminTrainings";
 import UserFieldDays from "./components/pages/dashboard/user/UserFieldDays/UserFieldDays";
+import UserDaeMeetings from "./components/pages/dashboard/user/group-meeting/UserDaeMeetings";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");

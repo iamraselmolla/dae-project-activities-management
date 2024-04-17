@@ -1,21 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
-import { makeSureOnline } from "../../../shared/MessageConst";
-import { AuthContext } from "../../../AuthContext/AuthProvider";
+import { makeSureOnline } from "../../../../shared/MessageConst";
+import { AuthContext } from "../../../../AuthContext/AuthProvider";
 import {
   deleteGroupInfoById,
   getUserAllGroupMeeting,
-} from "../../../../services/userServices";
+} from "../../../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
 import UserMeetingTableTD from "./UserMeetingTableTD";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import Loader from "../../../../shared/Loader";
 
 const UserDaeMeetings = () => {
   const { user } = useContext(AuthContext);
   const [allGroupsMeeting, setAllGroupsMeeting] = useState([]);
   const [reload, setReload] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [fetchEnd, setFetchEnd] = useState(false);
 
   const handleGroupDeleting = (id) => {
     if (!id) return;
@@ -41,16 +44,28 @@ const UserDaeMeetings = () => {
     }
   };
   useEffect(() => {
-    const fetchUserAllGroups = async () => {
-      const result = await getUserAllGroupMeeting();
-      if (result?.status === 200) {
-        setAllGroupsMeeting(result?.data?.data);
+    setLoading(true);
+    try {
+      const fetchUserAllGroups = async () => {
+        const result = await getUserAllGroupMeeting();
+        if (result?.status === 200) {
+          setAllGroupsMeeting(result?.data?.data);
+          setLoading(false);
+          setFetchEnd(true);
+        }
+      };
+      if (navigator.onLine) {
+        fetchUserAllGroups();
+      } else {
+        makeSureOnline();
       }
-    };
-    if (navigator.onLine) {
-      fetchUserAllGroups();
-    } else {
-      makeSureOnline();
+    } catch (err) {
+      toast.error("কৃষক গ্রুপের তথ্য আনতে সমস্যা হচ্ছে।");
+      setFetchEnd(true);
+
+      setLoading(false);
+    } finally {
+      setFetchEnd(true);
     }
   }, [user, reload]);
   return (
@@ -118,7 +133,9 @@ const UserDaeMeetings = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {allGroupsMeeting?.length > 0 &&
+                {!loading &&
+                  fetchEnd &&
+                  allGroupsMeeting?.length > 0 &&
                   allGroupsMeeting?.map((singleGroup, index) => (
                     <tr className="divide-x divide-gray-200 dark:divide-gray-700">
                       <td className="p-3 text-center whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
@@ -177,6 +194,18 @@ const UserDaeMeetings = () => {
                       </td>
                     </tr>
                   ))}
+                {fetchEnd && !loading && allGroupsMeeting?.length < 1 && (
+                  <tr>
+                    <td colSpan="10" className="p-3">
+                      <span className="flex justify-center items-center">
+                        <h2 className="text-red-600 text-2xl">
+                          কোনো নোট খুজে পাওয়া যায়নি
+                        </h2>
+                      </span>
+                    </td>
+                  </tr>
+                )}
+                {loading && <Loader />}
               </tbody>
             </table>
           </div>

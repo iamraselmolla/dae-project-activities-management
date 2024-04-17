@@ -30,6 +30,7 @@ const BASE_URL = {
   getUserGroups: "/group/get-user-groups",
   getGroupbyId: "/group/get-group-by-id",
   deleteGroupInfoById: "/group/delete-group",
+  updateDaegroup: "/group/update-group",
 };
 
 export function addProjectByAdmin(values) {
@@ -119,4 +120,7 @@ export function getGroupInfoById(id) {
 }
 export function deleteGroupInfoById(id) {
   return http.delete(BASE_URL.deleteGroupInfoById, { data: { id } });
+}
+export function updateGroupInfo(id, values) {
+  return http.put(BASE_URL.updateDaegroup, { id, values });
 }
