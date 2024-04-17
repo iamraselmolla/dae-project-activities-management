@@ -56,7 +56,7 @@ const Training = () => {
           key={"addTraining"}
         />
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
         {!loading &&
           !error &&
           allTrainings?.length > 0 &&

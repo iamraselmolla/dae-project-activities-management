@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import UserMeetingTableTD from "./UserMeetingTableTD";
+import UserMeetingTableTD from "../UserMeetingTableTD";
 import { toBengaliNumber } from "bengali-number";
 import { MdOutlineDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";

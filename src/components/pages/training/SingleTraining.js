@@ -73,7 +73,10 @@ const SingleTraining = ({ data, setReload, reload }) => {
         </div>
         <div className="flex items-center absolute top-3 right-0">
           <p className="px-2 py-1 flex gap-2 items-center bg-black text-white rounded-l-md ">
-            <BsCalendarDate /> <div>{toBengaliNumber(date?.startDate)}</div>
+            <BsCalendarDate />{" "}
+            <div>
+              {toBengaliNumber(new Date(date?.startDate).toLocaleDateString())}
+            </div>
           </p>
         </div>
       </div>

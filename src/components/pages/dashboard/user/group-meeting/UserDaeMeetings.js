@@ -8,7 +8,7 @@ import {
   getUserAllGroupMeeting,
 } from "../../../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
-import UserMeetingTableTD from "./UserMeetingTableTD";
+import UserMeetingTableTD from "../UserMeetingTableTD";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Loader from "../../../../shared/Loader";
