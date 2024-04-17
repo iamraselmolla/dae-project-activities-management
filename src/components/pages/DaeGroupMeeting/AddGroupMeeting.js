@@ -29,7 +29,6 @@ const AddGroupMeeting = () => {
   const [loadingMessage, setLoadingMessage] = useState(null);
   const [dateMessage, setDateMessage] = useState(null);
   const [groupId, setGroupId] = useState(groupIdFromParams);
-  const [fetchedGroupInfo, setFetchedGroupInfo] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -225,9 +224,7 @@ const AddGroupMeeting = () => {
           try {
             const result = await getGroupInfoById(groupId);
             if (result?.status === 200) {
-              console.log(result);
-              // Assuming the group info is stored in result.data.groupInfo
-              setFetchedGroupInfo(result?.data?.data);
+              formik.setValues(result?.data?.data);
             }
           } catch (err) {
             toast.error(
