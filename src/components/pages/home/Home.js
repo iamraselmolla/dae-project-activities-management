@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <>
       <Banner></Banner>
-      <Features></Features>
+      <Features key={1}></Features>
     </>
   );
 };

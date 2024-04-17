@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserFieldDays = () => {
+const DemoDetails = () => {
     return (
         <div>
 
@@ -8,4 +8,4 @@ const UserFieldDays = () => {
     );
 };
 
-export default UserFieldDays;
+export default DemoDetails;

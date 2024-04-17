@@ -1,18 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AiOutlineLogin } from "react-icons/ai";
 import Login from "../shared/Login";
+import { AuthContext } from "../AuthContext/AuthProvider";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const [login, setLogin] = useState(false);
+  const { user, setUser } = useContext(AuthContext);
+  const handleToLogOut = () => {
+    localStorage.removeItem("CurrentUser");
+    localStorage.removeItem("CurrentUserToken");
+    setUser(null);
+    setShowMenu(false);
+  };
 
   return (
     <nav className="bg-black">
       <div className="navbar mx-auto py-4 max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="navbar-start">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn text-white btn-ghost">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn text-white btn-ghost"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -38,8 +49,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 হোম
@@ -50,8 +61,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 প্রদর্শনী
@@ -62,8 +73,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 প্রশিক্ষণ
@@ -74,8 +85,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 মাঠদিবস
@@ -86,15 +97,29 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 মালামাল বিতরণ
               </NavLink>
+              <NavLink
+                to="/dae-group-meeting"
+                className={({ isActive, isPending }) =>
+                  isPending
+                    ? "pending"
+                    : isActive
+                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                }
+              >
+                ডিএই কৃষক গ্রুপ সভা
+              </NavLink>
             </ul>
           </div>
-          <a className="btn btn-ghost text-white text-xl">DAE</a>
+          <Link to="/" className="btn btn-ghost text-white text-xl">
+            DAE
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <NavLink
@@ -103,8 +128,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             হোম
@@ -115,8 +140,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             প্রদর্শনী
@@ -127,8 +152,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             প্রশিক্ষণ
@@ -139,8 +164,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             মাঠদিবস
@@ -151,16 +176,28 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             মালামাল বিতরণ
           </NavLink>
+          <NavLink
+            to="/dae-group-meeting"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+            }
+          >
+            ডিএই কৃষক গ্রুপ সভা
+          </NavLink>
         </div>
         <div className="navbar-end">
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            {login && (
+            {user && (
               <>
                 <div className="relative ml-3">
                   <div onClick={() => setShowMenu(!showMenu)}>
@@ -188,42 +225,44 @@ const Header = () => {
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="user-menu-button"
-                        tabindex="-1"
+                        tabIndex="-1"
                       >
-                        <a
-                          href="#"
+                        <Link
+                          to="/dashboard"
+                          onClick={() => setShowMenu(false)}
                           className="block px-4 py-2 text-sm text-gray-700"
                           role="menuitem"
-                          tabindex="-1"
+                          tabIndex="-1"
                           id="user-menu-item-0"
                         >
                           Dashboard
-                        </a>
-                        <a
-                          href="#"
+                        </Link>
+                        <Link
+                          to="/dashboard/profile"
                           className="block px-4 py-2 text-sm text-gray-700"
                           role="menuitem"
-                          tabindex="-1"
+                          tabIndex="-1"
                           id="user-menu-item-1"
                         >
                           Profile
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="#"
+                          onClick={handleToLogOut}
                           className="block px-4 py-2 text-sm text-gray-700"
                           role="menuitem"
-                          tabindex="-1"
+                          tabIndex="-1"
                           id="user-menu-item-2"
                         >
                           Sign out
-                        </a>
+                        </Link>
                       </div>
                     </>
                   )}
                 </div>
               </>
             )}
-            {!login && (
+            {!user && (
               <>
                 <AiOutlineLogin
                   onClick={() =>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SectionTitle from "../../shared/SectionTitle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -9,12 +9,14 @@ import { getAllProjects, getUser } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
+import { AuthContext } from "../../AuthContext/AuthProvider";
+import { makeSureOnline } from "../../shared/MessageConst";
 
 const AddDemo = () => {
   const [selectedOption, setSelectedOption] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([]);
-  const [findUnion, setFindUnion] = useState({});
+  const { user } = useContext(AuthContext);
   const [datePickers, setDatePickers] = useState({
     bopon: {
       startDate: null,
@@ -121,9 +123,11 @@ const AddDemo = () => {
       {
         image: "",
         presentCondition: "",
+        presentOfficer: "",
         date: "",
       },
     ],
+    username: user?.username
   };
   const validationSchema = Yup.object({
     // projectInfo: Yup.object().shape({
@@ -157,8 +161,8 @@ const AddDemo = () => {
     validationSchema,
     onSubmit: (values) => {
       values.demoDate = datePickers;
-      values.address.block = findUnion?.blockB;
-      values.address.union = findUnion?.unionB;
+      values.address.block = user?.blockB;
+      values.address.union = user?.unionB;
       values.demoTime.season = formik.values.demoTime.season;
       values.projectInfo.full = selectedOption.name.details;
       values.projectInfo.short = selectedOption.name.short;
@@ -168,8 +172,6 @@ const AddDemo = () => {
       } catch (err) { }
     },
   });
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -189,37 +191,31 @@ const AddDemo = () => {
       }
     };
 
-
     if (navigator.onLine) {
       fetchData();
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+      makeSureOnline();
     }
   }, []);
 
-
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const result = await getUser('noapara')
-        setFindUnion(result?.data?.data)
-      }
-      catch (err) {
-        console.error(err);
-        toast.error(
-          "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
-        );
-      }
-    }
-    if (navigator.onLine) {
-      fetchUser()
-    } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
-    }
-
-  }, []);
-
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const result = await getUser();
+  //       setFindUnion(result?.data?.data);
+  //     } catch (err) {
+  //       console.error(err);
+  //       toast.error(
+  //         "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
+  //       );
+  //     }
+  //   };
+  //   if (navigator.onLine) {
+  //     fetchUser();
+  //   } else {
+  //     toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+  //   }
+  // }, []);
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -394,16 +390,16 @@ const AddDemo = () => {
                 className="input input-bordered w-full"
                 id="address.block"
                 name="address.block"
-                value={findUnion?.blockB}
+                value={user?.blockB}
                 onBlur={formik.handleBlur}
                 disabled
               >
                 <option value="" label="ব্লক সিলেক্ট করুন" />
 
                 <option
-                  key={findUnion?.username}
-                  value={findUnion?.blockB}
-                  label={findUnion?.blockB}
+                  key={user?.username}
+                  value={user?.blockB}
+                  label={user?.blockB}
                 />
               </select>
               {formik.touched.address &&
@@ -419,7 +415,7 @@ const AddDemo = () => {
               <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
               <input
                 className="input input-bordered w-full"
-                value={findUnion?.unionB}
+                value={user?.unionB}
                 disabled={true}
               />
               {formik.touched.address &&
@@ -444,7 +440,7 @@ const AddDemo = () => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="উপসহকারী কৃষি অফিসারের নাম"
-                value={formik.values.SAAO ? formik.values.SAAO?.name : ""}
+                value={user?.SAAO.name}
               />
 
               {formik.touched.SAAO &&
@@ -470,7 +466,7 @@ const AddDemo = () => {
                 maxLength={11}
                 onChange={formik.handleChange}
                 placeholder="উপসহকারী কৃষি অফিসারের মোবাইল নং"
-                value={formik.values.SAAO ? formik.values.SAAO?.mobile : ""}
+                value={user?.SAAO.mobile}
               />
 
               {formik.touched.SAAO &&
@@ -597,20 +593,24 @@ const AddDemo = () => {
                 id="demoInfo.tech"
                 name="demoInfo.tech"
                 onBlur={formik.handleBlur}
-                value={formik.values.demoInfo ? formik.values.demoInfo?.tech : ""}
+                value={
+                  formik.values.demoInfo ? formik.values.demoInfo?.tech : ""
+                }
               >
                 <option value="" label="প্রযুক্তি পছন্দ করুন" />
 
-                {selectedOption && selectedOption?.crops?.length > 0 && selectedOption?.crops?.map(singleCrop =>
-                  <>
-                    <option
-                      key={singleCrop}
-                      value={singleCrop}
-                      label={singleCrop}
-                    />
-                  </>)}
+                {selectedOption &&
+                  selectedOption?.crops?.length > 0 &&
+                  selectedOption?.crops?.map((singleCrop) => (
+                    <>
+                      <option
+                        key={singleCrop}
+                        value={singleCrop}
+                        label={singleCrop}
+                      />
+                    </>
+                  ))}
               </select>
-
 
               {formik.touched.demoInfo &&
                 formik.touched.demoInfo.tech &&
