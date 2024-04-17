@@ -54,8 +54,8 @@ const DaeGroupMeeting = () => {
         {!loading &&
           !error &&
           allGroups?.length > 0 &&
-          allGroups?.map((singleGroup) => (
-            <SingleDaeGroupMeetings key={singleGroup?._id} data={singleGroup} />
+          allGroups?.map((group) => (
+            <SingleDaeGroupMeetings key={group?._id} data={group} />
           ))}
 
         {!loading && allGroups?.length < 1 && fetchEnd && (

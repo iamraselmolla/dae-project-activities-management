@@ -180,7 +180,7 @@ const AddGroupMeeting = () => {
           <>
             <h3 className="font-bold mb-2">ছবি প্রিভিউ</h3>
             <div className="flex gap-3">
-              {images.map((image, index) => (
+              {images?.map((image, index) => (
                 <div key={index} className="relative">
                   <img
                     src={image}
