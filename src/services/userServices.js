@@ -11,14 +11,22 @@ const BASE_URL = {
   deleteProject: "/projects/delete-project",
   findProject: "/projects//get-project",
   updateUser: "/user/update-user",
+  createGroup: "/group/create-group",
+  fetchAllGroupsInfo: "/group/get-groups",
+  createATraining: "/training/create-training",
+  getTraining: "/training/get-trainings",
+  createAFieldDay: "/fieldDay/create-fieldDay",
+  getFieldDays: '/fieldDay/get-all-fieldDays',
+  deleteTraining: '/training/delete-training',
+  getSingleTraining: '/training/get-training'
 };
-export function getAllUser(jwtToken) {
-  return http.get(BASE_URL.getAllUser, {
-    headers: {
-      Authorization: `Bearer ${jwtToken}` // Pass the JWT token in the Authorization header
-    }
-  });
-}
+// export function getAllUser(jwtToken) {
+//   return http.get(BASE_URL.getAllUser, {
+//     headers: {
+//       Authorization: `Bearer ${JSON.parse(jwtToken)}` // Pass the JWT token in the Authorization header
+//     }
+//   });
+// }
 
 export function addProjectByAdmin(values) {
   return http.post(BASE_URL.addProject, values);
@@ -41,13 +49,13 @@ export function getLoginUser(formData) {
 // export function getAllUser() {
 //   return http.get(BASE_URL.getAllUser + '?person=admin');
 // }
-// export function getAllUser(jwtToken) {
-//   return http.get(BASE_URL.getAllUser, {
-//     headers: {
-//       Authorization: `Bearer ${jwtToken}` // Pass the JWT token in the Authorization header
-//     }
-//   });
-// }
+export function getAllUser(jwtToken) {
+  return http.get(BASE_URL.getAllUser, {
+    headers: {
+      Authorization: `Bearer ${jwtToken}` // Pass the JWT token in the Authorization header
+    }
+  });
+}
 
 
 
@@ -56,11 +64,37 @@ export function updateProjectCrops(values) {
   return http.put(BASE_URL.updateProjectCrops, values);
 }
 export function deleteAProject(id) {
-  return http.delete(BASE_URL.deleteProject, { data: { id } })
+  return http.delete(BASE_URL.deleteProject, { data: { id } });
 }
 export function findProjectByUserId(id) {
-  return http.post(BASE_URL.findProject, { id })
+  return http.post(BASE_URL.findProject, { id });
 }
 export function updateUser(id, values) {
-  return http.put(BASE_URL, { id, values })
+  return http.put(BASE_URL, { id, values });
+}
+export function createAGroup(values) {
+  return http.post(BASE_URL.createGroup, values);
+}
+export function fetchAllGroups() {
+  return http.get(BASE_URL.fetchAllGroupsInfo);
+}
+
+export function createTraining(values) {
+  return http.post(BASE_URL.createATraining, values);
+}
+
+export function getAllTraining() {
+  return http.get(BASE_URL.getTraining);
+}
+export function createAFieldDay(values) {
+  return http.post(BASE_URL.createAFieldDay, values)
+}
+export function getAllFieldDays() {
+  return http.get(BASE_URL.getFieldDays);
+}
+export function deleteATraining(id) {
+  return http.delete(BASE_URL.deleteTraining, { data: { id } })
+}
+export function getTrainingById(id) {
+  return http.get(BASE_URL.getSingleTraining + `?id=${id}`)
 }

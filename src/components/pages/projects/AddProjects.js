@@ -3,7 +3,10 @@ import React, { useEffect, useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 import SectionTitle from "../../shared/SectionTitle";
 import * as Yup from "yup";
-import { addProjectByAdmin, findProjectByUserId } from "../../../services/userServices";
+import {
+  addProjectByAdmin,
+  findProjectByUserId,
+} from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { toBengaliNumber } from "bengali-number";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
@@ -12,14 +15,14 @@ import { useLocation, useParams } from "react-router-dom";
 const AddProjects = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const projectIdFromUrl = queryParams.get('id');
+  const projectIdFromUrl = queryParams.get("id");
   const [crop, setCrop] = useState("");
   const [cropValues, setCropValues] = useState([]);
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
   });
-  const [projectId, setProjectId] = useState(projectIdFromUrl)
+  const [projectId, setProjectId] = useState(projectIdFromUrl);
   const handleValueChange = (newValue) => {
     setValue(newValue);
   };
@@ -27,6 +30,7 @@ const AddProjects = () => {
   const handleAddCrop = () => {
     if (crop?.trim() !== "") {
       setCropValues([...cropValues, crop]);
+      setCrop("");
     }
   };
 
@@ -61,7 +65,7 @@ const AddProjects = () => {
         start: value.startDate,
         end: value.endDate,
       },
-      crops: [...cropValues]
+      crops: [...cropValues],
       // logo: "",
     },
     validationSchema,
@@ -80,8 +84,8 @@ const AddProjects = () => {
         const result = await addProjectByAdmin(formattedValues);
         if (result?.status === 200) {
           toast.success(result?.data?.message);
-          setCropValues([])
-          setCrop([])
+          setCropValues([]);
+          setCrop([]);
         } else {
           toast.error("Something Wrong");
         }
@@ -100,7 +104,7 @@ const AddProjects = () => {
       const findProject = async () => {
         try {
           const result = await findProjectByUserId(projectId);
-          console.log(result)
+          console.log(result);
           if (result?.status === 200) {
             const projectData = result?.data?.data; // Assuming result.data contains the project data
             // Set form values based on projectData
@@ -111,7 +115,8 @@ const AddProjects = () => {
               },
               projectDetails: {
                 PD: projectData.projectDetails.PD,
-                monitoringOfficers: projectData.projectDetails.monitoringOfficers,
+                monitoringOfficers:
+                  projectData.projectDetails.monitoringOfficers,
               },
               email: projectData.email,
               time: {
@@ -129,7 +134,9 @@ const AddProjects = () => {
             });
           }
         } catch (err) {
-          toast.error("তথ্য ডাটাবেইজ থেকে আনতে সমস্যা হচ্ছে। সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন");
+          toast.error(
+            "তথ্য ডাটাবেইজ থেকে আনতে সমস্যা হচ্ছে। সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
+          );
         }
       };
       if (navigator.onLine) {
@@ -138,10 +145,7 @@ const AddProjects = () => {
         toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্টারনেট সংযোগ যুক্ত করুন");
       }
     }
-  }, [projectId, formik, setValue, setCropValues]); // Include dependencies in the dependency array
-
-
-
+  }, [projectId, setValue, setCropValues]); // Include dependencies in the dependency array
 
   return (
     <section className="container px-4 md:px-0">
@@ -310,7 +314,19 @@ const AddProjects = () => {
                           <th>{toBengaliNumber(index + 1)}</th>
                           <td>{cropValue}</td>
                           <td>
-                            <IoMdRemoveCircleOutline onClick={() => setCrop(cropValues.splice(cropValues.indexOf(cropValue), 1))} className="cursor-pointer" size={25} color="red" />
+                            <IoMdRemoveCircleOutline
+                              onClick={() =>
+                                setCrop(
+                                  cropValues.splice(
+                                    cropValues.indexOf(cropValue),
+                                    1
+                                  )
+                                )
+                              }
+                              className="cursor-pointer"
+                              size={25}
+                              color="red"
+                            />
                           </td>
                         </tr>
                       ))}
