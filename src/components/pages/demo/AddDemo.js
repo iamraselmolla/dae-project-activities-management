@@ -11,12 +11,14 @@ import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { makeSureOnline } from "../../shared/MessageConst";
+import Loader from "../../shared/Loader";
 
 const AddDemo = () => {
   const [selectedOption, setSelectedOption] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false)
   const [datePickers, setDatePickers] = useState({
     bopon: {
       startDate: null,
@@ -134,32 +136,33 @@ const AddDemo = () => {
     //   full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
     //   short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
     // }),
-    // demoTime: Yup.object().shape({
-    //   fiscalYear: Yup.string().required("অর্থবছর সিলেক্ট করুন"),
-    //   season: Yup.string().required("মৌসুম সিলেক্ট করুন"),
-    // }),
-    // farmersInfo: Yup.object().shape({
-    //   name: Yup.string().required("কৃষকের নাম দিন"),
-    // }),
-    // demoInfo: Yup.object().shape({
-    //   crop: Yup.string().required("প্রদর্শনীর নাম / ফসলের নাম লিখুন"),
-    // }),
-    // numbersInfo: Yup.object().shape({
-    //   mobile: Yup.string()
-    //     .required("মোবাইল নম্বর দিন")
-    //     .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
-    // }),
-    // address: Yup.object().shape({
-    //   village: Yup.string().required("গ্রামের নাম দিন"),
-    //   block: Yup.string().required("ব্লকের নাম পছন্দ করুন"),
-    //   union: Yup.string().required("ইউনিয়নের নাম দিন"),
-    // }),
+    demoTime: Yup.object().shape({
+      fiscalYear: Yup.string().required("অর্থবছর সিলেক্ট করুন"),
+      season: Yup.string().required("মৌসুম সিলেক্ট করুন"),
+    }),
+    farmersInfo: Yup.object().shape({
+      name: Yup.string().required("কৃষকের নাম দিন"),
+    }),
+    demoInfo: Yup.object().shape({
+      crop: Yup.string().required("প্রদর্শনীর নাম / ফসলের নাম লিখুন"),
+    }),
+    numbersInfo: Yup.object().shape({
+      mobile: Yup.string()
+        .required("মোবাইল নম্বর দিন")
+        .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
+    }),
+    address: Yup.object().shape({
+      village: Yup.string().required("গ্রামের নাম দিন"),
+      // block: Yup.string().required("ব্লকের নাম পছন্দ করুন"),
+      // union: Yup.string().required("ইউনিয়নের নাম দিন"),
+    }),
   });
 
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
+      setLoading(true)
       values.demoDate.bopon = datePickers.bopon.startDate;
       values.demoDate.ropon = datePickers.ropon.startDate;
       values.demoDate.korton = datePickers.bopon;
@@ -169,29 +172,45 @@ const AddDemo = () => {
       values.projectInfo.full = selectedOption.name.details;
       values.projectInfo.short = selectedOption.name.short;
       values.username = user?.username;
-      values.SAAO = user?.SAAO
-      console.log(values);
+      values.SAAO = user?.SAAO;
       if (!values.username) {
+        setLoading(false)
         toast.error("লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন");
       }
 
       // Handle form submission logic here
-      const createADemo = async () => {
+
+      if (navigator.onLine) {
         try {
           const result = await createDemo(values);
           if (result?.status === 200) {
-            toast.success(result?.data?.messgae)
-            values.resetForm()
+            toast.success(result?.data?.message)
+            resetForm();
+            setDatePickers({
+              bopon: {
+                startDate: null,
+                endDate: null
+              },
+              ropon: {
+                startDate: null,
+                endDate: null
+              },
+              korton: {
+                startDate: null,
+                endDate: null
+              }
+
+            })
+            setLoading(false)
 
           }
         } catch (err) {
           toast.error("প্রদর্শনীর তথ্য যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।")
+          setLoading(false)
         }
-      }
-      if (navigator.onLine) {
-        createADemo()
       } else {
         makeSureOnline()
+        setLoading(false)
       }
     },
   });
@@ -897,12 +916,17 @@ const AddDemo = () => {
             </div>
           </div>
 
-          <button
+          {!loading && <button
             type="submit"
             className="btn mt-5 w-full font-extrabold text-white btn-success"
           >
             প্রদর্শনী যুক্ত করুন
-          </button>
+          </button>}
+          {loading &&
+            <div className="fixed daeLoader">
+              <Loader />
+
+            </div>}
         </form>
       </div>
     </section>
