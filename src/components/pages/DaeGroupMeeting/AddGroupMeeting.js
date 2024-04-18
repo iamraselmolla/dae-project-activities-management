@@ -309,7 +309,7 @@ const AddGroupMeeting = () => {
             <div>
               <label className="font-extrabold mb-1 block">মোবাইল</label>
               <input
-                type="tel"
+                type="text"
                 className="input input-bordered w-full"
                 id="groupInfo.mobile"
                 name="groupInfo.mobile"
