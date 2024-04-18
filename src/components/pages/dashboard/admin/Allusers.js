@@ -57,45 +57,55 @@ const Allusers = () => {
   const [reload, setReload] = useState(false);
   const { jwtToken } = useContext(AuthContext);
 
+  // const fetchAllUsers = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const result = await axios.get(
+  //       "http://localhost:5000/api/v1/user/get-users"
+  //     );
+  //     if (result?.status === 200) {
+  //       setAllUser(result?.data?.data);
+  //     } else {
+  //       setError("Failed to fetch users");
+  //     }
+  //   } catch (err) {
+  //     setError("An error occurred while fetching users");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const fetchAllUsers = async () => {
     setLoading(true);
     try {
-      const result = await axios.get(
-        "http://localhost:5000/api/v1/user/get-users"
-      );
+      const result = await getAllUser(jwtToken);
       if (result?.status === 200) {
+        setError(null);
         setAllUser(result?.data?.data);
       } else {
-        setError("Failed to fetch users");
+        setError('Failed to fetch users');
       }
     } catch (err) {
-      setError("An error occurred while fetching users");
+      setError('An error occurred while fetching users');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
+    console.log("generate")
     fetchAllUsers();
-  }, [reload]);
+  }, [jwtToken]);
 
   return (
-    <div className="px-5 py-5">
-      <SectionTitle title="সকল ইউজার তথ্য" />
-      {error && <div className="text-red-500">{error}</div>}
-      {!loading &&
-        allUser?.length > 0 &&
-        allUser.map((singleUser, index) => (
-          <div key={singleUser?._id}>
-            <SingleUser
-              setReload={setReload}
-              reload={reload}
-              index={index}
-              key={index}
-              user={singleUser}
-            />
-          </div>
-        ))}
+    <div className='px-5 py-5'>
+      <SectionTitle title='সকল ইউজার তথ্য' />
+      {error && <div className='text-red-500'>{error}</div>}
+      {!loading && allUser?.length > 0 && allUser.map((singleUser, index) => (
+        <div key={singleUser?._id}>
+          <SingleUser index={index} key={index} user={singleUser} />
+        </div>
+      ))}
       {loading && <Loader />}
     </div>
   );
