@@ -11,6 +11,7 @@ const BASE_URL = {
 
   // Demos
   addDemo: "/demo/create-demo",
+  getAllDemos: "/demo/all-demos",
 
   // Users
   getUser: "/user/get-user",
@@ -73,6 +74,9 @@ export function createDemo(values) {
   return http.post(BASE_URL.addDemo, values);
 }
 
+export function getAllDemos() {
+  return http.get(BASE_URL.getAllDemos)
+}
 // User APIs
 export function getUser(username) {
   return http.post(BASE_URL.getUser, { username });
