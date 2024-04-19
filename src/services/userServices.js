@@ -12,6 +12,8 @@ const BASE_URL = {
   // Demos
   addDemo: "/demo/create-demo",
   getAllDemos: "/demo/all-demos",
+  getUserDemo: '/demo/user-all-demos',
+
 
   // Users
   getUser: "/user/get-user",
@@ -76,6 +78,10 @@ export function createDemo(values) {
 
 export function getAllDemos() {
   return http.get(BASE_URL.getAllDemos)
+}
+
+export function getUserDemos() {
+  return http.get(BASE_URL.getUserDemo)
 }
 // User APIs
 export function getUser(username) {

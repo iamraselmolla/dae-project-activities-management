@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
+import { AuthContext } from "../../../AuthContext/AuthProvider";
+import toast from "react-hot-toast";
+import { makeSureOnline } from "../../../shared/MessageConst";
+import { getUserDemos } from "../../../../services/userServices";
 
 const UserDemos = () => {
+  const { user } = useContext(AuthContext)
+  const [userDemos, setUserDemos] = useState([])
+  useEffect(() => {
+    const fetchUserDemos = async () => {
+      try {
+        const result = await getUserDemos();
+
+      }
+      catch (err) {
+        toast.error("ইউজারের যুক্ত করা প্রদর্শনীর তথ্য আনতে সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।")
+      }
+
+    }
+    if (navigator.onLine) {
+      fetchUserDemos()
+    }
+    else {
+      makeSureOnline()
+    }
+  }, [user])
   return (
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">

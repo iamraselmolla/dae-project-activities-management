@@ -36,8 +36,6 @@ const AuthProvider = ({ children }) => {
   const authInfo = {
     user,
     setUser,
-    initialLoading,
-    setInitialLoading,
     jwtToken,
     setJwtToken,
     role,

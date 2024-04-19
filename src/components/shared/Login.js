@@ -8,8 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, setUser, loading, setLoading, jwtToken } =
-    useContext(AuthContext);
+  const { user, setUser, jwtToken } = useContext(AuthContext);
   const from = location?.state?.from?.pathname || "/";
 
   // State to manage form inputs
@@ -17,6 +16,7 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false)
 
   // Function to handle input changes
   const handleInputChange = (e) => {
@@ -108,6 +108,7 @@ const Login = () => {
               />
             </label>
             <button
+              disabled={loading}
               type="submit"
               onClick={handleSubmit}
               className="btn w-full btn-success"

@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 import { RiImageAddFill } from "react-icons/ri";
 import "./demo.css";
 import AddIMageModal from "../../shared/AddImageModal";
-import { GoProjectSymlink } from "react-icons/go";
+import { GrTechnology } from "react-icons/gr";
+
 
 
 const SingleDemo = ({ data }) => {
@@ -88,12 +89,13 @@ const SingleDemo = ({ data }) => {
           <div className="flex items-center gap-2">
             <BsFillCloudSunFill /> <p>{demoTime?.season}/{demoTime?.fiscalYear}</p>
           </div>
+          <div className="flex items-center gap-2">
+            <GrTechnology /> <p>{demoInfo?.tech}</p>
+          </div>
           <div className="font-extrabold mt-3">
             <p>প্রকল্পের নামঃ {projectInfo?.full}</p>
           </div>
-          <div className=" font-bold">
-            <p>প্রযুক্তিঃ {demoInfo?.tech}</p>
-          </div>
+
           <div className=" mt-3 mb-4">
             <Link
               className="px-3 py-2 rounded-md transition-colors block border-2 border-black hover:bg-black hover:text-white text-black font-bold w-100 text-center"
