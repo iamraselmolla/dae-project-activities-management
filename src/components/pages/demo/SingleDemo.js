@@ -8,7 +8,21 @@ import { RiImageAddFill } from "react-icons/ri";
 import "./demo.css";
 import AddIMageModal from "../../shared/AddImageModal";
 
-const SingleDemo = () => {
+const SingleDemo = ({ data }) => {
+  const {
+    projectInfo,
+    demoTime,
+    farmersInfo,
+    address,
+    SAAO,
+    numbersInfo,
+    demoInfo,
+    demoDate,
+    production,
+    comment,
+    demoImages,
+    username
+  } = data;
   const images = [
     {
       original: "images/features/1.jpg",
@@ -45,11 +59,11 @@ const SingleDemo = () => {
         <ImageGallery autoPlay={true} items={images} />
         <div className="flex items-center absolute top-3">
           <p className="px-2 py-1 bg-black text-white rounded-r-md ">
-            জিকেবিএসপি
+            {projectInfo?.short}
           </p>
         </div>
         <div className="flex items-center absolute top-3 right-0">
-          <p className="px-2 py-1 bg-black text-white rounded-l-md ">মূগ</p>
+          <p className="px-2 py-1 bg-black text-white rounded-l-md ">{demoInfo?.crop}</p>
         </div>
       </div>
       <div className="add-image cursor-pointer bg-black flex h-12 absolute items-center justify-center opacity-50 rounded-full text-3xl text-white w-12">
@@ -61,16 +75,16 @@ const SingleDemo = () => {
       <AddIMageModal />
 
       <div className="content-part px-3 py-2   ">
-        <h2 className="text-xl font-extrabold">মোঃ শাহাজাহান মিয়া</h2>
+        <h2 className="text-xl font-extrabold">{farmersInfo?.name}</h2>
         <div>
           <div className="flex items-center gap-2">
-            <FaMobileAlt /> <p>01944835365</p>
+            <FaMobileAlt /> <p>{numbersInfo?.mobile}</p>
           </div>
           <div className="flex items-center gap-2">
-            <MdLocationPin /> <p>গ্রামঃ নলধা, ব্লকঃ নলধা, ইউনিয়নঃ নলধা</p>
+            <MdLocationPin /> <p>গ্রামঃ {address?.village}, ব্লকঃ {address?.block}, ইউনিয়নঃ {address?.union}</p>
           </div>
           <div className="flex items-center gap-2">
-            <BsFillCloudSunFill /> <p>খরিপ-১/২০২৩-২৪</p>
+            <BsFillCloudSunFill /> <p>{demoTime?.season}/{demoTime?.fiscalYear}</p>
           </div>
           <div className=" mt-3 mb-4">
             <Link
@@ -79,7 +93,7 @@ const SingleDemo = () => {
             >
               বিস্তারিত দেখুন
             </Link>
-          </div>{" "}
+          </div>
         </div>
       </div>
     </div>

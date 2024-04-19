@@ -49,7 +49,7 @@ const Demo = () => {
         </Link>
       </div>
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-6">
-        {!loading && fetchEnd && demos?.length > 1 && demos?.map(demo => <SingleDemo />)}
+        {!loading && fetchEnd && demos?.length > 0 && demos?.map(demo => <SingleDemo data={demo} />)}
       </div>
       {!loading && fetchEnd && demos?.length < 1 && <h2 className="text-red-600 text-center text-2xl  font-extrabold">
         কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!!
