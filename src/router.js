@@ -7,7 +7,6 @@ import Sidebar from "./components/pages/dashboard/DashboardLayout";
 import DashboardLayout from "./components/pages/dashboard/DashboardLayout";
 import AllProjects from "./components/pages/dashboard/admin/AllProjects";
 import Allusers from "./components/pages/dashboard/admin/Allusers";
-import UserDemos from "./components/pages/dashboard/user/UserDemos";
 import AddDemo from "./components/pages/demo/AddDemo";
 import Demo from "./components/pages/demo/Demo";
 import Distribution from "./components/pages/distrubution/Distribution";
@@ -23,6 +22,7 @@ import AddUserNotes from "./components/pages/dashboard/user/notes/AddUserNotes";
 import AdminTrainings from "./components/pages/dashboard/admin/DashboardTrainings/AdminTrainings";
 import UserFieldDays from "./components/pages/dashboard/user/UserFieldDays/UserFieldDays";
 import UserDaeMeetings from "./components/pages/dashboard/user/group-meeting/UserDaeMeetings";
+import UserDemos from "./components/pages/dashboard/user/demos/UserDemos";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
