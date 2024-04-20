@@ -84,9 +84,9 @@ const UserDemos = () => {
                     </th>
                     <th
                       scope="col"
-                      className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      className="py-4 whitespace-nowrap font-extrabold px-2  text-black text-center uppercase"
                     >
-                      মোবাইল নং, এনআইডি নং, কৃষি কার্ড নং, বিআইডি নং
+                      মোবাইল, এনআইডি,<br /> কৃষি কার্ড, বিআইডি
                     </th>
                     <th
                       scope="col"

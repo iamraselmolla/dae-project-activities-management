@@ -31,59 +31,57 @@ const UserSingleDemoTableRow = ({ data, index }) => {
     }, [demoImages, username]);
     return (
         <tr className="divide-x divide-gray-200 dark:divide-gray-700">
-            <td className="text-center text-balance text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
+            <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
                 {toBengaliNumber(index + 1)}
             </td>
-            <td className="text-center text-balance text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
+            <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
                 {projectInfo?.short}
             </td>
-            <td className="text-center text-balance text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
+            <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
                 প্রযুক্তিঃ {demoInfo?.tech} <br />
                 ফসলঃ {demoInfo?.crop} <br />
                 জাতঃ {demoInfo?.variety} <br />
             </td>
-            <td className="text-center text-balance text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
+            <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
                 {demoTime?.season} <br />
                 {demoTime?.fiscalYear}
             </td>
-            <td className="text-center text-balance text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
+            <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
                 {farmersInfo?.name}, <br />
                 {farmersInfo?.fatherOrHusbandName}
             </td>
-            <td className="text-center text-balance text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
+            <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
                 {address?.village}
             </td>
-            <td className="text-center text-balance text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
-                {numbersInfo?.mobile} <br />
-                {numbersInfo?.NID}<br />
-                {numbersInfo?.agriCard}<br />
-                {numbersInfo?.BID}
+            <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
+                {numbersInfo?.mobile}, {numbersInfo?.NID}<br />
+                {numbersInfo?.agriCard}, {numbersInfo?.BID}
             </td>
-            <td className="text-center text-balance text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
+            <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
                 রোপণঃ {formatDateToday(demoDate?.bopon)} <br />
                 বপণঃ {formatDateToday(demoDate?.ropon)} <br />
-                কর্তনঃ {formatDateToday(demoDate?.korton?.startDate)} - {formatDateToday(demoDate?.korton?.endDate)}
+                কর্তনঃ {formatDateToday(demoDate?.korton?.startDate)} - <br /> {formatDateToday(demoDate?.korton?.endDate)}
             </td>
-            <td className="text-center text-balance text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
+            <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
                 ফলন/হেঃ {toBengaliNumber(production?.productionPerHector)} <br />
                 উৎপাদনঃ {toBengaliNumber(production?.totalProduction)} <br />
                 কন্ট্রোল প্লটঃ {toBengaliNumber(production?.sidePlotProduction)} <br />
             </td>
             <td className="text-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
-                <ImageGallery
+                {demoImages[0].image ? <ImageGallery
                     showFullscreenButton={true}
                     showPlayButton={false}
                     showNav={false}
                     showThumbnails={false}
                     autoPlay={true}
                     items={imagesArr}
-                />
+                /> : 'No IMG'}
             </td>
-            <td className="text-center text-balance text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
+            <td className="text-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2 whitespace-nowrap">
                 কৃষকঃ  {comment?.farmersReview} <br />
                 {comment?.overallComment && 'অন্যান্যঃ ' + comment?.overallComment}
             </td>
-            <td className="text-center text-balance text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
+            <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
                 {SAAO?.name} <br />
                 {toBengaliNumber(SAAO?.mobile)}
             </td>
@@ -99,7 +97,7 @@ const UserSingleDemoTableRow = ({ data, index }) => {
                     <CiEdit size={35} color="black" />
                 </div>
             </td>
-        </tr>
+        </tr >
     );
 };
 
