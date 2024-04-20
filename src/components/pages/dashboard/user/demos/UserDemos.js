@@ -1,7 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AiOutlineFileDone } from "react-icons/ai";
-import { CiEdit } from "react-icons/ci";
-import { MdOutlineDelete } from "react-icons/md";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
 import toast from "react-hot-toast";
 import { makeSureOnline } from "../../../../shared/MessageConst";
@@ -130,7 +127,7 @@ const UserDemos = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {!loading && fetchEnd && userDemos?.length > 0 && userDemos?.map(single => <UserSingleDemoTableRow />)}
+                  {!loading && fetchEnd && userDemos?.length > 0 && userDemos?.map((single, index) => <UserSingleDemoTableRow data={single} index={index} />)}
                 </tbody>
               </table>
             }
