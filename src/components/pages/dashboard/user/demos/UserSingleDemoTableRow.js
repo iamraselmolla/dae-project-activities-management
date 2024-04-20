@@ -6,7 +6,7 @@ import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
 import formatDateToday from '../../../../utilis/formatDate';
 
-const UserSingleDemoTableRow = ({ data, index }) => {
+const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
     const {
         projectInfo,
         demoTime,

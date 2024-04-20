@@ -36,7 +36,17 @@ const UserDemos = () => {
     else {
       makeSureOnline()
     }
-  }, [user])
+  }, [user]);
+
+  const handleDemoDeleting = async () => {
+    try {
+
+    }
+    catch (err) {
+      toast.error()
+      console.log(err)
+    }
+  }
   return (
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
@@ -127,7 +137,7 @@ const UserDemos = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {!loading && fetchEnd && userDemos?.length > 0 && userDemos?.map((single, index) => <UserSingleDemoTableRow data={single} index={index} />)}
+                  {!loading && fetchEnd && userDemos?.length > 0 && userDemos?.map((single, index) => <UserSingleDemoTableRow handleDemoDeleting={handleDemoDeleting} data={single} index={index} />)}
                 </tbody>
               </table>
             }
