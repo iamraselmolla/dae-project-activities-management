@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { deleteATraining } from "../../../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
 import TableDivision from "./TableComponent/TableDivision";
-import { comment } from "postcss";
 
 import ImageGallery from "react-image-gallery";
 
