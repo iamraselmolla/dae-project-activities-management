@@ -12,8 +12,8 @@ const BASE_URL = {
   // Demos
   addDemo: "/demo/create-demo",
   getAllDemos: "/demo/all-demos",
-  getUserDemo: '/demo/user-all-demos',
-
+  getUserDemo: "/demo/user-all-demos",
+  deleteDemo: "/demo/delete-demo",
 
   // Users
   getUser: "/user/get-user",
@@ -77,15 +77,19 @@ export function createDemo(values) {
 }
 
 export function getAllDemos() {
-  return http.get(BASE_URL.getAllDemos)
+  return http.get(BASE_URL.getAllDemos);
+}
+
+export function deleteUserDemo(id) {
+  return http.delete(BASE_URL.deleteDemo, { data: { id } });
 }
 
 export function getUserDemos() {
-  return http.get(BASE_URL.getUserDemo)
+  return http.get(BASE_URL.getUserDemo);
 }
 // User APIs
 export function getUser(username) {
-  return http.post(BASE_URL.getUser, { username });
+  return http.delete(BASE_URL.getUser, { username });
 }
 
 export function getAllUser() {

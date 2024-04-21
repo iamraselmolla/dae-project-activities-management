@@ -8,6 +8,7 @@ import formatDateToday from "../../../../utilis/formatDate";
 
 const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
   const {
+    _id,
     projectInfo,
     demoTime,
     farmersInfo,
@@ -100,6 +101,7 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
           <MdOutlineDelete
             onClick={() =>
               handleDemoDeleting(
+                _id,
                 projectInfo?.short,
                 demoTime,
                 demoInfo,
