@@ -154,7 +154,9 @@ const AddTraining = () => {
                 const compressedImage = await compressAndUploadImage(
                   rawImages[i]
                 );
-                setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
+                setLoadingMessage(
+                  `${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`
+                );
                 const result = await uploadToCloudinary(
                   compressedImage,
                   "training"
@@ -174,7 +176,6 @@ const AddTraining = () => {
               setLoading(false);
               resetForm();
             }
-
           } else {
             setLoadingMessage("কৃষক প্রশিক্ষণ তথ্য আপডেট হচ্ছে");
 
@@ -198,12 +199,14 @@ const AddTraining = () => {
               comment: values.comment,
             };
 
-            const result = await updateTraining(trainingId, updatedTrainingData);
+            const result = await updateTraining(
+              trainingId,
+              updatedTrainingData
+            );
             if (result?.status === 200) {
               toast.success("কৃষক প্রশিক্ষণ তথ্য আপডেট করা হয়েছে।");
               setLoading(false);
             }
-
           }
         } catch (err) {
           console.log(err);
@@ -322,8 +325,8 @@ const AddTraining = () => {
               )}
             </select>
             {formik.touched.projectInfo &&
-              formik.touched.projectInfo.details &&
-              formik.errors.projectInfo?.details ? (
+            formik.touched.projectInfo.details &&
+            formik.errors.projectInfo?.details ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.details}
               </div>
@@ -346,8 +349,8 @@ const AddTraining = () => {
             />
 
             {formik.touched.projectInfo &&
-              formik.touched.projectInfo.short &&
-              formik.errors.projectInfo?.short ? (
+            formik.touched.projectInfo.short &&
+            formik.errors.projectInfo?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.short}
               </div>
@@ -365,8 +368,8 @@ const AddTraining = () => {
               <FiscalYear />
             </select>
             {formik.touched.fiscalYear &&
-              formik.touched.fiscalYear &&
-              formik.errors.fiscalYear ? (
+            formik.touched.fiscalYear &&
+            formik.errors.fiscalYear ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.fiscalYear}
               </div>
@@ -445,8 +448,8 @@ const AddTraining = () => {
               value={formik.values?.farmers?.male}
             />
             {formik.touched.farmers &&
-              formik.touched.farmers.male &&
-              formik.errors.farmers?.male ? (
+            formik.touched.farmers.male &&
+            formik.errors.farmers?.male ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.farmers.male}
               </div>
@@ -467,8 +470,8 @@ const AddTraining = () => {
               value={formik.values.farmers?.female}
             />
             {formik.touched.farmers &&
-              formik.touched.farmers.female &&
-              formik.errors.farmers?.female ? (
+            formik.touched.farmers.female &&
+            formik.errors.farmers?.female ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.farmers.female}
               </div>
@@ -527,13 +530,15 @@ const AddTraining = () => {
                       alt={`Selected Image ${index + 1}`}
                       className="mt-2 max-w-64 h-auto"
                     />
-                    {!trainingId && <button
-                      type="button"
-                      className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
-                      onClick={() => handleRemoveImage(index)}
-                    >
-                      <FaTimes />
-                    </button>}
+                    {!trainingId && (
+                      <button
+                        type="button"
+                        className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
+                        onClick={() => handleRemoveImage(index)}
+                      >
+                        <FaTimes />
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
@@ -569,7 +574,9 @@ const AddTraining = () => {
             type="submit"
             className="btn mt-5 w-full font-extrabold text-white btn-success"
           >
-            {trainingId ? "কৃষক প্রশিক্ষণ তথ্য আপডেট করুন" : "প্রশিক্ষণ যুক্ত করুন"}
+            {trainingId
+              ? "কৃষক প্রশিক্ষণ তথ্য আপডেট করুন"
+              : "প্রশিক্ষণ যুক্ত করুন"}
           </button>
         )}
       </form>

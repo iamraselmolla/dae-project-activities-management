@@ -5,6 +5,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
 import formatDateToday from "../../../../utilis/formatDate";
+import { Link } from "react-router-dom";
 
 const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
   const {
@@ -113,7 +114,9 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
           />
         </div>
         <div className="cursor-pointer">
-          <CiEdit size={35} color="black" />
+          <Link to={`/addDemo?id=${_id}`}>
+            <CiEdit size={35} color="black" />
+          </Link>
         </div>
       </td>
     </tr>

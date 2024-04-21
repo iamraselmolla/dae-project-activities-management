@@ -5,33 +5,43 @@ import * as Yup from "yup";
 import Season from "../../shared/Season";
 import FiscalYear from "../../shared/FiscalYear";
 import Datepicker from "react-tailwindcss-datepicker";
-import { createDemo, getAllProjects, getUser } from "../../../services/userServices";
+import {
+  createDemo,
+  findDemoById,
+  getAllProjects,
+  getUser,
+} from "../../../services/userServices";
 import toast from "react-hot-toast";
 import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { makeSureOnline } from "../../shared/MessageConst";
 import Loader from "../../shared/Loader";
+import { useLocation } from "react-router-dom";
 
 const AddDemo = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const demoIdFromUrl = queryParams.get("id");
+  const [demoId, setDemoId] = useState(demoIdFromUrl);
   const [selectedOption, setSelectedOption] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [datePickers, setDatePickers] = useState({
     bopon: {
       startDate: null,
-      endDate: null
+      endDate: null,
     },
     ropon: {
       startDate: null,
-      endDate: null
+      endDate: null,
     },
     korton: {
       startDate: null,
-      endDate: null
-    }
+      endDate: null,
+    },
   });
   const handleImageChange = (e) => {
     const files = e.target.files;
@@ -162,7 +172,7 @@ const AddDemo = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
-      setLoading(true)
+      setLoading(true);
       values.demoDate.bopon = datePickers.bopon.startDate;
       values.demoDate.ropon = datePickers.ropon.startDate;
       values.demoDate.korton = datePickers.bopon;
@@ -174,8 +184,10 @@ const AddDemo = () => {
       values.username = user?.username;
       values.SAAO = user?.SAAO;
       if (!values.username) {
-        setLoading(false)
-        toast.error("লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন");
+        setLoading(false);
+        toast.error(
+          "লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
+        );
       }
 
       // Handle form submission logic here
@@ -184,33 +196,31 @@ const AddDemo = () => {
         try {
           const result = await createDemo(values);
           if (result?.status === 200) {
-            toast.success(result?.data?.message)
+            toast.success(result?.data?.message);
             resetForm();
             setDatePickers({
               bopon: {
                 startDate: null,
-                endDate: null
+                endDate: null,
               },
               ropon: {
                 startDate: null,
-                endDate: null
+                endDate: null,
               },
               korton: {
                 startDate: null,
-                endDate: null
-              }
-
-            })
-            setLoading(false)
-
+                endDate: null,
+              },
+            });
+            setLoading(false);
           }
         } catch (err) {
-          toast.error("প্রদর্শনীর তথ্য যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।")
-          setLoading(false)
+          toast.error("প্রদর্শনীর তথ্য যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।");
+          setLoading(false);
         }
       } else {
-        makeSureOnline()
-        setLoading(false)
+        makeSureOnline();
+        setLoading(false);
       }
     },
   });
@@ -239,26 +249,25 @@ const AddDemo = () => {
       makeSureOnline();
     }
   }, []);
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       const result = await getUser();
-  //       setFindUnion(result?.data?.data);
-  //     } catch (err) {
-  //       console.error(err);
-  //       toast.error(
-  //         "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
-  //       );
-  //     }
-  //   };
-  //   if (navigator.onLine) {
-  //     fetchUser();
-  //   } else {
-  //     toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
-  //   }
-  // }, []);
-
+  useEffect(() => {
+    const fetchDemoId = async () => {
+      if (demoId) {
+        try {
+          const result = await findDemoById(demoId);
+          console.log(result);
+        } catch (err) {
+          toast.error(
+            "প্রদর্শনীর তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিতে অবহিত করুন।"
+          );
+        }
+      }
+    };
+    if (navigator.onLine) {
+      fetchDemoId();
+    } else {
+      makeSureOnline();
+    }
+  }, [demoId]);
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"প্রকল্পের প্রদর্শনীর তথ্য যুক্ত করুন"} />
@@ -291,8 +300,8 @@ const AddDemo = () => {
                 )}
               </select>
               {formik.touched.projectInfo &&
-                formik.touched.projectInfo.full &&
-                formik.errors.projectInfo?.full ? (
+              formik.touched.projectInfo.full &&
+              formik.errors.projectInfo?.full ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.projectInfo.full}
                 </div>
@@ -319,8 +328,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.projectInfo &&
-                formik.touched.projectInfo.short &&
-                formik.errors.projectInfo?.short ? (
+              formik.touched.projectInfo.short &&
+              formik.errors.projectInfo?.short ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.projectInfo.short}
                 </div>
@@ -352,8 +361,8 @@ const AddDemo = () => {
                 <Season />
               </select>
               {formik.touched.demoTime &&
-                formik.touched.demoTime.season &&
-                formik.errors.demoTime?.season ? (
+              formik.touched.demoTime.season &&
+              formik.errors.demoTime?.season ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoTime.season}
                 </div>
@@ -402,8 +411,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.farmersInfo &&
-                formik.touched.farmersInfo.fatherOrHusbandName &&
-                formik.errors.farmersInfo?.fatherOrHusbandName ? (
+              formik.touched.farmersInfo.fatherOrHusbandName &&
+              formik.errors.farmersInfo?.fatherOrHusbandName ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.farmersInfo.fatherOrHusbandName}
                 </div>
@@ -437,13 +446,11 @@ const AddDemo = () => {
                 onChange={formik.handleChange}
                 placeholder="গ্রাম"
                 disabled={true}
-                value={
-                  user?.blockB
-                }
+                value={user?.blockB}
               />
               {formik.touched.address &&
-                formik.touched.address.block &&
-                formik.errors.address?.block ? (
+              formik.touched.address.block &&
+              formik.errors.address?.block ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.address.block}
                 </div>
@@ -458,8 +465,8 @@ const AddDemo = () => {
                 disabled={true}
               />
               {formik.touched.address &&
-                formik.touched.address.union &&
-                formik.errors.address?.union ? (
+              formik.touched.address.union &&
+              formik.errors.address?.union ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.address.union}
                 </div>
@@ -483,8 +490,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.SAAO &&
-                formik.touched.SAAO.name &&
-                formik.errors.SAAO?.name ? (
+              formik.touched.SAAO.name &&
+              formik.errors.SAAO?.name ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.SAAO.name}
                 </div>
@@ -509,8 +516,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.SAAO &&
-                formik.touched.SAAO.mobile &&
-                formik.errors.SAAO?.mobile ? (
+              formik.touched.SAAO.mobile &&
+              formik.errors.SAAO?.mobile ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.SAAO.mobile}
                 </div>
@@ -537,8 +544,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-                formik.touched.numbersInfo.mobile &&
-                formik.errors.numbersInfo?.mobile ? (
+              formik.touched.numbersInfo.mobile &&
+              formik.errors.numbersInfo?.mobile ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.mobile}
                 </div>
@@ -564,8 +571,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-                formik.touched.numbersInfo.NID &&
-                formik.errors.numbersInfo?.NID ? (
+              formik.touched.numbersInfo.NID &&
+              formik.errors.numbersInfo?.NID ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.NID}
                 </div>
@@ -589,8 +596,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-                formik.touched.numbersInfo.BID &&
-                formik.errors.numbersInfo?.BID ? (
+              formik.touched.numbersInfo.BID &&
+              formik.errors.numbersInfo?.BID ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.BID}
                 </div>
@@ -615,8 +622,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-                formik.touched.numbersInfo.agriCard &&
-                formik.errors.numbersInfo?.agriCard ? (
+              formik.touched.numbersInfo.agriCard &&
+              formik.errors.numbersInfo?.agriCard ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.agriCard}
                 </div>
@@ -653,8 +660,8 @@ const AddDemo = () => {
               </select>
 
               {formik.touched.demoInfo &&
-                formik.touched.demoInfo.tech &&
-                formik.errors.demoInfo?.tech ? (
+              formik.touched.demoInfo.tech &&
+              formik.errors.demoInfo?.tech ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.tech}
                 </div>
@@ -676,8 +683,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.demoInfo &&
-                formik.touched.demoInfo.crop &&
-                formik.errors.demoInfo?.crop ? (
+              formik.touched.demoInfo.crop &&
+              formik.errors.demoInfo?.crop ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.crop}
                 </div>
@@ -699,8 +706,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.demoInfo &&
-                formik.touched.demoInfo.variety &&
-                formik.errors.demoInfo?.variety ? (
+              formik.touched.demoInfo.variety &&
+              formik.errors.demoInfo?.variety ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.variety}
                 </div>
@@ -725,8 +732,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.demoInfo &&
-                formik.touched.demoInfo.area &&
-                formik.errors.demoInfo?.area ? (
+              formik.touched.demoInfo.area &&
+              formik.errors.demoInfo?.area ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.area}
                 </div>
@@ -797,8 +804,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.production &&
-                formik.touched.production.productionPerHector &&
-                formik.errors.production?.productionPerHector ? (
+              formik.touched.production.productionPerHector &&
+              formik.errors.production?.productionPerHector ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.productionPerHector}
                 </div>
@@ -824,8 +831,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.production &&
-                formik.touched.production.totalProduction &&
-                formik.errors.production?.totalProduction ? (
+              formik.touched.production.totalProduction &&
+              formik.errors.production?.totalProduction ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.totalProduction}
                 </div>
@@ -851,8 +858,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.production &&
-                formik.touched.production.sidePlotProduction &&
-                formik.errors.production?.sidePlotProduction ? (
+              formik.touched.production.sidePlotProduction &&
+              formik.errors.production?.sidePlotProduction ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.sidePlotProduction}
                 </div>
@@ -916,17 +923,19 @@ const AddDemo = () => {
             </div>
           </div>
 
-          {!loading && <button
-            type="submit"
-            className="btn mt-5 w-full font-extrabold text-white btn-success"
-          >
-            প্রদর্শনী যুক্ত করুন
-          </button>}
-          {loading &&
+          {!loading && (
+            <button
+              type="submit"
+              className="btn mt-5 w-full font-extrabold text-white btn-success"
+            >
+              প্রদর্শনী যুক্ত করুন
+            </button>
+          )}
+          {loading && (
             <div className="fixed daeLoader">
               <Loader />
-
-            </div>}
+            </div>
+          )}
         </form>
       </div>
     </section>

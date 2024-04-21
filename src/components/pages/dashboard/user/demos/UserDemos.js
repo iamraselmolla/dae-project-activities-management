@@ -39,7 +39,7 @@ const UserDemos = () => {
     } else {
       makeSureOnline();
     }
-  }, [user]);
+  }, [user, reload]);
 
   const handleDemoDeleting = async (
     id,
