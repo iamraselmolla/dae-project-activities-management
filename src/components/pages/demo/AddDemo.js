@@ -8,8 +8,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import {
   createDemo,
   findDemoById,
-  getAllProjects,
-  getUser,
+  getAllProjects
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import getFiscalYear from "../../shared/commonDataStores";
@@ -24,7 +23,7 @@ const AddDemo = () => {
   const queryParams = new URLSearchParams(location.search);
   const demoIdFromUrl = queryParams.get("id");
   const [demoId, setDemoId] = useState(demoIdFromUrl);
-  const [selectedOption, setSelectedOption] = useState({});
+  const [selectedProject, setSelectedProject] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext);
@@ -73,7 +72,7 @@ const AddDemo = () => {
       const findProject = allProject?.find(
         (s) => s?.name?.details === e.target.value
       );
-      setSelectedOption(findProject);
+      setSelectedProject(findProject);
     }
   };
 
@@ -179,8 +178,8 @@ const AddDemo = () => {
       values.address.block = user?.blockB;
       values.address.union = user?.unionB;
       values.demoTime.season = formik.values.demoTime.season;
-      values.projectInfo.full = selectedOption.name.details;
-      values.projectInfo.short = selectedOption.name.short;
+      values.projectInfo.full = selectedProject.name.details;
+      values.projectInfo.short = selectedProject.name.short;
       values.username = user?.username;
       values.SAAO = user?.SAAO;
       if (!values.username) {
@@ -251,23 +250,53 @@ const AddDemo = () => {
   }, []);
   useEffect(() => {
     const fetchDemoId = async () => {
-      if (demoId) {
-        try {
-          const result = await findDemoById(demoId);
-          console.log(result);
-        } catch (err) {
-          toast.error(
-            "প্রদর্শনীর তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিতে অবহিত করুন।"
-          );
+      if (!demoId) return;
+
+      try {
+        const result = await findDemoById(demoId);
+        const { data } = result?.data || {};
+
+        formik.setValues({
+          ...data,
+        });
+
+        const { demoDate } = data || {};
+        setDatePickers({
+          bopon: {
+            startDate: demoDate?.bopon,
+            endDate: demoDate?.bopon,
+          },
+          ropon: {
+            startDate: demoDate?.ropon,
+            endDate: demoDate?.ropon,
+          },
+          korton: {
+            startDate: demoDate?.korton?.startDate,
+            endDate: demoDate?.korton?.endDate,
+          },
+        });
+
+        const projectName = data?.projectInfo?.full;
+        if (projectName) {
+          const foundProject = allProject.find((proj) => proj.name.details === projectName);
+          if (foundProject) {
+            setSelectedProject(foundProject);
+          }
         }
+      } catch (err) {
+        toast.error(
+          "প্রদর্শনীর তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিতে অবহিত করুন।"
+        );
       }
     };
+
     if (navigator.onLine) {
       fetchDemoId();
     } else {
       makeSureOnline();
     }
-  }, [demoId]);
+  }, [demoId, allProject]);
+
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"প্রকল্পের প্রদর্শনীর তথ্য যুক্ত করুন"} />
@@ -282,7 +311,7 @@ const AddDemo = () => {
                 className="input input-bordered w-full"
                 id="projectInfo.full"
                 name="projectInfo.full"
-                value={selectedOption?.name?.details}
+                value={selectedProject?.name?.details}
                 onChange={handleSelectChange}
                 onBlur={formik.handleBlur}
               >
@@ -300,8 +329,8 @@ const AddDemo = () => {
                 )}
               </select>
               {formik.touched.projectInfo &&
-              formik.touched.projectInfo.full &&
-              formik.errors.projectInfo?.full ? (
+                formik.touched.projectInfo.full &&
+                formik.errors.projectInfo?.full ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.projectInfo.full}
                 </div>
@@ -321,15 +350,15 @@ const AddDemo = () => {
                 onChange={formik.handleChange}
                 placeholder="প্রকল্পের সংক্ষেপ নাম"
                 value={
-                  selectedOption.name?.short
-                    ? selectedOption.name?.short
+                  selectedProject.name?.short
+                    ? selectedProject.name?.short
                     : formik.values.projectInfo?.short
                 }
               />
 
               {formik.touched.projectInfo &&
-              formik.touched.projectInfo.short &&
-              formik.errors.projectInfo?.short ? (
+                formik.touched.projectInfo.short &&
+                formik.errors.projectInfo?.short ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.projectInfo.short}
                 </div>
@@ -361,8 +390,8 @@ const AddDemo = () => {
                 <Season />
               </select>
               {formik.touched.demoTime &&
-              formik.touched.demoTime.season &&
-              formik.errors.demoTime?.season ? (
+                formik.touched.demoTime.season &&
+                formik.errors.demoTime?.season ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoTime.season}
                 </div>
@@ -411,8 +440,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.farmersInfo &&
-              formik.touched.farmersInfo.fatherOrHusbandName &&
-              formik.errors.farmersInfo?.fatherOrHusbandName ? (
+                formik.touched.farmersInfo.fatherOrHusbandName &&
+                formik.errors.farmersInfo?.fatherOrHusbandName ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.farmersInfo.fatherOrHusbandName}
                 </div>
@@ -449,8 +478,8 @@ const AddDemo = () => {
                 value={user?.blockB}
               />
               {formik.touched.address &&
-              formik.touched.address.block &&
-              formik.errors.address?.block ? (
+                formik.touched.address.block &&
+                formik.errors.address?.block ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.address.block}
                 </div>
@@ -465,8 +494,8 @@ const AddDemo = () => {
                 disabled={true}
               />
               {formik.touched.address &&
-              formik.touched.address.union &&
-              formik.errors.address?.union ? (
+                formik.touched.address.union &&
+                formik.errors.address?.union ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.address.union}
                 </div>
@@ -490,8 +519,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.SAAO &&
-              formik.touched.SAAO.name &&
-              formik.errors.SAAO?.name ? (
+                formik.touched.SAAO.name &&
+                formik.errors.SAAO?.name ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.SAAO.name}
                 </div>
@@ -516,8 +545,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.SAAO &&
-              formik.touched.SAAO.mobile &&
-              formik.errors.SAAO?.mobile ? (
+                formik.touched.SAAO.mobile &&
+                formik.errors.SAAO?.mobile ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.SAAO.mobile}
                 </div>
@@ -544,8 +573,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-              formik.touched.numbersInfo.mobile &&
-              formik.errors.numbersInfo?.mobile ? (
+                formik.touched.numbersInfo.mobile &&
+                formik.errors.numbersInfo?.mobile ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.mobile}
                 </div>
@@ -571,8 +600,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-              formik.touched.numbersInfo.NID &&
-              formik.errors.numbersInfo?.NID ? (
+                formik.touched.numbersInfo.NID &&
+                formik.errors.numbersInfo?.NID ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.NID}
                 </div>
@@ -596,8 +625,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-              formik.touched.numbersInfo.BID &&
-              formik.errors.numbersInfo?.BID ? (
+                formik.touched.numbersInfo.BID &&
+                formik.errors.numbersInfo?.BID ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.BID}
                 </div>
@@ -622,8 +651,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.numbersInfo &&
-              formik.touched.numbersInfo.agriCard &&
-              formik.errors.numbersInfo?.agriCard ? (
+                formik.touched.numbersInfo.agriCard &&
+                formik.errors.numbersInfo?.agriCard ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.numbersInfo.agriCard}
                 </div>
@@ -646,9 +675,9 @@ const AddDemo = () => {
               >
                 <option value="" label="প্রযুক্তি পছন্দ করুন" />
 
-                {selectedOption &&
-                  selectedOption?.crops?.length > 0 &&
-                  selectedOption?.crops?.map((singleCrop) => (
+                {selectedProject &&
+                  selectedProject?.crops?.length > 0 &&
+                  selectedProject?.crops?.map((singleCrop) => (
                     <>
                       <option
                         key={singleCrop}
@@ -660,8 +689,8 @@ const AddDemo = () => {
               </select>
 
               {formik.touched.demoInfo &&
-              formik.touched.demoInfo.tech &&
-              formik.errors.demoInfo?.tech ? (
+                formik.touched.demoInfo.tech &&
+                formik.errors.demoInfo?.tech ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.tech}
                 </div>
@@ -683,8 +712,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.demoInfo &&
-              formik.touched.demoInfo.crop &&
-              formik.errors.demoInfo?.crop ? (
+                formik.touched.demoInfo.crop &&
+                formik.errors.demoInfo?.crop ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.crop}
                 </div>
@@ -706,8 +735,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.demoInfo &&
-              formik.touched.demoInfo.variety &&
-              formik.errors.demoInfo?.variety ? (
+                formik.touched.demoInfo.variety &&
+                formik.errors.demoInfo?.variety ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.variety}
                 </div>
@@ -732,8 +761,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.demoInfo &&
-              formik.touched.demoInfo.area &&
-              formik.errors.demoInfo?.area ? (
+                formik.touched.demoInfo.area &&
+                formik.errors.demoInfo?.area ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.demoInfo.area}
                 </div>
@@ -804,8 +833,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.production &&
-              formik.touched.production.productionPerHector &&
-              formik.errors.production?.productionPerHector ? (
+                formik.touched.production.productionPerHector &&
+                formik.errors.production?.productionPerHector ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.productionPerHector}
                 </div>
@@ -831,8 +860,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.production &&
-              formik.touched.production.totalProduction &&
-              formik.errors.production?.totalProduction ? (
+                formik.touched.production.totalProduction &&
+                formik.errors.production?.totalProduction ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.totalProduction}
                 </div>
@@ -858,8 +887,8 @@ const AddDemo = () => {
               />
 
               {formik.touched.production &&
-              formik.touched.production.sidePlotProduction &&
-              formik.errors.production?.sidePlotProduction ? (
+                formik.touched.production.sidePlotProduction &&
+                formik.errors.production?.sidePlotProduction ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.sidePlotProduction}
                 </div>
