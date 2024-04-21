@@ -1,33 +1,38 @@
-// AddImageModal.jsx
-
 import React, { useState } from "react";
+import { FaTimes } from "react-icons/fa";
 import Datepicker from "react-tailwindcss-datepicker";
 
 const AddImageModal = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [previewURL, setPreviewURL] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [previewURLs, setPreviewURLs] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [presentCondition, setPresentConditin] = useState("");
+  const [presentCondition, setPresentCondition] = useState("");
   const [presentOfficers, setPresentOfficers] = useState("");
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
+    const files = Array.from(event.target.files);
+    setSelectedFiles([...selectedFiles, ...files]);
 
-    // Create a preview URL for the selected image
-    const imageURL = URL.createObjectURL(file);
-    setPreviewURL(imageURL);
+    const previewURLArray = files.map((file) => URL.createObjectURL(file));
+    setPreviewURLs([...previewURLs, ...previewURLArray]);
   };
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
+  const handleRemoveImage = (index) => {
+    const updatedFiles = [...selectedFiles];
+    updatedFiles.splice(index, 1);
+    setSelectedFiles(updatedFiles);
+
+    const updatedPreviews = [...previewURLs];
+    updatedPreviews.splice(index, 1);
+    setPreviewURLs(updatedPreviews);
+  };
+
   const handleFormData = () => {
-    const values = {
-      images: selectedFile,
-      presentCondition: presentCondition,
-      date: selectedDate?.startDate,
-    };
+
   };
 
   return (
@@ -36,14 +41,27 @@ const AddImageModal = () => {
         <h3 className="font-bold text-xl mb-2">
           প্রদর্শনীর বর্তমান ছবি ও অবস্থার বর্ণনা যুক্ত করুন
         </h3>
-        {previewURL && (
-          <div className="flex justify-center">
-            <img
-              className="text-center"
-              src={previewURL}
-              alt="Preview"
-              style={{ maxWidth: "100%" }}
-            />
+        {previewURLs?.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-3 justify-center">
+            {previewURLs?.map((image, index) => (
+              <div key={index} className="relative">
+                <img
+                  width={100}
+                  src={image}
+                  alt={`Selected Image ${index + 1}`}
+                  className="mt-2 max-w-64 h-auto"
+                />
+
+                <button
+                  type="button"
+                  className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
+                  onClick={() => handleRemoveImage(index)}
+                >
+                  <FaTimes />
+                </button>
+
+              </div>
+            ))}
           </div>
         )}
 
@@ -56,7 +74,7 @@ const AddImageModal = () => {
             ></textarea>
 
             <input
-              onChange={(e) => setPresentConditin(e.target.value)}
+              onChange={(e) => setPresentCondition(e.target.value)}
               className="textarea textarea-success w-full mb-2"
               placeholder="প্রদর্শনীর বর্তমান অবস্থা বর্ণনা করুন"
             />
@@ -73,6 +91,7 @@ const AddImageModal = () => {
               accept="image/*"
               className="file-input file-input-bordered file-input-info mt-2 w-full"
               onChange={handleFileChange}
+              multiple
             />
             <button
               type="submit"
