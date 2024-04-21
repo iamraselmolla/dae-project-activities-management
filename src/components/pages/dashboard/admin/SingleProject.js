@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Title from "../../../shared/Title";
 import { toBengaliNumber } from "bengali-number";
-import { MdOutlineDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { IoMdRemoveCircleOutline } from "react-icons/io";

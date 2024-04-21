@@ -8,11 +8,6 @@ const AuthProvider = ({ children }) => {
   const [jwtToken, setJwtToken] = useState("");
   const [role, setRole] = useState(null);
   const [username, setUsername] = useState(null);
-  const [block, setBlock] = useState(null);
-  const [blockB, setBlockB] = useState(null);
-  const [unionB, setUnionB] = useState(null);
-  const [union, setUnion] = useState(null);
-
   useEffect(() => {
     setInitialLoading(true);
     const storedUser = localStorage.getItem("CurrentUser");
@@ -21,10 +16,6 @@ const AuthProvider = ({ children }) => {
       const currentUser = JSON.parse(storedUser);
       setUser(currentUser);
       setUsername(currentUser?.username);
-      setBlock(currentUser?.block);
-      setBlockB(currentUser?.blockB);
-      setUnion(currentUser?.union);
-      setUnionB(currentUser?.unionB);
       setRole(currentUser?.role);
     }
     if (storedUserToken) {
@@ -40,11 +31,8 @@ const AuthProvider = ({ children }) => {
     setJwtToken,
     role,
     setRole,
-    block,
     username,
-    blockB,
-    union,
-    unionB,
+
   };
   if (initialLoading) {
     return <>......</>

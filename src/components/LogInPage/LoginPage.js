@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const LoginPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { user, setUser, loading, setLoading, jwtToken } = useContext(AuthContext);
+    const { setUser, loading, setLoading } = useContext(AuthContext);
     const from = location?.state?.from?.pathname || "/";
 
     // State to manage form inputs

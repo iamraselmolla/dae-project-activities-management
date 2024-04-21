@@ -5,7 +5,6 @@ import {
   BsFillPeopleFill,
   BsFillCloudSunFill,
 } from "react-icons/bs";
-import { MdLocationPin } from "react-icons/md";
 import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
 import { toBengaliNumber } from "bengali-number";
@@ -60,9 +59,8 @@ const SingleTraining = ({ data, setReload, reload }) => {
 
   return (
     <div
-      className={`rounded-lg border ${
-        role === "admin" ? "pb-12" : ""
-      } relative shadow-xl`}
+      className={`rounded-lg border ${role === "admin" ? "pb-12" : ""
+        } relative shadow-xl`}
     >
       <div className="relative">
         <ImageGallery autoPlay={true} items={imagesArr} />

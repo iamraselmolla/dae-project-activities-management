@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SingleFieldDay from "./SingleFieldDay";
 import { getAllFieldDays } from "../../../services/userServices";
-import toast from "react-hot-toast";
 import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import AddModuleButton from "../../shared/AddModuleButton";

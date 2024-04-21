@@ -8,7 +8,6 @@ import {
 import { MdLocationPin } from "react-icons/md";
 import { GiFarmer } from "react-icons/gi";
 import ImageGallery from "react-image-gallery";
-import { Link } from "react-router-dom";
 import { toBengaliNumber } from "bengali-number";
 
 const SingleFieldDay = ({ data }) => {

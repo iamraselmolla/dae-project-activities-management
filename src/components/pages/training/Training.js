@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SingleTraining from "./SingleTraining";
-import { Link } from "react-router-dom";
 import { getAllTraining } from "../../../services/userServices";
-import toast from "react-hot-toast";
-import SingleDemo from "../DaeGroupMeeting/SingleDaeGroupMeetings";
 import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import AddModuleButton from "../../shared/AddModuleButton";

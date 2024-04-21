@@ -2,13 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { AuthContext } from "../AuthContext/AuthProvider";
-import { Navigate } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, setUser, jwtToken } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const from = location?.state?.from?.pathname || "/";
 
   // State to manage form inputs

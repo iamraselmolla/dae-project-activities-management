@@ -12,7 +12,6 @@ import { toBengaliNumber } from "bengali-number";
 import { createAGroup, getGroupInfoById } from "../../../services/userServices";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
-// import "./daegroupMeeting.css";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { useLocation } from "react-router-dom"
 import { makeSureOnline } from "../../shared/MessageConst";
