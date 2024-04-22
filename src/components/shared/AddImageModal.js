@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import Datepicker from "react-tailwindcss-datepicker";
 
-const AddImageModal = () => {
+const AddImageModal = ({ data }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewURLs, setPreviewURLs] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -32,7 +32,7 @@ const AddImageModal = () => {
   };
 
   const handleFormData = () => {
-
+    console.log(data?._id);
   };
 
   return (
@@ -40,6 +40,8 @@ const AddImageModal = () => {
       <div className="modal-box">
         <h3 className="font-bold text-xl mb-2">
           প্রদর্শনীর বর্তমান ছবি ও অবস্থার বর্ণনা যুক্ত করুন
+          {data?.farmersInfo?.name}
+          {data?.farmersInfo?.name}
         </h3>
         {previewURLs?.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-3 justify-center">
@@ -59,7 +61,6 @@ const AddImageModal = () => {
                 >
                   <FaTimes />
                 </button>
-
               </div>
             ))}
           </div>

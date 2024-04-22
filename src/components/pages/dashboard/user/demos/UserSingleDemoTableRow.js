@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
@@ -7,8 +7,10 @@ import ImageGallery from "react-image-gallery";
 import formatDateToday from "../../../../utilis/formatDate";
 import { Link } from "react-router-dom";
 import AddImageModal from "../../../../shared/AddImageModal";
+import { AuthContext } from "../../../../AuthContext/AuthProvider";
 
 const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
+  const { setModalData } = useContext(AuthContext);
   const {
     _id,
     projectInfo,
@@ -32,6 +34,11 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
       }
     }
   }, [demoImages, username]);
+  const handleModaOpen = (dataValues) => {
+    document.getElementById("my_modal_1")?.showModal();
+    setModalData(dataValues);
+  };
+
   return (
     <>
       <tr className="divide-x divide-gray-200 dark:divide-gray-700">
@@ -71,7 +78,8 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
         <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
           ফলন/হেঃ {toBengaliNumber(production?.productionPerHector)} <br />
           উৎপাদনঃ {toBengaliNumber(production?.totalProduction)} <br />
-          কন্ট্রোল প্লটঃ {toBengaliNumber(production?.sidePlotProduction)} <br />
+          কন্ট্রোল প্লটঃ {toBengaliNumber(production?.sidePlotProduction)}{" "}
+          <br />
         </td>
         <td className="text-center flex-col flex justify-center items-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
           {demoImages[0].image[0] ? (
@@ -86,7 +94,12 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
           ) : (
             "No IMG"
           )}
-          <span onClick={() => document.getElementById("my_modal_1").showModal()} className="text-2xl w-8 h-8 rounded cursor-pointer bg-green-600 flex justify-center items-center">+</span>
+          <span
+            onClick={() => handleModaOpen(data)}
+            className="text-2xl w-8 h-8 rounded cursor-pointer bg-green-600 flex justify-center items-center"
+          >
+            +
+          </span>
         </td>
         <td className="text-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2 whitespace-nowrap">
           কৃষকঃ {comment?.farmersReview} <br />
@@ -123,7 +136,6 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
           </div>
         </td>
       </tr>
-      <AddImageModal />
     </>
   );
 };
