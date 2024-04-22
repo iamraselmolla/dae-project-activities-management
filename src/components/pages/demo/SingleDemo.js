@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaMobileAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
@@ -25,44 +25,26 @@ const SingleDemo = ({ data }) => {
     demoImages,
     username,
   } = data;
-  const images = [
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-    {
-      original: "images/features/1.jpg",
-      thumbnail: "images/features/1.jpg",
-    },
-  ];
+
   const handleModaOpen = (dataValues) => {
     document.getElementById("my_modal_1")?.showModal();
     setModalData(dataValues);
   };
+  const imagesArr = [];
+  useEffect(() => {
+    if (demoImages?.length > 0) {
+      for (const image of demoImages) {
+        image.image?.map(single => imagesArr.push({ original: single, thumbnail: single }))
+
+      }
+    } else {
+      imagesArr.push({ original: 'images/pi/pi1.jpg', thumbnail: 'images/pi/pi1.jpg' }, { original: 'images/pi/pi2.jpg', thumbnail: 'images/pi/pi2.jpg' },)
+    }
+  }, [demoImages, username]);
   return (
     <div className="rounded-lg relative shadow-xl">
       <div className="relative">
-        <ImageGallery autoPlay={true} items={images} />
+        <ImageGallery autoPlay={true} items={imagesArr} />
         <div className="flex items-center absolute top-3">
           <p className="px-2 py-1 bg-black text-white rounded-r-md ">
             {projectInfo?.short}

@@ -6,7 +6,6 @@ import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
 import formatDateToday from "../../../../utilis/formatDate";
 import { Link } from "react-router-dom";
-import AddImageModal from "../../../../shared/AddImageModal";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
 
 const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
@@ -30,8 +29,11 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
   useEffect(() => {
     if (demoImages?.length > 0) {
       for (const image of demoImages) {
-        imagesArr.push({ original: image, thumbnail: image });
+        image.image?.map(single => imagesArr.push({ original: single, thumbnail: single }))
+
       }
+
+
     }
   }, [demoImages, username]);
   const handleModaOpen = (dataValues) => {
@@ -82,7 +84,7 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
           <br />
         </td>
         <td className="text-center flex-col flex justify-center items-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
-          {demoImages[0].image[0] ? (
+          {demoImages?.length > 0 ? (
             <ImageGallery
               showFullscreenButton={true}
               showPlayButton={false}

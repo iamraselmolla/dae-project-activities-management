@@ -41,7 +41,7 @@ const AddImageModal = ({ data }) => {
 
   const handleFormData = async () => {
     try {
-      console.log();
+
       if (!previewURLs?.length > 0) {
         return toast.error("ছবি যুক্তকরণে সমস্যা হয়েছে।");
       }
@@ -85,9 +85,16 @@ const AddImageModal = ({ data }) => {
           <div className="modal-box">
             <h3 className="font-bold text-xl mb-2">
               প্রদর্শনীর বর্তমান ছবি ও অবস্থার বর্ণনা যুক্ত করুন
-              {data?.farmersInfo?.name}
-              {data?.farmersInfo?.name}
             </h3>
+            <Datepicker
+
+              asSingle={true}
+              id="demoDate"
+              name="demoDate"
+              showShortcuts={true}
+              onChange={handleDateChange}
+              value={selectedDate}
+            />
             {previewURLs?.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-3 justify-center">
                 {previewURLs?.map((image, index) => (
@@ -124,14 +131,7 @@ const AddImageModal = ({ data }) => {
                   className="textarea textarea-success w-full mb-2"
                   placeholder="প্রদর্শনীর বর্তমান অবস্থা বর্ণনা করুন"
                 />
-                <Datepicker
-                  asSingle={true}
-                  id="demoDate"
-                  name="demoDate"
-                  showShortcuts={true}
-                  onChange={handleDateChange}
-                  value={selectedDate}
-                />
+
                 <input
                   type="file"
                   accept="image/*"

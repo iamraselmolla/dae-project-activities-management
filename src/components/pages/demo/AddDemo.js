@@ -131,12 +131,7 @@ const AddDemo = () => {
       mobile: "",
     },
     demoImages: [
-      {
-        image: "",
-        presentCondition: "",
-        presentOfficer: "",
-        date: "",
-      },
+
     ],
     username: user?.username,
   };
