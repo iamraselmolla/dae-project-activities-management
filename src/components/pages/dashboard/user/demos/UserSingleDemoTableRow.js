@@ -74,13 +74,13 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
         <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
           রোপণঃ {formatDateToday(demoDate?.bopon)} <br />
           বপণঃ {formatDateToday(demoDate?.ropon)} <br />
-          কর্তনঃ {formatDateToday(demoDate?.korton?.startDate)} - <br />{" "}
+          কর্তনঃ {formatDateToday(demoDate?.korton?.startDate)} - <br />
           {formatDateToday(demoDate?.korton?.endDate)}
         </td>
         <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
           ফলন/হেঃ {toBengaliNumber(production?.productionPerHector)} <br />
           উৎপাদনঃ {toBengaliNumber(production?.totalProduction)} <br />
-          কন্ট্রোল প্লটঃ {toBengaliNumber(production?.sidePlotProduction)}{" "}
+          কন্ট্রোল প্লটঃ {toBengaliNumber(production?.sidePlotProduction)}
           <br />
         </td>
         <td className="text-center flex-col flex justify-center items-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
@@ -114,6 +114,11 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
 
         <td className="p-3 flex gap-1 text-center whitespace-nowrap text-sm font-medium">
           <div className="cursor-pointer">
+            <Link to={`/addDemo?id=${_id}`}>
+              <CiEdit size={35} color="black" />
+            </Link>
+          </div>
+          <div className="cursor-pointer">
             <AiOutlineFileDone size={35} color="green" />
           </div>
           <div className="cursor-pointer">
@@ -131,11 +136,7 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
               color="red"
             />
           </div>
-          <div className="cursor-pointer">
-            <Link to={`/addDemo?id=${_id}`}>
-              <CiEdit size={35} color="black" />
-            </Link>
-          </div>
+
         </td>
       </tr>
     </>

@@ -24,7 +24,6 @@ const AddDemo = () => {
   const demoIdFromUrl = queryParams.get("id");
   const [demoId, setDemoId] = useState(demoIdFromUrl);
   const [selectedProject, setSelectedProject] = useState({});
-  const [selectedImages, setSelectedImages] = useState([]);
   const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
@@ -42,20 +41,6 @@ const AddDemo = () => {
       endDate: null,
     },
   });
-  const handleImageChange = (e) => {
-    const files = e.target.files;
-    const imageFiles = [];
-
-    for (let i = 0; i < files.length; i++) {
-      // Check if the selected file is an image
-      if (files[i].type.startsWith("image/")) {
-        imageFiles.push(URL.createObjectURL(files[i]));
-      }
-    }
-
-    // Update the selected images
-    setSelectedImages(imageFiles);
-  };
   const handleDatePickerValue = (picker, selectedDate) => {
     // Use a copy of the state to avoid modifying the state directly
     const updatedDatePickers = { ...datePickers };
@@ -177,6 +162,10 @@ const AddDemo = () => {
       values.projectInfo.short = selectedProject.name.short;
       values.username = user?.username;
       values.SAAO = user?.SAAO;
+      if (values.projectInfo.full || values.projectInfo.short) {
+        setLoading(false);
+        return toast.error("আপনাকে অবশ্যই প্রকল্প সিলেক্ট করতে হবে।")
+      }
       if (!values.username) {
         setLoading(false);
         toast.error(

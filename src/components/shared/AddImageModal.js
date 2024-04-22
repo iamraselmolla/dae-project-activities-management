@@ -17,6 +17,7 @@ const AddImageModal = ({ data }) => {
   const [loadingMessage, setLoadingMessage] = useState(null);
   const [loading, setLoading] = useState(false);
 
+
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     setSelectedFiles([...selectedFiles, ...files]);

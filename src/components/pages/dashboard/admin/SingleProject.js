@@ -90,7 +90,7 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
             </div>
             <div className="collapse-content flex flex-col gap-2">
                 <h2 className="text-xl flex gap-5 font-bold items-center">
-                    <span>প্রকল্পের পুরো নামঃ {data?.name?.details}</span>{" "}
+                    <span>প্রকল্পের পুরো নামঃ {data?.name?.details}</span>
                     <span className="ml-3 flex gap-5">
                         <Link to={`/dashboard/addproject?id=${data?._id}`}>
                             <CiEdit size={40} color="green" cursor={"pointer"} />
@@ -112,11 +112,11 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
                 </div>
                 <div className="flex gap-6">
                     <p className="font-bold">
-                        প্রকল্প শুরুর তারিখঃ{" "}
+                        প্রকল্প শুরুর তারিখঃ
                         {toBengaliNumber(new Date(data?.time?.start).toLocaleDateString())}
                     </p>
                     <p className="font-bold">
-                        প্রকল্প শেষের সম্ভাব্য তারিখঃ{" "}
+                        প্রকল্প শেষের সম্ভাব্য তারিখঃ
                         {toBengaliNumber(new Date(data?.time?.end).toLocaleDateString())}
                     </p>
                     <p className="font-bold">প্রকল্পের ই-মেইলঃ {data?.email}</p>

@@ -7,7 +7,10 @@ import { Link } from "react-router-dom";
 import { RiImageAddFill } from "react-icons/ri";
 import "./demo.css";
 import { GrTechnology } from "react-icons/gr";
+import { CiCalendarDate } from "react-icons/ci";
+
 import { AuthContext } from "../../AuthContext/AuthProvider";
+import formatDateToday from "../../utilis/formatDate";
 
 const SingleDemo = ({ data }) => {
   const { setModalData, username: demoUser } = useContext(AuthContext);
@@ -69,16 +72,22 @@ const SingleDemo = ({ data }) => {
             <FaMobileAlt /> <p>{numbersInfo?.mobile}</p>
           </div>
           <div className="flex items-center gap-2">
-            <MdLocationPin />{" "}
+            <MdLocationPin />
             <p>
-              গ্রামঃ {address?.village}, ব্লকঃ {address?.block}, ইউনিয়নঃ{" "}
+              গ্রামঃ {address?.village}, ব্লকঃ {address?.block}, ইউনিয়নঃ
               {address?.union}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <BsFillCloudSunFill />{" "}
+            <BsFillCloudSunFill />
             <p>
               {demoTime?.season}/{demoTime?.fiscalYear}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <CiCalendarDate />
+            <p>
+              {formatDateToday(demoDate?.ropon)}
             </p>
           </div>
           <div className="flex items-center gap-2">

@@ -10,6 +10,7 @@ const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null);
   const [username, setUsername] = useState(null);
   const [modalData, setModalData] = useState(null);
+  const [reloadData, setReloadData] = useState(false)
   useEffect(() => {
     setInitialLoading(true);
     const storedUser = localStorage.getItem("CurrentUser");
@@ -34,15 +35,17 @@ const AuthProvider = ({ children }) => {
     role,
     setRole,
     username,
-    setModalData,
+    setModalData
   };
   if (initialLoading) {
     return <>......</>;
   }
   return (
     <>
-      <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
-      <AddImageModal data={modalData} />
+      <AuthContext.Provider value={authInfo}>
+        {children}
+        {modalData && <AddImageModal data={modalData} />}
+      </AuthContext.Provider>
     </>
   );
 };

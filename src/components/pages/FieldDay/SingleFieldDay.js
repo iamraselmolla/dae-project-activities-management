@@ -74,7 +74,7 @@ const SingleFieldDay = ({ data }) => {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <img src="images/project.png" alt="Project Icon" />{" "}
+            <img src="images/project.png" alt="Project Icon" />
             <p>{projectInfo?.details}</p>
           </div>
           <h2 className="text-xl mt-4 font-extrabold">
