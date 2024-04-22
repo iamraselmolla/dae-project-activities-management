@@ -27,6 +27,8 @@ const AddDemo = () => {
   const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const [fethedImgLink, setimgLink] = useState()
+  const [imageRawLink, setImageRawLink] = useState([])
   const [datePickers, setDatePickers] = useState({
     bopon: {
       startDate: null,
@@ -267,6 +269,9 @@ const AddDemo = () => {
             setSelectedProject(foundProject);
           }
         }
+        setimgLink(result?.data?.data?.demoImages)
+
+
       } catch (err) {
         toast.error(
           "প্রদর্শনীর তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিতে অবহিত করুন।"
@@ -279,7 +284,17 @@ const AddDemo = () => {
     } else {
       makeSureOnline();
     }
+
   }, [demoId, allProject]);
+
+  useEffect(() => {
+    if (fethedImgLink?.length > 0) {
+      for (const image of fethedImgLink) {
+        image.image?.map(single => setImageRawLink([...imageRawLink, single]));
+      }
+    }
+
+  }, [demoId, fethedImgLink])
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -879,33 +894,7 @@ const AddDemo = () => {
               ) : null}
             </div>
           </div>
-          {/* <div className="mt-3">
-            <label className="font-extrabold mb-1 block">
-              প্রদর্শনীর ছবিসমূহ
-            </label>
-            <input
-              multiple
-              name="images"
-              type="file"
-              className="file-input input-bordered w-full"
-              onChange={handleImageChange} // Add the onChange event
-            />
-          </div>
 
-          {/* Display the selected images */}
-          {/* {selectedImages.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-3 justify-center">
-              {selectedImages.map((image, index) => (
-                <img
-                  width={100}
-                  key={index}
-                  src={image}
-                  alt={`Selected Image ${index + 1}`}
-                  className="mt-2 max-w-64 h-auto"
-                />
-              ))}
-            </div>
-          )}  */}
 
           <div className="grid mt-3 lg:grid-cols-2 gap-4  grid-cols-1">
             <div className="mt-5">
@@ -935,7 +924,19 @@ const AddDemo = () => {
               ></textarea>
             </div>
           </div>
-
+          {imageRawLink?.length > 0 &&
+            <div className="mt-3 flex flex-wrap gap-3 justify-center">
+              {imageRawLink?.map((image, index) => (
+                <img
+                  width={100}
+                  key={index}
+                  src={image}
+                  alt={`Selected Image ${index + 1}`}
+                  className="mt-2 max-w-64 h-auto"
+                />
+              ))}
+            </div>
+          }
           {!loading && (
             <button
               type="submit"
