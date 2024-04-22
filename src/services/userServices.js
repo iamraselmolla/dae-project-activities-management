@@ -15,6 +15,7 @@ const BASE_URL = {
   getUserDemo: "/demo/user-all-demos",
   deleteDemo: "/demo/delete-demo",
   findDemo: "/demo/find-demo",
+  addDemoImage: "/demo/add-image-to-the-demo",
 
   // Users
   getUser: "/user/get-user",
@@ -91,6 +92,10 @@ export function getUserDemos() {
 
 export function findDemoById(id) {
   return http.post(BASE_URL.findDemo, { id });
+}
+
+export function addImageAndDetails(id, data) {
+  return http.put(BASE_URL.addDemoImage, { id, data });
 }
 // User APIs
 export function getUser(username) {

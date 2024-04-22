@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaMobileAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
@@ -6,12 +6,11 @@ import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
 import { RiImageAddFill } from "react-icons/ri";
 import "./demo.css";
-import AddIMageModal from "../../shared/AddImageModal";
 import { GrTechnology } from "react-icons/gr";
-
-
+import { AuthContext } from "../../AuthContext/AuthProvider";
 
 const SingleDemo = ({ data }) => {
+  const { setModalData } = useContext(AuthContext);
   const {
     projectInfo,
     demoTime,
@@ -24,7 +23,7 @@ const SingleDemo = ({ data }) => {
     production,
     comment,
     demoImages,
-    username
+    username,
   } = data;
   const images = [
     {
@@ -56,6 +55,10 @@ const SingleDemo = ({ data }) => {
       thumbnail: "images/features/1.jpg",
     },
   ];
+  const handleModaOpen = (dataValues) => {
+    document.getElementById("my_modal_1")?.showModal();
+    setModalData(dataValues);
+  };
   return (
     <div className="rounded-lg relative shadow-xl">
       <div className="relative">
@@ -66,16 +69,14 @@ const SingleDemo = ({ data }) => {
           </p>
         </div>
         <div className="flex items-center absolute top-3 right-0">
-          <p className="px-2 py-1 bg-black text-white rounded-l-md ">{demoInfo?.crop}</p>
+          <p className="px-2 py-1 bg-black text-white rounded-l-md ">
+            {demoInfo?.crop}
+          </p>
         </div>
       </div>
       <div className="add-image cursor-pointer bg-black flex h-12 absolute items-center justify-center opacity-50 rounded-full text-3xl text-white w-12">
-        <RiImageAddFill
-          onClick={() => document.getElementById("my_modal_1").showModal()}
-        />
+        <RiImageAddFill onClick={() => handleModaOpen(data)} />
       </div>
-
-      <AddIMageModal />
 
       <div className="content-part px-3 py-2   ">
         <h2 className="text-xl font-extrabold">{farmersInfo?.name}</h2>
@@ -84,10 +85,17 @@ const SingleDemo = ({ data }) => {
             <FaMobileAlt /> <p>{numbersInfo?.mobile}</p>
           </div>
           <div className="flex items-center gap-2">
-            <MdLocationPin /> <p>গ্রামঃ {address?.village}, ব্লকঃ {address?.block}, ইউনিয়নঃ {address?.union}</p>
+            <MdLocationPin />{" "}
+            <p>
+              গ্রামঃ {address?.village}, ব্লকঃ {address?.block}, ইউনিয়নঃ{" "}
+              {address?.union}
+            </p>
           </div>
           <div className="flex items-center gap-2">
-            <BsFillCloudSunFill /> <p>{demoTime?.season}/{demoTime?.fiscalYear}</p>
+            <BsFillCloudSunFill />{" "}
+            <p>
+              {demoTime?.season}/{demoTime?.fiscalYear}
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <GrTechnology /> <p>{demoInfo?.tech}</p>

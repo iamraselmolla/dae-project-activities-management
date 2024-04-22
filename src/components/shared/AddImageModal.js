@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 import Datepicker from "react-tailwindcss-datepicker";
 
@@ -31,8 +32,13 @@ const AddImageModal = ({ data }) => {
     setPreviewURLs(updatedPreviews);
   };
 
-  const handleFormData = () => {
-    console.log(data?._id);
+  const handleFormData = async () => {
+    try {
+    } catch (err) {
+      toast.error(
+        "প্রদর্শনীর বর্তমান ছবি ও অবস্থার বর্ণনা যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।"
+      );
+    }
   };
 
   return (
