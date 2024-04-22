@@ -94,8 +94,8 @@ export function findDemoById(id) {
   return http.post(BASE_URL.findDemo, { id });
 }
 
-export function addImageAndDetails(id, data) {
-  return http.put(BASE_URL.addDemoImage, { id, data });
+export function addImageAndDetails(id, imageData) {
+  return http.put(BASE_URL.addDemoImage, { id, imageData });
 }
 // User APIs
 export function getUser(username) {

@@ -10,7 +10,7 @@ import { GrTechnology } from "react-icons/gr";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 
 const SingleDemo = ({ data }) => {
-  const { setModalData } = useContext(AuthContext);
+  const { setModalData, username: demoUser } = useContext(AuthContext);
   const {
     projectInfo,
     demoTime,
@@ -74,9 +74,11 @@ const SingleDemo = ({ data }) => {
           </p>
         </div>
       </div>
-      <div className="add-image cursor-pointer bg-black flex h-12 absolute items-center justify-center opacity-50 rounded-full text-3xl text-white w-12">
-        <RiImageAddFill onClick={() => handleModaOpen(data)} />
-      </div>
+      {data?.username === demoUser && (
+        <div className="add-image cursor-pointer bg-black flex h-12 absolute items-center justify-center opacity-50 rounded-full text-3xl text-white w-12">
+          <RiImageAddFill onClick={() => handleModaOpen(data)} />
+        </div>
+      )}
 
       <div className="content-part px-3 py-2   ">
         <h2 className="text-xl font-extrabold">{farmersInfo?.name}</h2>
