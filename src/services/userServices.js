@@ -186,8 +186,8 @@ export function createANote(values) {
   return http.post(BASE_URL.createNote, values);
 }
 
-export function findUserAllNotes(username) {
-  return http.post(BASE_URL.findNotes, { username });
+export function findUserAllNotes() {
+  return http.get(BASE_URL.findNotes);
 }
 
 export function deleteAnote(id) {

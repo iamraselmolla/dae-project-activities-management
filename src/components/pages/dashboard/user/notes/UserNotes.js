@@ -14,6 +14,7 @@ import Loader from "../../../../shared/Loader";
 import { toBengaliNumber } from "bengali-number";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 import CompleteModel from "./CompleteModel";
+import SectionTitle from "../../../../shared/SectionTitle";
 
 const UserNotes = () => {
   const { user } = useContext(AuthContext);
@@ -22,13 +23,15 @@ const UserNotes = () => {
   const [fetchEnd, setFetchEnd] = useState(false);
   const [reload, setReload] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const [completedNotes, setCompletedNotes] = useState([]);
+  const [incompletedNotes, setIncompletedNotes] = useState([]);
 
-  //   Find User All Notes
+  // Find User All Notes
   useEffect(() => {
     const findAllNotes = async () => {
       setLoading(true);
       try {
-        const result = await findUserAllNotes(user?.username);
+        const result = await findUserAllNotes();
         if (result.status === 200) {
           setAllNotes(result?.data?.data);
           setLoading(false);
@@ -47,7 +50,12 @@ const UserNotes = () => {
     }
   }, [user, reload]);
 
-  //   Delete a Note of User
+  useEffect(() => {
+    setCompletedNotes(allNotes?.filter((single) => single.completed));
+    setIncompletedNotes(allNotes?.filter((single) => !single.completed));
+  }, [allNotes]);
+
+  // Delete a Note of User
   const handleNoteDeletion = async (userNotetobeDeleted) => {
     if (navigator.onLine) {
       if (userNotetobeDeleted) {
@@ -74,126 +82,242 @@ const UserNotes = () => {
     }
   };
 
-  //   Hanlde click to display modal
-
+  // Handle click to display modal
   const handleNoteModal = (noteData) => {
     document.getElementById("my_modal_3").showModal();
     setModalData(noteData);
   };
+
   return (
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
-          <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
+          <SectionTitle title={"অসম্পন্ন নোট"} />
+          <div className="border mt-2 rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900 mb-16">
             {!loading && (
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead>
-                  <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
-                    <UserNoteTH text="ক্রমিক নং" />
-                    <UserNoteTH text="উদ্দেশ্য" />
-                    <UserNoteTH text="কৃষকের নাম ও পিতার নাম" />
-                    <UserNoteTH text="মোবাইল ও NID" />
-                    <UserNoteTH text="গ্রাম" />
-                    <UserNoteTH text="অর্থবছর ও মৌসুম" />
-                    <UserNoteTH text="তারিখ" />
-                    <UserNoteTH text="কার্য শেষের মন্তব্য" />
-                    <UserNoteTH text="SAAO-এর নাম ও মোবাইল নং" />
-                    <UserNoteTH text="একশন" />
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {!loading &&
-                    fetchEnd &&
-                    allNotes?.length > 0 &&
-                    allNotes?.map((singleNote, index) => (
-                      <tr
-                        key={singleNote?._id}
-                        className="divide-x divide-gray-200 dark:divide-gray-700"
-                      >
-                        <UserNoteTD text={toBengaliNumber(index + 1)} />
-                        <UserNoteTD text={singleNote?.purpose?.target} />
-                        <UserNoteTD
-                          text={
-                            singleNote?.farmersInfo?.name +
-                            `\n` +
-                            singleNote?.farmersInfo?.fathersOrHusbandName
-                          }
-                        />
-                        <UserNoteTD
-                          text={
-                            singleNote?.farmersInfo.mobile +
-                            `\n` +
-                            singleNote?.farmersInfo?.NID
-                          }
-                        />
-                        <UserNoteTD text={singleNote?.address?.village} />
-                        <UserNoteTD
-                          text={
-                            singleNote?.timeFrame?.season +
-                            "\n" +
-                            toBengaliNumber(singleNote?.timeFrame?.fiscalYear)
-                          }
-                        />
-                        <UserNoteTD
-                          text={toBengaliNumber(
-                            new Date(
-                              singleNote?.purpose?.date
-                            ).toLocaleDateString("bn-BD", {
-                              weekday: "long", // Specify to include the full day name
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                            })
-                          )}
-                        />
-                        <UserNoteTD text={singleNote?.comment} />
-                        <UserNoteTD
-                          text={
-                            singleNote?.SAAO?.name +
-                            "\n" +
-                            toBengaliNumber(singleNote?.SAAO?.mobile)
-                          }
-                        />
-
-                        <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
-                          <span className="cursor-pointer">
-                            {!singleNote?.done && (
-                              <AiOutlineFileDone
-                                onClick={() => handleNoteModal(singleNote)}
-                                size={35}
-                                color="green"
-                              />
+              <>
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  {/* Table Header */}
+                  <thead>
+                    <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
+                      <UserNoteTH text="ক্রমিক নং" />
+                      <UserNoteTH text="উদ্দেশ্য" />
+                      <UserNoteTH text="কৃষকের নাম ও পিতার নাম" />
+                      <UserNoteTH text="মোবাইল ও NID" />
+                      <UserNoteTH text="গ্রাম" />
+                      <UserNoteTH text="অর্থবছর ও মৌসুম" />
+                      <UserNoteTH text="তারিখ" />
+                      <UserNoteTH text="SAAO-এর নাম ও মোবাইল নং" />
+                      <UserNoteTH text="একশন" />
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {/* Table Body */}
+                    {!loading &&
+                      fetchEnd &&
+                      incompletedNotes?.length > 0 &&
+                      incompletedNotes?.map((singleNote, index) => (
+                        <tr
+                          key={singleNote?._id}
+                          className="divide-x divide-gray-200 dark:divide-gray-700"
+                        >
+                          <UserNoteTD text={toBengaliNumber(index + 1)} />
+                          <UserNoteTD text={singleNote?.purpose?.target} />
+                          <UserNoteTD
+                            text={
+                              singleNote?.farmersInfo?.name +
+                              `\n` +
+                              singleNote?.farmersInfo?.fathersOrHusbandName
+                            }
+                          />
+                          <UserNoteTD
+                            text={
+                              singleNote?.farmersInfo.mobile +
+                              `\n` +
+                              singleNote?.farmersInfo?.NID
+                            }
+                          />
+                          <UserNoteTD text={singleNote?.address?.village} />
+                          <UserNoteTD
+                            text={
+                              singleNote?.timeFrame?.season +
+                              "\n" +
+                              toBengaliNumber(singleNote?.timeFrame?.fiscalYear)
+                            }
+                          />
+                          <UserNoteTD
+                            text={toBengaliNumber(
+                              new Date(
+                                singleNote?.purpose?.date
+                              ).toLocaleDateString("bn-BD", {
+                                weekday: "long", // Specify to include the full day name
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                              })
                             )}
-                          </span>
-                          <span className="cursor-pointer">
-                            <MdOutlineDelete
-                              onClick={() => handleNoteDeletion(singleNote)}
-                              size={35}
-                              color="red"
-                            />
+                          />
+                          <UserNoteTD
+                            text={
+                              singleNote?.SAAO?.name +
+                              "\n" +
+                              toBengaliNumber(singleNote?.SAAO?.mobile)
+                            }
+                          />
+
+                          <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
+                            <span className="cursor-pointer">
+                              {!singleNote?.done && (
+                                <AiOutlineFileDone
+                                  onClick={() => handleNoteModal(singleNote)}
+                                  size={35}
+                                  color="green"
+                                />
+                              )}
+                            </span>
+                            <span className="cursor-pointer">
+                              <MdOutlineDelete
+                                onClick={() => handleNoteDeletion(singleNote)}
+                                size={35}
+                                color="red"
+                              />
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    {/* Display message if no notes */}
+                    {fetchEnd && !loading && incompletedNotes?.length < 1 && (
+                      <tr>
+                        <td colSpan="10" className="p-3">
+                          <span className="flex justify-center items-center">
+                            <h2 className="text-red-600 text-2xl">
+                              কোনো অসম্পন্ন নোট খুজে পাওয়া যায়নি
+                            </h2>
                           </span>
                         </td>
                       </tr>
-                    ))}
-                  <CompleteModel
-                    setReload={setReload}
-                    reload={reload}
-                    data={modalData}
-                  />
+                    )}
+                  </tbody>
+                </table>
+              </>
+            )}
+            {loading && <Loader />}
+          </div>
 
-                  {fetchEnd && !loading && allNotes?.length < 1 && (
-                    <tr>
-                      <td colSpan="10" className="p-3">
-                        <span className="flex justify-center items-center">
-                          <h2 className="text-red-600 text-2xl">
-                            কোনো নোট খুজে পাওয়া যায়নি
-                          </h2>
-                        </span>
-                      </td>
+          {/* Completed Notes Table */}
+          <SectionTitle title={"সম্পন্ন নোট"} />
+          <div className="border mt-2 rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
+            {!loading && (
+              <>
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead>
+                    <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
+                      <UserNoteTH text="ক্রমিক নং" />
+                      <UserNoteTH text="উদ্দেশ্য" />
+                      <UserNoteTH text="কৃষকের নাম ও পিতার নাম" />
+                      <UserNoteTH text="মোবাইল ও NID" />
+                      <UserNoteTH text="গ্রাম" />
+                      <UserNoteTH text="অর্থবছর ও মৌসুম" />
+                      <UserNoteTH text="তারিখ" />
+                      <UserNoteTH text="কার্য শেষের মন্তব্য" />
+                      <UserNoteTH text="SAAO-এর নাম ও মোবাইল নং" />
+                      <UserNoteTH text="একশন" />
                     </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {!loading &&
+                      fetchEnd &&
+                      completedNotes?.length > 0 &&
+                      completedNotes?.map((singleNote, index) => (
+                        <tr
+                          key={singleNote?._id}
+                          className="divide-x divide-gray-200 dark:divide-gray-700"
+                        >
+                          <UserNoteTD text={toBengaliNumber(index + 1)} />
+                          <UserNoteTD text={singleNote?.purpose?.target} />
+                          <UserNoteTD
+                            text={
+                              singleNote?.farmersInfo?.name +
+                              `\n` +
+                              singleNote?.farmersInfo?.fathersOrHusbandName
+                            }
+                          />
+                          <UserNoteTD
+                            text={
+                              singleNote?.farmersInfo.mobile +
+                              `\n` +
+                              singleNote?.farmersInfo?.NID
+                            }
+                          />
+                          <UserNoteTD text={singleNote?.address?.village} />
+                          <UserNoteTD
+                            text={
+                              singleNote?.timeFrame?.season +
+                              "\n" +
+                              toBengaliNumber(singleNote?.timeFrame?.fiscalYear)
+                            }
+                          />
+                          <UserNoteTD
+                            text={toBengaliNumber(
+                              new Date(
+                                singleNote?.purpose?.date
+                              ).toLocaleDateString("bn-BD", {
+                                weekday: "long", // Specify to include the full day name
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                              })
+                            )}
+                          />
+                          <UserNoteTD text={singleNote?.comment} />
+                          <UserNoteTD
+                            text={
+                              singleNote?.SAAO?.name +
+                              "\n" +
+                              toBengaliNumber(singleNote?.SAAO?.mobile)
+                            }
+                          />
+
+                          <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
+                            <span className="cursor-pointer">
+                              {!singleNote?.completed && (
+                                <AiOutlineFileDone
+                                  onClick={() => handleNoteModal(singleNote)}
+                                  size={35}
+                                  color="green"
+                                />
+                              )}
+                            </span>
+                            <span className="cursor-pointer">
+                              <MdOutlineDelete
+                                onClick={() => handleNoteDeletion(singleNote)}
+                                size={35}
+                                color="red"
+                              />
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    <CompleteModel
+                      setReload={setReload}
+                      reload={reload}
+                      data={modalData}
+                    />
+
+                    {fetchEnd && !loading && completedNotes?.length < 1 && (
+                      <tr>
+                        <td colSpan="10" className="p-3">
+                          <span className="flex justify-center items-center">
+                            <h2 className="text-red-600 text-2xl">
+                              কোনো সম্পন্ন নোট খুজে পাওয়া যায়নি
+                            </h2>
+                          </span>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </>
             )}
             {loading && <Loader />}
           </div>
