@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { FaMobileAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
@@ -19,12 +19,12 @@ const SingleDemo = ({ data }) => {
     demoTime,
     farmersInfo,
     address,
-    SAAO,
+    // SAAO,
     numbersInfo,
     demoInfo,
     demoDate,
-    production,
-    comment,
+    // production,
+    // comment,
     demoImages,
     username,
   } = data;
@@ -41,7 +41,7 @@ const SingleDemo = ({ data }) => {
 
       }
     } else {
-      imagesArr.push({ original: 'images/pi/pi1.jpg', thumbnail: 'images/pi/pi1.jpg' }, { original: 'images/pi/pi2.jpg', thumbnail: 'images/pi/pi2.jpg' },)
+      imagesArr.push({ original: 'images/pi/pi2.jpg', thumbnail: 'images/pi/pi2.jpg' }, { original: 'images/pi/pi2.jpg', thumbnail: 'images/pi/pi2.jpg' })
     }
   }, [demoImages, username]);
   return (

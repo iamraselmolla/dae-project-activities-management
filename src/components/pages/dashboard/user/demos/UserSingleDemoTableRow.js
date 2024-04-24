@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
@@ -94,14 +94,14 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
               items={imagesArr}
             />
           ) : (
-            "No IMG"
+            <span
+              onClick={() => handleModaOpen(data)}
+              className="text-2xl w-8 h-8 rounded cursor-pointer bg-green-600 flex justify-center items-center"
+            >
+              +
+            </span>
           )}
-          <span
-            onClick={() => handleModaOpen(data)}
-            className="text-2xl w-8 h-8 rounded cursor-pointer bg-green-600 flex justify-center items-center"
-          >
-            +
-          </span>
+
         </td>
         <td className="text-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2 whitespace-nowrap">
           কৃষকঃ {comment?.farmersReview} <br />
