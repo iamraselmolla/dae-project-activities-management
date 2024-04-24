@@ -104,8 +104,8 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
 
         </td>
         <td className="text-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2 whitespace-nowrap">
-          কৃষকঃ {comment?.farmersReview} <br />
-          {comment?.overallComment && "অন্যান্যঃ " + comment?.overallComment}
+          {comment?.farmersReview && `কৃষকঃ` + comment?.farmersReview} <br />
+          {comment?.overallComment && `অন্যান্যঃ` + comment?.overallComment}
         </td>
         <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
           {SAAO?.name} <br />

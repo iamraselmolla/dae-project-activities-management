@@ -94,6 +94,9 @@ const AddGroupMeeting = () => {
           if (!values.time.date || !values.time.day) {
             return toast.error("অবশ্যই আপনাকে তারিখ সিলেক্ট করতে হবে");
           }
+          if (rawImages?.length < 1) {
+            return toast.error("আপনাকে অবশ্যই গ্রুপ সভার ছবি দিতে হবে।")
+          }
           setLoading(true);
           values.SAAO.name = user?.SAAO.name;
           values.SAAO.mobile = user?.SAAO.mobile;
@@ -316,6 +319,7 @@ const AddGroupMeeting = () => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="মোবাইল"
+                maxLength={11}
                 value={formik.values.groupInfo?.mobile}
               />
               {formik.touched.groupInfo?.mobile &&
