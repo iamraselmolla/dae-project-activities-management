@@ -203,6 +203,7 @@ const AddDemo = () => {
       } else {
         setLoading(false);
         toast.error();
+        console.log(values);
       }
     },
   });
@@ -304,6 +305,7 @@ const AddDemo = () => {
                 প্রকল্পের পুরো নাম
               </label>
               <select
+                disabled={demoId ? true : false}
                 className="input input-bordered w-full"
                 id="projectInfo.full"
                 name="projectInfo.full"
@@ -363,6 +365,7 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">অর্থবছর</label>
               <select
+                disabled={demoId ? true : false}
                 className="input input-bordered w-full"
                 id="demoTime.fiscalYear"
                 name="demoTime.fiscalYear"
@@ -376,6 +379,7 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">মৌসুম</label>
               <select
+                disabled={demoId ? true : false}
                 className="input input-bordered w-full"
                 id="demoTime.season"
                 name="demoTime.season"
@@ -938,7 +942,7 @@ const AddDemo = () => {
               type="submit"
               className="btn mt-5 w-full font-extrabold text-white btn-success"
             >
-              প্রদর্শনী যুক্ত করুন
+              {!demoId ? "প্রদর্শনী যুক্ত করুন" : "প্রদর্শনীর তথ্য আপডেট করুন"}
             </button>
           )}
           {loading && (
