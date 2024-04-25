@@ -146,10 +146,10 @@ const AddDemo = () => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       setLoading(true);
+      values.demoDate.bopon = datePickers.bopon.startDate;
+      values.demoDate.ropon = datePickers.ropon.startDate;
+      values.demoDate.korton = datePickers.korton;
       if (!demoId) {
-        values.demoDate.bopon = datePickers.bopon.startDate;
-        values.demoDate.ropon = datePickers.ropon.startDate;
-        values.demoDate.korton = datePickers.korton;
         values.address.block = user?.blockB;
         values.address.union = user?.unionB;
         values.demoTime.season = formik.values.demoTime.season;
