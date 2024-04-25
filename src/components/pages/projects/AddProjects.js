@@ -1,21 +1,28 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
 import SectionTitle from "../../shared/SectionTitle";
 import * as Yup from "yup";
-import { addProjectByAdmin } from "../../../services/userServices";
+import {
+  addProjectByAdmin,
+  findProjectByUserId,
+} from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { toBengaliNumber } from "bengali-number";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
+import { useLocation } from "react-router-dom";
 
 const AddProjects = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const projectIdFromUrl = queryParams.get("id");
   const [crop, setCrop] = useState("");
   const [cropValues, setCropValues] = useState([]);
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
   });
-
+  const [projectId, setProjectId] = useState(projectIdFromUrl);
   const handleValueChange = (newValue) => {
     setValue(newValue);
   };
@@ -23,6 +30,7 @@ const AddProjects = () => {
   const handleAddCrop = () => {
     if (crop?.trim() !== "") {
       setCropValues([...cropValues, crop]);
+      setCrop("");
     }
   };
 
@@ -54,10 +62,10 @@ const AddProjects = () => {
       },
       email: "",
       time: {
-        start: null,
-        end: null,
+        start: value.startDate,
+        end: value.endDate,
       },
-      crops: [],
+      crops: [...cropValues],
       // logo: "",
     },
     validationSchema,
@@ -91,6 +99,53 @@ const AddProjects = () => {
       // Reset form after successful submission
     },
   });
+  useEffect(() => {
+    if (projectId) {
+      const findProject = async () => {
+        try {
+          const result = await findProjectByUserId(projectId);
+          console.log(result);
+          if (result?.status === 200) {
+            const projectData = result?.data?.data; // Assuming result.data contains the project data
+            // Set form values based on projectData
+            formik.setValues({
+              name: {
+                details: projectData.name.details,
+                short: projectData.name.short,
+              },
+              projectDetails: {
+                PD: projectData.projectDetails.PD,
+                monitoringOfficers:
+                  projectData.projectDetails.monitoringOfficers,
+              },
+              email: projectData.email,
+              time: {
+                start: projectData.time.start,
+                end: projectData.time.end,
+              },
+              crops: projectData.crops,
+            });
+            // Set cropValues state
+            setCropValues(projectData.crops || []);
+            // Set datepicker values
+            setValue({
+              startDate: projectData.time.start,
+              endDate: projectData.time.end,
+            });
+          }
+        } catch (err) {
+          toast.error(
+            "তথ্য ডাটাবেইজ থেকে আনতে সমস্যা হচ্ছে। সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
+          );
+        }
+      };
+      if (navigator.onLine) {
+        findProject();
+      } else {
+        toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্টারনেট সংযোগ যুক্ত করুন");
+      }
+    }
+  }, [projectId, setValue, setCropValues]); // Include dependencies in the dependency array
 
   return (
     <section className="container px-4 md:px-0">
