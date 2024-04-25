@@ -7,6 +7,7 @@ import FiscalYear from "../../shared/FiscalYear";
 import Datepicker from "react-tailwindcss-datepicker";
 import {
   createDemo,
+  editDemobyId,
   findDemoById,
   getAllProjects,
 } from "../../../services/userServices";
@@ -201,9 +202,18 @@ const AddDemo = () => {
           setLoading(false);
         }
       } else {
-        setLoading(false);
-        toast.error();
-        console.log(values);
+        try {
+          const result = await editDemobyId(demoId, values);
+          if (result?.status === 200) {
+            toast.success(result?.data?.message);
+            setLoading(false);
+          }
+        } catch (err) {
+          toast.error(
+            "প্রদর্শনীর তথ্য আপডেট করতে সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
+          );
+          setLoading(false);
+        }
       }
     },
   });
