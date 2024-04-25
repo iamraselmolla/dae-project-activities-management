@@ -121,10 +121,6 @@ const AddDemo = () => {
     username: user?.username,
   };
   const validationSchema = Yup.object({
-    // projectInfo: Yup.object().shape({
-    //   full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
-    //   short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
-    // }),
     demoTime: Yup.object().shape({
       fiscalYear: Yup.string().required("অর্থবছর সিলেক্ট করুন"),
       season: Yup.string().required("মৌসুম সিলেক্ট করুন"),
@@ -142,8 +138,6 @@ const AddDemo = () => {
     }),
     address: Yup.object().shape({
       village: Yup.string().required("গ্রামের নাম দিন"),
-      // block: Yup.string().required("ব্লকের নাম পছন্দ করুন"),
-      // union: Yup.string().required("ইউনিয়নের নাম দিন"),
     }),
   });
 
@@ -152,58 +146,63 @@ const AddDemo = () => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       setLoading(true);
-      values.demoDate.bopon = datePickers.bopon.startDate;
-      values.demoDate.ropon = datePickers.ropon.startDate;
-      values.demoDate.korton = datePickers.bopon;
-      values.address.block = user?.blockB;
-      values.address.union = user?.unionB;
-      values.demoTime.season = formik.values.demoTime.season;
-      values.projectInfo.full = selectedProject.name.details;
-      values.projectInfo.short = selectedProject.name.short;
-      values.username = user?.username;
-      values.SAAO = user?.SAAO;
-      if (!values.projectInfo.full || !values.projectInfo.short) {
-        setLoading(false);
-        return toast.error("আপনাকে অবশ্যই প্রকল্প সিলেক্ট করতে হবে।");
-      }
-      if (!values.username) {
-        setLoading(false);
-        toast.error(
-          "লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
-        );
-      }
+      if (!demoId) {
+        values.demoDate.bopon = datePickers.bopon.startDate;
+        values.demoDate.ropon = datePickers.ropon.startDate;
+        values.demoDate.korton = datePickers.korton;
+        values.address.block = user?.blockB;
+        values.address.union = user?.unionB;
+        values.demoTime.season = formik.values.demoTime.season;
+        values.projectInfo.full = selectedProject.name.details;
+        values.projectInfo.short = selectedProject.name.short;
+        values.username = user?.username;
+        values.SAAO = user?.SAAO;
+        if (!values.projectInfo.full || !values.projectInfo.short) {
+          setLoading(false);
+          return toast.error("আপনাকে অবশ্যই প্রকল্প সিলেক্ট করতে হবে।");
+        }
+        if (!values.username) {
+          setLoading(false);
+          toast.error(
+            "লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
+          );
+        }
 
-      // Handle form submission logic here
+        // Handle form submission logic here
 
-      if (navigator.onLine) {
-        try {
-          const result = await createDemo(values);
-          if (result?.status === 200) {
-            toast.success(result?.data?.message);
-            resetForm();
-            setDatePickers({
-              bopon: {
-                startDate: null,
-                endDate: null,
-              },
-              ropon: {
-                startDate: null,
-                endDate: null,
-              },
-              korton: {
-                startDate: null,
-                endDate: null,
-              },
-            });
+        if (navigator.onLine) {
+          try {
+            const result = await createDemo(values);
+            if (result?.status === 200) {
+              toast.success(result?.data?.message);
+              resetForm();
+              setDatePickers({
+                bopon: {
+                  startDate: null,
+                  endDate: null,
+                },
+                ropon: {
+                  startDate: null,
+                  endDate: null,
+                },
+                korton: {
+                  startDate: null,
+                  endDate: null,
+                },
+              });
+              setLoading(false);
+            }
+          } catch (err) {
+            toast.error("প্রদর্শনীর তথ্য যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।");
             setLoading(false);
           }
-        } catch (err) {
-          toast.error("প্রদর্শনীর তথ্য যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।");
+        } else {
+          makeSureOnline();
           setLoading(false);
         }
       } else {
-        makeSureOnline();
         setLoading(false);
+        toast.error();
       }
     },
   });
@@ -216,7 +215,7 @@ const AddDemo = () => {
           setAllProjects(result.data.data);
         } else {
           setAllProjects([]);
-          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি"); // Notify user if data retrieval was not successful
+          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি");
         }
       } catch (error) {
         console.error("প্রকল্পের তথ্যের সমস্যা:", error);
