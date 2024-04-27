@@ -110,7 +110,7 @@ const UserFieldDays = () => {
                     scope="col"
                     className=" py-4 font-extrabold px-2  text-black text-center uppercase"
                   >
-                    স্থান, ব্লক ও ইউনিয়ন
+                    স্থান
                   </th>
                   <th
                     scope="col"
