@@ -58,9 +58,13 @@ export function addProjectByAdmin(values) {
   return http.post(BASE_URL.addProject, values);
 }
 
-export function getAllProjects() {
-  return http.get(BASE_URL.getProjects);
+export function getAllProjects(role) {
+  if (!role) {
+    role = 'user';
+  }
+  return http.get(BASE_URL.getProjects + `?role=${role}`);
 }
+
 
 export function updateProjectCrops(values) {
   return http.put(BASE_URL.updateProjectCrops, values);

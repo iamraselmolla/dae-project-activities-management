@@ -3,12 +3,14 @@ import { getAllUser } from "../../../../services/userServices";
 import SectionTitle from "../../../shared/SectionTitle";
 import SingleUser from "./SingleUser";
 import Loader from "../../../shared/Loader";
+import { AuthContext } from "../../../AuthContext/AuthProvider";
 
 const Allusers = () => {
   const [allUser, setAllUser] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [reload, setReload] = useState(false);
+
 
   const fetchAllUsers = async () => {
     setLoading(true);

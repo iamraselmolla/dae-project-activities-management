@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getAllProjects } from "../../../../services/userServices";
 import SectionTitle from "../../../shared/SectionTitle";
 import Loader from "../../../shared/Loader";
 import SingleProject from "./SingleProject";
 import { makeSureOnline } from "../../../shared/MessageConst";
+import { AuthContext } from "../../../AuthContext/AuthProvider";
 
 const AllProjects = () => {
   const [allProjects, setAllProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [refetch, setRefetch] = useState(false);
+  const { role } = useContext(AuthContext)
 
   useEffect(() => {
     const getAllProjectsInfo = async () => {
       try {
         setLoading(true);
-        const result = await getAllProjects();
+        const result = await getAllProjects('admin');
         if (result?.status === 200) {
           setAllProjects(result?.data?.data);
         } else {
