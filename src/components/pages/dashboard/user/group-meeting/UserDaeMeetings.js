@@ -145,7 +145,7 @@ const UserDaeMeetings = () => {
                     <td colSpan="10" className="p-3">
                       <span className="flex justify-center items-center">
                         <h2 className="text-red-600 text-2xl">
-                          কোনো নোট খুজে পাওয়া যায়নি
+                          কোনো ডিএই কৃষক গ্রুপ সভা খুজে পাওয়া যায়নি
                         </h2>
                       </span>
                     </td>
