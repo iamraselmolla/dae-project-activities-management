@@ -7,19 +7,24 @@ import { makeSureOnline } from "../../../shared/MessageConst";
 import { AuthContext } from "../../../AuthContext/AuthProvider";
 
 const AllProjects = () => {
-  const [allProjects, setAllProjects] = useState([]);
+  const [activeProjects, setActiveProjects] = useState([]);
+  const [completedProjects, setCompletedProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [refetch, setRefetch] = useState(false);
-  const { role } = useContext(AuthContext)
+  const { role } = useContext(AuthContext);
 
   useEffect(() => {
     const getAllProjectsInfo = async () => {
       try {
         setLoading(true);
-        const result = await getAllProjects('admin');
+        const result = await getAllProjects(role);
         if (result?.status === 200) {
-          setAllProjects(result?.data?.data);
+          const projects = result?.data?.data || [];
+          const active = projects.filter((project) => !project.end);
+          const completed = projects.filter((project) => project.end);
+          setActiveProjects(active);
+          setCompletedProjects(completed);
         } else {
           setError("Failed to fetch projects");
         }
@@ -35,7 +40,7 @@ const AllProjects = () => {
     } else {
       makeSureOnline();
     }
-  }, [refetch]);
+  }, [refetch, role]);
 
   if (error) {
     return <div className="text-red-500">{error}</div>;
@@ -48,22 +53,40 @@ const AllProjects = () => {
           <Loader />
         </div>
       )}
-      {!loading && allProjects?.length > 0 && (
+      {!loading && (
         <>
-          <SectionTitle title="সকল প্রকল্পের তালিকা" />
-          {allProjects?.map((project, index) => (
-            <SingleProject
-              setRefetch={setRefetch}
-              refetch={refetch}
-              index={index}
-              key={project?._id}
-              data={project}
-            />
-          ))}
+          {activeProjects.length > 0 && (
+            <div className="mb-৪">
+              <SectionTitle title="সকল চলমান প্রকল্পের তালিকা" />
+              {activeProjects.map((project, index) => (
+                <SingleProject
+                  setRefetch={setRefetch}
+                  refetch={refetch}
+                  index={index}
+                  key={project?._id}
+                  data={project}
+                />
+              ))}
+            </div>
+          )}
+          {completedProjects.length > 0 && (
+            <div className="mb-৪">
+              <SectionTitle title="সকল সম্পন্ন হওয়া প্রকল্পের তালিকা" />
+              {completedProjects.map((project, index) => (
+                <SingleProject
+                  setRefetch={setRefetch}
+                  refetch={refetch}
+                  index={index}
+                  key={project?._id}
+                  data={project}
+                />
+              ))}
+            </div>
+          )}
+          {activeProjects.length === 0 && completedProjects.length === 0 && (
+            <div>No projects available</div>
+          )}
         </>
-      )}
-      {!loading && allProjects?.length === 0 && (
-        <div>No projects available</div>
       )}
     </div>
   );
