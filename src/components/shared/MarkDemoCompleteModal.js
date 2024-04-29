@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../AuthContext/AuthProvider";
 const MarkDemoCompleteModal = ({ data }) => {
+
+
   return (
-
-
     <dialog id="my_modal_33" className="modal  text-center">
       <div className="modal-box">
         <h3 className="font-bold text-xl mb-2">
-          প্রদর্শনীটি চূড়ান্ত হিসেবে চিহ্নিত করুন
+
+          প্রদর্শনীটি চূড়ান্ত হিসেবে চিহ্নিত করুন....
         </h3>
         <div className="modal-action flex justify-center pb-5">
           <form method="dialog">
