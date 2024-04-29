@@ -56,7 +56,7 @@ const AllProjects = () => {
       {!loading && (
         <>
           {activeProjects.length > 0 && (
-            <div className="mb-৪">
+            <div className="mb-6">
               <SectionTitle title="সকল চলমান প্রকল্পের তালিকা" />
               {activeProjects.map((project, index) => (
                 <SingleProject
@@ -70,7 +70,7 @@ const AllProjects = () => {
             </div>
           )}
           {completedProjects.length > 0 && (
-            <div className="mb-৪">
+            <div className="mb-6 mt-12">
               <SectionTitle title="সকল সম্পন্ন হওয়া প্রকল্পের তালিকা" />
               {completedProjects.map((project, index) => (
                 <SingleProject

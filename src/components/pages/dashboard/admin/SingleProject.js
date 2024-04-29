@@ -116,32 +116,33 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
     <div className="collapse">
       <input type="checkbox" />
       <div className="collapse-title text-xl font-medium">
-        <Title title={data?.name?.details} />
+        <Title end={data?.end} title={data?.name?.details} />
       </div>
       <div className="collapse-content flex flex-col gap-2">
         <h2 className="text-xl flex gap-5 font-bold items-center">
           <span>প্রকল্পের পুরো নামঃ {data?.name?.details}</span>
-          <span className="ml-3 flex gap-1">
-            <Link
-              className="flex justify-center items-center"
-              to={`/dashboard/addproject?id=${data?._id}`}
-            >
-              <button className="btn btn-info font-bold">
-                <CiEdit size={20} cursor={"pointer"} /> এডিট করুন
+          {!data?.end &&
+            <span className="ml-3 flex gap-1">
+              <Link
+                className="flex justify-center items-center"
+                to={`/dashboard/addproject?id=${data?._id}`}
+              >
+                <button className="btn btn-info font-bold">
+                  <CiEdit size={20} cursor={"pointer"} /> এডিট করুন
+                </button>
+              </Link>
+
+              <button
+                onClick={() => handleProjectDeleting(data?._id)}
+                className="btn bg-red-500 font-bold"
+              >
+                <RiDeleteBin5Line size={20} cursor={"pointer"} /> প্রকল্প মুছে দিন
               </button>
-            </Link>
 
-            <button
-              onClick={() => handleProjectDeleting(data?._id)}
-              className="btn bg-red-500 font-bold"
-            >
-              <RiDeleteBin5Line size={20} cursor={"pointer"} /> প্রকল্প মুছে দিন
-            </button>
-
-            <button onClick={() => handleProjectDeletion(data?._id)} className="btn btn-success font-bold">
-              <FiCheckCircle size={20} cursor={"pointer"} /> সমাপ্ত ঘোষণা করুন
-            </button>
-          </span>
+              <button onClick={() => handleProjectDeletion(data?._id)} className="btn btn-success font-bold">
+                <FiCheckCircle size={20} cursor={"pointer"} /> সমাপ্ত ঘোষণা করুন
+              </button>
+            </span>}
         </h2>
         <h2 className="text-xl font-bold">
           প্রকল্পের সংক্ষেপ নামঃ {data?.name?.short}
