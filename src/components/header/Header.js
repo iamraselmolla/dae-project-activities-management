@@ -49,8 +49,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 হোম
@@ -61,8 +61,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 প্রদর্শনী
@@ -73,8 +73,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 প্রশিক্ষণ
@@ -85,8 +85,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 মাঠদিবস
@@ -97,8 +97,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 মালামাল বিতরণ
@@ -109,8 +109,8 @@ const Header = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                      ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                      : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                 }
               >
                 ডিএই কৃষক গ্রুপ সভা
@@ -128,8 +128,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             হোম
@@ -140,8 +140,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             প্রদর্শনী
@@ -152,8 +152,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             প্রশিক্ষণ
@@ -164,8 +164,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             মাঠদিবস
@@ -176,8 +176,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             মালামাল বিতরণ
@@ -188,8 +188,8 @@ const Header = () => {
               isPending
                 ? "pending"
                 : isActive
-                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                  ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
             }
           >
             ডিএই কৃষক গ্রুপ সভা

@@ -7,6 +7,7 @@ import ImageGallery from "react-image-gallery";
 import formatDateToday from "../../../../utilis/formatDate";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
+import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 
 const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
   const { setModalData } = useContext(AuthContext);
@@ -119,7 +120,9 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
             </Link>
           </div>
           <div className="cursor-pointer">
-            <AiOutlineFileDone size={35} color="green" />
+            <AiOutlineFileDone onClick={() =>
+              document.getElementById("my_modal_33").showModal()
+            } size={35} color="green" />
           </div>
           <div className="cursor-pointer">
             <MdOutlineDelete
@@ -138,6 +141,7 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
           </div>
 
         </td>
+        <MarkDemoCompleteModal />
       </tr>
     </>
   );
