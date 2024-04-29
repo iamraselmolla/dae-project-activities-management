@@ -10,6 +10,7 @@ import { FiCheckCircle } from "react-icons/fi";
 
 import {
   deleteAProject,
+  markProjectComplete,
   updateProjectCrops,
 } from "../../../../services/userServices";
 import { RiDeleteBin5Line } from "react-icons/ri";
@@ -90,6 +91,27 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
       makeSureOnline();
     }
   };
+
+
+  // Handle Project completion
+  const handleProjectDeletion = async (id) => {
+
+    if (!id) {
+      return toast.error("প্রকল্পের তথ্য পেতে সমস্যা হচ্ছে।")
+    }
+    try {
+      if (window.confirm(`আপনি কি ${data?.name?.details}-কে সম্পন্ন হিসেবে চিহ্নিত করতে চান?`)) {
+        const result = await markProjectComplete(id)
+        if (result?.status === 200) {
+          toast.success(result?.data?.message)
+          setRefetch(!refetch)
+        }
+      }
+    }
+    catch (err) {
+      toast.error("প্রকল্প সম্পন্ন করতে অসুবিধার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।")
+    }
+  }
   return (
     <div className="collapse">
       <input type="checkbox" />
@@ -116,7 +138,7 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
               <RiDeleteBin5Line size={20} cursor={"pointer"} /> প্রকল্প মুছে দিন
             </button>
 
-            <button className="btn btn-success font-bold">
+            <button onClick={() => handleProjectDeletion(data?._id)} className="btn btn-success font-bold">
               <FiCheckCircle size={20} cursor={"pointer"} /> সমাপ্ত ঘোষণা করুন
             </button>
           </span>

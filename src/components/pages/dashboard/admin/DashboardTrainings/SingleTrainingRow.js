@@ -7,8 +7,8 @@ import toast from "react-hot-toast";
 import { deleteATraining } from "../../../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
 import TableDivision from "./TableComponent/TableDivision";
-
 import ImageGallery from "react-image-gallery";
+
 
 const SingleTrainingRow = ({ index, data, setReload, reload }) => {
   const { user, role } = useContext(AuthContext);
@@ -33,6 +33,7 @@ const SingleTrainingRow = ({ index, data, setReload, reload }) => {
       }
     }
   }, [images]);
+
   const handleTrainingDelete = async () => {
     if (!_id) {
       toast.error(

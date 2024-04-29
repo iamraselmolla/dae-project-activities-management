@@ -8,6 +8,7 @@ const BASE_URL = {
   updateProjectCrops: "/projects/update-project",
   deleteProject: "/projects/delete-project",
   findProject: "/projects/get-project",
+  endProject: "/projects/end-project",
 
   // Demos
   addDemo: "/demo/create-demo",
@@ -65,7 +66,6 @@ export function getAllProjects(role) {
   return http.get(BASE_URL.getProjects + `?role=${role}`);
 }
 
-
 export function updateProjectCrops(values) {
   return http.put(BASE_URL.updateProjectCrops, values);
 }
@@ -76,6 +76,10 @@ export function deleteAProject(id) {
 
 export function findProjectByUserId(id) {
   return http.post(BASE_URL.findProject, { id });
+}
+
+export function markProjectComplete(id) {
+  return http.put(BASE_URL.endProject, { id })
 }
 
 // Demo API
