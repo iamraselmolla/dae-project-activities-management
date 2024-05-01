@@ -7,8 +7,6 @@ import Sidebar from "./components/pages/dashboard/DashboardLayout";
 import DashboardLayout from "./components/pages/dashboard/DashboardLayout";
 import AllProjects from "./components/pages/dashboard/admin/AllProjects";
 import Allusers from "./components/pages/dashboard/admin/Allusers";
-import UserDemos from "./components/pages/dashboard/user/UserDemos";
-import UserFieldDays from "./components/pages/dashboard/user/UserFieldDays";
 import AddDemo from "./components/pages/demo/AddDemo";
 import Demo from "./components/pages/demo/Demo";
 import Distribution from "./components/pages/distrubution/Distribution";
@@ -19,8 +17,12 @@ import Training from "./components/pages/training/Training";
 import Profile from "./components/pages/dashboard/profile/Profile";
 import AddGroupMeeting from "./components/pages/DaeGroupMeeting/AddGroupMeeting";
 import DaeGroupMeeting from "./components/pages/DaeGroupMeeting/DaeGroupMeeting";
-import UserDaeMeetings from "./components/pages/dashboard/user/UserDaeMeetings";
-import UserNotes from "./components/pages/dashboard/user/UserNotes";
+import UserNotes from "./components/pages/dashboard/user/notes/UserNotes";
+import AddUserNotes from "./components/pages/dashboard/user/notes/AddUserNotes";
+import AdminTrainings from "./components/pages/dashboard/admin/DashboardTrainings/AdminTrainings";
+import UserFieldDays from "./components/pages/dashboard/user/UserFieldDays/UserFieldDays";
+import UserDaeMeetings from "./components/pages/dashboard/user/group-meeting/UserDaeMeetings";
+import UserDemos from "./components/pages/dashboard/user/demos/UserDemos";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -41,19 +43,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/trainings",
-        element: (
-          <PrivateRoute>
-            <Training></Training>
-          </PrivateRoute>
-        ),
+        element: <Training></Training>,
       },
       {
         path: "/fielddays",
-        element: (
-          <PrivateRoute>
-            <FieldDay></FieldDay>
-          </PrivateRoute>
-        ),
+        element: <FieldDay></FieldDay>,
       },
       {
         path: "/distributions",
@@ -130,6 +124,14 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/user-notes",
             element: <UserNotes />,
+          },
+          {
+            path: "/dashboard/add-note",
+            element: <AddUserNotes />,
+          },
+          {
+            path: "/dashboard/trainings",
+            element: <AdminTrainings />,
           },
         ],
       },

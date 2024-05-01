@@ -65,6 +65,18 @@ const DashboardMenu = () => {
                 প্রদর্শনী
             </NavLink>
             <NavLink
+                to="/dashboard/trainings"
+                className={({ isActive, isPending }) =>
+                    isPending
+                        ? "block px-3 w-full text-center py-4 bg-slate-900"
+                        : isActive
+                            ? "block px-3 w-full py-4 text-center bg-red-500"
+                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                }
+            >
+                প্রশিক্ষণ
+            </NavLink>
+            <NavLink
                 to="/dashboard/user-fielddays"
                 className={({ isActive, isPending }) =>
                     isPending
@@ -87,6 +99,18 @@ const DashboardMenu = () => {
                 }
             >
                 ডিএই কৃষক গ্রুপ সভা
+            </NavLink>
+            <NavLink
+                to="/dashboard/add-note"
+                className={({ isActive, isPending }) =>
+                    isPending
+                        ? "block px-3 w-full text-center py-4 bg-slate-900"
+                        : isActive
+                            ? "block px-3 w-full py-4 text-center bg-red-500"
+                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                }
+            >
+                নোট যুক্ত করুন
             </NavLink>
             <NavLink
                 to="/dashboard/user-notes"

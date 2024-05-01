@@ -8,6 +8,8 @@ import Season from "../../shared/Season";
 import {
   createAFieldDay,
   getAllProjects,
+  getFieldDayDataById,
+  updateAFieldDay,
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
@@ -17,8 +19,14 @@ import { bn } from "date-fns/locale";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
+import { makeSureOnline } from "../../shared/MessageConst";
+import { useLocation } from "react-router-dom";
 
 const AddFieldDay = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const fieldDayIdFromUrl = queryParams.get("id");
+  const [fieldDayId, setFieldDayId] = useState(fieldDayIdFromUrl);
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
@@ -115,63 +123,137 @@ const AddFieldDay = () => {
     if (navigator.onLine) {
       fetchData();
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+      makeSureOnline();
     }
   }, []);
+  useEffect(() => {
+    if (fieldDayId) {
+      const fetchFieldDayById = async () => {
+        try {
+          const result = await getFieldDayDataById(fieldDayId);
+          if (result?.status === 200) {
+            // Destructure data from result
+            const { data } = result?.data;
+
+            // Extract values needed to be set into Formik
+            const {
+              projectInfo,
+              fiscalYear,
+              season,
+              subject,
+              guests,
+              farmers,
+              date,
+              images,
+              address,
+              comment,
+              SAAO,
+              username,
+            } = data;
+
+            // Set values into Formik using setValues
+            formik.setValues({
+              projectInfo,
+              fiscalYear,
+              season,
+              subject,
+              guests,
+              farmers,
+              date,
+              images,
+              address,
+              comment,
+              SAAO,
+              username: username || user?.username || "", // Ensure username is set properly
+            });
+            setSelectedImages(images);
+            setValue({
+              startDate: date,
+              endDate: date,
+            });
+          }
+        } catch (err) {
+          toast.error(
+            "মাঠ দিবসটির তথ্য আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট অথরকে জানান।"
+          );
+        }
+      };
+
+      if (navigator.onLine) {
+        fetchFieldDayById();
+      } else {
+        makeSureOnline();
+      }
+    }
+  }, [fieldDayId, user?.username]);
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
-      if (!formik.values.date) {
-        return toast.error("অবশ্যই তারিখ সিলেক্ট করতে হবে।");
-      }
-      if (!user) {
-        return toast.error("আপনাকে অবশ্যই লগিন করতে হবে।");
-      }
-      if (rawImages?.length < 1) {
-        toast.error("অবশ্যই মাঠ দিবসের ছবি দিতে হবে।");
-        return;
-      }
-      values.username = user?.username;
-
       setLoading(true);
       try {
-        if (rawImages?.length > 0) {
-          setLoadingMessage("ছবি আপ্লোড হচ্ছে");
-          const uploadedImageLinks = [];
-          for (let i = 0; i < rawImages?.length; i++) {
-            setLoadingMessage(
-              `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
-            );
-
-            const compressedImage = await compressAndUploadImage(rawImages[i]);
-            setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-            const result = await uploadToCloudinary(
-              compressedImage,
-              "fieldday"
-            );
-            uploadedImageLinks.push(result);
-            setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
+        if (!fieldDayId) {
+          if (!formik.values.date) {
+            return toast.error("অবশ্যই তারিখ সিলেক্ট করতে হবে।");
           }
-          setImageLinks(uploadedImageLinks); // Set all image links at once
-          values.images = uploadedImageLinks;
-          setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
-
-          setLoadingMessage("মাঠ দিবস তথ্য আপ্লোড হচ্ছে");
-          const result = await createAFieldDay(values);
-          if (result?.status === 200) {
-            toast.success(result?.data?.message);
-            setLoadingMessage("মাঠ দিবস তথ্য আপ্লোড শেষ হয়েছে");
-            setLoading(false);
-            resetForm();
-            setRawImages([]);
-            setValue({
-              endDate: null,
-              startDate: null,
-            });
-            setSelectedImages([]);
+          if (!user) {
+            return toast.error("আপনাকে অবশ্যই লগিন করতে হবে।");
           }
+          if (rawImages?.length < 1) {
+            toast.error("অবশ্যই মাঠ দিবসের ছবি দিতে হবে।");
+            return;
+          }
+          values.username = user?.username;
+          if (rawImages?.length > 0) {
+            setLoadingMessage("ছবি আপ্লোড হচ্ছে");
+            const uploadedImageLinks = [];
+            for (let i = 0; i < rawImages?.length; i++) {
+              setLoadingMessage(
+                `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
+              );
+
+              const compressedImage = await compressAndUploadImage(
+                rawImages[i]
+              );
+              setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
+              const result = await uploadToCloudinary(
+                compressedImage,
+                "fieldday"
+              );
+              uploadedImageLinks.push(result);
+              setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
+            }
+            setImageLinks(uploadedImageLinks); // Set all image links at once
+            values.images = uploadedImageLinks;
+            setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
+
+            setLoadingMessage("মাঠ দিবস তথ্য আপ্লোড হচ্ছে");
+            const result = await createAFieldDay(values);
+            if (result?.status === 200) {
+              toast.success(result?.data?.message);
+              setLoadingMessage("মাঠ দিবস তথ্য আপ্লোড শেষ হয়েছে");
+              setLoading(false);
+              resetForm();
+              setRawImages([]);
+              setValue({
+                endDate: null,
+                startDate: null,
+              });
+              setSelectedImages([]);
+            }
+          }
+        } else {
+          try {
+            const result = await updateAFieldDay(fieldDayId, formik.values);
+            if (result?.status === 200) {
+              toast.success(result?.data?.message);
+              setLoading(false);
+            }
+          } catch (err) {
+            toast.error("মাঠ দিবসটির তথ্য আপডেট করতে সমস্যা হচ্ছে।");
+          }
+          setLoading(false);
         }
       } catch (err) {
         toast.error(err?.response?.data?.message);
@@ -523,6 +605,7 @@ const AddFieldDay = () => {
             </label>
             <input
               multiple
+              disabled={fieldDayId ? true : false}
               name="images"
               type="file"
               className="file-input input-bordered w-full"
@@ -563,7 +646,9 @@ const AddFieldDay = () => {
               type="submit"
               className="btn mt-5 bg-green-600 hover:bg-green-700 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              মাঠ দিবসের তথ্য যুক্ত করুন
+              {fieldDayId
+                ? " মাঠ দিবসের তথ্য এডিট করুন"
+                : " মাঠ দিবসের তথ্য যুক্ত করুন"}
             </button>
           )}
         </form>

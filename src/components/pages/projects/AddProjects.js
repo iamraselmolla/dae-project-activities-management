@@ -10,7 +10,7 @@ import {
 import toast from "react-hot-toast";
 import { toBengaliNumber } from "bengali-number";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const AddProjects = () => {
   const location = useLocation();

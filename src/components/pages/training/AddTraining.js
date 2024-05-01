@@ -9,6 +9,7 @@ import {
   createTraining,
   getAllProjects,
   getTrainingById,
+  updateTraining,
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
@@ -18,6 +19,7 @@ import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import { useLocation } from "react-router-dom";
+import { makeSureOnline } from "../../shared/MessageConst";
 
 const AddTraining = () => {
   const location = useLocation();
@@ -25,13 +27,13 @@ const AddTraining = () => {
   const trainingIdFromUrl = queryParams.get("id");
   const [trainingId, setTrainingProjectId] = useState(trainingIdFromUrl);
   const [allProject, setAllProjects] = useState([]);
-  const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState([]);
   const [rawImages, setRawImages] = useState([]);
   const [loadingMessage, setLoadingMessage] = useState(null);
   const [value, setValue] = useState({
-    startDate: null,
-    endDate: null,
+    startDate: new Date(),
+    endDate: new Date(),
   });
   const [imageLinks, setImageLinks] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]); // Initialize as an empty array
@@ -54,10 +56,14 @@ const AddTraining = () => {
   };
 
   const setDateChange = (newValue) => {
-    setValue(newValue);
+    setValue({
+      ...newValue,
+      endDate: newValue.startDate,
+    });
+
     formik.setValues({
       ...formik.values,
-      date: { ...newValue },
+      date: newValue,
     });
   };
 
@@ -100,7 +106,11 @@ const AddTraining = () => {
     // images: Yup.array().min(1, "কমপক্ষে একটি ছবি প্রয়োজন"),
     comment: Yup.string().required("মন্তব্য প্রয়োজন"),
   });
-
+  const resetForm = () => {
+    formik.resetForm();
+    setImages([]);
+    setRawImages([]);
+  };
   const initialValues = {
     projectInfo: {
       details: "",
@@ -114,7 +124,7 @@ const AddTraining = () => {
       male: 0,
       female: 0,
     },
-    date: "",
+    date: value.startDate,
     images: [],
     comment: "",
   };
@@ -131,36 +141,72 @@ const AddTraining = () => {
       }
       const postTrainingData = async () => {
         try {
-          if (setRawImages?.length > 0) {
-            setLoadingMessage("ছবি আপ্লোড হচ্ছে");
-            setLoading(true);
-            const uploadedImageLinks = [];
-            for (let i = 0; i < rawImages?.length; i++) {
-              setLoadingMessage(
-                `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
-              );
+          if (!trainingId) {
+            if (setRawImages?.length > 0) {
+              setLoadingMessage("ছবি আপ্লোড হচ্ছে");
+              setLoading(true);
+              const uploadedImageLinks = [];
+              for (let i = 0; i < rawImages?.length; i++) {
+                setLoadingMessage(
+                  `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
+                );
 
-              const compressedImage = await compressAndUploadImage(
-                rawImages[i]
-              );
-              setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-              const result = await uploadToCloudinary(
-                compressedImage,
-                "training"
-              );
-              uploadedImageLinks.push(result);
-              setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
+                const compressedImage = await compressAndUploadImage(
+                  rawImages[i]
+                );
+                setLoadingMessage(
+                  `${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`
+                );
+                const result = await uploadToCloudinary(
+                  compressedImage,
+                  "training"
+                );
+                uploadedImageLinks.push(result);
+                setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
+              }
+              setImageLinks(uploadedImageLinks); // Set all image links at once
+              values.images = uploadedImageLinks;
+              setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
+
+              setLoadingMessage("কৃষক প্রশিক্ষণ তথ্য আপ্লোড হচ্ছে");
             }
-            setImageLinks(uploadedImageLinks); // Set all image links at once
-            values.images = uploadedImageLinks;
-            setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
+            const result = await createTraining(values);
+            if (result?.status === 200) {
+              toast.success("কৃষক প্রশিক্ষণ তথ্য যুক্ত করা হয়েছে।");
+              setLoading(false);
+              resetForm();
+            }
+          } else {
+            setLoadingMessage("কৃষক প্রশিক্ষণ তথ্য আপডেট হচ্ছে");
 
-            setLoadingMessage("কৃষক প্রশিক্ষণ তথ্য আপ্লোড হচ্ছে");
-          }
-          const result = await createTraining(values);
-          if (result?.status === 200) {
-            toast.success("কৃষক প্রশিক্ষণ তথ্য যুক্ত করা হয়েছে।");
-            setLoading(false);
+            const updatedTrainingData = {
+              projectInfo: {
+                details: values.projectInfo.details,
+                short: values.projectInfo.short,
+              },
+              fiscalYear: values.fiscalYear,
+              season: values.season,
+              subject: values.subject,
+              guests: values.guests,
+              farmers: {
+                male: values.farmers.male,
+                female: values.farmers.female,
+              },
+              date: {
+                startDate: values.date.startDate,
+                endDate: values.date.endDate,
+              },
+              comment: values.comment,
+            };
+
+            const result = await updateTraining(
+              trainingId,
+              updatedTrainingData
+            );
+            if (result?.status === 200) {
+              toast.success("কৃষক প্রশিক্ষণ তথ্য আপডেট করা হয়েছে।");
+              setLoading(false);
+            }
           }
         } catch (err) {
           console.log(err);
@@ -170,7 +216,7 @@ const AddTraining = () => {
       if (navigator.onLine) {
         postTrainingData();
       } else {
-        toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্টারনেট সংযোগ যুক্ত করুন");
+        makeSureOnline();
       }
     },
   });
@@ -195,7 +241,7 @@ const AddTraining = () => {
     if (navigator.onLine) {
       fetchData();
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+      makeSureOnline();
     }
   }, []);
 
@@ -205,6 +251,7 @@ const AddTraining = () => {
       if (result.status === 200) {
         const trainingData = result?.data?.data;
         formik.setValues({
+          ...formik.values,
           projectInfo: {
             details: trainingData.projectInfo.details,
             short: trainingData.projectInfo.short,
@@ -218,25 +265,32 @@ const AddTraining = () => {
             female: trainingData.farmers.female,
           },
           date: {
-            startDate: new Date(trainingData.date.startDate),
-            endDate: new Date(trainingData.date.endDate),
+            // Set the date object directly
+            startDate: trainingData.date.startDate,
+            endDate: trainingData.date.endDate,
           },
-          images: trainingData.images,
+          // images: trainingData.images,
           comment: trainingData.comment,
         });
+        setValue({
+          startDate: trainingData.date.startDate,
+          endDate: trainingData.date.endDate,
+        });
+
         setImages([...images, ...trainingData.images]);
       }
     } catch (err) {
       toast.error("প্রশিক্ষণের তথ্য আনতে অসুবিধা হচ্ছে।");
     }
   };
+
   useEffect(() => {
     if (navigator.onLine) {
       if (trainingId) {
         findTrainingInfo();
       }
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+      makeSureOnline();
     }
   }, [trainingId]);
 
@@ -253,7 +307,7 @@ const AddTraining = () => {
               className="input input-bordered w-full"
               id="projectInfo.details"
               name="projectInfo.details"
-              value={formik.values?.name?.details}
+              value={formik.values.projectInfo?.details}
               onChange={handleSelectChange}
               onBlur={formik.handleBlur}
             >
@@ -441,12 +495,11 @@ const AddTraining = () => {
         </div>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div className="mt-3 input input-bordered w-full">
-            <label className="font-extrabold mb-1 block">
-              প্রশিক্ষণ শুরু ও শেষের তারিখ
-            </label>
+            <label className="font-extrabold mb-1 block">তারিখ</label>
             <Datepicker
               id="date"
               name="date"
+              asSingle={true}
               value={value}
               onChange={setDateChange}
               showShortcuts={true}
@@ -463,6 +516,7 @@ const AddTraining = () => {
               multiple
               name="images"
               type="file"
+              disabled={trainingId ? true : false}
               className="file-input input-bordered w-full"
               onChange={handleImageChange}
             />
@@ -476,13 +530,15 @@ const AddTraining = () => {
                       alt={`Selected Image ${index + 1}`}
                       className="mt-2 max-w-64 h-auto"
                     />
-                    <button
-                      type="button"
-                      className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
-                      onClick={() => handleRemoveImage(index)}
-                    >
-                      <FaTimes />
-                    </button>
+                    {!trainingId && (
+                      <button
+                        type="button"
+                        className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
+                        onClick={() => handleRemoveImage(index)}
+                      >
+                        <FaTimes />
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
@@ -503,6 +559,7 @@ const AddTraining = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             name="comment"
+            value={formik.values.comment}
             className="input h-20 input-bordered w-full"
             rows={10}
           ></textarea>
@@ -517,7 +574,9 @@ const AddTraining = () => {
             type="submit"
             className="btn mt-5 w-full font-extrabold text-white btn-success"
           >
-            প্রশিক্ষণ যুক্ত করুন
+            {trainingId
+              ? "কৃষক প্রশিক্ষণ তথ্য আপডেট করুন"
+              : "প্রশিক্ষণ যুক্ত করুন"}
           </button>
         )}
       </form>

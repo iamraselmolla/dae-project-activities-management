@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import SingleTraining from "./SingleTraining";
-import { Link } from "react-router-dom";
 import { getAllTraining } from "../../../services/userServices";
-import toast from "react-hot-toast";
-import SingleDemo from "../DaeGroupMeeting/SingleDaeGroupMeetings";
 import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import AddModuleButton from "../../shared/AddModuleButton";
+import { makeSureOnline } from "../../shared/MessageConst";
 
 const Training = () => {
   const [allTrainings, setAllTrainings] = useState([]);
@@ -41,7 +39,7 @@ const Training = () => {
     if (navigator.onLine) {
       fetchAllTraining();
     } else {
-      toast.error("আপনার ইন্টারনেট সংযোগটি চালু করুন");
+      makeSureOnline();
     }
   }, [reload]);
 
@@ -49,9 +47,13 @@ const Training = () => {
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"সকল প্রশিক্ষণ"} />
       <div className="text-right font-extrabold">
-        <AddModuleButton btnText={'প্রশিক্ষণ যুক্ত করুন'} link={'addTraining'} key={'addTraining'} />
+        <AddModuleButton
+          btnText={"প্রশিক্ষণ যুক্ত করুন"}
+          link={"addTraining"}
+          key={"addTraining"}
+        />
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
         {!loading &&
           !error &&
           allTrainings?.length > 0 &&

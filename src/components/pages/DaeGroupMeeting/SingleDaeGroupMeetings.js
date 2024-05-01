@@ -46,7 +46,7 @@ const SingleDemo = ({ data }) => {
           <div className="flex items-center gap-2">
             <div>
               <CiCalendarDate />
-            </div>{" "}
+            </div>
             <p>
               {toBengaliNumber(time?.date?.startDate)}, {time?.day}
             </p>
@@ -63,7 +63,7 @@ const SingleDemo = ({ data }) => {
           <div className="flex items-center gap-2">
             <div>
               <BsFillCloudSunFill />
-            </div>{" "}
+            </div>
             <p>খরিপ-১/২০২৩-২৪</p>
           </div>
 

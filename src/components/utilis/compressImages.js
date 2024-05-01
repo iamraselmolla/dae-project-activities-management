@@ -1,7 +1,6 @@
 import ImageCompressor from 'image-compressor.js';
 const compressAndUploadImage = async (file) => {
     try {
-        console.log(file.size)
         // Create an instance of ImageCompressor
         const compressor = new ImageCompressor();
 
@@ -13,7 +12,6 @@ const compressAndUploadImage = async (file) => {
             mimeType: 'image/jpeg', // Output format
             convertSize: 200 * 1024, // Maximum output size in bytes (e.g., 200kb)
         });
-        console.log(compressedFile.size)
         // Now, upload the compressed image to Cloudinary or perform further actions
         // Example upload function to Cloudinary (this might vary based on your setup)
         return compressedFile

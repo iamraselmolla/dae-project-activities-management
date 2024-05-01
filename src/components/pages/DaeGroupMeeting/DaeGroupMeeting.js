@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SectionTitle from "../../shared/SectionTitle";
 import SingleDaeGroupMeetings from "./SingleDaeGroupMeetings";
 import { fetchAllGroups } from "../../../services/userServices";
 import Loader from "../../shared/Loader";
 import AddModuleButton from "../../shared/AddModuleButton";
-import toast from "react-hot-toast";
+import { makeSureOnline } from "../../shared/MessageConst";
+import { AuthContext } from "../../AuthContext/AuthProvider";
 
 const DaeGroupMeeting = () => {
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [allGroups, setAllGroups] = useState([]);
   const [error, setError] = useState(null);
@@ -37,9 +39,9 @@ const DaeGroupMeeting = () => {
     if (navigator.onLine) {
       fetchGroups();
     } else {
-      toast.error("আপনার ইন্টারনেট সংযোগ অথবা ওয়াইফাই চালু করুন");
+      makeSureOnline();
     }
-  }, []);
+  }, [user]);
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"সকল কৃষক গ্রুপ সভা"} />
@@ -51,8 +53,8 @@ const DaeGroupMeeting = () => {
         {!loading &&
           !error &&
           allGroups?.length > 0 &&
-          allGroups?.map((singleGroup) => (
-            <SingleDaeGroupMeetings key={singleGroup?._id} data={singleGroup} />
+          allGroups?.map((group) => (
+            <SingleDaeGroupMeetings key={group?._id} data={group} />
           ))}
 
         {!loading && allGroups?.length < 1 && fetchEnd && (

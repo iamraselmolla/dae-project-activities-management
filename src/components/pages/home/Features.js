@@ -36,7 +36,7 @@ const Features = () => {
         {allFeatures?.map((singleFeatures) => (
           <>
             <div
-              key={singleFeatures.des}
+              key={singleFeatures.title}
               className="shadow-xl drop-shadow-lg shadow-slate-400 rounded-4"
             >
               <img src={singleFeatures.img} className="w-100" alt="" />

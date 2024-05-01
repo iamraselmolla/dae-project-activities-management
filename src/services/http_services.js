@@ -2,9 +2,9 @@ import axios from 'axios';
 const token = localStorage.getItem('CurrentUserToken');
 const http_create = axios.create({
     baseURL: 'http://localhost:5000/api/v1',
-    // headers: {
-    //     Authorization: `Bearer ${token}`,
-    // },
+    headers: {
+        Authorization: `Bearer ${token}`,
+    },
 });
 
 http_create.interceptors.request.use(
@@ -29,8 +29,4 @@ const http = {
     put: http_create.put,
     delete: http_create.delete,
 };
-console.log(http)
-
-
 export default http;
-
