@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../AuthContext/AuthProvider";
+import React from "react";
 const MarkDemoCompleteModal = ({ data }) => {
 
 
@@ -8,7 +7,7 @@ const MarkDemoCompleteModal = ({ data }) => {
       <div className="modal-box">
         <h3 className="font-bold text-xl mb-2">
 
-          প্রদর্শনীটি চূড়ান্ত হিসেবে চিহ্নিত করুন.... {data?.projectInfo?.short} ...
+          {data?.projectInfo?.short}-এর {data?.demoTime?.fiscalYear} অর্থবছরের {data?.demoTime?.season} মৌসুমের প্রযুক্তিঃ {data?.demoInfo?.tech} এর ফসলঃ {data?.demoInfo?.crop}   প্রদর্শনীপ্রাপ্ত কৃষক {data?.farmersInfo?.name} এর প্রদর্শনীটি চূড়ান্ত হিসেবে চিহ্নিত করুন।
         </h3>
         <div className="modal-action flex justify-center pb-5">
           <form method="dialog">
