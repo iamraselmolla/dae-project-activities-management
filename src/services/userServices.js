@@ -23,6 +23,7 @@ const BASE_URL = {
   getUser: "/user/get-user",
   getAllUser: "/user/get-users",
   updateUser: "/user/update-user",
+  login: '/userget-login-user',
 
   // Groups
   createGroup: "/group/create-group",
@@ -122,6 +123,10 @@ export function getAllUser() {
 
 export function updateUser(id, values) {
   return http.put(BASE_URL.updateUser, { id, values });
+}
+
+export function getLoginUser(formData) {
+  return http.post(BASE_URL.login, formData)
 }
 
 // Group APIs
