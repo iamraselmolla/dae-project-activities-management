@@ -44,7 +44,7 @@ const AuthProvider = ({ children }) => {
     <>
       <AuthContext.Provider value={authInfo}>
         {children}
-        {modalData && <AddImageModal data={modalData} />}
+        <AddImageModal data={modalData} />
       </AuthContext.Provider>
     </>
   );

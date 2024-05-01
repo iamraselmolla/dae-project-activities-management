@@ -88,7 +88,7 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoCom
           <br />
         </td>
         <td className="text-center flex-col flex justify-center items-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
-          {demoImages?.length > 0 ? (
+          {demoImages?.length > 0 && (
             <ImageGallery
               showFullscreenButton={true}
               showPlayButton={false}
@@ -97,14 +97,15 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoCom
               autoPlay={true}
               items={imagesArr}
             />
-          ) : (
-            <span
-              onClick={() => handleModaOpen(data)}
-              className="text-2xl w-8 h-8 rounded cursor-pointer bg-green-600 flex justify-center items-center"
-            >
-              +
-            </span>
           )}
+
+          <span
+            onClick={() => handleModaOpen(data)}
+            className="text-2xl w-8 h-8 rounded cursor-pointer bg-green-600 flex justify-center items-center"
+          >
+            +
+          </span>
+
 
         </td>
         <td className="text-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2 whitespace-nowrap">
