@@ -10,29 +10,24 @@ const MarkDemoCompleteModal = ({ data }) => {
       area: ""
     },
     demoDate: {
-      bopon: "",
-      ropon: "",
-      korton: ""
+      bopon: '',
+      ropon: '',
+      korton: ''
     },
     comment: {
       farmersReview: "",
       overallComment: ""
     }
   };
-
   const validationSchema = Yup.object().shape({
     demoInfo: Yup.object().shape({
-      variety: Yup.string().required("ফসলের জাত প্রয়োজনীয়")
+      variety: Yup.string().required("ফসলের জাত প্রয়োজনীয়"),
+      area: Yup.string().required("প্রদর্শনীর আয়তন প্রয়োজনীয়"),
     }),
-    demoDate: Yup.object().shape({
-      bopon: Yup.date().required("বপণ তারিখ প্রয়োজনীয়"),
-      ropon: Yup.date().required("রোপণ তারিখ প্রয়োজনীয়"),
-      korton: Yup.date().required("কর্তন তারিখ প্রয়োজনীয়")
-    }),
-    comment: Yup.object().shape({
-      farmersReview: Yup.string(),
-      overallComment: Yup.string()
-    })
+    // comment: Yup.object().shape({
+    //   farmersReview: Yup.string().required("কৃষকের মন্তব্য প্রয়োজনীয়"),
+    //   overallComment: Yup.string().required("মন্তব্য প্রয়োজনীয়")
+    // }),
   });
 
   const formik = useFormik({
@@ -56,7 +51,7 @@ const MarkDemoCompleteModal = ({ data }) => {
         </h3>
         <div className="modal-action flex justify-center pb-5">
           <form onSubmit={formik.handleSubmit}>
-            <div className="grid mt-3 lg:grid-cols-2 gap-4 grid-cols-1">
+            <div className="grid mt-3 lg:grid-cols-3 gap-4 grid-cols-1">
               <div>
                 <label className="font-extrabold mb-1 block">ফসলের জাত</label>
                 <input
@@ -166,9 +161,7 @@ const MarkDemoCompleteModal = ({ data }) => {
                 </div>
               </div>
               <div className="mt-5">
-                <label className="font-extrabold mb-1 block">
-                  কৃষকের মন্তব্য
-                </label>
+                <label className="font-extrabold mb-1 block">কৃষকের মন্তব্য</label>
                 <textarea
                   name="comment.farmersReview"
                   id="comment.farmersReview"
@@ -178,7 +171,13 @@ const MarkDemoCompleteModal = ({ data }) => {
                   onChange={formik.handleChange}
                   value={formik.values.comment.farmersReview}
                 ></textarea>
+                {formik.touched.comment?.farmersReview && formik.errors.comment?.farmersReview && (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.comment.farmersReview}
+                  </div>
+                )}
               </div>
+
               <div className="mt-5">
                 <label className="font-extrabold mb-1 block">মন্তব্য</label>
                 <textarea
@@ -190,7 +189,13 @@ const MarkDemoCompleteModal = ({ data }) => {
                   onChange={formik.handleChange}
                   value={formik.values.comment.overallComment}
                 ></textarea>
+                {formik.touched.comment?.overallComment && formik.errors.comment?.overallComment && (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.comment.overallComment}
+                  </div>
+                )}
               </div>
+
             </div>
             <button type="submit" className="btn mt-3 text-white btn-success w-full">
               তথ্য ও ছবি যুক্ত করুন
