@@ -167,8 +167,8 @@ const AddProjects = () => {
               value={formik.values.name ? formik.values.name.details : ""}
             />
             {formik.touched.name &&
-            formik.touched.name.details &&
-            formik.errors.name?.details ? (
+              formik.touched.name.details &&
+              formik.errors.name?.details ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.name.details}
               </div>
@@ -189,8 +189,8 @@ const AddProjects = () => {
               value={formik.values.name ? formik.values.name.short : ""}
             />
             {formik.touched.name &&
-            formik.touched.name.short &&
-            formik.errors.name?.short ? (
+              formik.touched.name.short &&
+              formik.errors.name?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.name.short}
               </div>
