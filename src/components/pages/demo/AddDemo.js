@@ -28,8 +28,8 @@ const AddDemo = () => {
   const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [fethedImgLink, setimgLink] = useState();
-  const [imageRawLink, setImageRawLink] = useState([]);
+  // const [fethedImgLink, setimgLink] = useState();
+  // const [imageRawLink, setImageRawLink] = useState([]);
   const [datePickers, setDatePickers] = useState({
     bopon: {
       startDate: null,
@@ -281,7 +281,7 @@ const AddDemo = () => {
             setSelectedProject(foundProject);
           }
         }
-        setimgLink(result?.data?.data?.demoImages);
+        // setimgLink(result?.data?.data?.demoImages);
       } catch (err) {
         toast.error(
           "প্রদর্শনীর তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিতে অবহিত করুন।"
@@ -296,15 +296,15 @@ const AddDemo = () => {
     }
   }, [demoId, allProject]);
 
-  useEffect(() => {
-    if (fethedImgLink?.length > 0) {
-      for (const image of fethedImgLink) {
-        image.image?.map((single) =>
-          setImageRawLink([...imageRawLink, single])
-        );
-      }
-    }
-  }, [demoId, fethedImgLink]);
+  // useEffect(() => {
+  //   if (fethedImgLink?.length > 0) {
+  //     for (const image of fethedImgLink) {
+  //       image.image?.map((single) =>
+  //         setImageRawLink([...imageRawLink, single])
+  //       );
+  //     }
+  //   }
+  // }, [demoId, fethedImgLink]);
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -936,7 +936,7 @@ const AddDemo = () => {
               ></textarea>
             </div>
           </div>
-          {imageRawLink?.length > 0 && (
+          {/* {imageRawLink?.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-3 justify-center">
               {imageRawLink?.map((image, index) => (
                 <img
@@ -948,7 +948,7 @@ const AddDemo = () => {
                 />
               ))}
             </div>
-          )}
+          )} */}
           {!loading && (
             <button
               type="submit"
