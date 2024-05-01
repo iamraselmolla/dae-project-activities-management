@@ -9,8 +9,9 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
 import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 
-const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
+const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoComplete }) => {
   const { setModalData } = useContext(AuthContext);
+
   const {
     _id,
     projectInfo,
@@ -26,21 +27,23 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
     demoImages,
     username,
   } = data;
+
   const imagesArr = [];
   useEffect(() => {
     if (demoImages?.length > 0) {
       for (const image of demoImages) {
-        image.image?.map(single => imagesArr.push({ original: single, thumbnail: single }))
-
+        image.image?.map((single) =>
+          imagesArr.push({ original: single, thumbnail: single })
+        );
       }
-
-
     }
   }, [demoImages, username]);
+
   const handleModaOpen = (dataValues) => {
     document.getElementById("my_modal_1")?.showModal();
     setModalData(dataValues);
   };
+
 
   return (
     <>
@@ -120,9 +123,7 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
             </Link>
           </div>
           <div className="cursor-pointer">
-            <AiOutlineFileDone onClick={() =>
-              document.getElementById("my_modal_33").showModal()
-            } size={35} color="green" />
+            <AiOutlineFileDone onClick={() => handleDemoComplete(data)} size={35} color="green" />
           </div>
           <div className="cursor-pointer">
             <MdOutlineDelete
@@ -141,8 +142,9 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting }) => {
           </div>
 
         </td>
-        <MarkDemoCompleteModal />
+
       </tr>
+
     </>
   );
 };

@@ -8,7 +8,7 @@ const MarkDemoCompleteModal = ({ data }) => {
       <div className="modal-box">
         <h3 className="font-bold text-xl mb-2">
 
-          প্রদর্শনীটি চূড়ান্ত হিসেবে চিহ্নিত করুন....
+          প্রদর্শনীটি চূড়ান্ত হিসেবে চিহ্নিত করুন.... {data?.projectInfo?.short} ...
         </h3>
         <div className="modal-action flex justify-center pb-5">
           <form method="dialog">
