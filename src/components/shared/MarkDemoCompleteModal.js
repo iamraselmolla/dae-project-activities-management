@@ -1,214 +1,148 @@
-import React from "react";
-import { useFormik } from "formik";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import Datepicker from "react-tailwindcss-datepicker";
 
 const MarkDemoCompleteModal = ({ data }) => {
-  const initialValues = {
-    demoInfo: {
-      variety: "",
-      area: ""
-    },
-    demoDate: {
-      bopon: '',
-      ropon: '',
-      korton: ''
-    },
-    comment: {
-      farmersReview: "",
-      overallComment: ""
-    }
+  const [demoInfo, setDemoInfo] = useState({
+    variety: "",
+    area: "",
+  });
+
+  const [demoDate, setDemoDate] = useState({
+    bopon: "",
+    ropon: "",
+    korton: "",
+  });
+
+  const [comment, setComment] = useState({
+    farmersReview: "",
+    overallComment: "",
+  });
+
+  const handleDemoInfoChange = (e) => {
+    const { name, value } = e.target;
+    setDemoInfo({ ...demoInfo, [name]: value });
   };
-  const validationSchema = Yup.object().shape({
-    demoInfo: Yup.object().shape({
-      variety: Yup.string().required("ফসলের জাত প্রয়োজনীয়"),
-      area: Yup.string().required("প্রদর্শনীর আয়তন প্রয়োজনীয়"),
-    }),
-    // comment: Yup.object().shape({
-    //   farmersReview: Yup.string().required("কৃষকের মন্তব্য প্রয়োজনীয়"),
-    //   overallComment: Yup.string().required("মন্তব্য প্রয়োজনীয়")
-    // }),
-  });
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit: (values) => {
-      // Handle form submission
-      console.log("Form submitted with values:", values);
-    }
-  });
+  const handleDemoDateChange = (name, value) => {
+    setDemoDate({ ...demoDate, [name]: value });
+  };
 
-  const handleDatePickerValue = (name, value) => {
-    formik.setFieldValue(`demoDate.${name}`, value);
+  const handleCommentChange = (e) => {
+    const { name, value } = e.target;
+    setComment({ ...comment, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission here
+    const formData = { demoInfo, demoDate, comment };
+    console.log("Form submitted with values:", formData);
+    // Add further logic here, like submitting data to server
   };
 
   return (
     <dialog id="my_modal_33" className="modal text-center">
-      <div className="modal-box w-11/12 max-w-5xl">
+      <div className="modal-box w-6/12 max-w-5xl">
         <h3 className="font-bold text-xl mb-2">
-          {data?.projectInfo?.short}-এর {data?.demoTime?.fiscalYear} অর্থবছরের {data?.demoTime?.season} মৌসুমের প্রযুক্তিঃ {data?.demoInfo?.tech} এর ফসলঃ {data?.demoInfo?.crop} প্রদর্শনীপ্রাপ্ত কৃষক {data?.farmersInfo?.name} এর প্রদর্শনীটি চূড়ান্ত হিসেবে চিহ্নিত করুন।
+          {data?.projectInfo?.short}-এর {data?.demoTime?.fiscalYear} অর্থবছরের{" "}
+          {data?.demoTime?.season} মৌসুমের প্রযুক্তিঃ {data?.demoInfo?.tech} এর
+          ফসলঃ {data?.demoInfo?.crop} প্রদর্শনীপ্রাপ্ত কৃষক{" "}
+          {data?.farmersInfo?.name} এর প্রদর্শনীটি চূড়ান্ত হিসেবে চিহ্নিত করুন।
         </h3>
-        <div className="modal-action flex justify-center pb-5">
-          <form onSubmit={formik.handleSubmit}>
-            <div className="grid mt-3 lg:grid-cols-3 gap-4 grid-cols-1">
-              <div>
-                <label className="font-extrabold mb-1 block">ফসলের জাত</label>
-                <input
-                  type="text"
-                  className="input input-bordered w-full"
-                  id="demoInfo.variety"
-                  name="demoInfo.variety"
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  placeholder="ফসলের জাত"
-                  value={formik.values.demoInfo?.variety}
-                />
-                {formik.touched.demoInfo &&
-                  formik.touched.demoInfo.variety &&
-                  formik.errors.demoInfo?.variety && (
-                    <div className="text-red-600 font-bold">
-                      {formik.errors.demoInfo.variety}
-                    </div>
-                  )}
-              </div>
-
-              <div>
-                <label className="font-extrabold mb-1 block">
-                  প্রদর্শনীর আয়তন
-                </label>
-                <input
-                  type="number"
-                  className="input input-bordered w-full"
-                  id="demoInfo.area"
-                  name="demoInfo.area"
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  placeholder="প্রদর্শনীর আয়তন"
-                  value={formik.values.demoInfo?.area}
-                />
-                {formik.touched.demoInfo &&
-                  formik.touched.demoInfo.area &&
-                  formik.errors.demoInfo?.area && (
-                    <div className="text-red-600 font-bold">
-                      {formik.errors.demoInfo.area}
-                    </div>
-                  )}
-              </div>
-              <div>
-                <label className="font-extrabold mb-1 block">বপণ তারিখ</label>
-                <div className="input input-bordered w-full">
-                  <Datepicker
-                    asSingle={true}
-                    id="demoDate.bopon"
-                    onChange={(selectedDate) =>
-                      handleDatePickerValue("bopon", selectedDate)
-                    }
-                    name="demoDate.bopon"
-                    value={formik.values.demoDate.bopon}
-                    showShortcuts={true}
-                  />
-                  {formik.touched.demoDate &&
-                    formik.touched.demoDate.bopon &&
-                    formik.errors.demoDate?.bopon && (
-                      <div className="text-red-600 font-bold">
-                        {formik.errors.demoDate.bopon}
-                      </div>
-                    )}
-                </div>
-              </div>
-              <div>
-                <label className="font-extrabold mb-1 block">রোপণ তারিখ</label>
-                <div className="input input-bordered w-full">
-                  <Datepicker
-                    asSingle={true}
-                    id="demoDate.ropon"
-                    onChange={(selectedDate) =>
-                      handleDatePickerValue("ropon", selectedDate)
-                    }
-                    name="demoDate.ropon"
-                    value={formik.values.demoDate.ropon}
-                    showShortcuts={true}
-                  />
-                  {formik.touched.demoDate &&
-                    formik.touched.demoDate.ropon &&
-                    formik.errors.demoDate?.ropon && (
-                      <div className="text-red-600 font-bold">
-                        {formik.errors.demoDate.ropon}
-                      </div>
-                    )}
-                </div>
-              </div>
-              <div>
-                <label className="font-extrabold mb-1 block">কর্তন তারিখ</label>
-                <div className="input input-bordered w-full">
-                  <Datepicker
-                    id="demoDate.korton"
-                    onChange={(selectedDate) =>
-                      handleDatePickerValue("korton", selectedDate)
-                    }
-                    name="demoDate.korton"
-                    value={formik.values.demoDate.korton}
-                    showShortcuts={true}
-                  />
-                  {formik.touched.demoDate &&
-                    formik.touched.demoDate.korton &&
-                    formik.errors.demoDate?.korton && (
-                      <div className="text-red-600 font-bold">
-                        {formik.errors.demoDate.korton}
-                      </div>
-                    )}
-                </div>
-              </div>
-              <div className="mt-5">
-                <label className="font-extrabold mb-1 block">কৃষকের মন্তব্য</label>
-                <textarea
-                  name="comment.farmersReview"
-                  id="comment.farmersReview"
-                  className="input h-20 input-bordered w-full"
-                  rows={10}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={formik.values.comment.farmersReview}
-                ></textarea>
-                {formik.touched.comment?.farmersReview && formik.errors.comment?.farmersReview && (
-                  <div className="text-red-600 font-bold">
-                    {formik.errors.comment.farmersReview}
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-5">
-                <label className="font-extrabold mb-1 block">মন্তব্য</label>
-                <textarea
-                  name="comment.overallComment"
-                  id="comment.overallComment"
-                  className="input h-20 input-bordered w-full"
-                  rows={10}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={formik.values.comment.overallComment}
-                ></textarea>
-                {formik.touched.comment?.overallComment && formik.errors.comment?.overallComment && (
-                  <div className="text-red-600 font-bold">
-                    {formik.errors.comment.overallComment}
-                  </div>
-                )}
-              </div>
-
+        <form onSubmit={handleSubmit}>
+          <div className="grid mt-3 lg:grid-cols-3 gap-4 grid-cols-1">
+            <div>
+              <label className="font-extrabold mb-1 block">ফসলের জাত</label>
+              <input
+                type="text"
+                className="input input-bordered w-full"
+                name="variety"
+                onChange={handleDemoInfoChange}
+                placeholder="ফসলের জাত"
+              />
             </div>
-            <button type="submit" className="btn mt-3 text-white btn-success w-full">
-              তথ্য ও ছবি যুক্ত করুন
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            >
-              ✕
-            </button>
-          </form>
-        </div>
+
+            <div>
+              <label className="font-extrabold mb-1 block">
+                প্রদর্শনীর আয়তন
+              </label>
+              <input
+                type="number"
+                className="input input-bordered w-full"
+                name="area"
+                onChange={handleDemoInfoChange}
+                placeholder="প্রদর্শনীর আয়তন"
+              />
+            </div>
+            <div>
+              <label className="font-extrabold mb-1 block">বপণ তারিখ</label>
+              <div className="input input-bordered w-full">
+                <Datepicker
+                  asSingle={true}
+                  onChange={(selectedDate) =>
+                    handleDemoDateChange("bopon", selectedDate)
+                  }
+                  showShortcuts={true}
+                />
+              </div>
+            </div>
+            <div>
+              <label className="font-extrabold mb-1 block">রোপণ তারিখ</label>
+              <div className="input input-bordered w-full">
+                <Datepicker
+                  asSingle={true}
+                  onChange={(selectedDate) =>
+                    handleDemoDateChange("ropon", selectedDate)
+                  }
+                  showShortcuts={true}
+                />
+              </div>
+            </div>
+            <div>
+              <label className="font-extrabold mb-1 block">কর্তন তারিখ</label>
+              <div className="input input-bordered w-full">
+                <Datepicker
+                  onChange={(selectedDate) =>
+                    handleDemoDateChange("korton", selectedDate)
+                  }
+                  showShortcuts={true}
+                />
+              </div>
+            </div>
+            <div className="mt-5">
+              <label className="font-extrabold mb-1 block">
+                কৃষকের মন্তব্য
+              </label>
+              <textarea
+                name="farmersReview"
+                className="input h-20 input-bordered w-full"
+                rows={10}
+                onChange={handleCommentChange}
+              ></textarea>
+            </div>
+
+            <div className="mt-5">
+              <label className="font-extrabold mb-1 block">মন্তব্য</label>
+              <textarea
+                name="overallComment"
+                className="input h-20 input-bordered w-full"
+                rows={10}
+                onChange={handleCommentChange}
+              ></textarea>
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="btn mt-3 text-white btn-success w-full"
+          >
+            তথ্য ও ছবি যুক্ত করুন
+          </button>
+        </form>
       </div>
+      <form method="dialog" className="modal-backdrop">
+        <button>close</button>
+      </form>
     </dialog>
   );
 };

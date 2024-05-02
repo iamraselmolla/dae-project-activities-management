@@ -9,7 +9,12 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
 import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 
-const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoComplete }) => {
+const UserSingleDemoTableRow = ({
+  data,
+  index,
+  handleDemoDeleting,
+  handleDemoComplete,
+}) => {
   const { setModalData } = useContext(AuthContext);
 
   const {
@@ -43,7 +48,6 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoCom
     document.getElementById("my_modal_1")?.showModal();
     setModalData(dataValues);
   };
-
 
   return (
     <>
@@ -105,8 +109,6 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoCom
           >
             +
           </span>
-
-
         </td>
         <td className="text-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2 whitespace-nowrap">
           {comment?.farmersReview && `কৃষকঃ` + comment?.farmersReview} <br />
@@ -124,7 +126,11 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoCom
             </Link>
           </div>
           <div className="cursor-pointer">
-            <AiOutlineFileDone onClick={() => handleDemoComplete(data)} size={35} color="green" />
+            <AiOutlineFileDone
+              onClick={() => handleDemoComplete(data)}
+              size={35}
+              color="green"
+            />
           </div>
           <div className="cursor-pointer">
             <MdOutlineDelete
@@ -141,11 +147,8 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoCom
               color="red"
             />
           </div>
-
         </td>
-
       </tr>
-
     </>
   );
 };

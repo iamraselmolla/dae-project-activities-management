@@ -17,7 +17,6 @@ const AddImageModal = ({ data }) => {
   const [loadingMessage, setLoadingMessage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     setSelectedFiles([...selectedFiles, ...files]);
@@ -42,7 +41,6 @@ const AddImageModal = ({ data }) => {
 
   const handleFormData = async () => {
     try {
-
       if (!previewURLs?.length > 0) {
         return toast.error("ছবি যুক্তকরণে সমস্যা হয়েছে।");
       }
@@ -88,7 +86,6 @@ const AddImageModal = ({ data }) => {
               প্রদর্শনীর বর্তমান ছবি ও অবস্থার বর্ণনা যুক্ত করুন
             </h3>
             <Datepicker
-
               asSingle={true}
               id="demoDate"
               name="demoDate"
