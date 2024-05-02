@@ -2,28 +2,36 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Datepicker from "react-tailwindcss-datepicker";
+import toast from "react-hot-toast";
 
 const MarkDemoCompleteModal = ({ data }) => {
   const formik = useFormik({
     initialValues: {
       variety: data?.demoInfo?.variety || "",
       area: data?.demoInfo?.area || "",
-      bopon: data?.demoDate?.bopon || "",
-      ropon: data?.demoDate?.ropon || "",
-      korton: data?.demoDate?.korton?.startDate || "",
+      korton: {
+        startDate: data?.demoDate?.korton?.startDate || "",
+        endDate: data?.demoDate?.korton?.endDate || "",
+      },
       farmersReview: data?.comment?.farmersReview || "",
       overallComment: data?.comment?.overallComment || "",
     },
     validationSchema: Yup.object({
       variety: Yup.string().required("ফসলের জাত প্রয়োজন"),
       area: Yup.number().required("প্রদর্শনীর আয়তন প্রয়োজন"),
-      bopon: Yup.date().required("বপণ তারিখ প্রয়োজন"),
-      ropon: Yup.date().required("রোপণ তারিখ প্রয়োজন"),
-      korton: Yup.date().required("কর্তন তারিখ প্রয়োজন"),
+
+      korton: Yup.object().shape({
+        startDate: Yup.date().required("কর্তন শুরুর তারিখ দিতে হবে।"),
+        endDate: Yup.date().required("কর্তন শেষের তারিখ দিতে হবে।"),
+      }),
       farmersReview: Yup.string().required("কৃষকের মন্তব্য প্রয়োজন"),
       overallComment: Yup.string().required("মন্তব্য প্রয়োজন"),
     }),
     onSubmit: (values) => {
+      if (!data?.demoDate?.bopon || !data?.demoDate?.ropon) {
+        toast.error("প্রদর্শনীকে চুড়ান্ত হিসেবে গণ্য করার জন্য অবশ্যই রোপন/বপন তারিখ দিতে হবে।");
+        return;
+      }
       console.log("Form submitted with values:", values);
       // You can add further logic here, like submitting data to the server
     },
@@ -70,46 +78,18 @@ const MarkDemoCompleteModal = ({ data }) => {
                 <div className="text-red-500">{formik.errors.area}</div>
               ) : null}
             </div>
-            <div>
-              <label className="font-extrabold mb-1 block">বপণ তারিখ</label>
-              <div className="input input-bordered w-full">
-                <Datepicker
-                  asSingle={true}
-                  onChange={(selectedDate) =>
-                    formik.setFieldValue("bopon", selectedDate)
-                  }
-                  value={formik.values.bopon}
-                  showShortcuts={true}
-                />
-              </div>
-              {formik.touched.bopon && formik.errors.bopon ? (
-                <div className="text-red-500">{formik.errors.bopon}</div>
-              ) : null}
-            </div>
-            <div>
-              <label className="font-extrabold mb-1 block">রোপণ তারিখ</label>
-              <div className="input input-bordered w-full">
-                <Datepicker
-                  asSingle={true}
-                  onChange={(selectedDate) =>
-                    formik.setFieldValue("ropon", selectedDate)
-                  }
-                  value={formik.values.ropon}
-                  showShortcuts={true}
-                />
-              </div>
-              {formik.touched.ropon && formik.errors.ropon ? (
-                <div className="text-red-500">{formik.errors.ropon}</div>
-              ) : null}
-            </div>
+
             <div>
               <label className="font-extrabold mb-1 block">কর্তন তারিখ</label>
               <div className="input input-bordered w-full">
                 <Datepicker
                   onChange={(selectedDate) =>
-                    formik.setFieldValue("korton", selectedDate)
+                    formik.setFieldValue("korton", {
+                      startDate: selectedDate.startDate,
+                      endDate: selectedDate.endDate,
+                    })
                   }
-                  value={formik.values.korton}
+                  value={formik.values?.korton}
                   showShortcuts={true}
                 />
               </div>
@@ -117,7 +97,7 @@ const MarkDemoCompleteModal = ({ data }) => {
                 <div className="text-red-500">{formik.errors.korton}</div>
               ) : null}
             </div>
-            <div className="mt-5">
+            <div>
               <label className="font-extrabold mb-1 block">
                 কৃষকের মন্তব্য
               </label>
@@ -134,7 +114,7 @@ const MarkDemoCompleteModal = ({ data }) => {
                 </div>
               ) : null}
             </div>
-            <div className="mt-5">
+            <div>
               <label className="font-extrabold mb-1 block">মন্তব্য</label>
               <textarea
                 name="overallComment"
