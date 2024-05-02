@@ -16,7 +16,7 @@ const UserDemos = () => {
   const [loading, setLoading] = useState(false);
   const [fetchEnd, setFetchEnd] = useState(false);
   const [reload, setReload] = useState(false);
-  const [demodata, setDemoData] = useState(null)
+  const [demodata, setDemoData] = useState(null);
   useEffect(() => {
     const fetchUserDemos = async () => {
       setLoading(true);
@@ -77,9 +77,9 @@ const UserDemos = () => {
     }
   };
   const handleDemoComplete = (modalData) => {
-    setDemoData(modalData)
-    document.getElementById("my_modal_33")?.showModal()
-  }
+    setDemoData(modalData);
+    document.getElementById("my_modal_33")?.showModal();
+  };
   return (
     <>
       <div className="flex flex-col">
@@ -204,7 +204,7 @@ const UserDemos = () => {
           </div>
         </div>
       </div>
-      <MarkDemoCompleteModal data={demodata} />
+      {demodata && <MarkDemoCompleteModal data={demodata} />}
     </>
   );
 };
