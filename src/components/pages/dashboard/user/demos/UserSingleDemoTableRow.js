@@ -14,6 +14,7 @@ const UserSingleDemoTableRow = ({
   index,
   handleDemoDeleting,
   handleDemoComplete,
+  setReload, reload
 }) => {
   const { setModalData } = useContext(AuthContext);
 
@@ -119,19 +120,23 @@ const UserSingleDemoTableRow = ({
           {toBengaliNumber(SAAO?.mobile)}
         </td>
 
-        <td className="p-3 flex gap-1 text-center whitespace-nowrap text-sm font-medium">
-          <div className="cursor-pointer">
-            <Link to={`/addDemo?id=${_id}`}>
-              <CiEdit size={35} color="black" />
-            </Link>
-          </div>
-          <div className="cursor-pointer">
-            <AiOutlineFileDone
-              onClick={() => handleDemoComplete(data)}
-              size={35}
-              color="green"
-            />
-          </div>
+        <td className="p-3 flex justify-center items-center  gap-1 text-center whitespace-nowrap text-sm font-medium">
+          {!data?.completed &&
+            <>
+              <div className="cursor-pointer">
+                <Link to={`/addDemo?id=${_id}`}>
+                  <CiEdit size={35} color="black" />
+                </Link>
+              </div>
+              <div className="cursor-pointer">
+                <AiOutlineFileDone
+                  onClick={() => handleDemoComplete(data)}
+                  size={35}
+                  color="green"
+                />
+              </div>
+            </>
+          }
           <div className="cursor-pointer">
             <MdOutlineDelete
               onClick={() =>

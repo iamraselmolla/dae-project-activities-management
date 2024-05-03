@@ -79,6 +79,7 @@ const UserDemos = () => {
   const handleDemoComplete = (modalData) => {
     setDemoData(modalData);
     document.getElementById("my_modal_33")?.showModal();
+    
   };
   return (
     <>
@@ -182,6 +183,8 @@ const UserDemos = () => {
                           index={index}
                           key={single?._id}
                           handleDemoComplete={handleDemoComplete}
+                          setReload={setReload}
+                          reload={reload}
                         />
                       ))}
                   </tbody>

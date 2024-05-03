@@ -18,6 +18,7 @@ const BASE_URL = {
   findDemo: "/demo/find-demo",
   addDemoImage: "/demo/add-image-to-the-demo",
   editDemos: "/demo/edit-demo",
+  demoComplete: "/demo/complete-demo",
 
   // Users
   getUser: "/user/get-user",
@@ -110,6 +111,10 @@ export function addImageAndDetails(id, imageData) {
 
 export function editDemobyId(id, values) {
   return http.put(BASE_URL.editDemos, { id, values });
+}
+
+export function markDemoComplete(id, values) {
+  return http.put(BASE_URL.demoComplete, { id, data: values });
 }
 
 // User APIs

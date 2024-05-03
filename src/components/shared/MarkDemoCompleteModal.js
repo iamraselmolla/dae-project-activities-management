@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import toast from "react-hot-toast";
+import { markDemoComplete } from "../../services/userServices";
 
 const MarkDemoCompleteModal = ({ data }) => {
   const formik = useFormik({
@@ -34,7 +35,7 @@ const MarkDemoCompleteModal = ({ data }) => {
         totalProduction: Yup.number().required("প্রদর্শনীতে উৎপাদন প্রয়োজন"),
       }),
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       if (!data?.demoDate?.bopon || !data?.demoDate?.ropon) {
         toast.error("প্রদর্শনীকে চুড়ান্ত হিসেবে গণ্য করার জন্য অবশ্যই রোপন/বপন তারিখ দিতে হবে।");
         return;
@@ -42,6 +43,20 @@ const MarkDemoCompleteModal = ({ data }) => {
       if (!values.korton?.startDate || !values?.korton?.endDate) {
         toast.error("আপনাকে অবশ্যই কর্তন শুরু এবং শেষ তারিখ দিতে হবে।");
         return;
+      }
+      if (!data?._id) {
+        toast.error("No Demo ID found");
+        return;
+      }
+
+      try {
+        const result = await markDemoComplete(data?._id, values);
+        if (result?.status === 200) {
+          toast.success("প্রদর্শনীটি চুড়ান্ত হিসেবে চিহ্নিত করা হয়েছে।")
+        }
+      }
+      catch (err) {
+        toast.error("প্রদর্শনী চুড়ান্ত হিসেবে চিহ্নিত করতে সমস্যা হচ্ছে।")
       }
 
       console.log("Form submitted with values:", values);
