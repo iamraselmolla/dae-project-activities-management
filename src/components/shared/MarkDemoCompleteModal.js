@@ -39,6 +39,9 @@ const MarkDemoCompleteModal = ({ data }) => {
         toast.error("প্রদর্শনীকে চুড়ান্ত হিসেবে গণ্য করার জন্য অবশ্যই রোপন/বপন তারিখ দিতে হবে।");
         return;
       }
+      if (!values.korton?.startDate || !values?.korton?.endDate) {
+        toast.error()
+      }
       console.log("Form submitted with values:", values);
       // You can add further logic here, like submitting data to the server
     },
@@ -100,10 +103,13 @@ const MarkDemoCompleteModal = ({ data }) => {
                   showShortcuts={true}
                 />
               </div>
-              {formik.touched.korton && formik.errors.korton ? (
-                <div className="text-red-500">{formik.errors.korton}</div>
+              {formik.touched.korton && (formik.errors.korton?.startDate || formik.errors.korton?.endDate) ? (
+                <div className="text-red-500">
+                  {formik.errors.korton?.startDate || formik.errors.korton?.endDate}
+                </div>
               ) : null}
             </div>
+
             <div>
               <label className="font-extrabold mb-1 block">ফলন (হেক্টর)</label>
               <input
