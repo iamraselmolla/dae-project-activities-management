@@ -9,6 +9,7 @@ import {
 import UserSingleDemoTableRow from "./UserSingleDemoTableRow";
 import Loader from "../../../../shared/Loader";
 import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
+import SectionTitle from "../../../../shared/SectionTitle";
 
 const UserDemos = () => {
   const { user } = useContext(AuthContext);
@@ -21,7 +22,6 @@ const UserDemos = () => {
     const fetchUserDemos = async () => {
       setLoading(true);
       try {
-        setLoading(true);
         const result = await getUserDemos();
         if (result?.status === 200) {
           setUserDemos(result?.data?.data);
@@ -76,137 +76,261 @@ const UserDemos = () => {
       makeSureOnline();
     }
   };
+
   const handleDemoComplete = (modalData) => {
     setDemoData(modalData);
     document.getElementById("my_modal_33")?.showModal();
-    
   };
+
+  const completedDemos = userDemos.filter(demo => demo.completed);
+  const incompleteDemos = userDemos.filter(demo => !demo.completed);
   return (
     <>
       <div className="flex flex-col">
         <div className="mt-10 overflow-x-auto">
           <div className="p-1.5 min-w-full inline-block align-middle">
-            <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-              {!loading && fetchEnd && userDemos?.length > 0 && (
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead>
-                    <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        ক্র: নং:
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        প্রকল্প
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        প্রদর্শনী সম্পর্কিত
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        অর্থবছর ও মৌসুম
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        কৃষকের নাম ও পিতার নাম
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        ঠিকানা
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 whitespace-nowrap font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        মোবাইল, এনআইডি,
-                        <br /> কৃষি কার্ড, বিআইডি
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        বপন, রোপন ও কর্তন
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        উৎপাদন সংক্রান্ত
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        ভিজিট সংক্রান্ত
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        মন্তব্য
-                      </th>
-                      <th
-                        scope="col"
-                        className=" py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        SAAO-এর নাম ও মোবাইল নং
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        একশন
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {!loading &&
-                      fetchEnd &&
-                      userDemos?.length > 0 &&
-                      userDemos?.map((single, index) => (
-                        <UserSingleDemoTableRow
-                          handleDemoDeleting={handleDemoDeleting}
-                          data={single}
-                          index={index}
-                          key={single?._id}
-                          handleDemoComplete={handleDemoComplete}
-                          setReload={setReload}
-                          reload={reload}
-                        />
-                      ))}
-                  </tbody>
-                </table>
-              )}
-              {!loading && fetchEnd && userDemos?.length < 1 && (
-                <h2 className="text-red-600 text-center text-2xl  font-extrabold">
-                  কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!!
-                </h2>
-              )}
-              {loading && !fetchEnd && (
-                <div className="fixed daeLoader">
-                  <Loader />
-                  <h2 className="text-green-600 mt-3 text-4xl">
-                    তথ্য আনা হচ্ছে। দয়া করে অপেক্ষা করুন
+            <div>
+              <SectionTitle title={'চলমান প্রদর্শনী'} />
+              <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
+                {!loading && fetchEnd && incompleteDemos?.length > 0 && (
+                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead>
+                      <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          ক্র: নং:
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          প্রকল্প
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          প্রদর্শনী সম্পর্কিত
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          অর্থবছর ও মৌসুম
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          কৃষকের নাম ও পিতার নাম
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          ঠিকানা
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 whitespace-nowrap font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          মোবাইল, এনআইডি,
+                          <br /> কৃষি কার্ড, বিআইডি
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          বপন, রোপন ও কর্তন
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          উৎপাদন সংক্রান্ত
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          ভিজিট সংক্রান্ত
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          মন্তব্য
+                        </th>
+                        <th
+                          scope="col"
+                          className=" py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          SAAO-এর নাম ও মোবাইল নং
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          একশন
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                      {!loading &&
+                        fetchEnd &&
+                        incompleteDemos?.length > 0 &&
+                        incompleteDemos?.map((single, index) => (
+                          <UserSingleDemoTableRow
+                            handleDemoDeleting={handleDemoDeleting}
+                            data={single}
+                            index={index}
+                            key={single?._id}
+                            handleDemoComplete={handleDemoComplete}
+                            setReload={setReload}
+                            reload={reload}
+                          />
+                        ))}
+                    </tbody>
+                  </table>
+                )}
+                {!loading && fetchEnd && incompleteDemos?.length < 1 && (
+                  <h2 className="text-red-600 text-center text-2xl  font-extrabold">
+                    কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!!
                   </h2>
-                </div>
-              )}
+                )}
+
+
+              </div>
+            </div>
+
+            <div className="mt-20">
+              <SectionTitle title={'চূড়ান্ত প্রদর্শনী'} />
+              <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
+                {!loading && fetchEnd && incompleteDemos?.length > 0 && (
+                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead>
+                      <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          ক্র: নং:
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          প্রকল্প
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          প্রদর্শনী সম্পর্কিত
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          অর্থবছর ও মৌসুম
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          কৃষকের নাম ও পিতার নাম
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          ঠিকানা
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 whitespace-nowrap font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          মোবাইল, এনআইডি,
+                          <br /> কৃষি কার্ড, বিআইডি
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          বপন, রোপন ও কর্তন
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          উৎপাদন সংক্রান্ত
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          ভিজিট সংক্রান্ত
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          মন্তব্য
+                        </th>
+                        <th
+                          scope="col"
+                          className=" py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          SAAO-এর নাম ও মোবাইল নং
+                        </th>
+                        <th
+                          scope="col"
+                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                        >
+                          একশন
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                      {!loading &&
+                        fetchEnd &&
+                        completedDemos?.length > 0 &&
+                        completedDemos?.map((single, index) => (
+                          <UserSingleDemoTableRow
+                            handleDemoDeleting={handleDemoDeleting}
+                            data={single}
+                            index={index}
+                            key={single?._id}
+                            handleDemoComplete={handleDemoComplete}
+                            setReload={setReload}
+                            reload={reload}
+                          />
+                        ))}
+                    </tbody>
+                  </table>
+                )}
+                {!loading && fetchEnd && completedDemos?.length < 1 && (
+                  <h2 className="text-red-600 text-center text-2xl  font-extrabold">
+                    কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!!
+                  </h2>
+                )}
+
+
+              </div>
             </div>
           </div>
         </div>
       </div>
+      {loading && !fetchEnd && (
+        <div className="fixed daeLoader">
+          <Loader />
+          <h2 className="text-green-600 mt-3 text-4xl">
+            তথ্য আনা হচ্ছে। দয়া করে অপেক্ষা করুন
+          </h2>
+        </div>
+      )}
       {demodata && <MarkDemoCompleteModal data={demodata} />}
     </>
   );
