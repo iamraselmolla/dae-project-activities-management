@@ -40,8 +40,10 @@ const MarkDemoCompleteModal = ({ data }) => {
         return;
       }
       if (!values.korton?.startDate || !values?.korton?.endDate) {
-        toast.error()
+        toast.error("আপনাকে অবশ্যই কর্তন শুরু এবং শেষ তারিখ দিতে হবে।");
+        return;
       }
+
       console.log("Form submitted with values:", values);
       // You can add further logic here, like submitting data to the server
     },
@@ -67,6 +69,7 @@ const MarkDemoCompleteModal = ({ data }) => {
                 onChange={formik.handleChange}
                 value={formik.values.variety}
                 placeholder="ফসলের জাত"
+                disabled={formik.values.variety ? true : false}
               />
               {formik.touched.variety && formik.errors.variety ? (
                 <div className="text-red-500">{formik.errors.variety}</div>
@@ -83,6 +86,7 @@ const MarkDemoCompleteModal = ({ data }) => {
                 onChange={formik.handleChange}
                 value={formik.values.area}
                 placeholder="প্রদর্শনীর আয়তন"
+                disabled={formik.values.area ? true : false}
               />
               {formik.touched.area && formik.errors.area ? (
                 <div className="text-red-500">{formik.errors.area}</div>
@@ -101,6 +105,7 @@ const MarkDemoCompleteModal = ({ data }) => {
                   }
                   value={formik.values?.korton}
                   showShortcuts={true}
+                  disabled={formik.values.korton?.startDate ? true : false}
                 />
               </div>
               {formik.touched.korton && (formik.errors.korton?.startDate || formik.errors.korton?.endDate) ? (
@@ -119,6 +124,7 @@ const MarkDemoCompleteModal = ({ data }) => {
                 name="production.productionPerHector"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
+                disabled={formik.values.production?.productionPerHector ? true : false}
                 placeholder="হেক্টর প্রতি ফলন"
                 value={
                   formik.values.production
@@ -171,6 +177,7 @@ const MarkDemoCompleteModal = ({ data }) => {
                 rows={10}
                 onChange={formik.handleChange}
                 value={formik.values.farmersReview}
+                disabled={formik.values.farmersReview ? true : false}
               ></textarea>
               {formik.touched.farmersReview && formik.errors.farmersReview ? (
                 <div className="text-red-500">
@@ -186,6 +193,7 @@ const MarkDemoCompleteModal = ({ data }) => {
                 rows={10}
                 onChange={formik.handleChange}
                 value={formik.values.overallComment}
+                disabled={formik.values.overallComment ? true : false}
               ></textarea>
               {formik.touched.overallComment && formik.errors.overallComment ? (
                 <div className="text-red-500">
