@@ -15,17 +15,24 @@ const MarkDemoCompleteModal = ({ data }) => {
       },
       farmersReview: data?.comment?.farmersReview || "",
       overallComment: data?.comment?.overallComment || "",
+      production: {
+        productionPerHector: data?.production?.productionPerHector || "",
+        totalProduction: data?.production?.totalProduction || "",
+      },
     },
     validationSchema: Yup.object({
       variety: Yup.string().required("ফসলের জাত প্রয়োজন"),
       area: Yup.number().required("প্রদর্শনীর আয়তন প্রয়োজন"),
-
       korton: Yup.object().shape({
         startDate: Yup.date().required("কর্তন শুরুর তারিখ দিতে হবে।"),
         endDate: Yup.date().required("কর্তন শেষের তারিখ দিতে হবে।"),
       }),
       farmersReview: Yup.string().required("কৃষকের মন্তব্য প্রয়োজন"),
       overallComment: Yup.string().required("মন্তব্য প্রয়োজন"),
+      production: Yup.object().shape({
+        productionPerHector: Yup.number().required("ফলন প্রয়োজন"),
+        totalProduction: Yup.number().required("প্রদর্শনীতে উৎপাদন প্রয়োজন"),
+      }),
     }),
     onSubmit: (values) => {
       if (!data?.demoDate?.bopon || !data?.demoDate?.ropon) {
@@ -95,6 +102,57 @@ const MarkDemoCompleteModal = ({ data }) => {
               </div>
               {formik.touched.korton && formik.errors.korton ? (
                 <div className="text-red-500">{formik.errors.korton}</div>
+              ) : null}
+            </div>
+            <div>
+              <label className="font-extrabold mb-1 block">ফলন (হেক্টর)</label>
+              <input
+                type="number"
+                className="input input-bordered w-full"
+                id="production.productionPerHector"
+                name="production.productionPerHector"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                placeholder="হেক্টর প্রতি ফলন"
+                value={
+                  formik.values.production
+                    ? formik.values.production?.productionPerHector
+                    : ""
+                }
+              />
+
+              {formik.touched.production &&
+                formik.touched.production.productionPerHector &&
+                formik.errors.production?.productionPerHector ? (
+                <div className="text-red-600 font-bold">
+                  {formik.errors.production.productionPerHector}
+                </div>
+              ) : null}
+            </div>
+            <div>
+              <label className="font-extrabold mb-1 block">
+                প্রদর্শনীতে উৎপাদন
+              </label>
+              <input
+                type="number"
+                className="input input-bordered w-full"
+                id="production.totalProduction"
+                name="production.totalProduction"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                placeholder="প্রদর্শনীতে সর্বমোট উৎপাদন"
+                value={
+                  (formik.values.area * formik.values.production?.productionPerHector) / 247
+                }
+                disabled={true}
+              />
+
+              {formik.touched.production &&
+                formik.touched.production.totalProduction &&
+                formik.errors.production?.totalProduction ? (
+                <div className="text-red-600 font-bold">
+                  {formik.errors.production.totalProduction}
+                </div>
               ) : null}
             </div>
             <div>
