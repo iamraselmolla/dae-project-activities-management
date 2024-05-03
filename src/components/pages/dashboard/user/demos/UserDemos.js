@@ -303,9 +303,7 @@ const UserDemos = () => {
                             data={single}
                             index={index}
                             key={single?._id}
-                            handleDemoComplete={handleDemoComplete}
-                            setReload={setReload}
-                            reload={reload}
+
                           />
                         ))}
                     </tbody>
