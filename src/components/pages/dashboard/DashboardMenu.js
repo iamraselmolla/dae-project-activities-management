@@ -1,129 +1,35 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import MenuItem from '../../shared/MenuItem';
+import { RxDashboard } from "react-icons/rx";
+import { GoProject } from "react-icons/go";
+import { PiUsersFourLight, PiMicrophoneStageFill } from "react-icons/pi";
+import { FaRegPlusSquare } from "react-icons/fa";
+import { GiDiscussion } from "react-icons/gi";
+import { GrDocumentNotes } from "react-icons/gr";
+import { CgDisplayGrid } from "react-icons/cg";
+
+
+
+
+
+
+
+
+
 
 const DashboardMenu = () => {
     return (
         <>
-            <NavLink
-                to="/dashboard"
-                className={({ isActive, isPending }) =>
-                    isPending
-                        ? "block px-3 w-full text-center py-4 bg-slate-900"
-                        : isActive
-                            ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center"
-                }
-            >
-                Dashboard
-            </NavLink>
-            <NavLink
-                to="/dashboard/all-projects"
-                className={({ isActive, isPending }) =>
-                    isPending
-                        ? "block px-3 w-full text-center py-4 bg-slate-900"
-                        : isActive
-                            ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center"
-                }
-            >
-                সকল প্রকল্প
-            </NavLink>
-            <NavLink
-                to="/dashboard/all-users"
-                className={({ isActive, isPending }) =>
-                    isPending
-                        ? "block px-3 w-full text-center py-4 bg-slate-900"
-                        : isActive
-                            ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center"
-                }
-            >
-                সকল ইউজার
-            </NavLink>
-            <NavLink
-                to="/dashboard/addproject"
-                className={({ isActive, isPending }) =>
-                    isPending
-                        ? "block px-3 w-full text-center py-4 bg-slate-900"
-                        : isActive
-                            ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center"
-                }
-            >
-                নতুন প্রকল্প যুক্ত করুন
-            </NavLink>
-            <NavLink
-                to="/dashboard/user-demos"
-                className={({ isActive, isPending }) =>
-                    isPending
-                        ? "block px-3 w-full text-center py-4 bg-slate-900"
-                        : isActive
-                            ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center"
-                }
-            >
-                প্রদর্শনী
-            </NavLink>
-            <NavLink
-                to="/dashboard/trainings"
-                className={({ isActive, isPending }) =>
-                    isPending
-                        ? "block px-3 w-full text-center py-4 bg-slate-900"
-                        : isActive
-                            ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center"
-                }
-            >
-                প্রশিক্ষণ
-            </NavLink>
-            <NavLink
-                to="/dashboard/user-fielddays"
-                className={({ isActive, isPending }) =>
-                    isPending
-                        ? "block px-3 w-full text-center py-4 bg-slate-900"
-                        : isActive
-                            ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center"
-                }
-            >
-                মাঠ দিবস
-            </NavLink>
-            <NavLink
-                to="/dashboard/user-dae-meetings"
-                className={({ isActive, isPending }) =>
-                    isPending
-                        ? "block px-3 w-full text-center py-4 bg-slate-900"
-                        : isActive
-                            ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center"
-                }
-            >
-                ডিএই কৃষক গ্রুপ সভা
-            </NavLink>
-            <NavLink
-                to="/dashboard/add-note"
-                className={({ isActive, isPending }) =>
-                    isPending
-                        ? "block px-3 w-full text-center py-4 bg-slate-900"
-                        : isActive
-                            ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center"
-                }
-            >
-                নোট যুক্ত করুন
-            </NavLink>
-            <NavLink
-                to="/dashboard/user-notes"
-                className={({ isActive, isPending }) =>
-                    isPending
-                        ? "block px-3 w-full text-center py-4 bg-slate-900"
-                        : isActive
-                            ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center"
-                }
-            >
-                নোটস
-            </NavLink>
+            <MenuItem icon={<RxDashboard />} link="" text={'ড্যাশবোর্ড'} />
+            <MenuItem icon={<GoProject />} link="/all-projects" text={'সকল প্রকল্প'} />
+            <MenuItem icon={<PiUsersFourLight />} link="/all-users" text={'সকল ইউজার'} />
+            <MenuItem icon={<FaRegPlusSquare />} link="/addproject" text={'নতুন প্রকল্প যুক্ত করুন'} />
+            <MenuItem icon={<CgDisplayGrid />} link="/user-demos" text={'প্রদর্শনী'} />
+            <MenuItem icon={<GiDiscussion />} link="/trainings" text={'প্রশিক্ষণ'} />
+            <MenuItem icon={<PiMicrophoneStageFill />} link="/user-fielddays" text={'মাঠ দিবস'} />
+            <MenuItem link="/user-dae-meetings" text={'ডিএই কৃষক গ্রুপ সভা'} />
+            <MenuItem link="/add-note" text={'নোট যুক্ত করুন'} />
+            <MenuItem icon={<GrDocumentNotes />} link="/user-notes" text={'নোটস'} />
         </>
     );
 };

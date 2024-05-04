@@ -74,16 +74,17 @@ const AdminTrainings = () => {
                                         data={training}
                                     />
                                 ))}
-                            {!loading && allTrainings?.length < 1 && fetchEnd && (
-                                <div className="flex justify-center items-center">
-                                    <h2 className="text-red-600 text-2xl  font-extrabold">
-                                        কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।
-                                    </h2>
-                                </div>
-                            )}
+
 
 
                         </table>
+                        {!loading && allTrainings?.length < 1 && fetchEnd && (
+                            <div className="flex justify-center items-center">
+                                <h2 className="text-red-600 text-2xl  font-extrabold">
+                                    কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।
+                                </h2>
+                            </div>
+                        )}
                         {loading && !error && (
                             <div className="flex justify-center items-center">
                                 <Loader />

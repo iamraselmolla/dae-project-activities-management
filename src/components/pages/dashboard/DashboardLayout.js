@@ -6,8 +6,8 @@ const DashboardLayout = () => {
   return (
     <section className="grid py-0">
       <div className="grid relative grid-cols-5">
-        <div className="col-span-1 sticky top-0 h-screen">
-          <div>
+        <div className="col-span-1 mx-4 sticky top-0 h-screen">
+          <div className="py-5">
             <DashboardMenu />
           </div>
         </div>
