@@ -11,7 +11,7 @@ const DashboardMenu = () => {
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
                         : isActive
                             ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                            : "block px-3 w-full py-4 text-center"
                 }
             >
                 Dashboard
@@ -23,7 +23,7 @@ const DashboardMenu = () => {
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
                         : isActive
                             ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                            : "block px-3 w-full py-4 text-center"
                 }
             >
                 সকল প্রকল্প
@@ -35,7 +35,7 @@ const DashboardMenu = () => {
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
                         : isActive
                             ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                            : "block px-3 w-full py-4 text-center"
                 }
             >
                 সকল ইউজার
@@ -47,7 +47,7 @@ const DashboardMenu = () => {
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
                         : isActive
                             ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                            : "block px-3 w-full py-4 text-center"
                 }
             >
                 নতুন প্রকল্প যুক্ত করুন
@@ -59,7 +59,7 @@ const DashboardMenu = () => {
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
                         : isActive
                             ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                            : "block px-3 w-full py-4 text-center"
                 }
             >
                 প্রদর্শনী
@@ -71,7 +71,7 @@ const DashboardMenu = () => {
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
                         : isActive
                             ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                            : "block px-3 w-full py-4 text-center"
                 }
             >
                 প্রশিক্ষণ
@@ -83,7 +83,7 @@ const DashboardMenu = () => {
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
                         : isActive
                             ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                            : "block px-3 w-full py-4 text-center"
                 }
             >
                 মাঠ দিবস
@@ -95,7 +95,7 @@ const DashboardMenu = () => {
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
                         : isActive
                             ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                            : "block px-3 w-full py-4 text-center"
                 }
             >
                 ডিএই কৃষক গ্রুপ সভা
@@ -107,7 +107,7 @@ const DashboardMenu = () => {
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
                         : isActive
                             ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                            : "block px-3 w-full py-4 text-center"
                 }
             >
                 নোট যুক্ত করুন
@@ -119,7 +119,7 @@ const DashboardMenu = () => {
                         ? "block px-3 w-full text-center py-4 bg-slate-900"
                         : isActive
                             ? "block px-3 w-full py-4 text-center bg-red-500"
-                            : "block px-3 w-full py-4 text-center bg-blue-400"
+                            : "block px-3 w-full py-4 text-center"
                 }
             >
                 নোটস

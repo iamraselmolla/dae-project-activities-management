@@ -86,14 +86,14 @@ const UserDemos = () => {
   const incompleteDemos = userDemos.filter(demo => !demo.completed);
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex py-10 flex-col">
         <div className="mt-10 overflow-x-auto">
           <div className="p-1.5 min-w-full inline-block align-middle">
             <div>
               <SectionTitle title={'চলমান প্রদর্শনী'} />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
                 {!loading && fetchEnd && incompleteDemos?.length > 0 && (
-                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">
                     <thead>
                       <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
                         <th
@@ -207,7 +207,7 @@ const UserDemos = () => {
               <SectionTitle title={'চূড়ান্ত প্রদর্শনী'} />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
                 {!loading && fetchEnd && completedDemos?.length > 0 && (
-                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <table className="min-w-full bg-white divide-y divide-gray-200 dark:divide-gray-700">
                     <thead>
                       <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
                         <th

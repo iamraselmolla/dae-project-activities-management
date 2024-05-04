@@ -118,7 +118,7 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
       <div className="collapse-title text-xl font-medium">
         <Title end={data?.end} title={data?.name?.details} />
       </div>
-      <div className="collapse-content flex flex-col gap-2">
+      <div className="collapse-content bg-white  flex flex-col gap-2">
         <h2 className="text-xl flex gap-5 font-bold items-center">
           <span>প্রকল্পের পুরো নামঃ {data?.name?.details}</span>
           {!data?.end &&
