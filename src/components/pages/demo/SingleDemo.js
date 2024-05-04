@@ -4,23 +4,12 @@ import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
-import { RiImageAddFill } from "react-icons/ri";
 import "./demo.css";
 import { GrTechnology } from "react-icons/gr";
 import { CiCalendarDate } from "react-icons/ci";
-
-import { AuthContext } from "../../AuthContext/AuthProvider";
 import formatDateToday from "../../utilis/formatDate";
-import AddImageModal from "../../shared/AddImageModal";
 
 const SingleDemo = ({ data }) => {
-  const { username: demoUser } = useContext(AuthContext);
-  const [showModal, setShowModal] = useState(false);
-
-  const handleModalOpen = () => {
-    setShowModal(true);
-  };
-
   const {
     projectInfo,
     demoTime,
@@ -42,7 +31,7 @@ const SingleDemo = ({ data }) => {
     } else {
       imagesArr.push({ original: 'images/pi/pi2.jpg', thumbnail: 'images/pi/pi2.jpg' }, { original: 'images/pi/pi2.jpg', thumbnail: 'images/pi/pi2.jpg' })
     }
-  }, [demoImages, showModal]);
+  }, [demoImages]);
 
   return (
     <div className="rounded-lg relative shadow-xl">
@@ -59,11 +48,7 @@ const SingleDemo = ({ data }) => {
           </p>
         </div>
       </div>
-      {data?.username === demoUser && (
-        <div className="add-image cursor-pointer bg-black flex h-12 absolute items-center justify-center opacity-50 rounded-full text-3xl text-white w-12">
-          <RiImageAddFill onClick={handleModalOpen} />
-        </div>
-      )}
+
 
       <div className="content-part px-3 py-2">
         <h2 className="text-xl font-extrabold">{farmersInfo?.name}</h2>
