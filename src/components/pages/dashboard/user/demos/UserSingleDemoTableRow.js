@@ -13,10 +13,7 @@ const UserSingleDemoTableRow = ({
   data,
   index,
   handleDemoDeleting,
-  handleDemoComplete,
-  setReload, reload
 }) => {
-  const { setModalData } = useContext(AuthContext);
 
   const {
     _id,

@@ -108,7 +108,6 @@ const SingleDemo = ({ data }) => {
         </div>
       </div>
 
-      {<AddImageModal data={data} showModal={showModal} closeModal={() => setShowModal(false)} />}
     </div>
   );
 };
