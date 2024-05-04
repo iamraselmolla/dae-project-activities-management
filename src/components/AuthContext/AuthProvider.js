@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-import AddImageModal from "../shared/AddImageModal";
 
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
@@ -35,7 +34,6 @@ const AuthProvider = ({ children }) => {
     role,
     setRole,
     username,
-    setModalData
   };
   if (initialLoading) {
     return <>......</>;
@@ -44,7 +42,6 @@ const AuthProvider = ({ children }) => {
     <>
       <AuthContext.Provider value={authInfo}>
         {children}
-        <AddImageModal data={modalData} />
       </AuthContext.Provider>
     </>
   );

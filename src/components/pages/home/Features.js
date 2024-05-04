@@ -34,28 +34,28 @@ const Features = () => {
       <SectionTitle title="প্রকল্পের কার্যক্রম" />
       <div className="container px-5 md:px-0 grid gap-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-center">
         {allFeatures?.map((singleFeatures) => (
-          <>
-            <div
-              key={singleFeatures.title}
-              className="shadow-xl drop-shadow-lg shadow-slate-400 rounded-4"
-            >
-              <img src={singleFeatures.img} className="w-100" alt="" />
-              <div className="px-4 py-4 bg-white text-black">
-                <h2 className="text-3xl font-extrabold mb-3">
-                  {singleFeatures.title}
-                </h2>
-                <p className="font-bold">{singleFeatures.des}</p>
-                <div>
-                  <Link
-                    className="font-bold border-2 rounded-md border-black rounded-4 w-100 block hover:bg-black hover:text-white transition-all py-3 my-2"
-                    to={singleFeatures.link}
-                  >
-                    সকল {singleFeatures.title} দেখুন
-                  </Link>
-                </div>
+
+          <div
+            key={singleFeatures.title}
+            className="shadow-xl drop-shadow-lg shadow-slate-400 rounded-4"
+          >
+            <img src={singleFeatures.img} className="w-100" alt="" />
+            <div className="px-4 py-4 bg-white text-black">
+              <h2 className="text-3xl font-extrabold mb-3">
+                {singleFeatures.title}
+              </h2>
+              <p className="font-bold">{singleFeatures.des}</p>
+              <div>
+                <Link
+                  className="font-bold border-2 rounded-md border-black rounded-4 w-100 block hover:bg-black hover:text-white transition-all py-3 my-2"
+                  to={singleFeatures.link}
+                >
+                  সকল {singleFeatures.title} দেখুন
+                </Link>
               </div>
             </div>
-          </>
+          </div>
+
         ))}
       </div>
     </section>

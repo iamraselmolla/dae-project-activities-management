@@ -197,18 +197,16 @@ const UserDemos = () => {
                 )}
                 {!loading && fetchEnd && incompleteDemos?.length < 1 && (
                   <h2 className="text-red-600 text-center text-2xl  font-extrabold">
-                    কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!!
+                    কোনো চলমান প্রদর্শনীর তথ্য পাওয়া যায়নি!!
                   </h2>
                 )}
-
-
               </div>
             </div>
 
             <div className="mt-20">
               <SectionTitle title={'চূড়ান্ত প্রদর্শনী'} />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-                {!loading && fetchEnd && incompleteDemos?.length > 0 && (
+                {!loading && fetchEnd && completedDemos?.length > 0 && (
                   <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead>
                       <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">

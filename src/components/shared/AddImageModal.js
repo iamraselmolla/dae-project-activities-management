@@ -1,4 +1,3 @@
-import { toBengaliNumber } from "bengali-number";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
@@ -7,8 +6,9 @@ import compressAndUploadImage from "../utilis/compressImages";
 import { uploadToCloudinary } from "../utilis/uploadToCloudinary";
 import { addImageAndDetails } from "../../services/userServices";
 import Loader from "./Loader";
+import { toBengaliNumber } from "bengali-number";
 
-const AddImageModal = ({ data }) => {
+const AddImageModal = ({ data, showModal, closeModal }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewURLs, setPreviewURLs] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -69,6 +69,7 @@ const AddImageModal = ({ data }) => {
         toast.success(result2?.data?.message);
         setLoading(false);
         setLoadingMessage(null);
+        closeModal(); // Close modal after successful upload
       }
     } catch (err) {
       toast.error(
@@ -79,7 +80,7 @@ const AddImageModal = ({ data }) => {
 
   return (
     <>
-      {!loading && (
+      {!loading && showModal && (
         <dialog id="my_modal_1" className="modal text-center">
           <div className="modal-box w-6/12 max-w-5xl">
             <h3 className="font-bold text-xl mb-2">
