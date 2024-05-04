@@ -189,16 +189,19 @@ const AddNotes = () => {
     }
   }, []);
 
+  const FormLabel = () => {
+
+  }
   return (
     <div className="container py-8 px-6 mx-auto">
-      <h1 className="text-2xl font-bold mb-4">নোটস যুক্ত করুন</h1>
+      <h1 className="text-2xl font-bold mb-4">নোট যুক্ত করুন</h1>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {(formik) => (
-          <Form className="space-y-4">
+          <Form className="space-y-4 bg-white p-6 rounded-3 ">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div>
                 <label className="font-extrabold mb-1 block">
@@ -226,8 +229,8 @@ const AddNotes = () => {
                   )}
                 </select>
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.details &&
-                formik.errors.projectInfo?.details ? (
+                  formik.touched.projectInfo.details &&
+                  formik.errors.projectInfo?.details ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.details}
                   </div>
@@ -250,8 +253,8 @@ const AddNotes = () => {
                 />
 
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.short &&
-                formik.errors.projectInfo?.short ? (
+                  formik.touched.projectInfo.short &&
+                  formik.errors.projectInfo?.short ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.short}
                   </div>
@@ -284,8 +287,8 @@ const AddNotes = () => {
                   <Season />
                 </select>
                 {formik.touched.timeFrame &&
-                formik.touched.timeFrame.season &&
-                formik.errors.timeFrame?.season ? (
+                  formik.touched.timeFrame.season &&
+                  formik.errors.timeFrame?.season ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.timeFrame.season}
                   </div>

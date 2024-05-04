@@ -150,7 +150,7 @@ const AddProjects = () => {
   return (
     <section className="container px-4 md:px-0">
       <SectionTitle title={"নতুন প্রকল্প যুক্ত করুন"} />
-      <form className=" bg-white py-5 px-6 rounded " onSubmit={formik.handleSubmit}>
+      <form className=" bg-white py-5 px-6 rounded-xl" onSubmit={formik.handleSubmit}>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div>
             <label className="font-extrabold mb-1 block">
