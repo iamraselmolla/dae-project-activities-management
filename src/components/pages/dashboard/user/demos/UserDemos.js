@@ -8,6 +8,7 @@ import {
 } from "../../../../../services/userServices";
 import UserSingleDemoTableRow from "./UserSingleDemoTableRow";
 import Loader from "../../../../shared/Loader";
+import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 import SectionTitle from "../../../../shared/SectionTitle";
 
 const UserDemos = () => {
@@ -16,6 +17,7 @@ const UserDemos = () => {
   const [loading, setLoading] = useState(false);
   const [fetchEnd, setFetchEnd] = useState(false);
   const [reload, setReload] = useState(false);
+  const [demodata, setDemoData] = useState(null);
   useEffect(() => {
     const fetchUserDemos = async () => {
       setLoading(true);
@@ -75,6 +77,10 @@ const UserDemos = () => {
     }
   };
 
+  const handleDemoComplete = (modalData) => {
+    setDemoData(modalData);
+    document.getElementById("my_modal_33")?.showModal();
+  };
 
   const completedDemos = userDemos.filter(demo => demo.completed);
   const incompleteDemos = userDemos.filter(demo => !demo.completed);
@@ -181,6 +187,9 @@ const UserDemos = () => {
                             data={single}
                             index={index}
                             key={single?._id}
+                            handleDemoComplete={handleDemoComplete}
+                            setReload={setReload}
+                            reload={reload}
                           />
                         ))}
                     </tbody>
@@ -318,6 +327,7 @@ const UserDemos = () => {
           </h2>
         </div>
       )}
+      {demodata && <MarkDemoCompleteModal data={demodata} />}
     </>
   );
 };
