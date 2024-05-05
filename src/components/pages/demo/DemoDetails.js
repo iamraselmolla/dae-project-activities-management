@@ -42,7 +42,7 @@ function DemoDetails() {
       <div className="col-span-1 sm:col-span-3 grid grid-cols-1 sm:grid-cols-2 bg-white rounded-xl p-4 gap-4">
         <h2
           id="Unbounded"
-          className="col-span-1 sm:col-span-2 text-ter text-2xl "
+          className="col-span-1 sm:col-span-2 font-bold text-ter text-2xl "
         >
           {title}
         </h2>
@@ -154,36 +154,47 @@ function DemoDetails() {
               </h3>
             </CardWrapper>
 
-            <CardWrapper title="সময়">
+            <CardWrapper title="প্রদর্শনীর সময় সম্পর্কিত">
               <h3>
                 বপণ:{" "}
                 <span className="font-semibold">
-                  {toBengaliNumber(
-                    new Date(demoData?.demoDate?.bopon).toLocaleDateString()
-                  )}
+                  {demoData?.demoDate?.bopon
+                    ? toBengaliNumber(
+                        new Date(demoData?.demoDate?.bopon).toLocaleDateString()
+                      )
+                    : "এখনো তারিখ দেওয়া হয়নি"}
                 </span>
               </h3>
               <h3>
                 রোপণ :{" "}
                 <span className="font-semibold">
-                  {toBengaliNumber(
-                    new Date(demoData?.demoDate?.ropon).toLocaleDateString()
-                  )}
+                  {demoData?.demoDate?.ropon
+                    ? toBengaliNumber(
+                        new Date(demoData?.demoDate?.ropon).toLocaleDateString()
+                      )
+                    : "এখনো তারিখ দেওয়া হয়নি"}
                 </span>
               </h3>
+
               <h3>
                 কর্তন:{" "}
                 <span className="font-semibold">
-                  {toBengaliNumber(
-                    new Date(
-                      demoData?.demoDate?.korton?.startDate
-                    ).toLocaleDateString()
-                  )}{" "}
-                  -{" "}
-                  {toBengaliNumber(
-                    new Date(
-                      demoData?.demoDate?.korton?.endDate
-                    ).toLocaleDateString()
+                  {demoData?.demoDate?.korton?.startDate ? (
+                    <>
+                      {toBengaliNumber(
+                        new Date(
+                          demoData?.demoDate?.korton?.startDate
+                        ).toLocaleDateString()
+                      )}{" "}
+                      -{" "}
+                      {toBengaliNumber(
+                        new Date(
+                          demoData?.demoDate?.korton?.endDate
+                        ).toLocaleDateString()
+                      )}
+                    </>
+                  ) : (
+                    "এখনো তারিখ দেওয়া হয়নি"
                   )}
                 </span>
               </h3>
