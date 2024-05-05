@@ -47,13 +47,13 @@ const Training = () => {
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      {role === 'admin' && <AddModuleButton
+        btnText={"প্রশিক্ষণ যুক্ত করুন"}
+        link={"addTraining"}
+        key={"addTraining"}
+      />}
       <SectionTitle title={"সকল প্রশিক্ষণ"} />
       <div className="text-right font-extrabold">
-        {role === 'admin' && <AddModuleButton
-          btnText={"প্রশিক্ষণ যুক্ত করুন"}
-          link={"addTraining"}
-          key={"addTraining"}
-        />}
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
         {!loading &&
@@ -67,15 +67,14 @@ const Training = () => {
               data={singleTraining}
             />
           ))}
-
-        {!loading && allTrainings?.length < 1 && fetchEnd && (
-          <div className="flex justify-center items-center">
-            <h2 className="text-red-600 text-2xl  font-extrabold">
-              কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।
-            </h2>
-          </div>
-        )}
       </div>
+      {!loading && allTrainings?.length < 1 && fetchEnd && (
+        <div className="flex justify-center items-center">
+          <h2 className="text-red-600 text-2xl  font-extrabold">
+            কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।
+          </h2>
+        </div>
+      )}
       {loading && !error && (
         <div className="flex justify-center items-center">
           <Loader />
