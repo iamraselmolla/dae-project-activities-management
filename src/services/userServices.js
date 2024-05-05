@@ -19,12 +19,13 @@ const BASE_URL = {
   addDemoImage: "/demo/add-image-to-the-demo",
   editDemos: "/demo/edit-demo",
   demoComplete: "/demo/complete-demo",
+  getDemoById: "/demo/get-demo",
 
   // Users
   getUser: "/user/get-user",
   getAllUser: "/user/get-users",
   updateUser: "/user/update-user",
-  login: '/userget-login-user',
+  login: "/userget-login-user",
 
   // Groups
   createGroup: "/group/create-group",
@@ -63,7 +64,7 @@ export function addProjectByAdmin(values) {
 
 export function getAllProjects(role) {
   if (!role) {
-    role = 'user';
+    role = "user";
   }
   return http.get(BASE_URL.getProjects + `?role=${role}`);
 }
@@ -81,7 +82,7 @@ export function findProjectByUserId(id) {
 }
 
 export function markProjectComplete(id) {
-  return http.put(BASE_URL.endProject, { id })
+  return http.put(BASE_URL.endProject, { id });
 }
 
 // Demo API
@@ -117,6 +118,10 @@ export function markDemoComplete(id, values) {
   return http.put(BASE_URL.demoComplete, { id, data: values });
 }
 
+export function getSingleDemoById(id) {
+  return http.post(BASE_URL.getDemoById, { id });
+}
+
 // User APIs
 export function getUser(username) {
   return http.delete(BASE_URL.getUser, { username });
@@ -131,7 +136,7 @@ export function updateUser(id, values) {
 }
 
 export function getLoginUser(formData) {
-  return http.post(BASE_URL.login, formData)
+  return http.post(BASE_URL.login, formData);
 }
 
 // Group APIs

@@ -53,30 +53,21 @@ const Header = () => {
                 link="dae-group-meeting"
                 text="ডিএই কৃষক গ্রুপ সভা"
               />
-              <HeaderMenuItem
-                link="dashboard/user-notes"
-                text="সকল নোটস"
-              />
+              <HeaderMenuItem link="dashboard/user-notes" text="সকল নোটস" />
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost text-white text-xl">
             DAE
           </Link>
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center gap-2 hidden lg:flex">
           <HeaderMenuItem link="" text="হোম" />
           <HeaderMenuItem link="demos" text="প্রদর্শনী" />
           <HeaderMenuItem link="trainings" text="প্রশিক্ষণ" />
           <HeaderMenuItem link="fielddays" text="মাঠদিবস" />
           <HeaderMenuItem link="distributions" text="মালামাল বিতরণ" />
-          <HeaderMenuItem
-            link="dae-group-meeting"
-            text="ডিএই কৃষক গ্রুপ সভা"
-          />
-          <HeaderMenuItem
-            link="dashboard/user-notes"
-            text="সকল নোটস"
-          />
+          <HeaderMenuItem link="dae-group-meeting" text="ডিএই কৃষক গ্রুপ সভা" />
+          <HeaderMenuItem link="dashboard/user-notes" text="সকল নোটস" />
         </div>
         <div className="navbar-end">
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -110,10 +101,7 @@ const Header = () => {
                         aria-labelledby="user-menu-button"
                         tabIndex="-1"
                       >
-                        <HeaderMenuItem
-                          link="dashboard"
-                          text="Dashboard"
-                        />
+                        <HeaderMenuItem link="dashboard" text="Dashboard" />
                         <HeaderMenuItem
                           link="dashboard/profile"
                           text="Profile"
