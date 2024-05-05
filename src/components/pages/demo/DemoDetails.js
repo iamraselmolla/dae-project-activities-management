@@ -12,6 +12,7 @@ import { FaBowlRice } from "react-icons/fa6";
 import { toBengaliNumber } from "bengali-number";
 import formatDateToday from "../../utilis/formatDate";
 import { MdOutlinePlace } from "react-icons/md";
+import { notGivenFinalReportMessage } from "../../shared/MessageConst";
 
 
 function DemoDetails() {
@@ -60,9 +61,7 @@ function DemoDetails() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="col-span-1 bg-white  rounded-xl overflow-hidden">
               <img
-                src={
-                  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAADACAMAAAB/Pny7AAAA2FBMVEX////x7+Lf3dA7g4JNo6Tq6uo+PkBNTlDBwcAyMjeamppJSkzKyb/39edhYWE2NjnTpUeampZqamtEUFE/RUmgn5o5PkKQkItbW1pycXNDREb2ulDttVFXpqbu8OA5hIA9dnXYuHb215z179rRoTwzeHWizMbn8eg9j47Mzcinp6PS0tIAAACHh4K2t7AeHSH358P126vizJ/xx3b2tkDOp1PlyZXv5MjvvF7TrmTs2bDwy4XG0MWtv7adt7Fol5J9pJ/Q49e+2M15s6+SvrtWjIlCbW1JZGXWYqPUAAAEI0lEQVR4nO3bbVObTBiG4dKNiSklxEfbqjFEDQSftkatWm0lEEhS//8/KkveILyEezqBpb1Op+Po9IPH3LsL+bBv3iCEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhP6R/v/8gdwBsQ/7hVD2WnLD/5IbhOS6Sqyuyl8KsDQDhnx6ROhUbVJS67yvu9e0uEWWWwe0VfaJ0HVLDTjqri17KrccDyWFlERreMw1N7sezX6dW95T/7q3xIbHPqb5uQjMAZFCx7z9xDHvCsAcD6mDoWOGjWIwcou8yuiY9/6uAQYYYIABBhhggAEGGGBExWiS1L+9u/t2+1R5DKfc3XceHnT98Xs/+Dn4V0mMb7k863Q6Z+22rl88VR1z1+nMMT7nImGpVQnz9LzGtPVv2sZcqoW57IQxP/hCq+4yuw9j2u34OqsQpv8cweg/K405+4swUnQy7WpjXiKYx0rvGek2cprxl4AKY/ovD+uHJh9M7ueMNbLt0UgkjCY93S8x+mN8x6RjbIcZhjEbW+JguOby+aFzpuvti1tl/pscGMnuGYxnzATCBPvm8uX+x/ef8f2SipEstsywxcL4O6ffT/vUloixZmytEQ2zWnP5MJbDQo0loTDaxvctGMsxwhjDEwmTZMjCjCMWxhyRMJnFLTZjvahmJCYmPqSYZcRiOeJhNE1LAMUsszgmMhoxMLmWmZVkYY4lGkaTFNP1XDMT4xhJGGYLh1G8SbfbnbiR/xOhSCmW8GjEwChet8brRjQRyziZEnmpEQKjDGqLJmYKxu6lYRizRMKYk1otSRM+yFjsCZMwmtIxmuR2a6GmWgIm+SBbaSxhMF4t2iCO4W+XGcvMGAuCMQcbllrXkxZPzxUmdfMvNZ4IGMWdblr4kbYxmW0WxmYiYLxJ3LI+BJYH2VbL8gwoE2N63SSLr1GCdbY+yLZXNia+XdZHmrKajLUdws8Gu1yMkrjE5l0NlAXGTXmJieWWhvEXkXuVbvHzFI1jzFnWmRyezri8ySibT5ckTa6DbNWoJIyWsV2W+Qd00sfk9MYlYZKeLrEmrjQKLDk5vVEpGDdj64eaDjLfyGI5xWK0YOunPV1iXZEs/q4pfDLmNK+FjHGGrWInY+ZbYmRMsLHGRU6mr7i5x+KfZ1e5T7JF50cFXmzY/nSJYoiWXpEYc0qx0PcMOz8sDEPZLqJjbKpFXEzjcEa1iIxhfxGmcU61kE8z9qug06whv2Z/gPnTyfjPJOOwqNuADfnXTjF8MB+LwHxpBjebX2ddUrSX5vNXbqnf7PzmeX1+jVw+JHX0kVJ93s3erjH7TdLl+cUV+tM6OXXnq8zvXeOUnkq7Qx9coz/ZvcWfzfUJuf+onVwPi7D47RVQQRSEEEIIIYQQQgghhBBCCCGEEEIIIYQQQggh9C/1G8tw8kjtcM/VAAAAAElFTkSuQmCC"
-                }
+                src={demoData?.demoImages[1]?.image[0]}
                 className="h-[100%] m-auto"
                 alt="User Image"
               />
@@ -185,7 +184,7 @@ function DemoDetails() {
                       {formatDateToday(demoData?.demoDate?.korton?.endDate)}
                     </>
                   ) : (
-                    "এখনো তারিখ দেওয়া হয়নি"
+                    "এখনো চূড়ান্ত প্রতিবেদন দেওয়া হয়নি"
                   )}
                 </span>
               </h3>
@@ -194,30 +193,61 @@ function DemoDetails() {
               <h3>
                 প্রতি হেক্টরে ফলন:{" "}
                 <span className="font-semibold">
-
-                  {toBengaliNumber(demoData?.production?.productionPerHector)} মেঃটন
+                  {demoData?.production?.productionPerHector ?
+                    toBengaliNumber(demoData?.production?.productionPerHector)`মেঃটন` : notGivenFinalReportMessage
+                  }
                 </span>
               </h3>
               <h3>
                 প্রদর্শনীতে ফলন :{" "}
                 <span className="font-semibold">
-                  {toBengaliNumber(demoData?.production?.totalProduction)} মেঃটন
+                  {demoData?.production?.totalProduction ?
+                    toBengaliNumber(demoData?.production?.totalProduction)`মেঃটন` : notGivenFinalReportMessage
+                  }
                 </span>
               </h3>
 
               <h3>
                 কন্ট্রোল প্লটে ফলন/হেঃ:{" "}
                 <span className="font-semibold">
-
-                  {toBengaliNumber(demoData?.production?.sidePlotProduction)} মেঃটন
+                  {demoData?.production?.sidePlotProduction ?
+                    toBengaliNumber(demoData?.production?.sidePlotProduction)`মেঃটন` : notGivenFinalReportMessage
+                  }
+                </span>
+              </h3>
+            </CardWrapper>
+            <CardWrapper title="প্রদর্শনী সম্পর্কে মন্তব্য">
+              <h3>
+                কৃষকের মন্তব্য:{" "}
+                <span className="font-semibold">
+                  {demoData?.comment?.farmersReview}
+                </span>
+              </h3>
+              <h3>
+                অন্যান্য মন্তব্য:{" "}
+                <span className="font-semibold">
+                  {demoData?.comment?.overallComment}
+                </span>
+              </h3>
+            </CardWrapper>
+            <CardWrapper title="উপসহকারী কৃষি কর্মকর্তা সম্পর্কিত তথ্য">
+              <h3>
+                নাম:{" "}
+                <span className="font-semibold">
+                  {demoData?.SAAO?.name}
+                </span>
+              </h3>
+              <h3>
+                মোবাইল নং:{" "}
+                <span className="font-semibold">
+                  {demoData?.SAAO?.mobile}
                 </span>
               </h3>
             </CardWrapper>
 
           </div>
           <div
-            className="mt-5 bg-white  p-4 rounded-xl "
-
+            className="mt-5 bg-white  p-4 rounded-xl"
           >
             <h2
               className="col-span-1 mb-3 sm:col-span-2 font-bold text-2xl "
@@ -247,13 +277,16 @@ function DemoDetails() {
                 </thead>
                 <tbody>
                   {/* Mapping over education data */}
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <td className="px-6 py-4">June 2012</td>
-                    <td className="px-6 py-4">June 2012</td>
-                    <td className="px-6 py-4">June 2012</td>
-                    <td className="px-6 py-4">June 2012</td>
-                    <td className="px-6 py-4">June 2012</td>
-                  </tr>
+                  {demoData?.demoImages?.length > 0 && demoData?.demoImages?.map((single, index) =>
+                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <td className="px-6 py-4">{toBengaliNumber(index + 1)}</td>
+                      <td className="px-6 py-4">{formatDateToday(single?.date)}</td>
+                      <td className="px-6 py-4">{single?.presentCondition}</td>
+                      <td className="px-6 py-4">{single?.presentOfficer}</td>
+                      <td className="px-6 py-4 flex gap-1 ">
+                        {single?.image?.map(singleImage => <img width={100} src={singleImage} />)}
+                      </td>
+                    </tr>)}
                 </tbody>
               </table>
             </div>

@@ -95,17 +95,25 @@ const Header = () => {
                   {showMenu && (
                     <>
                       <div
-                        className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        className="absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="user-menu-button"
                         tabIndex="-1"
                       >
                         <HeaderMenuItem link="dashboard" text="Dashboard" />
-                        <HeaderMenuItem
-                          link="dashboard/profile"
-                          text="Profile"
-                        />
+                        <NavLink
+                          to={`/dashboard/profile`}
+                          className={({ isActive, isPending }) =>
+                            isPending
+                              ? "pending"
+                              : isActive
+                                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                                : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                          }
+                        >
+                          প্রফাইল
+                        </NavLink>
                         <Link
                           href="#"
                           onClick={handleToLogOut}
