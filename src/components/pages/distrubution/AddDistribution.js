@@ -14,6 +14,7 @@ import { AuthContext } from "../../AuthContext/AuthProvider";
 import FiscalYear from "../../shared/FiscalYear";
 import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
+import Season from "../../shared/Season";
 
 const AddDistribution = () => {
     const [loading, setLoading] = useState(false);
@@ -39,7 +40,7 @@ const AddDistribution = () => {
 
     const validationSchema = Yup.object().shape({
         projectName: Yup.string().required("প্রকল্পের নাম প্রয়োজন"),
-        materialName: Yup.string().required("মাল্টিরিয়াল নাম প্রয়োজন"),
+        materialName: Yup.string().required("মালামালের নাম প্রয়োজন"),
         date: Yup.date().required("তারিখ প্রয়োজন"),
         presentGuests: Yup.string().required("উপস্থিত অতিথিদের নাম প্রয়োজন"),
         comment: Yup.string().required("মন্তব্য প্রয়োজন"),
@@ -189,24 +190,26 @@ const AddDistribution = () => {
                     </div>
                     <div>
                         <label className="font-extrabold mb-1 block">মৌসুম</label>
-                        <input
-                            type="text"
+                        <select
                             className="input input-bordered w-full"
                             id="season"
                             name="season"
-                            value={selectedProject?.season || ""}
-                            readOnly
-                        />
+                            value={formik.values.season} // Update value to use formik values
+                            onChange={formik.handleChange} // Update the onChange handler
+                            onBlur={formik.handleBlur}
+                        >
+                            <Season />
+                        </select>
                     </div>
                     <div>
-                        <label className="font-extrabold mb-1 block">মাল্টিরিয়াল নাম</label>
+                        <label className="font-extrabold mb-1 block">বিতরণকৃত মালামালের নাম</label>
                         <input
                             type="text"
                             className="input input-bordered w-full"
                             id="materialName"
                             name="materialName"
                             onBlur={formik.handleBlur}
-                            placeholder="মাল্টিরিয়াল নাম"
+                            placeholder="মালামালের নাম"
                             onChange={formik.handleChange}
                             value={formik.values.materialName}
                         />
