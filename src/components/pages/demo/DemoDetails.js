@@ -9,6 +9,7 @@ import { CiCalendarDate } from "react-icons/ci";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import { GrTechnology } from "react-icons/gr";
 import { FaBowlRice } from "react-icons/fa6";
+import { toBengaliNumber } from "bengali-number";
 
 function DemoDetails() {
   const [loading, setLoading] = useState(true);
@@ -98,7 +99,7 @@ function DemoDetails() {
             {/* Basic Details */}
             <CardWrapper title="প্রদর্শনীপ্রাপ্ত কৃষকের তথ্য">
               <h3>
-                নাম:{" "}
+                নাম:
                 <span className="font-semibold">
                   {demoData?.farmersInfo?.name}
                 </span>
@@ -106,47 +107,47 @@ function DemoDetails() {
               <h3>
                 পিতা/স্বামীর নাম:
                 <span className="font-semibold">
-                  {demoData?.farmersInfo?.fatherOrhusbandName}
+                  {demoData?.farmersInfo?.fatherOrHusbandName}
                 </span>
               </h3>
               <h3>
-                গ্রাম:{" "}
+                গ্রাম:
                 <span className="font-semibold">
                   {demoData?.address?.village}
                 </span>
               </h3>
               <h3>
-                ব্লক:{" "}
+                ব্লক:
                 <span className="font-semibold">
                   {demoData?.address?.block}
                 </span>
               </h3>
               <h3>
-                ইউনিয়ন:{" "}
+                ইউনিয়ন:
                 <span className="font-semibold">
                   {demoData?.address?.union}
                 </span>
               </h3>
               <h3>
-                মোবাইল নং:{" "}
+                মোবাইল নং:
                 <span className="font-semibold">
                   {demoData?.numbersInfo?.mobile}
                 </span>
               </h3>
               <h3>
-                জাতীয় পরিচয়পত্র নং:{" "}
+                জাতীয় পরিচয়পত্র নং:
                 <span className="font-semibold">
                   {demoData?.numbersInfo?.NID}
                 </span>
               </h3>
               <h3>
-                BID নং:{" "}
+                BID নং:
                 <span className="font-semibold">
                   {demoData?.numbersInfo?.BID}
                 </span>
               </h3>
               <h3>
-                কৃষি কার্ড নং:{" "}
+                কৃষি কার্ড নং:
                 <span className="font-semibold">
                   {demoData?.numbersInfo?.agri}
                 </span>
@@ -155,25 +156,36 @@ function DemoDetails() {
 
             <CardWrapper title="সময়">
               <h3>
-                Birth Hour: <span className="font-semibold">-</span>
+                বপণ:{" "}
+                <span className="font-semibold">
+                  {toBengaliNumber(
+                    new Date(demoData?.demoDate?.bopon).toLocaleDateString()
+                  )}
+                </span>
               </h3>
               <h3>
-                Birth Minute: <span className="font-semibold">-</span>
+                রোপণ :{" "}
+                <span className="font-semibold">
+                  {toBengaliNumber(
+                    new Date(demoData?.demoDate?.ropon).toLocaleDateString()
+                  )}
+                </span>
               </h3>
               <h3>
-                Birth Place: <span className="font-semibold">-</span>
-              </h3>
-              <h3>
-                Gotra: <span className="font-semibold">-</span>
-              </h3>
-              <h3>
-                Star: <span className="font-semibold">-</span>
-              </h3>
-              <h3>
-                Raasi / Moon sign: <span className="font-semibold">-</span>
-              </h3>
-              <h3>
-                Manglik: <span className="font-semibold">-</span>
+                কর্তন:{" "}
+                <span className="font-semibold">
+                  {toBengaliNumber(
+                    new Date(
+                      demoData?.demoDate?.korton?.startDate
+                    ).toLocaleDateString()
+                  )}{" "}
+                  -{" "}
+                  {toBengaliNumber(
+                    new Date(
+                      demoData?.demoDate?.korton?.endDate
+                    ).toLocaleDateString()
+                  )}
+                </span>
               </h3>
             </CardWrapper>
           </div>
