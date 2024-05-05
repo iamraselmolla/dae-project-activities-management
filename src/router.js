@@ -21,6 +21,7 @@ import UserFieldDays from "./components/pages/dashboard/user/UserFieldDays/UserF
 import UserDaeMeetings from "./components/pages/dashboard/user/group-meeting/UserDaeMeetings";
 import UserDemos from "./components/pages/dashboard/user/demos/UserDemos";
 import AddNotes from "./components/pages/note/AddUserNotes";
+import DemoDetails from "./components/pages/demo/DemoDetails";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/demos",
         element: <Demo></Demo>,
+      },
+      {
+        path: "/demo/:id",
+        element: <DemoDetails></DemoDetails>,
       },
       {
         path: "/trainings",

@@ -26,10 +26,15 @@ const SingleDemo = ({ data }) => {
   useEffect(() => {
     if (demoImages?.length > 0) {
       for (const image of demoImages) {
-        image.image?.map(single => imagesArr.push({ original: single, thumbnail: single }))
+        image.image?.map((single) =>
+          imagesArr.push({ original: single, thumbnail: single })
+        );
       }
     } else {
-      imagesArr.push({ original: 'images/pi/pi2.jpg', thumbnail: 'images/pi/pi2.jpg' }, { original: 'images/pi/pi2.jpg', thumbnail: 'images/pi/pi2.jpg' })
+      imagesArr.push(
+        { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" },
+        { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" }
+      );
     }
   }, [demoImages]);
 
@@ -48,7 +53,6 @@ const SingleDemo = ({ data }) => {
           </p>
         </div>
       </div>
-
 
       <div className="content-part px-3 py-2">
         <h2 className="text-xl font-extrabold">{farmersInfo?.name}</h2>
@@ -71,9 +75,7 @@ const SingleDemo = ({ data }) => {
           </div>
           <div className="flex items-center gap-2">
             <CiCalendarDate />
-            <p>
-              {formatDateToday(demoDate?.ropon)}
-            </p>
+            <p>{formatDateToday(demoDate?.ropon)}</p>
           </div>
           <div className="flex items-center gap-2">
             <GrTechnology /> <p>{demoInfo?.tech}</p>
@@ -85,14 +87,13 @@ const SingleDemo = ({ data }) => {
           <div className="mt-3 mb-4">
             <Link
               className="px-3 py-2 rounded-md transition-colors block border-2 border-black hover:bg-black hover:text-white text-black font-bold w-100 text-center"
-              to="/"
+              to={`/demo/${data?._id}`}
             >
               বিস্তারিত দেখুন
             </Link>
           </div>
         </div>
       </div>
-
     </div>
   );
 };
