@@ -199,42 +199,45 @@ function DemoDetails() {
                 </span>
               </h3>
             </CardWrapper>
-          </div>
-          <div>
-            <h2 className="col-span-1 mt-5 sm:col-span-2 text-ter text-2xl">
-              Professional Details
-            </h2>
-            <h3 className="col-span-1 sm:col-span-2  text-xl ">Education: </h3>
-            <div className="relative overflow-x-auto">
-              <table className="w-full text-sm text-center  text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr className="text-xl">
-                    <th scope="col" className="px-6 py-3">
-                      Title
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Institue
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Completion
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* Mapping over education data */}
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Bachelor's Degree
-                    </th>
-                    <td className="px-6 py-4">Example University</td>
-                    <td className="px-6 py-4">June 2012</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <CardWrapper
+              title={
+                "প্রদর্শনী পরিদর্শন সংক্রান্ত এবং কর্মকর্তাগণ দ্বারা পরিভ্রমণের বিস্তারিত"
+              }
+            >
+              <div className="relative overflow-x-auto">
+                <table className="w-full text-sm text-center  text-gray-500 dark:text-gray-400">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr className="text-lg">
+                      <th scope="col" className="px-6 py-3">
+                        ক্রমিক নং
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        পরিদর্শনের তারিখ
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        বর্তমান অবস্থা
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        উপস্থিত কর্মকর্তাগণ
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        ছবি
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* Mapping over education data */}
+                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <td className="px-6 py-4">June 2012</td>
+                      <td className="px-6 py-4">June 2012</td>
+                      <td className="px-6 py-4">June 2012</td>
+                      <td className="px-6 py-4">June 2012</td>
+                      <td className="px-6 py-4">June 2012</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </CardWrapper>
           </div>
         </div>
       )}
