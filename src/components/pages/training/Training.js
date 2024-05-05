@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SingleTraining from "./SingleTraining";
 import { getAllTraining } from "../../../services/userServices";
 import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import AddModuleButton from "../../shared/AddModuleButton";
 import { makeSureOnline } from "../../shared/MessageConst";
+import { AuthContext } from "../../AuthContext/AuthProvider";
 
 const Training = () => {
   const [allTrainings, setAllTrainings] = useState([]);
@@ -12,6 +13,7 @@ const Training = () => {
   const [error, setError] = useState(null);
   const [fetchEnd, setFetchEnd] = useState(false);
   const [reload, setReload] = useState(false);
+  const { role } = useContext(AuthContext)
 
   const fetchAllTraining = async () => {
     setLoading(true);
@@ -47,11 +49,11 @@ const Training = () => {
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"সকল প্রশিক্ষণ"} />
       <div className="text-right font-extrabold">
-        <AddModuleButton
+        {role === 'admin' && <AddModuleButton
           btnText={"প্রশিক্ষণ যুক্ত করুন"}
           link={"addTraining"}
           key={"addTraining"}
-        />
+        />}
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
         {!loading &&

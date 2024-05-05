@@ -54,8 +54,8 @@ const Header = () => {
                 text="ডিএই কৃষক গ্রুপ সভা"
               />
               <HeaderMenuItem
-                link="dashboard/add-note"
-                text="নোট যুক্ত করুন"
+                link="dashboard/user-notes"
+                text="সকল নোটস"
               />
             </ul>
           </div>
@@ -74,8 +74,8 @@ const Header = () => {
             text="ডিএই কৃষক গ্রুপ সভা"
           />
           <HeaderMenuItem
-            link="dashboard/add-note"
-            text="নোট যুক্ত করুন"
+            link="dashboard/user-notes"
+            text="সকল নোটস"
           />
         </div>
         <div className="navbar-end">
