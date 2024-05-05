@@ -39,7 +39,7 @@ const SingleDemo = ({ data }) => {
   }, [demoImages]);
 
   return (
-    <div className="rounded-lg relative shadow-xl">
+    <div className="rounded-lg bg-white shadow-blue relative shadow-xl">
       <div className="relative">
         <ImageGallery autoPlay={true} items={imagesArr} />
         <div className="flex items-center absolute top-3">

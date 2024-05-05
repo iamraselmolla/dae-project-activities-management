@@ -53,7 +53,7 @@ function DemoDetails() {
   return (
     <div className="bg-slate-100 text-black mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       {!loading && fetchEnd && demoData && (
-        <div className="py-20" id="screenshot-element">
+        <div className="py-20">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="col-span-1 bg-white  rounded-xl overflow-hidden">
               <img
@@ -160,8 +160,8 @@ function DemoDetails() {
                 <span className="font-semibold">
                   {demoData?.demoDate?.bopon
                     ? toBengaliNumber(
-                        new Date(demoData?.demoDate?.bopon).toLocaleDateString()
-                      )
+                      new Date(demoData?.demoDate?.bopon).toLocaleDateString()
+                    )
                     : "এখনো তারিখ দেওয়া হয়নি"}
                 </span>
               </h3>
@@ -170,8 +170,8 @@ function DemoDetails() {
                 <span className="font-semibold">
                   {demoData?.demoDate?.ropon
                     ? toBengaliNumber(
-                        new Date(demoData?.demoDate?.ropon).toLocaleDateString()
-                      )
+                      new Date(demoData?.demoDate?.ropon).toLocaleDateString()
+                    )
                     : "এখনো তারিখ দেওয়া হয়নি"}
                 </span>
               </h3>
@@ -199,45 +199,50 @@ function DemoDetails() {
                 </span>
               </h3>
             </CardWrapper>
-            <CardWrapper
-              title={
-                "প্রদর্শনী পরিদর্শন সংক্রান্ত এবং কর্মকর্তাগণ দ্বারা পরিভ্রমণের বিস্তারিত"
-              }
+
+          </div>
+          <div
+            className="mt-5 bg-white  p-4 rounded-5 "
+
+          >
+            <h2
+              className="col-span-1 mb-3 sm:col-span-2 font-bold text-ter text-2xl "
             >
-              <div className="relative overflow-x-auto">
-                <table className="w-full text-sm text-center  text-gray-500 dark:text-gray-400">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr className="text-lg">
-                      <th scope="col" className="px-6 py-3">
-                        ক্রমিক নং
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        পরিদর্শনের তারিখ
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        বর্তমান অবস্থা
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        উপস্থিত কর্মকর্তাগণ
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        ছবি
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {/* Mapping over education data */}
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <td className="px-6 py-4">June 2012</td>
-                      <td className="px-6 py-4">June 2012</td>
-                      <td className="px-6 py-4">June 2012</td>
-                      <td className="px-6 py-4">June 2012</td>
-                      <td className="px-6 py-4">June 2012</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </CardWrapper>
+              প্রদর্শনী পরিদর্শন সংক্রান্ত এবং কর্মকর্তাগণ দ্বারা পরিভ্রমণের বিস্তারিত
+            </h2>
+            <div className="relative overflow-x-auto">
+              <table className="w-full text-sm text-center  text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr className="text-lg">
+                    <th scope="col" className="px-6 py-3">
+                      ক্রমিক নং
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      পরিদর্শনের তারিখ
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      বর্তমান অবস্থা
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      উপস্থিত কর্মকর্তাগণ
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      ছবি
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Mapping over education data */}
+                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td className="px-6 py-4">June 2012</td>
+                    <td className="px-6 py-4">June 2012</td>
+                    <td className="px-6 py-4">June 2012</td>
+                    <td className="px-6 py-4">June 2012</td>
+                    <td className="px-6 py-4">June 2012</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
