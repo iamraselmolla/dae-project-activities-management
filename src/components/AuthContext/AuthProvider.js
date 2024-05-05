@@ -8,8 +8,6 @@ const AuthProvider = ({ children }) => {
   const [jwtToken, setJwtToken] = useState("");
   const [role, setRole] = useState(null);
   const [username, setUsername] = useState(null);
-  const [modalData, setModalData] = useState(null);
-  const [reloadData, setReloadData] = useState(false)
   useEffect(() => {
     setInitialLoading(true);
     const storedUser = localStorage.getItem("CurrentUser");

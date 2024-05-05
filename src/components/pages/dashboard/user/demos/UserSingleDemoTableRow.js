@@ -16,7 +16,6 @@ const UserSingleDemoTableRow = ({
   handleDemoComplete,
   setReload, reload
 }) => {
-  const { setModalData } = useContext(AuthContext);
 
   const {
     _id,
@@ -47,7 +46,6 @@ const UserSingleDemoTableRow = ({
 
   const handleModaOpen = (dataValues) => {
     document.getElementById("my_modal_1")?.showModal();
-    setModalData(dataValues);
   };
 
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const MenuItem = ({ link, text, icon }) => {
+const DashboardMenuItem = ({ link, text, icon }) => {
     return (
         <NavLink
             to={`/dashboard${link}`}
@@ -18,4 +18,4 @@ const MenuItem = ({ link, text, icon }) => {
     );
 };
 
-export default MenuItem;
+export default DashboardMenuItem;
