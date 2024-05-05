@@ -10,6 +10,9 @@ import { BsFillCloudSunFill } from "react-icons/bs";
 import { GrTechnology } from "react-icons/gr";
 import { FaBowlRice } from "react-icons/fa6";
 import { toBengaliNumber } from "bengali-number";
+import formatDateToday from "../../utilis/formatDate";
+import { MdOutlinePlace } from "react-icons/md";
+
 
 function DemoDetails() {
   const [loading, setLoading] = useState(true);
@@ -71,28 +74,32 @@ function DemoDetails() {
                   {demoData?.projectInfo?.full} ({demoData?.projectInfo?.short})
                 </h3>
               </div>
-              <div className="flex gap-4">
-                <CiCalendarDate sx={{ color: "#f72151" }} fontSize="medium" />
+              <div className="flex gap-4 items-center">
+                <CiCalendarDate fontSize={25} />
                 <h3>অর্থবছরঃ {demoData?.demoTime?.fiscalYear}</h3>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-4 items-center">
                 <BsFillCloudSunFill
-                  sx={{ color: "#f72151" }}
-                  fontSize="medium"
+
+                  fontSize={25}
                 />
                 <h3>মৌসুমঃ {demoData?.demoTime?.season}</h3>
               </div>
-              <div className="flex gap-4">
-                <GrTechnology sx={{ color: "#f72151" }} fontSize="medium" />
+              <div className="flex gap-4 items-center">
+                <GrTechnology fontSize={25} />
                 <h3>প্রযুক্তিঃ {demoData?.demoInfo?.tech}</h3>
               </div>
-              <div className="flex gap-4">
-                <FaBowlRice sx={{ color: "#f72151" }} fontSize="medium" />
+              <div className="flex gap-4 items-center">
+                <FaBowlRice fontSize={25} />
                 <h3>ফসলঃ {demoData?.demoInfo?.crop}</h3>
               </div>
-              <div className="flex gap-4">
-                <FaBowlRice sx={{ color: "#f72151" }} fontSize="medium" />
+              <div className="flex gap-4 items-center">
+                <FaBowlRice fontSize={25} />
                 <h3>জাতঃ {demoData?.demoInfo?.variety}</h3>
+              </div>
+              <div className="flex gap-4">
+                <MdOutlinePlace fontSize={25} />
+                <h3>প্রদর্শনীর আয়তনঃ {toBengaliNumber(demoData?.demoInfo?.area)} শতক</h3>
               </div>
             </div>
 
@@ -154,25 +161,17 @@ function DemoDetails() {
               </h3>
             </CardWrapper>
 
-            <CardWrapper title="প্রদর্শনীর সময় সম্পর্কিত">
+            <CardWrapper title="প্রদর্শনীর সময় সম্পর্কিত তথ্য">
               <h3>
                 বপণ:{" "}
                 <span className="font-semibold">
-                  {demoData?.demoDate?.bopon
-                    ? toBengaliNumber(
-                      new Date(demoData?.demoDate?.bopon).toLocaleDateString()
-                    )
-                    : "এখনো তারিখ দেওয়া হয়নি"}
+                  {formatDateToday(demoData?.demoDate?.bopon)}
                 </span>
               </h3>
               <h3>
                 রোপণ :{" "}
                 <span className="font-semibold">
-                  {demoData?.demoDate?.ropon
-                    ? toBengaliNumber(
-                      new Date(demoData?.demoDate?.ropon).toLocaleDateString()
-                    )
-                    : "এখনো তারিখ দেওয়া হয়নি"}
+                  {formatDateToday(demoData?.demoDate?.ropon)}
                 </span>
               </h3>
 
@@ -181,17 +180,9 @@ function DemoDetails() {
                 <span className="font-semibold">
                   {demoData?.demoDate?.korton?.startDate ? (
                     <>
-                      {toBengaliNumber(
-                        new Date(
-                          demoData?.demoDate?.korton?.startDate
-                        ).toLocaleDateString()
-                      )}{" "}
-                      -{" "}
-                      {toBengaliNumber(
-                        new Date(
-                          demoData?.demoDate?.korton?.endDate
-                        ).toLocaleDateString()
-                      )}
+                      {formatDateToday(demoData?.demoDate?.korton?.startDate)}
+                      {" "}থেকে{" "}
+                      {formatDateToday(demoData?.demoDate?.korton?.endDate)}
                     </>
                   ) : (
                     "এখনো তারিখ দেওয়া হয়নি"
@@ -199,14 +190,37 @@ function DemoDetails() {
                 </span>
               </h3>
             </CardWrapper>
+            <CardWrapper title="প্রদর্শনীর ফলন সম্পর্কিত তথ্য">
+              <h3>
+                প্রতি হেক্টরে ফলন:{" "}
+                <span className="font-semibold">
+
+                  {toBengaliNumber(demoData?.production?.productionPerHector)} মেঃটন
+                </span>
+              </h3>
+              <h3>
+                প্রদর্শনীতে ফলন :{" "}
+                <span className="font-semibold">
+                  {toBengaliNumber(demoData?.production?.totalProduction)} মেঃটন
+                </span>
+              </h3>
+
+              <h3>
+                কন্ট্রোল প্লটে ফলন/হেঃ:{" "}
+                <span className="font-semibold">
+
+                  {toBengaliNumber(demoData?.production?.sidePlotProduction)} মেঃটন
+                </span>
+              </h3>
+            </CardWrapper>
 
           </div>
           <div
-            className="mt-5 bg-white  p-4 rounded-5 "
+            className="mt-5 bg-white  p-4 rounded-xl "
 
           >
             <h2
-              className="col-span-1 mb-3 sm:col-span-2 font-bold text-ter text-2xl "
+              className="col-span-1 mb-3 sm:col-span-2 font-bold text-2xl "
             >
               প্রদর্শনী পরিদর্শন সংক্রান্ত এবং কর্মকর্তাগণ দ্বারা পরিভ্রমণের বিস্তারিত
             </h2>
