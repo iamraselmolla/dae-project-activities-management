@@ -3,7 +3,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import SectionTitle from "../../shared/SectionTitle";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { createDistribution } from "../../../services/userServices";
+import { createDistribution, getAllProjects } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 import compressAndUploadImage from "../../utilis/compressImages";
@@ -11,12 +11,17 @@ import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import { makeSureOnline } from "../../shared/MessageConst";
 import { AuthContext } from "../../AuthContext/AuthProvider";
+import FiscalYear from "../../shared/FiscalYear";
+import getFiscalYear from "../../shared/commonDataStores";
+import { toBengaliNumber } from "bengali-number";
 
 const AddDistribution = () => {
     const [loading, setLoading] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState(null);
     const [images, setImages] = useState([]);
     const { user } = useContext(AuthContext);
+    const [selectedProject, setSelectedProject] = useState({});
+    const [allProjects, setAllProjects] = useState([]);
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
@@ -47,6 +52,9 @@ const AddDistribution = () => {
 
     const initialValues = {
         projectName: "",
+        projectShortName: "",
+        fiscalYear: "",
+        season: "",
         materialName: "",
         date: new Date(),
         presentGuests: "",
@@ -57,48 +65,70 @@ const AddDistribution = () => {
     const formik = useFormik({
         initialValues,
         validationSchema,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             values.images = images;
             if (!user) {
                 return toast.error(
                     "বিতরণের তথ্য যুক্ত করতে হলে আপনাকে অবশ্যই লগিন করতে হবে।"
                 );
             }
-            const postDistributionData = async () => {
-                try {
-                    setLoading(true);
-                    setLoadingMessage("ছবি আপ্লোড হচ্ছে");
+            try {
+                setLoading(true);
+                setLoadingMessage("ছবি আপ্লোড হচ্ছে");
 
-                    const uploadedImageLinks = [];
-                    for (let i = 0; i < images?.length; i++) {
-                        setLoadingMessage(
-                            `${i + 1} নং ছবি কম্প্রেসড এবং আপ্লোড হচ্ছে`
-                        );
+                const uploadedImageLinks = [];
+                for (let i = 0; i < images?.length; i++) {
+                    setLoadingMessage(
+                        `${i + 1} নং ছবি কম্প্রেসড এবং আপ্লোড হচ্ছে`
+                    );
 
-                        const compressedImage = await compressAndUploadImage(images[i]);
-                        const result = await uploadToCloudinary(compressedImage, "distribution");
-                        uploadedImageLinks.push(result);
-                    }
-                    setLoadingMessage("বিতরণের তথ্য আপ্লোড হচ্ছে");
-
-                    const result = await createDistribution(values);
-                    if (result?.status === 200) {
-                        toast.success("বিতরণের তথ্য যুক্ত করা হয়েছে।");
-                        setLoading(false);
-                        resetForm();
-                    }
-                } catch (err) {
-                    console.log(err);
-                    setLoading(false);
+                    const compressedImage = await compressAndUploadImage(images[i]);
+                    const result = await uploadToCloudinary(compressedImage, "distribution");
+                    uploadedImageLinks.push(result);
                 }
-            };
-            if (navigator.onLine) {
-                postDistributionData();
-            } else {
-                makeSureOnline();
+                setLoadingMessage("বিতরণের তথ্য আপ্লোড হচ্ছে");
+
+                const result = await createDistribution(values);
+                if (result?.status === 200) {
+                    toast.success("বিতরণের তথ্য যুক্ত করা হয়েছে।");
+                    setLoading(false);
+                    resetForm();
+                }
+            } catch (err) {
+                console.error("Error:", err);
+                setLoading(false);
             }
         },
     });
+
+    const handleSelectChange = (e) => {
+        const selectedProjectName = e.target.value;
+        const findProject = allProjects.find(
+            (project) => project.name?.details === selectedProjectName
+        );
+        setSelectedProject(findProject);
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await getAllProjects();
+                if (result?.data?.success) {
+                    setAllProjects(result.data.data);
+                } else {
+                    setAllProjects([]);
+                    toast.error("প্রকল্পের তথ্য পাওয়া যায়নি");
+                }
+            } catch (error) {
+                console.error("প্রকল্পের তথ্যের সমস্যা:", error);
+                toast.error(
+                    "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
+                );
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -106,22 +136,67 @@ const AddDistribution = () => {
             <form onSubmit={formik.handleSubmit}>
                 <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                     <div>
-                        <label className="font-extrabold mb-1 block">প্রকল্পের নাম</label>
-                        <input
-                            type="text"
+                        <label className="font-extrabold mb-1 block">
+                            প্রকল্পের পুরো নাম
+                        </label>
+                        <select
                             className="input input-bordered w-full"
                             id="projectName"
                             name="projectName"
-                            onBlur={formik.handleBlur}
-                            placeholder="প্রকল্পের নাম"
-                            onChange={formik.handleChange}
-                            value={formik.values.projectName}
-                        />
-                        {formik.touched.projectName && formik.errors.projectName ? (
+                            value={selectedProject?.name?.details || formik.values.projectName}
+                            onChange={handleSelectChange}
+                        >
+                            <option value="" label="প্রকল্প সিলেক্ট করুন" />
+                            {allProjects.map((project) => (
+                                <option
+                                    key={project?.name?.details}
+                                    value={project?.name?.details}
+                                    label={project?.name?.details}
+                                />
+                            ))}
+                        </select>
+                        {formik.touched.projectName && formik.errors.projectName && (
                             <div className="text-red-600 font-bold">
                                 {formik.errors.projectName}
                             </div>
-                        ) : null}
+                        )}
+                    </div>
+                    <div>
+                        <label className="font-extrabold mb-1 block">
+                            প্রকল্পের সংক্ষেপ নাম
+                        </label>
+                        <input
+                            type="text"
+                            className="input input-bordered w-full"
+                            id="projectShortName"
+                            name="projectShortName"
+                            value={selectedProject?.name?.short || ""}
+                            readOnly
+                        />
+                    </div>
+                    <div>
+                        <label className="font-extrabold mb-1 block">অর্থবছর</label>
+                        <select
+                            className="input input-bordered w-full"
+                            id="fiscalYear"
+                            name="fiscalYear"
+                            value={formik.values.fiscalYear}
+                            onChange={formik.handleChange}
+                            defaultValue={toBengaliNumber(getFiscalYear())}
+                        >
+                            <FiscalYear />
+                        </select>
+                    </div>
+                    <div>
+                        <label className="font-extrabold mb-1 block">মৌসুম</label>
+                        <input
+                            type="text"
+                            className="input input-bordered w-full"
+                            id="season"
+                            name="season"
+                            value={selectedProject?.season || ""}
+                            readOnly
+                        />
                     </div>
                     <div>
                         <label className="font-extrabold mb-1 block">মাল্টিরিয়াল নাম</label>
@@ -135,11 +210,11 @@ const AddDistribution = () => {
                             onChange={formik.handleChange}
                             value={formik.values.materialName}
                         />
-                        {formik.touched.materialName && formik.errors.materialName ? (
+                        {formik.touched.materialName && formik.errors.materialName && (
                             <div className="text-red-600 font-bold">
                                 {formik.errors.materialName}
                             </div>
-                        ) : null}
+                        )}
                     </div>
                     <div>
                         <label className="font-extrabold mb-1 block">তারিখ</label>
@@ -151,9 +226,9 @@ const AddDistribution = () => {
                             onChange={(newValue) => formik.setFieldValue("date", newValue)}
                             showShortcuts={true}
                         />
-                        {formik.touched.date && formik.errors.date ? (
+                        {formik.touched.date && formik.errors.date && (
                             <div className="text-red-600 font-bold">{formik.errors.date}</div>
-                        ) : null}
+                        )}
                     </div>
                     <div>
                         <label className="font-extrabold mb-1 block">
@@ -169,11 +244,11 @@ const AddDistribution = () => {
                             onChange={formik.handleChange}
                             value={formik.values.presentGuests}
                         />
-                        {formik.touched.presentGuests && formik.errors.presentGuests ? (
+                        {formik.touched.presentGuests && formik.errors.presentGuests && (
                             <div className="text-red-600 font-bold">
                                 {formik.errors.presentGuests}
                             </div>
-                        ) : null}
+                        )}
                     </div>
                 </div>
                 <div className="grid grid-cols-1 mt-3 mb-3 gap-4 lg:grid-cols-3">
@@ -219,11 +294,9 @@ const AddDistribution = () => {
                         className="input h-20 input-bordered w-full"
                         rows={10}
                     ></textarea>
-                    {formik.touched.comment && formik.errors.comment ? (
-                        <div className="text-red-600 font-bold">
-                            {formik.errors.comment}
-                        </div>
-                    ) : null}
+                    {formik.touched.comment && formik.errors.comment && (
+                        <div className="text-red-600 font-bold">{formik.errors.comment}</div>
+                    )}
                 </div>
                 {!loading && (
                     <button
