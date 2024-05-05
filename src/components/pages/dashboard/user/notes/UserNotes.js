@@ -16,6 +16,7 @@ import { makeSureOnline } from "../../../../shared/MessageConst";
 import CompleteModel from "./CompleteModel";
 import SectionTitle from "../../../../shared/SectionTitle";
 import AddModuleButton from "../../../../shared/AddModuleButton";
+import NoContentFound from "../../../../shared/NoContentFound";
 
 const UserNotes = () => {
   const { user } = useContext(AuthContext);
@@ -187,20 +188,11 @@ const UserNotes = () => {
                           </td>
                         </tr>
                       ))}
-                    {/* Display message if no notes */}
-                    {fetchEnd && !loading && incompletedNotes?.length < 1 && (
-                      <tr>
-                        <td colSpan="10" className="p-3">
-                          <span className="flex justify-center items-center">
-                            <h2 className="text-red-600 text-2xl">
-                              কোনো অসম্পন্ন নোট খুজে পাওয়া যায়নি
-                            </h2>
-                          </span>
-                        </td>
-                      </tr>
-                    )}
                   </tbody>
                 </table>
+                {fetchEnd && !loading && incompletedNotes?.length < 1 && (
+                  <NoContentFound text={' কোনো অসম্পন্ন নোট খুজে পাওয়া যায়নি!'} />
+                )}
               </>
             )}
             {loading && <Loader />}
@@ -306,19 +298,11 @@ const UserNotes = () => {
                       data={modalData}
                     />
 
-                    {fetchEnd && !loading && completedNotes?.length < 1 && (
-                      <tr>
-                        <td colSpan="10" className="p-3">
-                          <span className="flex justify-center items-center">
-                            <h2 className="text-red-600 text-2xl">
-                              কোনো সম্পন্ন নোট খুজে পাওয়া যায়নি
-                            </h2>
-                          </span>
-                        </td>
-                      </tr>
-                    )}
                   </tbody>
                 </table>
+                {fetchEnd && !loading && completedNotes?.length < 1 && (
+                  <NoContentFound text={' কোনো সম্পন্ন নোট খুজে পাওয়া যায়নি!'} />
+                )}
               </>
             )}
             {loading && <Loader />}

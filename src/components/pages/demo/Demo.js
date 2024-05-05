@@ -7,6 +7,7 @@ import { getAllDemos } from "../../../services/userServices";
 import Loader from "../../shared/Loader";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import AddModuleButton from "../../shared/AddModuleButton";
+import NoContentFound from "../../shared/NoContentFound";
 
 const Demo = () => {
   const [demos, setDemos] = useState([]);
@@ -50,9 +51,7 @@ const Demo = () => {
           demos?.map((demo) => <SingleDemo key={demo?._id} data={demo} />)}
       </div>
       {!loading && fetchEnd && demos?.length < 1 && (
-        <h2 className="text-red-600 text-center text-2xl  font-extrabold">
-          কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!!
-        </h2>
+        <NoContentFound text={'কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!'} />
       )}
       {!fetchEnd && loading && (
         <div className="py-20">

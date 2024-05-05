@@ -6,6 +6,7 @@ import SectionTitle from "../../shared/SectionTitle";
 import AddModuleButton from "../../shared/AddModuleButton";
 import { makeSureOnline } from "../../shared/MessageConst";
 import { AuthContext } from "../../AuthContext/AuthProvider";
+import NoContentFound from "../../shared/NoContentFound";
 
 const Training = () => {
   const [allTrainings, setAllTrainings] = useState([]);
@@ -70,9 +71,7 @@ const Training = () => {
       </div>
       {!loading && allTrainings?.length < 1 && fetchEnd && (
         <div className="flex justify-center items-center">
-          <h2 className="text-red-600 text-2xl  font-extrabold">
-            কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।
-          </h2>
+          <NoContentFound text={'কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।'} />
         </div>
       )}
       {loading && !error && (

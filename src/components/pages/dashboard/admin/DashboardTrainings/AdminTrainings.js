@@ -6,6 +6,7 @@ import TableHead from './TableComponent/TableHead';
 import Loader from '../../../../shared/Loader';
 import { makeSureOnline } from '../../../../shared/MessageConst';
 import SectionTitle from '../../../../shared/SectionTitle';
+import NoContentFound from '../../../../shared/NoContentFound';
 
 const AdminTrainings = () => {
     const [allTrainings, setAllTrainings] = useState([]);
@@ -79,11 +80,7 @@ const AdminTrainings = () => {
 
                         </table>
                         {!loading && allTrainings?.length < 1 && fetchEnd && (
-                            <div className="flex justify-center items-center">
-                                <h2 className="text-red-600 text-2xl  font-extrabold">
-                                    কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।
-                                </h2>
-                            </div>
+                            <NoContentFound text={'কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।'} />
                         )}
                         {loading && !error && (
                             <div className="flex justify-center items-center">

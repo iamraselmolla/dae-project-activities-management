@@ -10,6 +10,7 @@ import UserSingleDemoTableRow from "./UserSingleDemoTableRow";
 import Loader from "../../../../shared/Loader";
 import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 import SectionTitle from "../../../../shared/SectionTitle";
+import NoContentFound from "../../../../shared/NoContentFound";
 
 const UserDemos = () => {
   const { user } = useContext(AuthContext);
@@ -196,9 +197,7 @@ const UserDemos = () => {
                   </table>
                 )}
                 {!loading && fetchEnd && incompleteDemos?.length < 1 && (
-                  <h2 className="text-red-600 text-center text-2xl  font-extrabold">
-                    কোনো চলমান প্রদর্শনীর তথ্য পাওয়া যায়নি!!
-                  </h2>
+                  <NoContentFound text={'কোনো চলমান প্রদর্শনীর তথ্য পাওয়া যায়নি!!'} />
                 )}
               </div>
             </div>
@@ -308,9 +307,7 @@ const UserDemos = () => {
                   </table>
                 )}
                 {!loading && fetchEnd && completedDemos?.length < 1 && (
-                  <h2 className="text-red-600 text-center text-2xl  font-extrabold">
-                    কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!!
-                  </h2>
+                  <NoContentFound text={'কোনো চূড়ান্ত প্রদর্শনীর তথ্য পাওয়া যায়নি!!'} />
                 )}
 
 

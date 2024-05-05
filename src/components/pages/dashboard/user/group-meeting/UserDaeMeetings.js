@@ -8,6 +8,7 @@ import {
 import toast from "react-hot-toast";
 import Loader from "../../../../shared/Loader";
 import UserSingleGroupTable from "./UserSingleGroupTable";
+import NoContentFound from "../../../../shared/NoContentFound";
 
 const UserDaeMeetings = () => {
   const { user } = useContext(AuthContext);
@@ -140,20 +141,13 @@ const UserDaeMeetings = () => {
                       index={index}
                     />
                   ))}
-                {fetchEnd && !loading && allGroupsMeeting?.length < 1 && (
-                  <tr>
-                    <td colSpan="10" className="p-3">
-                      <span className="flex justify-center items-center">
-                        <h2 className="text-red-600 text-2xl">
-                          কোনো ডিএই কৃষক গ্রুপ সভা খুজে পাওয়া যায়নি
-                        </h2>
-                      </span>
-                    </td>
-                  </tr>
-                )}
+
                 {loading && <Loader />}
               </tbody>
             </table>
+            {fetchEnd && !loading && allGroupsMeeting?.length < 1 && (
+              <NoContentFound text={' কোনো ডিএই কৃষক গ্রুপ সভা খুজে পাওয়া যায়নি!'} />
+            )}
           </div>
         </div>
       </div>

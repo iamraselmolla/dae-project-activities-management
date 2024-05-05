@@ -5,6 +5,7 @@ import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import AddModuleButton from "../../shared/AddModuleButton";
 import { makeSureOnline } from "../../shared/MessageConst";
+import NoContentFound from "../../shared/NoContentFound";
 
 const FieldDay = () => {
   const [loading, setLoading] = useState(false);
@@ -53,11 +54,7 @@ const FieldDay = () => {
           ))}
       </div>
       {!loading && allFieldDays?.length < 1 && fetchEnd && (
-        <div className="flex justify-center items-center">
-          <h2 className="text-red-600 text-2xl  font-extrabold">
-            কোনো মাঠ দিবসের তথ্য পাওয়া যায়নি
-          </h2>
-        </div>
+        <NoContentFound text={' কোনো মাঠ দিবসের তথ্য পাওয়া যায়নি!'} />
       )}
       {loading && !error && (
         <div className="flex justify-center items-center">

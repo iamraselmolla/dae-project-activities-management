@@ -11,6 +11,7 @@ import FieldDayTD from "./FieldDayTD";
 import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
+import NoContentFound from "../../../../shared/NoContentFound";
 
 const UserFieldDays = () => {
   const [allFieldDays, setAllFieldDays] = useState([])
@@ -189,7 +190,10 @@ const UserFieldDays = () => {
 
               </tbody>
             </table>
-            {fetchEnd && !loading && allFieldDays?.length < 1 && <h1 className="text-2xl text-center text-red-600 font-bold">কোনো মাঠ দিবসের তথ্য পাওয়া যায়নি। দয়া করে মাঠ দিবসের তথ্য যুক্ত করুন</h1>}
+            {fetchEnd && !loading && allFieldDays?.length < 1 &&
+              <NoContentFound text={'কোনো মাঠ দিবসের তথ্য পাওয়া যায়নি। দয়া করে মাঠ দিবসের তথ্য যুক্ত করুন'} />
+            }
+
             {!fetchEnd && loading && <Loader />}
           </div>
         </div>
