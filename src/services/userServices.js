@@ -55,7 +55,12 @@ const BASE_URL = {
   findNotes: "/note/get-notes",
   deleteNote: "/note/delete-note",
   completeANote: "/note/complete-note",
+
+
+  // Distribution
+  createDistribution: '/distribution/create-distribution'
 };
+
 
 // Project APIs
 export function addProjectByAdmin(values) {
@@ -225,4 +230,10 @@ export function deleteAnote(id) {
 
 export function markNoteAsComplete(id, comment) {
   return http.put(BASE_URL.completeANote, { id, comment });
+}
+
+
+// Distribution
+export function createDistribution(data) {
+  return http.post(BASE_URL.createDistribution, { data })
 }

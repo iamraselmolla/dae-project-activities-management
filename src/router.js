@@ -22,6 +22,7 @@ import UserDaeMeetings from "./components/pages/dashboard/user/group-meeting/Use
 import UserDemos from "./components/pages/dashboard/user/demos/UserDemos";
 import AddNotes from "./components/pages/note/AddUserNotes";
 import DemoDetails from "./components/pages/demo/DemoDetails";
+import AddDistribution from "./components/pages/distrubution/AddDistribution";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: "/distributions",
         element: <Distribution></Distribution>,
+      },
+      {
+        path: "/addDistribution",
+        element: <AddDistribution></AddDistribution>,
       },
       {
         path: "/addDemo",
