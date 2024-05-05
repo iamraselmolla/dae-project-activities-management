@@ -194,7 +194,7 @@ function DemoDetails() {
                 প্রতি হেক্টরে ফলন:{" "}
                 <span className="font-semibold">
                   {demoData?.production?.productionPerHector ?
-                    toBengaliNumber(demoData?.production?.productionPerHector)`মেঃটন` : notGivenFinalReportMessage
+                    toBengaliNumber(demoData?.production?.productionPerHector) + `মেঃটন` : notGivenFinalReportMessage
                   }
                 </span>
               </h3>
@@ -202,7 +202,7 @@ function DemoDetails() {
                 প্রদর্শনীতে ফলন :{" "}
                 <span className="font-semibold">
                   {demoData?.production?.totalProduction ?
-                    toBengaliNumber(demoData?.production?.totalProduction)`মেঃটন` : notGivenFinalReportMessage
+                    toBengaliNumber(demoData?.production?.totalProduction) + `মেঃটন` : notGivenFinalReportMessage
                   }
                 </span>
               </h3>
@@ -211,7 +211,7 @@ function DemoDetails() {
                 কন্ট্রোল প্লটে ফলন/হেঃ:{" "}
                 <span className="font-semibold">
                   {demoData?.production?.sidePlotProduction ?
-                    toBengaliNumber(demoData?.production?.sidePlotProduction)`মেঃটন` : notGivenFinalReportMessage
+                    toBengaliNumber(demoData?.production?.sidePlotProduction) + `মেঃটন` : notGivenFinalReportMessage
                   }
                 </span>
               </h3>
