@@ -7,7 +7,9 @@ const Layout = () => {
     return (
         <main>
             <Header></Header>
-            <Outlet></Outlet>
+            <div className="bg-slate-100">
+                <Outlet></Outlet>
+            </div>
             <Footer></Footer>
         </main>
     );

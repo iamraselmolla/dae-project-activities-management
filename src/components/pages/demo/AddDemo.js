@@ -1,20 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SectionTitle from "../../shared/SectionTitle";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Season from "../../shared/Season";
 import FiscalYear from "../../shared/FiscalYear";
 import Datepicker from "react-tailwindcss-datepicker";
-import { getAllProjects, getUser } from "../../../services/userServices";
+import {
+  createDemo,
+  editDemobyId,
+  findDemoById,
+  getAllProjects,
+} from "../../../services/userServices";
 import toast from "react-hot-toast";
 import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
+import { AuthContext } from "../../AuthContext/AuthProvider";
+import { makeSureOnline } from "../../shared/MessageConst";
+import Loader from "../../shared/Loader";
+import { useLocation } from "react-router-dom";
 
 const AddDemo = () => {
-  const [selectedOption, setSelectedOption] = useState({});
-  const [selectedImages, setSelectedImages] = useState([]);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const demoIdFromUrl = queryParams.get("id");
+  const [demoId, setDemoId] = useState(demoIdFromUrl);
+  const [selectedProject, setSelectedProject] = useState({});
   const [allProject, setAllProjects] = useState([]);
-  const [findUnion, setFindUnion] = useState({});
+  const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  // const [fethedImgLink, setimgLink] = useState();
+  // const [imageRawLink, setImageRawLink] = useState([]);
   const [datePickers, setDatePickers] = useState({
     bopon: {
       startDate: null,
@@ -29,20 +44,6 @@ const AddDemo = () => {
       endDate: null,
     },
   });
-  const handleImageChange = (e) => {
-    const files = e.target.files;
-    const imageFiles = [];
-
-    for (let i = 0; i < files.length; i++) {
-      // Check if the selected file is an image
-      if (files[i].type.startsWith("image/")) {
-        imageFiles.push(URL.createObjectURL(files[i]));
-      }
-    }
-
-    // Update the selected images
-    setSelectedImages(imageFiles);
-  };
   const handleDatePickerValue = (picker, selectedDate) => {
     // Use a copy of the state to avoid modifying the state directly
     const updatedDatePickers = { ...datePickers };
@@ -59,7 +60,7 @@ const AddDemo = () => {
       const findProject = allProject?.find(
         (s) => s?.name?.details === e.target.value
       );
-      setSelectedOption(findProject);
+      setSelectedProject(findProject);
     }
   };
 
@@ -117,19 +118,10 @@ const AddDemo = () => {
       name: "",
       mobile: "",
     },
-    demoImages: [
-      {
-        image: "",
-        presentCondition: "",
-        date: "",
-      },
-    ],
+    demoImages: [],
+    username: user?.username,
   };
   const validationSchema = Yup.object({
-    // projectInfo: Yup.object().shape({
-    //   full: Yup.string().required('প্রকল্প সিলেক্ট করুন'),
-    //   short: Yup.string().required('প্রকল্পের সংক্ষেপ নাম'),
-    // }),
     demoTime: Yup.object().shape({
       fiscalYear: Yup.string().required("অর্থবছর সিলেক্ট করুন"),
       season: Yup.string().required("মৌসুম সিলেক্ট করুন"),
@@ -139,37 +131,94 @@ const AddDemo = () => {
     }),
     demoInfo: Yup.object().shape({
       crop: Yup.string().required("প্রদর্শনীর নাম / ফসলের নাম লিখুন"),
+      tech: Yup.string().required("প্রদর্শনীর ধরণ / প্রযুক্তি অবশ্যই সিলেক্ট করতে হবে।"),
     }),
     numbersInfo: Yup.object().shape({
       mobile: Yup.string()
         .required("মোবাইল নম্বর দিন")
         .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
     }),
-    // address: Yup.object().shape({
-    //   village: Yup.string().required("গ্রামের নাম দিন"),
-    //   block: Yup.string().required("ব্লকের নাম পছন্দ করুন"),
-    //   union: Yup.string().required("ইউনিয়নের নাম দিন"),
-    // }),
+    address: Yup.object().shape({
+      village: Yup.string().required("গ্রামের নাম দিন"),
+    }),
   });
 
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      values.demoDate = datePickers;
-      values.address.block = findUnion?.blockB;
-      values.address.union = findUnion?.unionB;
-      values.demoTime.season = formik.values.demoTime.season;
-      values.projectInfo.full = selectedOption.name.details;
-      values.projectInfo.short = selectedOption.name.short;
+    onSubmit: async (values, { resetForm }) => {
 
-      // Handle form submission logic here
-      try {
-      } catch (err) { }
+      setLoading(true);
+      values.demoDate.bopon = datePickers.bopon.startDate;
+      values.demoDate.ropon = datePickers.ropon.startDate;
+      values.demoDate.korton = datePickers.korton;
+      if (!demoId) {
+        values.address.block = user?.blockB;
+        values.address.union = user?.unionB;
+        values.demoTime.season = formik.values.demoTime.season;
+        values.projectInfo.full = selectedProject.name.details;
+        values.projectInfo.short = selectedProject.name.short;
+        values.username = user?.username;
+        values.SAAO = user?.SAAO;
+        if (!values.projectInfo.full || !values.projectInfo.short) {
+          setLoading(false);
+          return toast.error("আপনাকে অবশ্যই প্রকল্প সিলেক্ট করতে হবে।");
+        }
+        if (!values.username) {
+          setLoading(false);
+          toast.error(
+            "লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
+          );
+        }
+
+        // Handle form submission logic here
+
+        if (navigator.onLine) {
+          try {
+            const result = await createDemo(values);
+            if (result?.status === 200) {
+              toast.success(result?.data?.message);
+              resetForm();
+              setDatePickers({
+                bopon: {
+                  startDate: null,
+                  endDate: null,
+                },
+                ropon: {
+                  startDate: null,
+                  endDate: null,
+                },
+                korton: {
+                  startDate: null,
+                  endDate: null,
+                },
+              });
+              setLoading(false);
+            }
+          } catch (err) {
+            toast.error("প্রদর্শনীর তথ্য যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।");
+            setLoading(false);
+          }
+        } else {
+          makeSureOnline();
+          setLoading(false);
+        }
+      } else {
+        try {
+          const result = await editDemobyId(demoId, values);
+          if (result?.status === 200) {
+            toast.success(result?.data?.message);
+            setLoading(false);
+          }
+        } catch (err) {
+          toast.error(
+            "প্রদর্শনীর তথ্য আপডেট করতে সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
+          );
+          setLoading(false);
+        }
+      }
     },
   });
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -179,7 +228,7 @@ const AddDemo = () => {
           setAllProjects(result.data.data);
         } else {
           setAllProjects([]);
-          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি"); // Notify user if data retrieval was not successful
+          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি");
         }
       } catch (error) {
         console.error("প্রকল্পের তথ্যের সমস্যা:", error);
@@ -189,37 +238,73 @@ const AddDemo = () => {
       }
     };
 
-
     if (navigator.onLine) {
       fetchData();
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+      makeSureOnline();
     }
   }, []);
-
-
-
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchDemoId = async () => {
+      if (!demoId) return;
+
       try {
-        const result = await getUser('noapara')
-        setFindUnion(result?.data?.data)
-      }
-      catch (err) {
-        console.error(err);
+        const result = await findDemoById(demoId);
+        const { data } = result?.data || {};
+
+        formik.setValues({
+          ...data,
+        });
+
+        const { demoDate } = data || {};
+        setDatePickers({
+          bopon: {
+            startDate: demoDate?.bopon,
+            endDate: demoDate?.bopon,
+          },
+          ropon: {
+            startDate: demoDate?.ropon,
+            endDate: demoDate?.ropon,
+          },
+          korton: {
+            startDate: demoDate?.korton?.startDate,
+            endDate: demoDate?.korton?.endDate,
+          },
+        });
+
+        const projectName = data?.projectInfo?.full;
+        if (projectName) {
+          const foundProject = allProject.find(
+            (proj) => proj.name.details === projectName
+          );
+          if (foundProject) {
+            setSelectedProject(foundProject);
+          }
+        }
+        // setimgLink(result?.data?.data?.demoImages);
+      } catch (err) {
         toast.error(
-          "ভালভাবে লগিন করুন অথবা সংশ্লিষ্ট কর্তৃপক্ষের সাথে যোগাযোগ করুন"
+          "প্রদর্শনীর তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিতে অবহিত করুন।"
         );
       }
-    }
+    };
+
     if (navigator.onLine) {
-      fetchUser()
+      fetchDemoId();
     } else {
-      toast.error("দয়া করে আপনার ওয়াই-ফাই বা ইন্তারনেট সংযোগ যুক্ত করুন");
+      makeSureOnline();
     }
+  }, [demoId, allProject]);
 
-  }, []);
-
+  // useEffect(() => {
+  //   if (fethedImgLink?.length > 0) {
+  //     for (const image of fethedImgLink) {
+  //       image.image?.map((single) =>
+  //         setImageRawLink([...imageRawLink, single])
+  //       );
+  //     }
+  //   }
+  // }, [demoId, fethedImgLink]);
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -232,10 +317,11 @@ const AddDemo = () => {
                 প্রকল্পের পুরো নাম
               </label>
               <select
+                disabled={demoId ? true : false}
                 className="input input-bordered w-full"
                 id="projectInfo.full"
                 name="projectInfo.full"
-                value={selectedOption?.name?.details}
+                value={selectedProject?.name?.details}
                 onChange={handleSelectChange}
                 onBlur={formik.handleBlur}
               >
@@ -274,8 +360,8 @@ const AddDemo = () => {
                 onChange={formik.handleChange}
                 placeholder="প্রকল্পের সংক্ষেপ নাম"
                 value={
-                  selectedOption.name?.short
-                    ? selectedOption.name?.short
+                  selectedProject.name?.short
+                    ? selectedProject.name?.short
                     : formik.values.projectInfo?.short
                 }
               />
@@ -291,6 +377,7 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">অর্থবছর</label>
               <select
+                disabled={demoId ? true : false}
                 className="input input-bordered w-full"
                 id="demoTime.fiscalYear"
                 name="demoTime.fiscalYear"
@@ -304,6 +391,7 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">মৌসুম</label>
               <select
+                disabled={demoId ? true : false}
                 className="input input-bordered w-full"
                 id="demoTime.season"
                 name="demoTime.season"
@@ -390,22 +478,17 @@ const AddDemo = () => {
             </div>
             <div>
               <label className="font-extrabold mb-1 block">ব্লকের নাম</label>
-              <select
+              <input
+                type="text"
                 className="input input-bordered w-full"
                 id="address.block"
                 name="address.block"
-                value={findUnion?.blockB}
                 onBlur={formik.handleBlur}
-                disabled
-              >
-                <option value="" label="ব্লক সিলেক্ট করুন" />
-
-                <option
-                  key={findUnion?.username}
-                  value={findUnion?.blockB}
-                  label={findUnion?.blockB}
-                />
-              </select>
+                onChange={formik.handleChange}
+                placeholder="গ্রাম"
+                disabled={true}
+                value={user?.blockB}
+              />
               {formik.touched.address &&
                 formik.touched.address.block &&
                 formik.errors.address?.block ? (
@@ -419,7 +502,7 @@ const AddDemo = () => {
               <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
               <input
                 className="input input-bordered w-full"
-                value={findUnion?.unionB}
+                value={user?.unionB}
                 disabled={true}
               />
               {formik.touched.address &&
@@ -444,7 +527,7 @@ const AddDemo = () => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="উপসহকারী কৃষি অফিসারের নাম"
-                value={formik.values.SAAO ? formik.values.SAAO?.name : ""}
+                value={user?.SAAO.name}
               />
 
               {formik.touched.SAAO &&
@@ -470,7 +553,7 @@ const AddDemo = () => {
                 maxLength={11}
                 onChange={formik.handleChange}
                 placeholder="উপসহকারী কৃষি অফিসারের মোবাইল নং"
-                value={formik.values.SAAO ? formik.values.SAAO?.mobile : ""}
+                value={user?.SAAO.mobile}
               />
 
               {formik.touched.SAAO &&
@@ -486,7 +569,7 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">মোবাইল নং</label>
               <input
-                type="number"
+                type="text"
                 className="input input-bordered w-full"
                 id="numbersInfo.mobile"
                 name="numbersInfo.mobile"
@@ -597,20 +680,25 @@ const AddDemo = () => {
                 id="demoInfo.tech"
                 name="demoInfo.tech"
                 onBlur={formik.handleBlur}
-                value={formik.values.demoInfo ? formik.values.demoInfo?.tech : ""}
+                onChange={formik.handleChange}
+                value={
+                  formik.values.demoInfo ? formik.values.demoInfo?.tech : ""
+                }
               >
                 <option value="" label="প্রযুক্তি পছন্দ করুন" />
 
-                {selectedOption && selectedOption?.crops?.length > 0 && selectedOption?.crops?.map(singleCrop =>
-                  <>
-                    <option
-                      key={singleCrop}
-                      value={singleCrop}
-                      label={singleCrop}
-                    />
-                  </>)}
+                {selectedProject &&
+                  selectedProject?.crops?.length > 0 &&
+                  selectedProject?.crops?.map((singleCrop) => (
+                    <>
+                      <option
+                        key={singleCrop}
+                        value={singleCrop}
+                        label={singleCrop}
+                      />
+                    </>
+                  ))}
               </select>
-
 
               {formik.touched.demoInfo &&
                 formik.touched.demoInfo.tech &&
@@ -728,7 +816,6 @@ const AddDemo = () => {
               <label className="font-extrabold mb-1 block">কর্তন তারিখ</label>
               <div className="input input-bordered w-full">
                 <Datepicker
-                  asSingle={true}
                   id="demoDate.korton"
                   onChange={(selectedDate) =>
                     handleDatePickerValue("korton", selectedDate)
@@ -820,33 +907,6 @@ const AddDemo = () => {
               ) : null}
             </div>
           </div>
-          {/* <div className="mt-3">
-            <label className="font-extrabold mb-1 block">
-              প্রদর্শনীর ছবিসমূহ
-            </label>
-            <input
-              multiple
-              name="images"
-              type="file"
-              className="file-input input-bordered w-full"
-              onChange={handleImageChange} // Add the onChange event
-            />
-          </div>
-
-          {/* Display the selected images */}
-          {/* {selectedImages.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-3 justify-center">
-              {selectedImages.map((image, index) => (
-                <img
-                  width={100}
-                  key={index}
-                  src={image}
-                  alt={`Selected Image ${index + 1}`}
-                  className="mt-2 max-w-64 h-auto"
-                />
-              ))}
-            </div>
-          )}  */}
 
           <div className="grid mt-3 lg:grid-cols-2 gap-4  grid-cols-1">
             <div className="mt-5">
@@ -876,13 +936,32 @@ const AddDemo = () => {
               ></textarea>
             </div>
           </div>
-
-          <button
-            type="submit"
-            className="btn mt-5 w-full font-extrabold text-white btn-success"
-          >
-            প্রদর্শনী যুক্ত করুন
-          </button>
+          {/* {imageRawLink?.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-3 justify-center">
+              {imageRawLink?.map((image, index) => (
+                <img
+                  width={100}
+                  key={index}
+                  src={image}
+                  alt={`Selected Image ${index + 1}`}
+                  className="mt-2 max-w-64 h-auto"
+                />
+              ))}
+            </div>
+          )} */}
+          {!loading && (
+            <button
+              type="submit"
+              className="btn mt-5 w-full font-extrabold text-white btn-success"
+            >
+              {!demoId ? "প্রদর্শনী যুক্ত করুন" : "প্রদর্শনীর তথ্য আপডেট করুন"}
+            </button>
+          )}
+          {loading && (
+            <div className="fixed daeLoader">
+              <Loader />
+            </div>
+          )}
         </form>
       </div>
     </section>

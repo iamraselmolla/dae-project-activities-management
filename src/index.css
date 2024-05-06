@@ -35,3 +35,19 @@ section {
 .image-gallery-thumbnail {
   width: 50px;
 }
+.dashboard-image-control
+  .image-gallery-content.image-gallery-thumbnails-bottom
+  .image-gallery-slide
+  .image-gallery-image {
+  height: 80px;
+}
+.image-gallery-content.image-gallery-thumbnails-bottom
+  .image-gallery-slide
+  .image-gallery-image {
+  height: 200px;
+}
+.image-gallery-content.image-gallery-thumbnails-bottom.fullscreen
+  .image-gallery-slide
+  .image-gallery-image {
+  height: 100%;
+}

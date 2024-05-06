@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { AuthContext } from "../AuthContext/AuthProvider";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
+  const from = location?.state?.from?.pathname || "/";
+
   // State to manage form inputs
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false)
 
   // Function to handle input changes
   const handleInputChange = (e) => {
@@ -16,17 +26,55 @@ const Login = () => {
     });
   };
 
-  // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can perform further validation here if needed
-    // Then, submit formData to your API
-    console.log("Form data:", formData);
-    // Reset form after submission if needed
-    setFormData({
-      username: "",
-      password: "",
-    });
+    setUser(null);
+    setLoading(true);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/user/get-login-user",
+        formData
+      );
+      if (response?.data?.success) {
+        setLoading(false);
+        toast.success(response?.data?.message);
+        setUser(response?.data?.data);
+
+        // Format the user data for local storage
+        const userFormateForLocalStorage = {
+          ...response?.data?.data,
+        };
+
+        const userToken = response?.data?.token;
+        // Stringify the formatted user data before storing it in local storage
+        localStorage.setItem(
+          "CurrentUser",
+          JSON.stringify(userFormateForLocalStorage)
+        );
+        localStorage.setItem("CurrentUserToken", JSON.stringify(userToken));
+        navigate(from, { replace: true });
+
+        // Optionally, you can redirect the user to another page upon successful login
+        // history.push('/dashboard');
+
+        // Reset form after successful login
+        setFormData({
+          username: "",
+          password: "",
+        });
+      } else {
+        setLoading(false);
+        toast.error("আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড সঠিকভাবে লিখুন");
+      }
+    } catch (error) {
+      // Handle login errors
+      console.error("Login failed:", error);
+      setLoading(false);
+      toast.error("আপনার ব্যবহারকারীর নাম এবং পাসওয়ার্ড সঠিকভাবে লিখুন");
+      // Optionally, display an error message to the user
+      // setError('Login failed. Please check your credentials.');
+    }
   };
 
   return (
@@ -59,11 +107,12 @@ const Login = () => {
               />
             </label>
             <button
+              disabled={loading}
               type="submit"
               onClick={handleSubmit}
               className="btn w-full btn-success"
             >
-              লগিন করুন
+              {loading ? "Loading" : "লগিন করুন"}
             </button>
 
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">

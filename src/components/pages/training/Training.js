@@ -1,41 +1,84 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SingleTraining from "./SingleTraining";
-import { Link } from "react-router-dom";
+import { getAllTraining } from "../../../services/userServices";
+import Loader from "../../shared/Loader";
+import SectionTitle from "../../shared/SectionTitle";
+import AddModuleButton from "../../shared/AddModuleButton";
+import { makeSureOnline } from "../../shared/MessageConst";
+import { AuthContext } from "../../AuthContext/AuthProvider";
+import NoContentFound from "../../shared/NoContentFound";
 
 const Training = () => {
+  const [allTrainings, setAllTrainings] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [fetchEnd, setFetchEnd] = useState(false);
+  const [reload, setReload] = useState(false);
+  const { role } = useContext(AuthContext)
+
+  const fetchAllTraining = async () => {
+    setLoading(true);
+    try {
+      const result = await getAllTraining();
+      if (result.status === 200) {
+        console.log(result);
+        setAllTrainings(result?.data?.data);
+        setLoading(false);
+        setFetchEnd(true);
+      } else {
+        setError("তথ্য ডাটাবেইজ থেকে আনতে অসুবিধা হয়েছে।");
+        setFetchEnd(true);
+      }
+    } catch (err) {
+      setError(
+        "সার্ভারজনিত সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
+      );
+      setFetchEnd(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (navigator.onLine) {
+      fetchAllTraining();
+    } else {
+      makeSureOnline();
+    }
+  }, [reload]);
+
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      {role === 'admin' && <AddModuleButton
+        btnText={"প্রশিক্ষণ যুক্ত করুন"}
+        link={"addTraining"}
+        key={"addTraining"}
+      />}
+      <SectionTitle title={"সকল প্রশিক্ষণ"} />
       <div className="text-right font-extrabold">
-        <Link to="/addTraining">
-          <button className="btn btn-outline btn-accent mb-5 border-2 px-5 py-22">
-            <div className="flex justify-center items-center gap-2 text-lg">
-              <span className="relative flex h-8 w-8">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-8 w-8 bg-sky-500"></span>
-              </span>
-              <div>প্রশিক্ষণ যুক্ত করুন</div>
-            </div>
-          </button>
-        </Link>
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-6">
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
-        <SingleTraining />
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
+        {!loading &&
+          !error &&
+          allTrainings?.length > 0 &&
+          allTrainings?.map((singleTraining) => (
+            <SingleTraining
+              setReload={setReload}
+              reload={reload}
+              key={singleTraining?._id}
+              data={singleTraining}
+            />
+          ))}
       </div>
+      {!loading && allTrainings?.length < 1 && fetchEnd && (
+        <div className="flex justify-center items-center">
+          <NoContentFound text={'কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।'} />
+        </div>
+      )}
+      {loading && !error && (
+        <div className="flex justify-center items-center">
+          <Loader />
+        </div>
+      )}
     </section>
   );
 };
