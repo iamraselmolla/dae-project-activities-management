@@ -18,11 +18,14 @@ const BASE_URL = {
   findDemo: "/demo/find-demo",
   addDemoImage: "/demo/add-image-to-the-demo",
   editDemos: "/demo/edit-demo",
+  demoComplete: "/demo/complete-demo",
+  getDemoById: "/demo/get-demo",
 
   // Users
   getUser: "/user/get-user",
   getAllUser: "/user/get-users",
   updateUser: "/user/update-user",
+  login: "/userget-login-user",
 
   // Groups
   createGroup: "/group/create-group",
@@ -52,7 +55,12 @@ const BASE_URL = {
   findNotes: "/note/get-notes",
   deleteNote: "/note/delete-note",
   completeANote: "/note/complete-note",
+
+
+  // Distribution
+  createDistribution: '/distribution/create-distribution'
 };
+
 
 // Project APIs
 export function addProjectByAdmin(values) {
@@ -61,7 +69,7 @@ export function addProjectByAdmin(values) {
 
 export function getAllProjects(role) {
   if (!role) {
-    role = 'user';
+    role = "user";
   }
   return http.get(BASE_URL.getProjects + `?role=${role}`);
 }
@@ -79,7 +87,7 @@ export function findProjectByUserId(id) {
 }
 
 export function markProjectComplete(id) {
-  return http.put(BASE_URL.endProject, { id })
+  return http.put(BASE_URL.endProject, { id });
 }
 
 // Demo API
@@ -111,6 +119,14 @@ export function editDemobyId(id, values) {
   return http.put(BASE_URL.editDemos, { id, values });
 }
 
+export function markDemoComplete(id, values) {
+  return http.put(BASE_URL.demoComplete, { id, data: values });
+}
+
+export function getSingleDemoById(id) {
+  return http.post(BASE_URL.getDemoById, { id });
+}
+
 // User APIs
 export function getUser(username) {
   return http.delete(BASE_URL.getUser, { username });
@@ -122,6 +138,10 @@ export function getAllUser() {
 
 export function updateUser(id, values) {
   return http.put(BASE_URL.updateUser, { id, values });
+}
+
+export function getLoginUser(formData) {
+  return http.post(BASE_URL.login, formData);
 }
 
 // Group APIs
@@ -210,4 +230,10 @@ export function deleteAnote(id) {
 
 export function markNoteAsComplete(id, comment) {
   return http.put(BASE_URL.completeANote, { id, comment });
+}
+
+
+// Distribution
+export function createDistribution(data) {
+  return http.post(BASE_URL.createDistribution, { data })
 }

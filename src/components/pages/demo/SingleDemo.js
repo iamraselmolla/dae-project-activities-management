@@ -1,51 +1,45 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaMobileAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
-import { RiImageAddFill } from "react-icons/ri";
 import "./demo.css";
 import { GrTechnology } from "react-icons/gr";
 import { CiCalendarDate } from "react-icons/ci";
-
-import { AuthContext } from "../../AuthContext/AuthProvider";
 import formatDateToday from "../../utilis/formatDate";
 
 const SingleDemo = ({ data }) => {
-  const { setModalData, username: demoUser } = useContext(AuthContext);
   const {
     projectInfo,
     demoTime,
     farmersInfo,
     address,
-    // SAAO,
     numbersInfo,
     demoInfo,
     demoDate,
-    // production,
-    // comment,
     demoImages,
     username,
   } = data;
 
-  const handleModaOpen = (dataValues) => {
-    document.getElementById("my_modal_1")?.showModal();
-    setModalData(dataValues);
-  };
   const imagesArr = [];
   useEffect(() => {
     if (demoImages?.length > 0) {
       for (const image of demoImages) {
-        image.image?.map(single => imagesArr.push({ original: single, thumbnail: single }))
-
+        image.image?.map((single) =>
+          imagesArr.push({ original: single, thumbnail: single })
+        );
       }
     } else {
-      imagesArr.push({ original: 'images/pi/pi2.jpg', thumbnail: 'images/pi/pi2.jpg' }, { original: 'images/pi/pi2.jpg', thumbnail: 'images/pi/pi2.jpg' })
+      imagesArr.push(
+        { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" },
+        { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" }
+      );
     }
-  }, [demoImages, username]);
+  }, [demoImages]);
+
   return (
-    <div className="rounded-lg relative shadow-xl">
+    <div className="rounded-lg bg-white shadow-blue relative shadow-xl">
       <div className="relative">
         <ImageGallery autoPlay={true} items={imagesArr} />
         <div className="flex items-center absolute top-3">
@@ -59,13 +53,8 @@ const SingleDemo = ({ data }) => {
           </p>
         </div>
       </div>
-      {data?.username === demoUser && (
-        <div className="add-image cursor-pointer bg-black flex h-12 absolute items-center justify-center opacity-50 rounded-full text-3xl text-white w-12">
-          <RiImageAddFill onClick={() => handleModaOpen(data)} />
-        </div>
-      )}
 
-      <div className="content-part px-3 py-2   ">
+      <div className="content-part px-3 py-2">
         <h2 className="text-xl font-extrabold">{farmersInfo?.name}</h2>
         <div>
           <div className="flex items-center gap-2">
@@ -86,9 +75,7 @@ const SingleDemo = ({ data }) => {
           </div>
           <div className="flex items-center gap-2">
             <CiCalendarDate />
-            <p>
-              {formatDateToday(demoDate?.ropon)}
-            </p>
+            <p>{formatDateToday(demoDate?.ropon)}</p>
           </div>
           <div className="flex items-center gap-2">
             <GrTechnology /> <p>{demoInfo?.tech}</p>
@@ -97,10 +84,10 @@ const SingleDemo = ({ data }) => {
             <p>প্রকল্পের নামঃ {projectInfo?.full}</p>
           </div>
 
-          <div className=" mt-3 mb-4">
+          <div className="mt-3 mb-4">
             <Link
               className="px-3 py-2 rounded-md transition-colors block border-2 border-black hover:bg-black hover:text-white text-black font-bold w-100 text-center"
-              to="/"
+              to={`/demo/${data?._id}`}
             >
               বিস্তারিত দেখুন
             </Link>

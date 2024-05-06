@@ -1,4 +1,3 @@
-import { toBengaliNumber } from "bengali-number";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
@@ -7,8 +6,9 @@ import compressAndUploadImage from "../utilis/compressImages";
 import { uploadToCloudinary } from "../utilis/uploadToCloudinary";
 import { addImageAndDetails } from "../../services/userServices";
 import Loader from "./Loader";
+import { toBengaliNumber } from "bengali-number";
 
-const AddImageModal = ({ data }) => {
+const AddImageModal = ({ data, showModal, closeModal }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewURLs, setPreviewURLs] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -16,7 +16,6 @@ const AddImageModal = ({ data }) => {
   const [presentOfficers, setPresentOfficers] = useState("");
   const [loadingMessage, setLoadingMessage] = useState(null);
   const [loading, setLoading] = useState(false);
-
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
@@ -42,7 +41,6 @@ const AddImageModal = ({ data }) => {
 
   const handleFormData = async () => {
     try {
-
       if (!previewURLs?.length > 0) {
         return toast.error("ছবি যুক্তকরণে সমস্যা হয়েছে।");
       }
@@ -71,6 +69,7 @@ const AddImageModal = ({ data }) => {
         toast.success(result2?.data?.message);
         setLoading(false);
         setLoadingMessage(null);
+        closeModal(); // Close modal after successful upload
       }
     } catch (err) {
       toast.error(
@@ -81,14 +80,13 @@ const AddImageModal = ({ data }) => {
 
   return (
     <>
-      {!loading && (
+      {!loading && showModal && (
         <dialog id="my_modal_1" className="modal text-center">
-          <div className="modal-box">
+          <div className="modal-box w-6/12 max-w-5xl">
             <h3 className="font-bold text-xl mb-2">
               প্রদর্শনীর বর্তমান ছবি ও অবস্থার বর্ণনা যুক্ত করুন
             </h3>
             <Datepicker
-
               asSingle={true}
               id="demoDate"
               name="demoDate"

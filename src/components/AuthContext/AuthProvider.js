@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-import AddImageModal from "../shared/AddImageModal";
 
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
@@ -9,8 +8,6 @@ const AuthProvider = ({ children }) => {
   const [jwtToken, setJwtToken] = useState("");
   const [role, setRole] = useState(null);
   const [username, setUsername] = useState(null);
-  const [modalData, setModalData] = useState(null);
-  const [reloadData, setReloadData] = useState(false)
   useEffect(() => {
     setInitialLoading(true);
     const storedUser = localStorage.getItem("CurrentUser");
@@ -35,7 +32,6 @@ const AuthProvider = ({ children }) => {
     role,
     setRole,
     username,
-    setModalData
   };
   if (initialLoading) {
     return <>......</>;
@@ -44,7 +40,6 @@ const AuthProvider = ({ children }) => {
     <>
       <AuthContext.Provider value={authInfo}>
         {children}
-        {modalData && <AddImageModal data={modalData} />}
       </AuthContext.Provider>
     </>
   );

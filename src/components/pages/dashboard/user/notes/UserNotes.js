@@ -15,6 +15,8 @@ import { toBengaliNumber } from "bengali-number";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 import CompleteModel from "./CompleteModel";
 import SectionTitle from "../../../../shared/SectionTitle";
+import AddModuleButton from "../../../../shared/AddModuleButton";
+import NoContentFound from "../../../../shared/NoContentFound";
 
 const UserNotes = () => {
   const { user } = useContext(AuthContext);
@@ -92,11 +94,12 @@ const UserNotes = () => {
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
+          <AddModuleButton link={"dashboard/add-note"} btnText={'নোট যুক্ত করুন'} />
           <SectionTitle title={"অসম্পন্ন নোট"} />
           <div className="border mt-2 rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900 mb-16">
             {!loading && (
               <>
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <table className="min-w-full divide-y bg-white  divide-gray-200 dark:divide-gray-700">
                   {/* Table Header */}
                   <thead>
                     <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
@@ -185,20 +188,11 @@ const UserNotes = () => {
                           </td>
                         </tr>
                       ))}
-                    {/* Display message if no notes */}
-                    {fetchEnd && !loading && incompletedNotes?.length < 1 && (
-                      <tr>
-                        <td colSpan="10" className="p-3">
-                          <span className="flex justify-center items-center">
-                            <h2 className="text-red-600 text-2xl">
-                              কোনো অসম্পন্ন নোট খুজে পাওয়া যায়নি
-                            </h2>
-                          </span>
-                        </td>
-                      </tr>
-                    )}
                   </tbody>
                 </table>
+                {fetchEnd && !loading && incompletedNotes?.length < 1 && (
+                  <NoContentFound text={' কোনো অসম্পন্ন নোট খুজে পাওয়া যায়নি!'} />
+                )}
               </>
             )}
             {loading && <Loader />}
@@ -209,7 +203,7 @@ const UserNotes = () => {
           <div className="border mt-2 rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
             {!loading && (
               <>
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">
                   <thead>
                     <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
                       <UserNoteTH text="ক্রমিক নং" />
@@ -304,19 +298,11 @@ const UserNotes = () => {
                       data={modalData}
                     />
 
-                    {fetchEnd && !loading && completedNotes?.length < 1 && (
-                      <tr>
-                        <td colSpan="10" className="p-3">
-                          <span className="flex justify-center items-center">
-                            <h2 className="text-red-600 text-2xl">
-                              কোনো সম্পন্ন নোট খুজে পাওয়া যায়নি
-                            </h2>
-                          </span>
-                        </td>
-                      </tr>
-                    )}
                   </tbody>
                 </table>
+                {fetchEnd && !loading && completedNotes?.length < 1 && (
+                  <NoContentFound text={' কোনো সম্পন্ন নোট খুজে পাওয়া যায়নি!'} />
+                )}
               </>
             )}
             {loading && <Loader />}

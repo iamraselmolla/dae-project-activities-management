@@ -5,6 +5,8 @@ import SingleTrainingRow from './SingleTrainingRow';
 import TableHead from './TableComponent/TableHead';
 import Loader from '../../../../shared/Loader';
 import { makeSureOnline } from '../../../../shared/MessageConst';
+import SectionTitle from '../../../../shared/SectionTitle';
+import NoContentFound from '../../../../shared/NoContentFound';
 
 const AdminTrainings = () => {
     const [allTrainings, setAllTrainings] = useState([]);
@@ -43,9 +45,10 @@ const AdminTrainings = () => {
     return (
         <div className="flex flex-col">
             <div className="mt-10 overflow-x-auto">
+                <SectionTitle title={'সকল প্রশিক্ষণসমূহ'} />
                 <div className="p-1.5 min-w-full inline-block align-middle">
                     <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-                        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <table className="min-w-full bg-white divide-y divide-gray-200 dark:divide-gray-700">
                             <thead>
                                 <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
                                     <TableHead text={'ক্রমিক নং'} />
@@ -72,16 +75,13 @@ const AdminTrainings = () => {
                                         data={training}
                                     />
                                 ))}
-                            {!loading && allTrainings?.length < 1 && fetchEnd && (
-                                <div className="flex justify-center items-center">
-                                    <h2 className="text-red-600 text-2xl  font-extrabold">
-                                        কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।
-                                    </h2>
-                                </div>
-                            )}
+
 
 
                         </table>
+                        {!loading && allTrainings?.length < 1 && fetchEnd && (
+                            <NoContentFound text={'কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।'} />
+                        )}
                         {loading && !error && (
                             <div className="flex justify-center items-center">
                                 <Loader />

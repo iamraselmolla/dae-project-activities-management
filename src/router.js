@@ -1,9 +1,7 @@
 import LoginPage from "./components/LogInPage/LoginPage";
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import AddFieldDay from "./components/pages/FieldDay/AddFieldDay";
 import FieldDay from "./components/pages/FieldDay/FieldDay";
 import Dashboard from "./components/pages/dashboard/Dashboard";
-import Sidebar from "./components/pages/dashboard/DashboardLayout";
 import DashboardLayout from "./components/pages/dashboard/DashboardLayout";
 import AllProjects from "./components/pages/dashboard/admin/AllProjects";
 import Allusers from "./components/pages/dashboard/admin/Allusers";
@@ -18,11 +16,13 @@ import Profile from "./components/pages/dashboard/profile/Profile";
 import AddGroupMeeting from "./components/pages/DaeGroupMeeting/AddGroupMeeting";
 import DaeGroupMeeting from "./components/pages/DaeGroupMeeting/DaeGroupMeeting";
 import UserNotes from "./components/pages/dashboard/user/notes/UserNotes";
-import AddUserNotes from "./components/pages/dashboard/user/notes/AddUserNotes";
 import AdminTrainings from "./components/pages/dashboard/admin/DashboardTrainings/AdminTrainings";
 import UserFieldDays from "./components/pages/dashboard/user/UserFieldDays/UserFieldDays";
 import UserDaeMeetings from "./components/pages/dashboard/user/group-meeting/UserDaeMeetings";
 import UserDemos from "./components/pages/dashboard/user/demos/UserDemos";
+import AddNotes from "./components/pages/note/AddUserNotes";
+import DemoDetails from "./components/pages/demo/DemoDetails";
+import AddDistribution from "./components/pages/distrubution/AddDistribution";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -42,6 +42,10 @@ const router = createBrowserRouter([
         element: <Demo></Demo>,
       },
       {
+        path: "/demo/:id",
+        element: <DemoDetails></DemoDetails>,
+      },
+      {
         path: "/trainings",
         element: <Training></Training>,
       },
@@ -52,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: "/distributions",
         element: <Distribution></Distribution>,
+      },
+      {
+        path: "/addDistribution",
+        element: <AddDistribution></AddDistribution>,
       },
       {
         path: "/addDemo",
@@ -80,6 +88,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "/add-note",
+        element: <AddNotes />,
       },
       {
         path: "*",
@@ -124,10 +136,6 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/user-notes",
             element: <UserNotes />,
-          },
-          {
-            path: "/dashboard/add-note",
-            element: <AddUserNotes />,
           },
           {
             path: "/dashboard/trainings",

@@ -9,8 +9,13 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
 import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 
-const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoComplete }) => {
-  const { setModalData } = useContext(AuthContext);
+const UserSingleDemoTableRow = ({
+  data,
+  index,
+  handleDemoDeleting,
+  handleDemoComplete,
+  setReload, reload
+}) => {
 
   const {
     _id,
@@ -41,9 +46,7 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoCom
 
   const handleModaOpen = (dataValues) => {
     document.getElementById("my_modal_1")?.showModal();
-    setModalData(dataValues);
   };
-
 
   return (
     <>
@@ -88,7 +91,7 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoCom
           <br />
         </td>
         <td className="text-center flex-col flex justify-center items-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
-          {demoImages?.length > 0 ? (
+          {demoImages?.length > 0 && (
             <ImageGallery
               showFullscreenButton={true}
               showPlayButton={false}
@@ -97,15 +100,14 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoCom
               autoPlay={true}
               items={imagesArr}
             />
-          ) : (
-            <span
-              onClick={() => handleModaOpen(data)}
-              className="text-2xl w-8 h-8 rounded cursor-pointer bg-green-600 flex justify-center items-center"
-            >
-              +
-            </span>
           )}
 
+          <span
+            onClick={() => handleModaOpen(data)}
+            className="text-2xl w-8 h-8 rounded cursor-pointer bg-green-600 flex justify-center items-center"
+          >
+            +
+          </span>
         </td>
         <td className="text-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2 whitespace-nowrap">
           {comment?.farmersReview && `কৃষকঃ` + comment?.farmersReview} <br />
@@ -116,15 +118,23 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoCom
           {toBengaliNumber(SAAO?.mobile)}
         </td>
 
-        <td className="p-3 flex gap-1 text-center whitespace-nowrap text-sm font-medium">
-          <div className="cursor-pointer">
-            <Link to={`/addDemo?id=${_id}`}>
-              <CiEdit size={35} color="black" />
-            </Link>
-          </div>
-          <div className="cursor-pointer">
-            <AiOutlineFileDone onClick={() => handleDemoComplete(data)} size={35} color="green" />
-          </div>
+        <td className="p-3 flex justify-center items-center  gap-1 text-center whitespace-nowrap text-sm font-medium">
+          {!data?.completed &&
+            <>
+              <div className="cursor-pointer">
+                <Link to={`/addDemo?id=${_id}`}>
+                  <CiEdit size={35} color="black" />
+                </Link>
+              </div>
+              <div className="cursor-pointer">
+                <AiOutlineFileDone
+                  onClick={() => handleDemoComplete(data)}
+                  size={35}
+                  color="green"
+                />
+              </div>
+            </>
+          }
           <div className="cursor-pointer">
             <MdOutlineDelete
               onClick={() =>
@@ -140,11 +150,8 @@ const UserSingleDemoTableRow = ({ data, index, handleDemoDeleting, handleDemoCom
               color="red"
             />
           </div>
-
         </td>
-
       </tr>
-
     </>
   );
 };

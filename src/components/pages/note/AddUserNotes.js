@@ -5,18 +5,19 @@ import toast from "react-hot-toast";
 import {
   createANote,
   getAllProjects,
-} from "../../../../../services/userServices";
+} from "../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
-import getFiscalYear from "../../../../shared/commonDataStores";
-import FiscalYear from "../../../../shared/FiscalYear";
-import Season from "../../../../shared/Season";
+import getFiscalYear from "../../shared/commonDataStores";
+import FiscalYear from "../../shared/FiscalYear";
+import Season from "../../shared/Season";
 import Datepicker from "react-tailwindcss-datepicker";
-import { AuthContext } from "../../../../AuthContext/AuthProvider";
+import { AuthContext } from "../../AuthContext/AuthProvider";
 import { FaTimes } from "react-icons/fa";
-import compressAndUploadImage from "../../../../utilis/compressImages";
-import { uploadToCloudinary } from "../../../../utilis/uploadToCloudinary";
-import Loader from "../../../../shared/Loader";
-import { makeSureOnline } from "../../../../shared/MessageConst";
+import compressAndUploadImage from "../../utilis/compressImages";
+import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
+import Loader from "../../shared/Loader";
+import { makeSureOnline } from "../../shared/MessageConst";
+import SectionTitle from "../../shared/SectionTitle";
 
 const AddNotes = () => {
   const [allProject, setAllProjects] = useState([]);
@@ -189,16 +190,19 @@ const AddNotes = () => {
     }
   }, []);
 
+  const FormLabel = () => {
+
+  }
   return (
     <div className="container py-8 px-6 mx-auto">
-      <h1 className="text-2xl font-bold mb-4">নোটস যুক্ত করুন</h1>
+      <SectionTitle title={'নোট যুক্ত করুন'} />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {(formik) => (
-          <Form className="space-y-4">
+          <Form className="space-y-4 bg-white p-6 rounded-3 ">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div>
                 <label className="font-extrabold mb-1 block">
@@ -226,8 +230,8 @@ const AddNotes = () => {
                   )}
                 </select>
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.details &&
-                formik.errors.projectInfo?.details ? (
+                  formik.touched.projectInfo.details &&
+                  formik.errors.projectInfo?.details ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.details}
                   </div>
@@ -250,8 +254,8 @@ const AddNotes = () => {
                 />
 
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.short &&
-                formik.errors.projectInfo?.short ? (
+                  formik.touched.projectInfo.short &&
+                  formik.errors.projectInfo?.short ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.short}
                   </div>
@@ -284,8 +288,8 @@ const AddNotes = () => {
                   <Season />
                 </select>
                 {formik.touched.timeFrame &&
-                formik.touched.timeFrame.season &&
-                formik.errors.timeFrame?.season ? (
+                  formik.touched.timeFrame.season &&
+                  formik.errors.timeFrame?.season ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.timeFrame.season}
                   </div>

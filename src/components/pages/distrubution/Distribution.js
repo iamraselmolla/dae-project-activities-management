@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AddModuleButton from '../../shared/AddModuleButton';
+import { AuthContext } from '../../AuthContext/AuthProvider';
 
 const Distribution = () => {
+    const { user } = useContext(AuthContext);
+
     return (
-        <div className="h-screen font-bold text-center text-2xl">
-            This is the page for distributions
-        </div>
+        <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            {user && <div className="text-right font-extrabold">
+                <AddModuleButton link={'addDistribution'} btnText={'মালামাল বিতরণের তথ্য যুক্ত করুন'} />
+            </div>}
+        </section>
     );
 };
 
