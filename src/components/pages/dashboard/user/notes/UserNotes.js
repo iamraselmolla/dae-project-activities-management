@@ -112,6 +112,7 @@ const UserNotes = () => {
                       <UserNoteTH text="অর্থবছর ও মৌসুম" />
                       <UserNoteTH text="তারিখ" />
                       <UserNoteTH text="SAAO-এর নাম ও মোবাইল নং" />
+                      <UserNoteTH text="কার্য মন্তব্য" />
                       <UserNoteTH text="একশন" />
                     </tr>
                   </thead>
@@ -167,6 +168,11 @@ const UserNotes = () => {
                               singleNote?.SAAO?.name +
                               "\n" +
                               toBengaliNumber(singleNote?.SAAO?.mobile)
+                            }
+                          />
+                          <UserNoteTD
+                            text={
+                              singleNote?.comment?.noteComment
                             }
                           />
 
@@ -267,7 +273,8 @@ const UserNotes = () => {
                               })
                             )}
                           />
-                          <UserNoteTD text={singleNote?.comment} />
+                          <UserNoteTD text={singleNote?.comment?.noteComment} />
+                          <UserNoteTD text={singleNote?.comment?.completedNotes} />
                           <UserNoteTD
                             text={
                               singleNote?.SAAO?.name +
