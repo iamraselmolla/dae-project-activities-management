@@ -527,7 +527,7 @@ const AddDemo = () => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="উপসহকারী কৃষি অফিসারের নাম"
-                value={user?.SAAO.name}
+                value={user?.SAAO?.name}
               />
 
               {formik.touched.SAAO &&
@@ -553,7 +553,7 @@ const AddDemo = () => {
                 maxLength={11}
                 onChange={formik.handleChange}
                 placeholder="উপসহকারী কৃষি অফিসারের মোবাইল নং"
-                value={user?.SAAO.mobile}
+                value={user?.SAAO?.mobile}
               />
 
               {formik.touched.SAAO &&

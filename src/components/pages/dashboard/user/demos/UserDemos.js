@@ -11,6 +11,7 @@ import Loader from "../../../../shared/Loader";
 import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 import SectionTitle from "../../../../shared/SectionTitle";
 import NoContentFound from "../../../../shared/NoContentFound";
+import AddModuleButton from "../../../../shared/AddModuleButton";
 
 const UserDemos = () => {
   const { user } = useContext(AuthContext);
@@ -90,6 +91,7 @@ const UserDemos = () => {
       <div className="flex py-10 flex-col">
         <div className="mt-10 overflow-x-auto">
           <div className="p-1.5 min-w-full inline-block align-middle">
+            <AddModuleButton link={"addDemo"} btnText={'প্রদর্শনী যুক্ত করুন'} />
             <div>
               <SectionTitle title={'চলমান প্রদর্শনী'} />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">

@@ -12,6 +12,7 @@ import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
 import NoContentFound from "../../../../shared/NoContentFound";
+import AddModuleButton from "../../../../shared/AddModuleButton";
 
 const UserFieldDays = () => {
   const [allFieldDays, setAllFieldDays] = useState([])
@@ -67,6 +68,7 @@ const UserFieldDays = () => {
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
+          <AddModuleButton link={"addFieldDay"} btnText={'মাঠদিবস যুক্ত করুন'} />
           <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead>
