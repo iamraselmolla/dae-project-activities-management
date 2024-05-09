@@ -62,7 +62,10 @@ const AddNotes = () => {
       mobile: toBengaliNumber(user?.SAAO.mobile) || "", // Set default value
     },
     attachment: "",
-    comment: "",
+    comment: {
+      noteComment: '',
+      completedComment: ''
+    },
     username: user?.username,
   };
   const handleImageChange = (event) => {
@@ -137,7 +140,7 @@ const AddNotes = () => {
         SAAO: user?.SAAO,
         username: user?.username,
         done: false,
-        comment: "",
+        comment
       };
       if (rawImages?.length > 0) {
         setLoadingMessage("ছবি আপ্লোড হচ্ছে");
@@ -318,6 +321,9 @@ const AddNotes = () => {
                   </option>
                   <option value="কৃষি পরামর্শ প্রদান">
                     কৃষি পরামর্শ প্রদান
+                  </option>
+                  <option value="মালামাল বিতরণ">
+                    ্মালামাল বিতরণ
                   </option>
                 </Field>
                 <ErrorMessage
@@ -557,6 +563,18 @@ const AddNotes = () => {
                     </button>
                   </div>
                 ))}
+              </div>
+              <div className="mt-5">
+                <label className="font-extrabold mb-1 block"> মন্তব্য</label>
+                <textarea
+                  name="comment.noteComment"
+                  id="comment.noteComment"
+                  className="input h-20 input-bordered w-full"
+                  rows={10}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.comment.noteComment}
+                ></textarea>
               </div>
             </div>
             {!loading && (

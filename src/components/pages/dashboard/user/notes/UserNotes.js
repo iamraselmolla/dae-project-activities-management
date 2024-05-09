@@ -12,7 +12,7 @@ import UserNoteTD from "./UserNoteTD";
 import Loader from "../../../../shared/Loader";
 import { toBengaliNumber } from "bengali-number";
 import { makeSureOnline } from "../../../../shared/MessageConst";
-import CompleteModel from "./CompleteModel";
+import completeNoteModal from "./completeNoteModal";
 import SectionTitle from "../../../../shared/SectionTitle";
 import AddModuleButton from "../../../../shared/AddModuleButton";
 import NoContentFound from "../../../../shared/NoContentFound";
@@ -295,7 +295,7 @@ const UserNotes = () => {
                           </td>
                         </tr>
                       ))}
-                    <CompleteModel
+                    <completeNoteModal
                       setReload={setReload}
                       reload={reload}
                       data={modalData}
