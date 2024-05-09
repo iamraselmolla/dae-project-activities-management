@@ -29,7 +29,7 @@ const AddDemo = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const { projects: allProject
-   } = useSelector(state => state.projects)
+  } = useSelector(state => state.projects)
 
 
   // const [fethedImgLink, setimgLink] = useState();
