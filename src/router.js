@@ -23,6 +23,9 @@ import UserDemos from "./components/pages/dashboard/user/demos/UserDemos";
 import AddNotes from "./components/pages/note/AddUserNotes";
 import DemoDetails from "./components/pages/demo/DemoDetails";
 import AddDistribution from "./components/pages/distrubution/AddDistribution";
+import AdminRoute from "./components/PrivateRoute/AdminRoute";
+import UserRoute from "./components/PrivateRoute/UserRoute";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -59,23 +62,23 @@ const router = createBrowserRouter([
       },
       {
         path: "/addDistribution",
-        element: <AddDistribution></AddDistribution>,
+        element: <AdminRoute><AddDistribution></AddDistribution></AdminRoute>,
       },
       {
         path: "/addDemo",
-        element: <AddDemo />,
+        element: <UserRoute><AddDemo /></UserRoute>,
       },
       {
         path: "/addFieldDay",
-        element: <AddFieldDay />,
+        element: <UserRoute><AddFieldDay /></UserRoute>,
       },
       {
         path: "/addTraining",
-        element: <AddTraining />,
+        element: <AdminRoute><AddTraining /></AdminRoute>,
       },
       {
         path: "/add-dae-group-meeting",
-        element: <AddGroupMeeting />,
+        element: <UserRoute><AddGroupMeeting /></UserRoute>,
       },
       {
         path: "/dae-group-meeting",
@@ -83,7 +86,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/addDemo",
-        element: <AddTraining />,
+        element: <UserRoute><AddTraining /></UserRoute>,
       },
       {
         path: "/login",
@@ -91,7 +94,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/add-note",
-        element: <AddNotes />,
+        element: <PrivateRoute><AddNotes /></PrivateRoute>,
       },
       {
         path: "*",
@@ -99,7 +102,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <DashboardLayout />,
+        element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
         children: [
           {
             path: "/dashboard",
@@ -107,15 +110,15 @@ const router = createBrowserRouter([
           },
           {
             path: "/dashboard/all-projects",
-            element: <AllProjects />,
+            element: <AdminRoute><AllProjects /></AdminRoute>,
           },
           {
             path: "/dashboard/all-users",
-            element: <Allusers />,
+            element: <AdminRoute><Allusers /></AdminRoute>,
           },
           {
             path: "/dashboard/addProject",
-            element: <AddProjects />,
+            element: <AdminRoute><AddProjects /></AdminRoute>,
           },
           {
             path: "/dashboard/profile",
@@ -123,15 +126,15 @@ const router = createBrowserRouter([
           },
           {
             path: "/dashboard/user-demos",
-            element: <UserDemos />,
+            element: <UserDemos><UserDemos /></UserDemos>,
           },
           {
             path: "/dashboard/user-fielddays",
-            element: <UserFieldDays />,
+            element: <UserRoute><UserFieldDays /></UserRoute>,
           },
           {
             path: "/dashboard/user-dae-meetings",
-            element: <UserDaeMeetings />,
+            element: <UserRoute><UserDaeMeetings /></UserRoute>,
           },
           {
             path: "/dashboard/user-notes",
@@ -139,7 +142,7 @@ const router = createBrowserRouter([
           },
           {
             path: "/dashboard/trainings",
-            element: <AdminTrainings />,
+            element: <AdminRoute><AdminTrainings /></AdminRoute>,
           },
         ],
       },

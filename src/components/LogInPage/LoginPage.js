@@ -6,9 +6,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getLoginUser } from "../../services/userServices";
 
 const LoginPage = () => {
+    const [loading, setLoading] = useState(false)
     const location = useLocation();
     const navigate = useNavigate();
-    const { setUser, loading, setLoading } = useContext(AuthContext);
+
+    const { setUser } = useContext(AuthContext);
     const from = location?.state?.from?.pathname || "/";
 
     // State to manage form inputs
@@ -33,10 +35,10 @@ const LoginPage = () => {
         setLoading(true);
 
         try {
-            const response = getLoginUser(formData)
-            if (response?.data?.success) {
+            const response = await getLoginUser(formData)
+            if (response?.status === 200) {
                 setLoading(false);
-                toast.success(response?.data?.message.name);
+                toast.success(response?.data?.message);
                 setUser(response?.data?.data);
 
                 // Format the user data for local storage
