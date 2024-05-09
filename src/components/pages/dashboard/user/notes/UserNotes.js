@@ -93,7 +93,7 @@ const UserNotes = () => {
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
-          <AddModuleButton link={"dashboard/add-note"} btnText={'নোট যুক্ত করুন'} />
+          <AddModuleButton link={"add-note"} btnText={'নোট যুক্ত করুন'} />
           <SectionTitle title={"অসম্পন্ন নোট"} />
           <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900 mb-16">
             {!loading && (

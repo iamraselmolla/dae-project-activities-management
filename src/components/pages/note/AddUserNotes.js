@@ -194,7 +194,7 @@ const AddNotes = () => {
 
   }
   return (
-    <div className="container py-8 px-6 mx-auto">
+    <div className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8 py-8">
       <SectionTitle title={'নোট যুক্ত করুন'} />
       <Formik
         initialValues={initialValues}
@@ -202,7 +202,7 @@ const AddNotes = () => {
         onSubmit={handleSubmit}
       >
         {(formik) => (
-          <Form className="space-y-4 bg-white p-6 rounded-3 ">
+          <Form className="space-y-4  p-6 rounded-3 ">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div>
                 <label className="font-extrabold mb-1 block">
