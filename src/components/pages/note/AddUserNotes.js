@@ -18,9 +18,9 @@ import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import { makeSureOnline } from "../../shared/MessageConst";
 import SectionTitle from "../../shared/SectionTitle";
+import { useSelector } from "react-redux";
 
 const AddNotes = () => {
-  const [allProject, setAllProjects] = useState([]);
   const [images, setImages] = useState([]);
   const [rawImages, setRawImages] = useState([]);
   const { user } = useContext(AuthContext);
@@ -30,6 +30,8 @@ const AddNotes = () => {
     startDate: "",
     endDate: "",
   });
+  const { projects: allProject
+  } = useSelector(state => state.projects)
   const initialValues = {
     projectInfo: {
       details: "",
@@ -165,34 +167,6 @@ const AddNotes = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllProjects();
-        if (result?.data?.success) {
-          setAllProjects(result.data.data);
-        } else {
-          setAllProjects([]);
-          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি"); // Notify user if data retrieval was not successful
-        }
-      } catch (error) {
-        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
-        toast.error(
-          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
-        );
-      }
-    };
-
-    if (navigator.onLine) {
-      fetchData();
-    } else {
-      makeSureOnline();
-    }
-  }, []);
-
-  const FormLabel = () => {
-
-  }
   return (
     <div className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8 py-8">
       <SectionTitle title={'নোট যুক্ত করুন'} />
