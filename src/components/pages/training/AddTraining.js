@@ -20,13 +20,14 @@ import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import { useLocation } from "react-router-dom";
 import { makeSureOnline } from "../../shared/MessageConst";
+import { useSelector } from "react-redux";
 
 const AddTraining = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const trainingIdFromUrl = queryParams.get("id");
   const [trainingId, setTrainingProjectId] = useState(trainingIdFromUrl);
-  const [allProject, setAllProjects] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
   const [rawImages, setRawImages] = useState([]);
@@ -38,6 +39,8 @@ const AddTraining = () => {
   const [imageLinks, setImageLinks] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]); // Initialize as an empty array
   const { user } = useContext(AuthContext);
+  const { projects: allProject
+  } = useSelector(state => state.projects)
   const handleSelectChange = (e) => {
     if (e.target.value) {
       const findProject = allProject?.find(
@@ -220,31 +223,6 @@ const AddTraining = () => {
       }
     },
   });
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllProjects();
-        if (result?.data?.success) {
-          setAllProjects(result.data.data);
-        } else {
-          setAllProjects([]);
-          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি"); // Notify user if data retrieval was not successful
-        }
-      } catch (error) {
-        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
-        toast.error(
-          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
-        );
-      }
-    };
-
-    if (navigator.onLine) {
-      fetchData();
-    } else {
-      makeSureOnline();
-    }
-  }, []);
-
   const findTrainingInfo = async () => {
     try {
       const result = await getTrainingById(trainingId);
