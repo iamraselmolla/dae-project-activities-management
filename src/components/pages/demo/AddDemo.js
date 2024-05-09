@@ -18,6 +18,7 @@ import { AuthContext } from "../../AuthContext/AuthProvider";
 import { makeSureOnline } from "../../shared/MessageConst";
 import Loader from "../../shared/Loader";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AddDemo = () => {
   const location = useLocation();
@@ -25,9 +26,12 @@ const AddDemo = () => {
   const demoIdFromUrl = queryParams.get("id");
   const [demoId, setDemoId] = useState(demoIdFromUrl);
   const [selectedProject, setSelectedProject] = useState({});
-  const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const { projects: allProject
+   } = useSelector(state => state.projects)
+
+
   // const [fethedImgLink, setimgLink] = useState();
   // const [imageRawLink, setImageRawLink] = useState([]);
   const [datePickers, setDatePickers] = useState({
@@ -220,30 +224,7 @@ const AddDemo = () => {
     },
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllProjects();
-        if (result?.data?.success) {
-          setAllProjects(result.data.data);
-        } else {
-          setAllProjects([]);
-          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি");
-        }
-      } catch (error) {
-        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
-        toast.error(
-          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
-        );
-      }
-    };
 
-    if (navigator.onLine) {
-      fetchData();
-    } else {
-      makeSureOnline();
-    }
-  }, []);
   useEffect(() => {
     const fetchDemoId = async () => {
       if (!demoId) return;
