@@ -12,7 +12,7 @@ const UserRoute = ({ children }) => {
         return <><Loader /></>
     }
 
-    if (!role !== 'user') {
+    if (role !== 'user') {
         toast.error("এইটা লগিন করা অবস্থায় ইউজারের এরিয়া । আপনি এই পেইজে প্রবেশ করতে পারবেন না।")
         return <Navigate to="/login" state={{ from: location }} replace></Navigate>
     }
