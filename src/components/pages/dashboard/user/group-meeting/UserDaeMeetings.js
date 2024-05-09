@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import Loader from "../../../../shared/Loader";
 import UserSingleGroupTable from "./UserSingleGroupTable";
 import NoContentFound from "../../../../shared/NoContentFound";
+import AddModuleButton from "../../../../shared/AddModuleButton";
 
 const UserDaeMeetings = () => {
   const { user } = useContext(AuthContext);
@@ -69,6 +70,7 @@ const UserDaeMeetings = () => {
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
+          <AddModuleButton link={"add-dae-group-meeting"} btnText={'কৃষক গ্রুপ সভা যুক্ত করুন'} />
           <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead>

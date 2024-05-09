@@ -7,7 +7,6 @@ import {
 } from "../../../../../services/userServices";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
-import { CiEdit } from "react-icons/ci";
 import UserNoteTH from "./UserNoteTH";
 import UserNoteTD from "./UserNoteTD";
 import Loader from "../../../../shared/Loader";

@@ -278,8 +278,8 @@ const AddFieldDay = () => {
             short: findProject?.name?.short,
           },
           SAAO: {
-            name: user?.SAAO.name,
-            mobile: user?.SAAO.mobile,
+            name: user?.SAAO?.name,
+            mobile: user?.SAAO?.mobile,
           },
           address: {
             ...formik.values.address,
@@ -573,7 +573,7 @@ const AddFieldDay = () => {
                 readOnly
                 disabled={true}
                 placeholder="এসএএও নাম"
-                value={user?.SAAO.name}
+                value={user?.SAAO?.name}
               />
               {formik.touched.SAAO?.name && formik.errors.SAAO?.name && (
                 <div className="text-red-600">{formik.errors.SAAO?.name}</div>
