@@ -8,6 +8,7 @@ const AuthProvider = ({ children }) => {
   const [jwtToken, setJwtToken] = useState("");
   const [role, setRole] = useState(null);
   const [username, setUsername] = useState(null);
+
   useEffect(() => {
     const storedUser = localStorage.getItem("CurrentUser");
     const storedUserToken = localStorage.getItem("CurrentUserToken");
@@ -21,7 +22,7 @@ const AuthProvider = ({ children }) => {
       setJwtToken(JSON.parse(storedUserToken));
     }
     setInitialLoading(false);
-  }, []);
+  }, [role, jwtToken, username]);
 
   const authInfo = {
     user,

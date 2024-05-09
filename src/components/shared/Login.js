@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
+  const { setUser, setRole } = useContext(AuthContext);
   const from = location?.state?.from?.pathname || "/";
 
   // State to manage form inputs
@@ -40,6 +40,7 @@ const Login = () => {
         setLoading(false);
         toast.success(response?.data?.message);
         setUser(response?.data?.data);
+        setRole(response?.data?.data?.role)
 
         // Format the user data for local storage
         const userFormateForLocalStorage = {
