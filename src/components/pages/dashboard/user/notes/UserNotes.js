@@ -104,6 +104,7 @@ const UserNotes = () => {
                     <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
                       <UserNoteTH text="ক্রমিক নং" />
                       <UserNoteTH text="উদ্দেশ্য" />
+                      <UserNoteTH text="প্রকল্প" />
                       <UserNoteTH text="কৃষকের নাম ও পিতার নাম" />
                       <UserNoteTH text="মোবাইল ও NID" />
                       <UserNoteTH text="গ্রাম" />
@@ -125,6 +126,7 @@ const UserNotes = () => {
                         >
                           <UserNoteTD text={toBengaliNumber(index + 1)} />
                           <UserNoteTD text={singleNote?.purpose?.target} />
+                          <UserNoteTD text={singleNote?.projectInfo?.short} />
                           <UserNoteTD
                             text={
                               singleNote?.farmersInfo?.name +
@@ -207,6 +209,7 @@ const UserNotes = () => {
                     <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
                       <UserNoteTH text="ক্রমিক নং" />
                       <UserNoteTH text="উদ্দেশ্য" />
+                      <UserNoteTH text="প্রকল্প" />
                       <UserNoteTH text="কৃষকের নাম ও পিতার নাম" />
                       <UserNoteTH text="মোবাইল ও NID" />
                       <UserNoteTH text="গ্রাম" />
@@ -228,6 +231,7 @@ const UserNotes = () => {
                         >
                           <UserNoteTD text={toBengaliNumber(index + 1)} />
                           <UserNoteTD text={singleNote?.purpose?.target} />
+                          <UserNoteTD text={singleNote?.projectInfo?.short} />
                           <UserNoteTD
                             text={
                               singleNote?.farmersInfo?.name +
