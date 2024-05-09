@@ -23,6 +23,9 @@ const AuthProvider = ({ children }) => {
     }
     setInitialLoading(false);
   }, [role, jwtToken, username]);
+  useEffect(() => {
+
+  }, [])
 
   const authInfo = {
     user,
