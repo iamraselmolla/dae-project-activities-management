@@ -12,10 +12,11 @@ import UserNoteTD from "./UserNoteTD";
 import Loader from "../../../../shared/Loader";
 import { toBengaliNumber } from "bengali-number";
 import { makeSureOnline } from "../../../../shared/MessageConst";
-import completeNoteModal from "./completeNoteModal";
+
 import SectionTitle from "../../../../shared/SectionTitle";
 import AddModuleButton from "../../../../shared/AddModuleButton";
 import NoContentFound from "../../../../shared/NoContentFound";
+import CompleteNoteModal from "./CompleteNoteModal";
 
 const UserNotes = () => {
   const { user } = useContext(AuthContext);
@@ -295,7 +296,7 @@ const UserNotes = () => {
                           </td>
                         </tr>
                       ))}
-                    <completeNoteModal
+                    <CompleteNoteModal
                       setReload={setReload}
                       reload={reload}
                       data={modalData}

@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { getAllProjects } from "../../services/userServices";
-import { projectAction } from "../redux/projectSlice";
+import { projectAction } from "../store/projectSlice";
 import { useDispatch } from "react-redux";
 
 export const AuthContext = createContext();

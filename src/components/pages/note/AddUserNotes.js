@@ -140,8 +140,9 @@ const AddNotes = () => {
         SAAO: user?.SAAO,
         username: user?.username,
         done: false,
-        comment
+        comment: values.comment
       };
+ 
       if (rawImages?.length > 0) {
         setLoadingMessage("ছবি আপ্লোড হচ্ছে");
         for (let i = 0; i < rawImages?.length; i++) {

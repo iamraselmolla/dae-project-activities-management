@@ -3,8 +3,7 @@ import toast from "react-hot-toast";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 import { markNoteAsComplete } from "../../../../../services/userServices";
 
-function completeNoteModal({ data, setReload, reload }) {
-  const [open, setOpen] = useState(true);
+const CompleteNoteModal = ({ data, setReload, reload }) => {
   const [commentData, setCommentData] = useState("");
   // Handle Note completion
   const handleNoteCompleted = async (id) => {
@@ -65,4 +64,4 @@ function completeNoteModal({ data, setReload, reload }) {
   );
 }
 
-export default completeNoteModal;
+export default CompleteNoteModal;
