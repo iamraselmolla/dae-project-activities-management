@@ -8,24 +8,23 @@ import { AuthContext } from "../../AuthContext/AuthProvider";
 
 const Training = () => {
   const { trainings: allTrainings } = useSelector(state => state.dae)
-  const { role } = useContext(AuthContext)
+  const { role } = useContext(AuthContext);
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      {role === 'admin' && <AddModuleButton
-        btnText={"প্রশিক্ষণ যুক্ত করুন"}
-        link={"addTraining"}
-        key={"addTraining"}
-      />}
+      {role === 'admin' &&
+        <AddModuleButton
+          btnText={"প্রশিক্ষণ যুক্ত করুন"}
+          link={"addTraining"}
+          key={"addTraining"}
+        />}
       <SectionTitle title={"সকল প্রশিক্ষণ"} />
       <div className="text-right font-extrabold">
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
-        {
-          allTrainings?.length > 0 &&
+        {allTrainings?.length > 0 &&
           allTrainings?.map((singleTraining) => (
             <SingleTraining
-
               key={singleTraining?._id}
               data={singleTraining}
             />
