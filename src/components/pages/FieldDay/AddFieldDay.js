@@ -40,7 +40,7 @@ const AddFieldDay = () => {
   const [loadingMessage, setLoadingMessage] = useState(null);
   const { user } = useContext(AuthContext);
   const { projects: allProject
-  } = useSelector(state => state.projects)
+  } = useSelector(state => state.dae)
 
   const handleImageChange = (e) => {
     const files = e.target.files;
@@ -297,7 +297,7 @@ const AddFieldDay = () => {
     }
   };
   return (
-    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"নতুন মাঠ দিবসের তথ্য যুক্ত করুন"} />
       <div className="mt-3">
         <form onSubmit={formik.handleSubmit}>

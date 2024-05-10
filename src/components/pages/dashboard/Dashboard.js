@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../AuthContext/AuthProvider';
-import { getAllProjects, getAllTraining, getAllUser } from '../../../services/userServices';
+import { findUserAllNotes, getAllProjects, getAllTraining, getAllUser } from '../../../services/userServices';
 import { useDispatch } from 'react-redux';
 import { daeAction } from '../../store/projectSlice';
 import toast from 'react-hot-toast';
@@ -14,12 +14,15 @@ const Dashboard = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         const fetchGeneralData = async () => {
-            // Fetch Projets Data
             try {
-                const projectsResult = await getAllProjects(role);
-                if (projectsResult?.status === 200) {
-                    dispatch(daeAction.setAllProjects(projectsResult?.data?.data))
+                // User all Notes
+                const noteResult = await findUserAllNotes();
+                if (noteResult?.status === 200) {
+                    dispatch(daeAction.setUserNotes(noteResult?.data?.data))
                 }
+
+
+
 
                 setLoading(false)
             }
@@ -43,8 +46,8 @@ const Dashboard = () => {
         // Fetch Admin Based data
         const fetchAdminAllData = async () => {
 
-            // All Users
             try {
+                // All Users
                 const userResult = await getAllUser();
                 if (userResult?.status === 200) {
                     dispatch(daeAction.setAllUsers(userResult?.data?.data))
@@ -54,6 +57,11 @@ const Dashboard = () => {
                 const trainingsResult = await getAllTraining();
                 if (trainingsResult?.status === 200) {
                     dispatch(daeAction.setAllTrainings(trainingsResult?.data?.data))
+                }
+                // all projects
+                const projectsResult = await getAllProjects(role);
+                if (projectsResult?.status === 200) {
+                    dispatch(daeAction.setAllProjects(projectsResult?.data?.data))
                 }
 
                 setLoading(false)

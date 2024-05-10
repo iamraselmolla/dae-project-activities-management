@@ -31,7 +31,7 @@ const AddNotes = () => {
     endDate: "",
   });
   const { projects: allProject
-  } = useSelector(state => state.projects)
+  } = useSelector(state => state.dae)
   const initialValues = {
     projectInfo: {
       details: "",
@@ -142,7 +142,7 @@ const AddNotes = () => {
         done: false,
         comment: values.comment
       };
- 
+
       if (rawImages?.length > 0) {
         setLoadingMessage("ছবি আপ্লোড হচ্ছে");
         for (let i = 0; i < rawImages?.length; i++) {

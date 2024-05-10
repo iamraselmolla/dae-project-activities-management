@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 import { markNoteAsComplete } from "../../../../../services/userServices";
 
-const CompleteNoteModal = ({ data, setReload, reload }) => {
-  console.log(data)
+const CompleteNoteModal = ({ data }) => {
+
   const [commentData, setCommentData] = useState("");
   // Handle Note completion
   const handleNoteCompleted = async (id) => {
@@ -17,7 +17,7 @@ const CompleteNoteModal = ({ data, setReload, reload }) => {
           const result = await markNoteAsComplete(id, commentData);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            setReload(!reload);
+
           }
         }
       } catch (err) {
