@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
     projects: [],
     users: [],
+    projects: []
 }
 
 const daeSlice = createSlice({
@@ -14,6 +15,9 @@ const daeSlice = createSlice({
         },
         setAllUsers: (state, action) => {
             state.users = action.payload
+        },
+        setAllProjects: (state, action) => {
+            state.projects = action.payload
         }
 
     }
