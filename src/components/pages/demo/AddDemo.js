@@ -8,8 +8,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import {
   createDemo,
   editDemobyId,
-  findDemoById,
-  getAllProjects,
+  findDemoById
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import getFiscalYear from "../../shared/commonDataStores";
@@ -29,7 +28,7 @@ const AddDemo = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const { projects: allProject
-  } = useSelector(state => state.projects)
+  } = useSelector(state => state.dae)
 
 
   // const [fethedImgLink, setimgLink] = useState();

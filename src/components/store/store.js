@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import projectsSlice from "./projectSlice";
+import daeSlice from "./projectSlice";
 
 const store = configureStore({
     reducer: {
-        projects: projectsSlice.reducer
+        dae: daeSlice.reducer
     }
 });
 

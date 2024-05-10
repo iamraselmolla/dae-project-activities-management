@@ -8,7 +8,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../AuthContext/AuthProvider";
 
-const SingleUser = ({ index, user, setReload, reload }) => {
+const SingleUser = ({ index, user }) => {
   const { jwtToken } = useContext(AuthContext);
   const [name, setName] = useState(user?.SAAO?.name);
   const [mobile, setMobile] = useState(user?.SAAO?.mobile);
@@ -28,7 +28,7 @@ const SingleUser = ({ index, user, setReload, reload }) => {
       const response = await updateUser(_id, updateData)
       if (response.status === 200) {
         toast.success("তথ্য আপডেট সম্পাদন হয়েছে।");
-        setReload(!reload);
+
         // Handle success
       } else {
         toast.error("ইউজার তথ্য আপডেট করতে সমস্যা হয়েছে।");

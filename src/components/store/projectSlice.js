@@ -1,18 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    projects: []
+    projects: [],
+    users: [],
 }
 
-const projectsSlice = createSlice({
-    name: 'projects',
+const daeSlice = createSlice({
+    name: 'dae-user-data',
     initialState,
     reducers: {
         setAllProjects: (state, action) => {
             state.projects = action.payload
+        },
+        setAllUsers: (state, action) => {
+            state.users = action.payload
         }
+
     }
 })
 
-export default projectsSlice;
-export const projectAction = projectsSlice.actions
+export default daeSlice;
+export const daeAction = daeSlice.actions

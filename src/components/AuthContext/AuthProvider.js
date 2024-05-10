@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { getAllProjects } from "../../services/userServices";
-import { projectAction } from "../store/projectSlice";
 import { useDispatch } from "react-redux";
+import { daeAction } from "../store/projectSlice";
 
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
@@ -12,7 +12,6 @@ const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null);
   const [username, setUsername] = useState(null);
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     const storedUser = localStorage.getItem("CurrentUser");
@@ -33,7 +32,7 @@ const AuthProvider = ({ children }) => {
       try {
         const result = await getAllProjects();
         if (result?.status === 200) {
-          dispatch(projectAction.setAllProjects(result?.data?.data))
+          dispatch(daeAction.setAllProjects(result?.data?.data))
 
         }
 
