@@ -44,7 +44,7 @@ const Allusers = () => {
               setReload={setReload}
               reload={reload}
               index={index}
-              key={index}
+              key={singleUser?._id}
               user={singleUser}
             />
           </div>
