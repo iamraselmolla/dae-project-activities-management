@@ -5,7 +5,9 @@ const initialState = {
     users: [],
     projects: [],
     trainings: [],
-    notes: []
+    notes: [],
+    demos: [],
+    fieldDays: []
 }
 
 const daeSlice = createSlice({
@@ -26,6 +28,12 @@ const daeSlice = createSlice({
         },
         setUserNotes: (state, action) => {
             state.notes = action.payload
+        },
+        setUserDemos: (state, action) => {
+            state.demos = action.payload
+        },
+        setUserFieldDays: (state, action) => {
+            state.fieldDays = action.payload
         }
 
     }

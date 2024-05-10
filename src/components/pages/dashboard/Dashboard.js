@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../AuthContext/AuthProvider';
-import { findUserAllNotes, getAllProjects, getAllTraining, getAllUser } from '../../../services/userServices';
+import { findUserAllNotes, getAllProjects, getAllTraining, getAllUser, getUserAllFieldDay, getUserDemos } from '../../../services/userServices';
 import { useDispatch } from 'react-redux';
 import { daeAction } from '../../store/projectSlice';
 import toast from 'react-hot-toast';
@@ -12,6 +12,7 @@ const Dashboard = () => {
     const { user, role, username } = useContext(AuthContext);
     const [loading, setLoading] = useState(true)
     const dispatch = useDispatch();
+
     useEffect(() => {
         const fetchGeneralData = async () => {
             try {
@@ -20,10 +21,6 @@ const Dashboard = () => {
                 if (noteResult?.status === 200) {
                     dispatch(daeAction.setUserNotes(noteResult?.data?.data))
                 }
-
-
-
-
                 setLoading(false)
             }
             catch (err) {
@@ -37,7 +34,16 @@ const Dashboard = () => {
 
         // Fetch user based data
         const fetchUserAllData = async () => {
-
+            // Demo
+            const demoResult = await getUserDemos();
+            if (demoResult?.status === 200) {
+                dispatch(daeAction.setUserDemos(demoResult?.data?.data))
+            }
+            // Field Day
+            const fieldDayResult = await getUserAllFieldDay();
+            if (fieldDayResult?.status === 200) {
+                dispatch(daeAction.setUserFieldDays(fieldDayResult?.data?.data))
+            }
         }
         if (user && role === 'user') {
             fetchUserAllData()

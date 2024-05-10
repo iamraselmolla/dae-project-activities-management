@@ -4,43 +4,16 @@ import { CiEdit } from "react-icons/ci";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
 import { deleteAFieldDay, getUserAllFieldDay } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
-import { makeSureOnline } from "../../../../shared/MessageConst";
-import Loader from "../../../../shared/Loader";
 import FieldDayTD from "./FieldDayTD";
 import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
 import NoContentFound from "../../../../shared/NoContentFound";
 import AddModuleButton from "../../../../shared/AddModuleButton";
+import { useSelector } from "react-redux";
 
 const UserFieldDays = () => {
-  const [allFieldDays, setAllFieldDays] = useState([])
-  const { user } = useContext(AuthContext)
-  const [loading, setLoading] = useState(false)
-  const [fetchEnd, setFetchEnd] = useState(false)
-  const [reload, setReload] = useState(false)
-  useEffect(() => {
-    const getFieldDays = async () => {
-      setLoading(true)
-      try {
-        const result = await getUserAllFieldDay()
-        if (result?.status === 200) {
-          setAllFieldDays(result?.data?.data)
-          setLoading(false)
-          setFetchEnd(true)
-        }
-      } catch (err) {
-        toast.error("মাঠ দিবসের তথ্য আনতে অসুবিধা হচ্ছে। দয়া করে সংশ্লিষ্টকে জানান")
-        setLoading(false)
-        setFetchEnd(true)
-      }
-    }
-    if (navigator.onLine) {
-      getFieldDays()
-    } else {
-      makeSureOnline()
-    }
-  }, [user, reload])
+  const { fieldDays: allFieldDays } = useSelector(state => state.dae)
 
   const handleFieldDayDelete = async (fieldDayData) => {
     if (window.confirm(`আপনি কি ${fieldDayData?.projectInfo?.short} প্রকল্পের ${fieldDayData?.subject} বিষয়ক ${toBengaliNumber(new Date(fieldDayData?.date).toLocaleDateString())} তারিখের মাঠ দিবসের তথ্যটি মুছে ফেলতে চান?`)) {
@@ -51,7 +24,6 @@ const UserFieldDays = () => {
           const result = await deleteAFieldDay(fieldDayData?._id)
           if (result.status === 200) {
             toast.success(result?.data?.message)
-            setReload(!reload)
           }
         } catch (err) {
           toast.error("মাঠ দিবসের তথ্য মুছে ফেলতে সমস্যা হচ্ছে।")
@@ -138,7 +110,7 @@ const UserFieldDays = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {!loading && allFieldDays?.length > 0 && fetchEnd && allFieldDays?.map((singleFieldDay, index) =>
+                {allFieldDays?.length > 0 && allFieldDays?.map((singleFieldDay, index) =>
                   <> <tr className="divide-x divide-gray-200 dark:divide-gray-700">
                     <FieldDayTD text={toBengaliNumber(index + 1)} />
                     <FieldDayTD text={singleFieldDay?.projectInfo?.short} />
@@ -188,11 +160,9 @@ const UserFieldDays = () => {
 
               </tbody>
             </table>
-            {fetchEnd && !loading && allFieldDays?.length < 1 &&
+            {allFieldDays?.length < 1 &&
               <NoContentFound text={'কোনো মাঠ দিবসের তথ্য পাওয়া যায়নি। দয়া করে মাঠ দিবসের তথ্য যুক্ত করুন'} />
             }
-
-            {!fetchEnd && loading && <Loader />}
           </div>
         </div>
       </div>
