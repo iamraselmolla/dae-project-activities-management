@@ -4,12 +4,9 @@ import { BsEyeFill } from "react-icons/bs";
 import { RiEyeCloseLine } from "react-icons/ri";
 import UserTitle from "../../../shared/UserTitle";
 import { updateUser } from "../../../../services/userServices";
-import axios from "axios";
 import toast from "react-hot-toast";
-import { AuthContext } from "../../../AuthContext/AuthProvider";
 
 const SingleUser = ({ index, user }) => {
-  const { jwtToken } = useContext(AuthContext);
   const [name, setName] = useState(user?.SAAO?.name);
   const [mobile, setMobile] = useState(user?.SAAO?.mobile);
   const [password, setPassword] = useState(user?.password);

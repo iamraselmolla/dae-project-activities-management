@@ -11,8 +11,7 @@ const UserSingleDemoTableRow = ({
   data,
   index,
   handleDemoDeleting,
-  handleDemoComplete,
-  setReload, reload
+  handleDemoComplete
 }) => {
 
   const {

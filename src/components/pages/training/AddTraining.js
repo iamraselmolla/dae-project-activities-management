@@ -7,7 +7,6 @@ import Season from "../../shared/Season";
 import { useFormik } from "formik";
 import {
   createTraining,
-  getAllProjects,
   getTrainingById,
   updateTraining,
 } from "../../../services/userServices";

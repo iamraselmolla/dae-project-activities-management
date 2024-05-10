@@ -2,14 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
 import toast from "react-hot-toast";
 import {
-  deleteAnote,
-  findUserAllNotes,
+  deleteAnote
 } from "../../../../../services/userServices";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
 import UserNoteTH from "./UserNoteTH";
 import UserNoteTD from "./UserNoteTD";
-import Loader from "../../../../shared/Loader";
 import { toBengaliNumber } from "bengali-number";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 
@@ -21,7 +19,6 @@ import { useSelector } from "react-redux";
 
 const UserNotes = () => {
   const { notes: allNotes } = useSelector(state => state.dae)
-  const { user } = useContext(AuthContext);
   const [modalData, setModalData] = useState(null);
   const [completedNotes, setCompletedNotes] = useState([]);
   const [incompletedNotes, setIncompletedNotes] = useState([]);

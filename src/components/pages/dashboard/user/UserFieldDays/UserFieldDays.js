@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AiOutlineFileDone } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
@@ -60,10 +59,7 @@ const UserFieldDays = () => {
       }
     }
 
-
   }
-
-
   return (
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">

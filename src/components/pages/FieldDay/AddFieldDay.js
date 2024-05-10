@@ -7,7 +7,6 @@ import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import {
   createAFieldDay,
-  getAllProjects,
   getFieldDayDataById,
   updateAFieldDay,
 } from "../../../services/userServices";

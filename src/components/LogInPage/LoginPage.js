@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import axios from 'axios';
 import toast from "react-hot-toast";
 import { AuthContext } from "../AuthContext/AuthProvider";
 import { useLocation, useNavigate } from 'react-router-dom';

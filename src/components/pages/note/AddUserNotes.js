@@ -3,8 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import {
-  createANote,
-  getAllProjects,
+  createANote
 } from "../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
 import getFiscalYear from "../../shared/commonDataStores";
@@ -16,7 +15,6 @@ import { FaTimes } from "react-icons/fa";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
-import { makeSureOnline } from "../../shared/MessageConst";
 import SectionTitle from "../../shared/SectionTitle";
 import { useSelector } from "react-redux";
 
