@@ -1,22 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { makeSureOnline } from "../../../../shared/MessageConst";
-import { AuthContext } from "../../../../AuthContext/AuthProvider";
 import {
-  deleteGroupInfoById,
-  getUserAllGroupMeeting,
+  deleteGroupInfoById
 } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
-import Loader from "../../../../shared/Loader";
 import UserSingleGroupTable from "./UserSingleGroupTable";
 import NoContentFound from "../../../../shared/NoContentFound";
 import AddModuleButton from "../../../../shared/AddModuleButton";
+import { useSelector } from "react-redux";
 
 const UserDaeMeetings = () => {
-  const { user } = useContext(AuthContext);
-  const [allGroupsMeeting, setAllGroupsMeeting] = useState([]);
-  const [reload, setReload] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [fetchEnd, setFetchEnd] = useState(false);
+  const { daeMeetings: allGroupsMeeting } = useSelector(state => state.dae)
+
 
   const handleGroupDeleting = (id) => {
     if (!id) return;
@@ -26,7 +21,6 @@ const UserDaeMeetings = () => {
           const result = await deleteGroupInfoById(id);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            setReload(!reload);
           }
         }
       } catch (err) {
@@ -41,31 +35,7 @@ const UserDaeMeetings = () => {
       makeSureOnline();
     }
   };
-  useEffect(() => {
-    setLoading(true);
-    try {
-      const fetchUserAllGroups = async () => {
-        const result = await getUserAllGroupMeeting();
-        if (result?.status === 200) {
-          setAllGroupsMeeting(result?.data?.data);
-          setLoading(false);
-          setFetchEnd(true);
-        }
-      };
-      if (navigator.onLine) {
-        fetchUserAllGroups();
-      } else {
-        makeSureOnline();
-      }
-    } catch (err) {
-      toast.error("কৃষক গ্রুপের তথ্য আনতে সমস্যা হচ্ছে।");
-      setFetchEnd(true);
 
-      setLoading(false);
-    } finally {
-      setFetchEnd(true);
-    }
-  }, [user, reload]);
   return (
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
@@ -132,8 +102,7 @@ const UserDaeMeetings = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {!loading &&
-                  fetchEnd &&
+                {
                   allGroupsMeeting?.length > 0 &&
                   allGroupsMeeting?.map((singleGroup, index) => (
                     <UserSingleGroupTable
@@ -144,10 +113,9 @@ const UserDaeMeetings = () => {
                     />
                   ))}
 
-                {loading && <Loader />}
               </tbody>
             </table>
-            {fetchEnd && !loading && allGroupsMeeting?.length < 1 && (
+            {allGroupsMeeting?.length < 1 && (
               <NoContentFound text={' কোনো ডিএই কৃষক গ্রুপ সভা খুজে পাওয়া যায়নি!'} />
             )}
           </div>

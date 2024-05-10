@@ -7,7 +7,8 @@ const initialState = {
     trainings: [],
     notes: [],
     demos: [],
-    fieldDays: []
+    fieldDays: [],
+    daeMeetings: []
 }
 
 const daeSlice = createSlice({
@@ -34,6 +35,9 @@ const daeSlice = createSlice({
         },
         setUserFieldDays: (state, action) => {
             state.fieldDays = action.payload
+        },
+        setDaeMeeting: (state, action) => {
+            state.daeMeetings = action.payload
         }
 
     }
