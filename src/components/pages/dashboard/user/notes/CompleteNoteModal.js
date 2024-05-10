@@ -4,6 +4,7 @@ import { makeSureOnline } from "../../../../shared/MessageConst";
 import { markNoteAsComplete } from "../../../../../services/userServices";
 
 const CompleteNoteModal = ({ data, setReload, reload }) => {
+  console.log(data)
   const [commentData, setCommentData] = useState("");
   // Handle Note completion
   const handleNoteCompleted = async (id) => {

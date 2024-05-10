@@ -180,7 +180,7 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
               <tbody>
                 {(data?.crops?.length > 0) & (allCrops?.length > 0) ? (
                   allCrops?.map((singleCrop, cropIndex) => (
-                    <tr>
+                    <tr key={cropIndex}>
                       <th>{toBengaliNumber(cropIndex + 1)}</th>
                       <td>{singleCrop}</td>
                       <td>
