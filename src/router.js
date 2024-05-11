@@ -12,7 +12,7 @@ import NotFound from "./components/pages/notfound/NotFound";
 import AddProjects from "./components/pages/projects/AddProjects";
 import AddTraining from "./components/pages/training/AddTraining";
 import Training from "./components/pages/training/Training";
-import Profile from "./components/pages/dashboard/profile/Profile";
+import Profile from "./components/shared/Profile";
 import AddGroupMeeting from "./components/pages/DaeGroupMeeting/AddGroupMeeting";
 import DaeGroupMeeting from "./components/pages/DaeGroupMeeting/DaeGroupMeeting";
 import UserNotes from "./components/pages/dashboard/user/notes/UserNotes";
