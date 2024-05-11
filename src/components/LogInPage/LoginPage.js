@@ -58,7 +58,7 @@ const LoginPage = () => {
                 const { token } = response.data.token; // Assuming the server returns a token upon successful login
 
                 // Store the token in local storage
-                localStorage.setItem('token', token);
+                localStorage.setItem('CurrentUserToken', token);
 
                 // Reset form after successful login
                 setFormData({

@@ -94,6 +94,7 @@ const SingleProject = ({ data, index, }) => {
 
   // Handle Project completion
   const handleProjectDeletion = async (id) => {
+    console.log(id)
 
     if (!id) {
       return toast.error("প্রকল্পের তথ্য পেতে সমস্যা হচ্ছে।")
