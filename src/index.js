@@ -5,14 +5,19 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "./components/AuthContext/AuthProvider";
+import { Provider } from 'react-redux'
+import store from "./components/store/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <App />
-      <Toaster />
-    </AuthProvider>
+    <Provider store={store}>
+
+      <AuthProvider>
+        <App />
+        <Toaster />
+      </AuthProvider>
+    </Provider>
   </React.StrictMode>
 );
 

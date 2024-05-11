@@ -25,7 +25,7 @@ const BASE_URL = {
   getUser: "/user/get-user",
   getAllUser: "/user/get-users",
   updateUser: "/user/update-user",
-  login: "/userget-login-user",
+  login: "/user/get-login-user",
 
   // Groups
   createGroup: "/group/create-group",
@@ -68,6 +68,7 @@ export function addProjectByAdmin(values) {
 }
 
 export function getAllProjects(role) {
+  console.log(role)
   if (!role) {
     role = "user";
   }

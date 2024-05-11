@@ -6,15 +6,12 @@ import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
 import formatDateToday from "../../../../utilis/formatDate";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../../../AuthContext/AuthProvider";
-import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 
 const UserSingleDemoTableRow = ({
   data,
   index,
   handleDemoDeleting,
-  handleDemoComplete,
-  setReload, reload
+  handleDemoComplete
 }) => {
 
   const {

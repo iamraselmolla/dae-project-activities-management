@@ -1,15 +1,19 @@
-import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { getAllProjects } from "../../services/userServices";
+import { useDispatch } from "react-redux";
+import { daeAction } from "../store/projectSlice";
 
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [initialLoading, setInitialLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [jwtToken, setJwtToken] = useState("");
   const [role, setRole] = useState(null);
   const [username, setUsername] = useState(null);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    setInitialLoading(true);
     const storedUser = localStorage.getItem("CurrentUser");
     const storedUserToken = localStorage.getItem("CurrentUserToken");
     if (storedUser) {
@@ -22,7 +26,25 @@ const AuthProvider = ({ children }) => {
       setJwtToken(JSON.parse(storedUserToken));
     }
     setInitialLoading(false);
-  }, []);
+  }, [role, jwtToken, username]);
+  useEffect(() => {
+    const fetchAllProjects = async () => {
+      try {
+        const result = await getAllProjects();
+        if (result?.status === 200) {
+          dispatch(daeAction.setAllProjects(result?.data?.data))
+
+        }
+
+      }
+      catch (err) {
+        toast.error('প্রকল্পের তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে।')
+      }
+    }
+    fetchAllProjects()
+  }, [])
+
+
 
   const authInfo = {
     user,
