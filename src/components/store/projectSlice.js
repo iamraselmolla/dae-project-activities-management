@@ -8,7 +8,8 @@ const initialState = {
     notes: [],
     demos: [],
     fieldDays: [],
-    daeMeetings: []
+    daeMeetings: [],
+    refetch: 0,
 }
 
 const daeSlice = createSlice({
@@ -38,6 +39,9 @@ const daeSlice = createSlice({
         },
         setDaeMeeting: (state, action) => {
             state.daeMeetings = action.payload
+        },
+        setRefetch: (state, action) => {
+            state.refetch++
         }
 
     }

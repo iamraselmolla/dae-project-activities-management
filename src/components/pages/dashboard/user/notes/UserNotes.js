@@ -15,13 +15,15 @@ import SectionTitle from "../../../../shared/SectionTitle";
 import AddModuleButton from "../../../../shared/AddModuleButton";
 import NoContentFound from "../../../../shared/NoContentFound";
 import CompleteNoteModal from "./CompleteNoteModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { daeAction } from "../../../../store/projectSlice";
 
 const UserNotes = () => {
   const { notes: allNotes } = useSelector(state => state.dae)
   const [modalData, setModalData] = useState(null);
   const [completedNotes, setCompletedNotes] = useState([]);
   const [incompletedNotes, setIncompletedNotes] = useState([]);
+  const dispatch = useDispatch()
 
   // Find User All Notes
 
@@ -44,6 +46,7 @@ const UserNotes = () => {
               const result = await deleteAnote(userNotetobeDeleted?._id);
               if (result?.status === 200) {
                 toast.success(result?.data?.message);
+                dispatch(daeAction.setRefetch())
 
               }
             } catch (err) {
