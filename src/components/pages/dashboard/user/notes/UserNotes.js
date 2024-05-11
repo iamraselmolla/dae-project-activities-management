@@ -190,6 +190,7 @@ const UserNotes = () => {
                     <UserNoteTH text="গ্রাম" />
                     <UserNoteTH text="অর্থবছর ও মৌসুম" />
                     <UserNoteTH text="তারিখ" />
+                    <UserNoteTH text="কার্য মন্তব্য" />
                     <UserNoteTH text="কার্য শেষের মন্তব্য" />
                     <UserNoteTH text="SAAO-এর নাম ও মোবাইল নং" />
                     <UserNoteTH text="একশন" />
@@ -240,7 +241,7 @@ const UserNotes = () => {
                           )}
                         />
                         <UserNoteTD text={singleNote?.comment?.noteComment} />
-                        <UserNoteTD text={singleNote?.comment?.completedNotes} />
+                        <UserNoteTD text={singleNote?.comment?.completedComment} />
                         <UserNoteTD
                           text={
                             singleNote?.SAAO?.name +
