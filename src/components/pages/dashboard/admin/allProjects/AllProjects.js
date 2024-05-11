@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SectionTitle from "../../../../shared/SectionTitle";
 import SingleProject from "./SingleProject";
 import { useSelector } from "react-redux";
+import AddModuleButton from "../../../../shared/AddModuleButton";
 
 const AllProjects = () => {
   const [activeProjects, setActiveProjects] = useState([]);
@@ -18,6 +19,7 @@ const AllProjects = () => {
 
   return (
     <div className="py-5 px-4">
+      <AddModuleButton link={'dashboard/addproject'} btnText={"নতুন প্রকল্প যুক্ত করুন"} />
       <>
         {activeProjects.length > 0 && (
           <div className="mb-6">

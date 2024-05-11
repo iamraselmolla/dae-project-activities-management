@@ -25,7 +25,7 @@ const daeSlice = createSlice({
         setAllProjects: (state, action) => {
             state.projects = action.payload
         },
-        setAllTrainings: (state, action) => {
+        setAllTrainingsrainings: (state, action) => {
             state.trainings = action.payload
         },
         setUserNotes: (state, action) => {

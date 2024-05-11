@@ -1,47 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { getAllTraining } from '../../../../../services/userServices';
-import toast from 'react-hot-toast';
+import React from 'react';
 import SingleTrainingRow from './SingleTrainingRow';
 import TableHead from './TableComponent/TableHead';
-import Loader from '../../../../shared/Loader';
-import { makeSureOnline } from '../../../../shared/MessageConst';
 import SectionTitle from '../../../../shared/SectionTitle';
 import NoContentFound from '../../../../shared/NoContentFound';
+import { useSelector } from 'react-redux';
 
 const AdminTrainings = () => {
-    const [allTrainings, setAllTrainings] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [fetchEnd, setFetchEnd] = useState(false);
-    const [reload, setReload] = useState(false);
-    const fetchAllTraining = async () => {
-        setLoading(true);
-        try {
-            const result = await getAllTraining();
-            if (result.status === 200) {
-                setAllTrainings(result?.data?.data);
-                setLoading(false);
-                setFetchEnd(true);
-            } else {
-                setError("তথ্য ডাটাবেইজ থেকে আনতে অসুবিধা হয়েছে।");
-                setFetchEnd(true);
-            }
-        } catch (err) {
-            setError(
-                "সার্ভারজনিত সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
-            );
-            setFetchEnd(true);
-        } finally {
-            setLoading(false);
-        }
-    };
-    useEffect(() => {
-        if (navigator.onLine) {
-            fetchAllTraining();
-        } else {
-            makeSureOnline();
-        }
-    }, [reload]);
+    const { trainings: allTrainings } = useSelector(state => state.dae)
+
     return (
         <div className="flex flex-col">
             <div className="mt-10 overflow-x-auto">
@@ -63,14 +29,11 @@ const AdminTrainings = () => {
                                     <TableHead text={'একশন'} />
                                 </tr>
                             </thead>
-                            {!loading &&
-                                !error &&
+                            {
                                 allTrainings?.length > 0 &&
                                 allTrainings?.map((training, index) => (
                                     <SingleTrainingRow
                                         index={index}
-                                        setReload={setReload}
-                                        reload={reload}
                                         key={training?._id}
                                         data={training}
                                     />
@@ -79,13 +42,8 @@ const AdminTrainings = () => {
 
 
                         </table>
-                        {!loading && allTrainings?.length < 1 && fetchEnd && (
+                        {allTrainings?.length < 1 && (
                             <NoContentFound text={'কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।'} />
-                        )}
-                        {loading && !error && (
-                            <div className="flex justify-center items-center">
-                                <Loader />
-                            </div>
                         )}
 
                     </div>
