@@ -4,7 +4,9 @@ const Dashboard = () => {
 
 
     return (
-        <></>
+        <section className="py-6">
+
+        </section>
     );
 };
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SectionTitle from "../../../shared/SectionTitle";
+import SectionTitle from "../../../../shared/SectionTitle";
 import SingleProject from "./SingleProject";
 import { useSelector } from "react-redux";
 

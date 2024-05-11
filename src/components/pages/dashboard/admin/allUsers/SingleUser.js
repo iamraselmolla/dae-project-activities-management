@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import { Field, Form, Formik } from "formik";
 import { BsEyeFill } from "react-icons/bs";
 import { RiEyeCloseLine } from "react-icons/ri";
-import UserTitle from "../../../shared/UserTitle";
-import { updateUser } from "../../../../services/userServices";
+import UserTitle from "../../../../shared/UserTitle";
+import { updateUser } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
 
 const SingleUser = ({ index, user }) => {

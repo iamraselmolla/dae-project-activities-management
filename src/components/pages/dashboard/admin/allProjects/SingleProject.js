@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Title from "../../../shared/Title";
+import Title from "../../../../shared/Title";
 import { toBengaliNumber } from "bengali-number";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
@@ -12,9 +12,9 @@ import {
   deleteAProject,
   markProjectComplete,
   updateProjectCrops,
-} from "../../../../services/userServices";
+} from "../../../../../services/userServices";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { makeSureOnline } from "../../../shared/MessageConst";
+import { makeSureOnline } from "../../../../shared/MessageConst";
 
 const SingleProject = ({ data, index, }) => {
   const [allCrops, setAllCrops] = useState(data?.crops);
