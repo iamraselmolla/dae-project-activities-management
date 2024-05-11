@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { markDemoComplete } from "../../services/userServices";
 
 const MarkDemoCompleteModal = ({ data }) => {
+  console.log(data)
   const formik = useFormik({
     initialValues: {
       variety: data?.demoInfo?.variety || "",

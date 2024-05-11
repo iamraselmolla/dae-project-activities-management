@@ -7,12 +7,14 @@ import HeaderMenuItem from "../shared/HeaderMenuItem";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, setRole } = useContext(AuthContext);
   const handleToLogOut = () => {
     localStorage.removeItem("CurrentUser");
     localStorage.removeItem("CurrentUserToken");
     setUser(null);
     setShowMenu(false);
+    setRole(null)
+
   };
 
   return (

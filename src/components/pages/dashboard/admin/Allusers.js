@@ -1,55 +1,26 @@
-import React, { useContext, useEffect, useState } from "react";
-import { getAllUser } from "../../../../services/userServices";
+import React from "react";
 import SectionTitle from "../../../shared/SectionTitle";
 import SingleUser from "./SingleUser";
-import Loader from "../../../shared/Loader";
-import { AuthContext } from "../../../AuthContext/AuthProvider";
+import { useSelector } from "react-redux";
 
 const Allusers = () => {
-  const [allUser, setAllUser] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [reload, setReload] = useState(false);
-
-
-  const fetchAllUsers = async () => {
-    setLoading(true);
-    try {
-      const result = await getAllUser()
-      if (result?.status === 200) {
-        setAllUser(result?.data?.data);
-      } else {
-        setError("Failed to fetch users");
-      }
-    } catch (err) {
-      setError("An error occurred while fetching users");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchAllUsers();
-  }, [reload]);
+  const { users: allUser } = useSelector(state => state.dae)
+  console.log(allUser)
 
   return (
     <div className="px-5 py-5">
       <SectionTitle title="সকল ইউজার তথ্য" />
-      {error && <div className="text-red-500">{error}</div>}
-      {!loading &&
+      {
         allUser?.length > 0 &&
         allUser.map((singleUser, index) => (
           <div key={singleUser?._id}>
             <SingleUser
-              setReload={setReload}
-              reload={reload}
               index={index}
-              key={index}
+              key={singleUser?._id}
               user={singleUser}
             />
           </div>
         ))}
-      {loading && <Loader />}
     </div>
   );
 };

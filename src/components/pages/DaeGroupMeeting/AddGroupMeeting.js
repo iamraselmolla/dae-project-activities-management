@@ -435,7 +435,7 @@ const AddGroupMeeting = () => {
                 name="SAAO.name"
                 readOnly
                 placeholder="এসএএও নাম"
-                value={user?.SAAO.name}
+                value={user?.SAAO?.name}
               />
               {formik.touched.SAAO?.name && formik.errors.SAAO?.name ? (
                 <div className="text-red-600">{formik.errors.SAAO?.name}</div>

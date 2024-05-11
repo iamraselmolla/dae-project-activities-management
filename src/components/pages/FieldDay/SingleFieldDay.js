@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import {
   BsFillPeopleFill,
-  BsCalendarDate,
-  BsFillCloudSunFill,
+  BsCalendarDate
 } from "react-icons/bs";
 
 import { MdLocationPin } from "react-icons/md";
