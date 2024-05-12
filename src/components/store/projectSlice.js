@@ -9,7 +9,7 @@ const initialState = {
     demos: [],
     fieldDays: [],
     daeMeetings: [],
-    refetch: 0,
+    // refetch: 0,
 }
 
 const daeSlice = createSlice({
@@ -25,7 +25,7 @@ const daeSlice = createSlice({
         setAllProjects: (state, action) => {
             state.projects = action.payload
         },
-        setAllTrainingsrainings: (state, action) => {
+        setAllTrainings: (state, action) => {
             state.trainings = action.payload
         },
         setUserNotes: (state, action) => {
@@ -40,9 +40,9 @@ const daeSlice = createSlice({
         setDaeMeeting: (state, action) => {
             state.daeMeetings = action.payload
         },
-        setRefetch: (state, action) => {
-            state.refetch++
-        }
+        // setRefetch: (state, action) => {
+        //     state.refetch++
+        // }
 
     }
 })

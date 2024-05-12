@@ -6,8 +6,7 @@ import NoContentFound from '../../../../shared/NoContentFound';
 import { useSelector } from 'react-redux';
 
 const AdminTrainings = () => {
-    const { trainings: allTrainings } = useSelector(state => state.dae)
-
+    const { trainings } = useSelector(state => state.dae)
     return (
         <div className="flex flex-col">
             <div className="mt-10 overflow-x-auto">
@@ -30,8 +29,8 @@ const AdminTrainings = () => {
                                 </tr>
                             </thead>
                             {
-                                allTrainings?.length > 0 &&
-                                allTrainings?.map((training, index) => (
+                                trainings?.length > 0 &&
+                                trainings?.map((training, index) => (
                                     <SingleTrainingRow
                                         index={index}
                                         key={training?._id}
@@ -42,7 +41,7 @@ const AdminTrainings = () => {
 
 
                         </table>
-                        {allTrainings?.length < 1 && (
+                        {trainings?.length < 1 && (
                             <NoContentFound text={'কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।'} />
                         )}
 
