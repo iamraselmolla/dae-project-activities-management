@@ -9,8 +9,8 @@ const LoginPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const { setUser, setRole } = useContext(AuthContext);
     const from = location?.state?.from?.pathname || "/";
+    const { setUser, setRole } = useContext(AuthContext);
 
     // State to manage form inputs
     const [formData, setFormData] = useState({
