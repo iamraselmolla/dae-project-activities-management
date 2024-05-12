@@ -119,7 +119,7 @@ const Header = () => {
                         <Link
                           href="#"
                           onClick={handleToLogOut}
-                          className="block px-4 py-2 text-sm text-gray-700"
+                          className="block font-extrabold px-4 py-2 text-sm text-gray-700"
                           role="menuitem"
                           tabIndex="-1"
                           id="user-menu-item-2"

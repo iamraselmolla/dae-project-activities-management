@@ -81,23 +81,19 @@ const DashboardLayout = () => {
     }
     setLoading(false)
   }, [user, role, username, dispatch, refetch]);
+
   return (
-    <section className="grid py-0">
-      <div className="grid relative grid-cols-12">
-        <div className="col-span-2 mx-4 sticky top-0 h-screen">
-          <div className="py-5 px-1">
+    <section className="grid grid-cols-1 md:grid-cols-12 gap-4">
+      <div className="md:col-span-2">
+        <div className="sticky top-0 h-screen overflow-y-auto">
+          <div className="py-5 px-2">
             <DashboardMenu />
           </div>
         </div>
-        <div className="col-span-10 px-7 bg-slate-50	mx-2">
-          <>
-            {loading && <Loader />}
-            {!loading &&
-              <>
-                <Outlet />
-              </>}
-          </>
-        </div>
+      </div>
+      <div className="md:col-span-10 px-6 bg-slate-50">
+        {loading && <Loader />}
+        {!loading && <Outlet />}
       </div>
     </section>
   );
