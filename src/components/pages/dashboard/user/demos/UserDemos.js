@@ -65,7 +65,7 @@ const UserDemos = () => {
   return (
     <>
       <div className="flex py-10 flex-col">
-        <div className="mt-4 overflow-x-auto">
+        <div className="mt-4 overflow-x-scroll">
           <div className="p-1.5 min-w-full inline-block align-middle">
             <AddModuleButton link={"addDemo"} btnText={'প্রদর্শনী যুক্ত করুন'} />
             <div>
