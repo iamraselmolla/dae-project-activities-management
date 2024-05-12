@@ -9,7 +9,8 @@ const initialState = {
     demos: [],
     fieldDays: [],
     daeMeetings: [],
-    // refetch: 0,
+    modalData: null,
+    refetch: 0
 }
 
 const daeSlice = createSlice({
@@ -40,9 +41,12 @@ const daeSlice = createSlice({
         setDaeMeeting: (state, action) => {
             state.daeMeetings = action.payload
         },
-        // setRefetch: (state, action) => {
-        //     state.refetch++
-        // }
+        setModalData: (state, action) => {
+            state.modalData = action.payload
+        },
+        setRefetch: (state, action) => {
+            state.refetch++
+        }
 
     }
 })
