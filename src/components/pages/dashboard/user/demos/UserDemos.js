@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { makeSureOnline } from "../../../../shared/MessageConst";
-import {
-  deleteUserDemo
-} from "../../../../../services/userServices";
+import { deleteUserDemo } from "../../../../../services/userServices";
 import UserSingleDemoTableRow from "./UserSingleDemoTableRow";
 import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 import SectionTitle from "../../../../shared/SectionTitle";
@@ -13,7 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../../../../store/projectSlice";
 
 const UserDemos = () => {
-  const { demos: userDemos, modalData } = useSelector(state => state.dae);
+  const {
+    demos: userDemos,
+    modalData,
+    endFetch,
+  } = useSelector((state) => state.dae);
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => {
@@ -25,7 +27,7 @@ const UserDemos = () => {
     setShowModal(true);
     document.getElementById("my_modal_33")?.showModal();
   };
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleDemoDeleting = async (
     id,
     project,
@@ -48,7 +50,7 @@ const UserDemos = () => {
           const result = await deleteUserDemo(id);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            dispatch(daeAction.setRefetch())
+            dispatch(daeAction.setRefetch());
           }
         } catch (err) {
           toast.error();
@@ -60,16 +62,19 @@ const UserDemos = () => {
     }
   };
 
-  const completedDemos = userDemos?.filter(demo => demo?.completed);
-  const incompleteDemos = userDemos?.filter(demo => !demo?.completed);
+  const completedDemos = userDemos?.filter((demo) => demo?.completed);
+  const incompleteDemos = userDemos?.filter((demo) => !demo?.completed);
   return (
     <>
       <div className="flex py-10 flex-col">
         <div className="mt-4 overflow-x-scroll">
           <div className="p-1.5 min-w-full inline-block align-middle">
-            <AddModuleButton link={"addDemo"} btnText={'প্রদর্শনী যুক্ত করুন'} />
+            <AddModuleButton
+              link={"addDemo"}
+              btnText={"প্রদর্শনী যুক্ত করুন"}
+            />
             <div>
-              <SectionTitle title={'চলমান প্রদর্শনী'} />
+              <SectionTitle title={"চলমান প্রদর্শনী"} />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
                 {incompleteDemos?.length > 0 && (
                   <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">
@@ -157,7 +162,7 @@ const UserDemos = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                      {
+                      {endFetch &&
                         incompleteDemos?.length > 0 &&
                         incompleteDemos?.map((single, index) => (
                           <UserSingleDemoTableRow
@@ -166,20 +171,21 @@ const UserDemos = () => {
                             index={index}
                             key={single?._id}
                             handleOpenModal={handleOpenModal}
-
                           />
                         ))}
                     </tbody>
                   </table>
                 )}
-                {incompleteDemos?.length < 1 && (
-                  <NoContentFound text={'কোনো চলমান প্রদর্শনীর তথ্য পাওয়া যায়নি!!'} />
+                {endFetch && incompleteDemos?.length < 1 && (
+                  <NoContentFound
+                    text={"কোনো চলমান প্রদর্শনীর তথ্য পাওয়া যায়নি!!"}
+                  />
                 )}
               </div>
             </div>
 
             <div className="mt-20">
-              <SectionTitle title={'চূড়ান্ত প্রদর্শনী'} />
+              <SectionTitle title={"চূড়ান্ত প্রদর্শনী"} />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
                 {completedDemos?.length > 0 && (
                   <table className="min-w-full bg-white divide-y divide-gray-200 dark:divide-gray-700">
@@ -267,7 +273,7 @@ const UserDemos = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                      {
+                      {endFetch &&
                         completedDemos?.length > 0 &&
                         completedDemos?.map((single, index) => (
                           <UserSingleDemoTableRow
@@ -275,26 +281,24 @@ const UserDemos = () => {
                             data={single}
                             index={index}
                             key={single?._id}
-
+                            handleOpenModal={handleOpenModal}
                           />
                         ))}
                     </tbody>
                   </table>
                 )}
-                {completedDemos?.length < 1 && (
-                  <NoContentFound text={'কোনো চূড়ান্ত প্রদর্শনীর তথ্য পাওয়া যায়নি!!'} />
+                {endFetch && completedDemos?.length < 1 && (
+                  <NoContentFound
+                    text={"কোনো চূড়ান্ত প্রদর্শনীর তথ্য পাওয়া যায়নি!!"}
+                  />
                 )}
-
-
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {showModal && (
-        <MarkDemoCompleteModal data={modalData} onClose={handleCloseModal} />
-      )}
+      {<MarkDemoCompleteModal data={modalData} onClose={handleCloseModal} />}
     </>
   );
 };

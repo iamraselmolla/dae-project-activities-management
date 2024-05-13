@@ -11,9 +11,8 @@ const UserSingleDemoTableRow = ({
   data,
   index,
   handleDemoDeleting,
-  handleOpenModal
+  handleOpenModal,
 }) => {
-
   const {
     _id,
     projectInfo,
@@ -29,8 +28,6 @@ const UserSingleDemoTableRow = ({
     demoImages,
     username,
   } = data;
-
-
 
   const imagesArr = [];
   useEffect(() => {
@@ -118,7 +115,7 @@ const UserSingleDemoTableRow = ({
         </td>
 
         <td className="p-3 flex justify-center items-center  gap-1 text-center whitespace-nowrap text-sm font-medium">
-          {!data?.completed &&
+          {!data?.completed && (
             <>
               <div className="cursor-pointer">
                 <Link to={`/addDemo?id=${_id}`}>
@@ -133,7 +130,7 @@ const UserSingleDemoTableRow = ({
                 />
               </div>
             </>
-          }
+          )}
           <div className="cursor-pointer">
             <MdOutlineDelete
               onClick={() =>

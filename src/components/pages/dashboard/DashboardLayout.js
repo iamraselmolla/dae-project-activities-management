@@ -1,10 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../AuthContext/AuthProvider';
-import { findUserAllNotes, getAllProjects, getAllTraining, getAllUser, getUserAllFieldDay, getUserAllGroupMeeting, getUserDemos } from '../../../services/userServices';
-import { useDispatch, useSelector } from 'react-redux';
-import { daeAction } from '../../store/projectSlice';
-import toast from 'react-hot-toast';
-import Loader from '../../shared/Loader';
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../AuthContext/AuthProvider";
+import {
+  findUserAllNotes,
+  getAllProjects,
+  getAllTraining,
+  getAllUser,
+  getUserAllFieldDay,
+  getUserAllGroupMeeting,
+  getUserDemos,
+} from "../../../services/userServices";
+import { useDispatch, useSelector } from "react-redux";
+import { daeAction } from "../../store/projectSlice";
+import toast from "react-hot-toast";
+import Loader from "../../shared/Loader";
 import DashboardMenu from "./DashboardMenu";
 import { Outlet } from "react-router-dom";
 
@@ -12,7 +20,7 @@ const DashboardLayout = () => {
   const { user, role, username } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const { refetch } = useSelector(state => state.dae)
+  const { refetch } = useSelector((state) => state.dae);
 
   useEffect(() => {
     const fetchGeneralData = async () => {
@@ -28,7 +36,7 @@ const DashboardLayout = () => {
     };
     fetchGeneralData();
 
-    if (user && role === 'user') {
+    if (user && role === "user") {
       const fetchUserAllData = async () => {
         try {
           // Demo
@@ -54,7 +62,7 @@ const DashboardLayout = () => {
       fetchUserAllData();
     }
 
-    if (user && role === 'admin') {
+    if (user && role === "admin") {
       const fetchAdminAllData = async () => {
         try {
           // All Users
@@ -79,8 +87,9 @@ const DashboardLayout = () => {
       };
       fetchAdminAllData();
     }
-    setLoading(false)
-  }, [user, role, username, dispatch, refetch]);
+    setLoading(false);
+    dispatch(daeAction.setEndFetch(true));
+  }, [user, role, username, refetch]);
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-12 gap-4">
