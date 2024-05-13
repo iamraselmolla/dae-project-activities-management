@@ -11,7 +11,7 @@ const UserSingleDemoTableRow = ({
   data,
   index,
   handleDemoDeleting,
-  handleDemoComplete
+  handleOpenModal
 }) => {
 
   const {
@@ -29,6 +29,8 @@ const UserSingleDemoTableRow = ({
     demoImages,
     username,
   } = data;
+
+
 
   const imagesArr = [];
   useEffect(() => {
@@ -125,7 +127,7 @@ const UserSingleDemoTableRow = ({
               </div>
               <div className="cursor-pointer">
                 <AiOutlineFileDone
-                  onClick={() => handleDemoComplete(data)}
+                  onClick={() => handleOpenModal(data)}
                   size={35}
                   color="green"
                 />

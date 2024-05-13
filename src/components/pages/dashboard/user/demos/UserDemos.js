@@ -9,11 +9,23 @@ import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 import SectionTitle from "../../../../shared/SectionTitle";
 import NoContentFound from "../../../../shared/NoContentFound";
 import AddModuleButton from "../../../../shared/AddModuleButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { daeAction } from "../../../../store/projectSlice";
 
 const UserDemos = () => {
-  const { demos: userDemos } = useSelector(state => state.dae)
-  const [demodata, setDemoData] = useState(null)
+  const { demos: userDemos, modalData } = useSelector(state => state.dae);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleOpenModal = (data) => {
+    dispatch(daeAction.setModalData(data));
+    setShowModal(true);
+    document.getElementById("my_modal_33")?.showModal();
+  };
+  const dispatch = useDispatch()
   const handleDemoDeleting = async (
     id,
     project,
@@ -36,6 +48,7 @@ const UserDemos = () => {
           const result = await deleteUserDemo(id);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
+            dispatch(daeAction.setRefetch())
           }
         } catch (err) {
           toast.error();
@@ -47,17 +60,12 @@ const UserDemos = () => {
     }
   };
 
-  const handleDemoComplete = (modalData) => {
-    setDemoData(modalData);
-    document.getElementById("my_modal_33")?.showModal();
-  };
-
   const completedDemos = userDemos?.filter(demo => demo?.completed);
   const incompleteDemos = userDemos?.filter(demo => !demo?.completed);
   return (
     <>
       <div className="flex py-10 flex-col">
-        <div className="mt-4 overflow-x-auto">
+        <div className="mt-4 overflow-x-scroll">
           <div className="p-1.5 min-w-full inline-block align-middle">
             <AddModuleButton link={"addDemo"} btnText={'প্রদর্শনী যুক্ত করুন'} />
             <div>
@@ -157,7 +165,7 @@ const UserDemos = () => {
                             data={single}
                             index={index}
                             key={single?._id}
-                            handleDemoComplete={handleDemoComplete}
+                            handleOpenModal={handleOpenModal}
 
                           />
                         ))}
@@ -284,7 +292,9 @@ const UserDemos = () => {
         </div>
       </div>
 
-      {demodata && <MarkDemoCompleteModal data={demodata} />}
+      {showModal && (
+        <MarkDemoCompleteModal data={modalData} onClose={handleCloseModal} />
+      )}
     </>
   );
 };

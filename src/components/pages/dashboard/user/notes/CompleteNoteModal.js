@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 import { markNoteAsComplete } from "../../../../../services/userServices";
+import { useDispatch } from "react-redux";
+import { daeAction } from "../../../../store/projectSlice";
 
 const CompleteNoteModal = ({ data }) => {
+  const dispatch = useDispatch()
 
   const [commentData, setCommentData] = useState("");
   // Handle Note completion
@@ -17,6 +20,8 @@ const CompleteNoteModal = ({ data }) => {
           const result = await markNoteAsComplete(id, commentData);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
+            dispatch(daeAction.setRefetch())
+
 
           }
         }

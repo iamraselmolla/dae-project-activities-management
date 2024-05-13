@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import toast from "react-hot-toast";
 import { markDemoComplete } from "../../services/userServices";
+import { useDispatch } from "react-redux";
+import { daeAction } from "../store/projectSlice";
 
 const MarkDemoCompleteModal = ({ data }) => {
-  console.log(data)
-  const formik = useFormik({
-    initialValues: {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    formik.setValues({
       variety: data?.demoInfo?.variety || "",
       area: data?.demoInfo?.area || "",
       korton: {
@@ -20,6 +22,22 @@ const MarkDemoCompleteModal = ({ data }) => {
       production: {
         productionPerHector: data?.production?.productionPerHector || "",
         totalProduction: data?.production?.totalProduction || "",
+      },
+    });
+  }, [data]);
+  const formik = useFormik({
+    initialValues: {
+      variety: "",
+      area: "",
+      korton: {
+        startDate: "",
+        endDate: "",
+      },
+      farmersReview: "",
+      overallComment: "",
+      production: {
+        productionPerHector: "",
+        totalProduction: "",
       },
     },
     validationSchema: Yup.object({
@@ -54,6 +72,7 @@ const MarkDemoCompleteModal = ({ data }) => {
         const result = await markDemoComplete(data?._id, values);
         if (result?.status === 200) {
           toast.success("প্রদর্শনীটি চুড়ান্ত হিসেবে চিহ্নিত করা হয়েছে।")
+          dispatch(daeAction.setRefetch())
         }
       }
       catch (err) {
