@@ -26,6 +26,7 @@ const Demo = () => {
         const result = await getAllDemos();
         if (result?.status === 200) {
           setDemos(result.data?.data);
+          setFilteredProjects(result.data?.data)
           setLoading(false);
           setFetchEnd(true);
         }
@@ -78,31 +79,33 @@ const Demo = () => {
   const [filteredProjects, setFilteredProjects] = useState(demos);
 
   // Filter function
+  // Filter function
   const filterProjects = () => {
     let filtered = demos;
 
     if (selectedProject !== '') {
-      filtered = filtered.filter(project => project.projectInfo.full === selectedProject);
+      filtered = filtered.filter(project => project.projectInfo.full.includes(selectedProject));
     }
 
     if (fiscalYear !== '') {
-      filtered = filtered.filter(project => project.demoTime.fiscalYear === fiscalYear);
+      filtered = filtered.filter(project => project.demoTime.fiscalYear.includes(fiscalYear));
     }
 
     if (season !== '') {
-      filtered = filtered.filter(project => project.demoTime.season === season);
+      filtered = filtered.filter(project => project.demoTime.season.includes(season));
     }
 
     if (unionName !== '') {
-      filtered = filtered.filter(project => project.address.union === unionName);
+      filtered = filtered.filter(project => project.address.union.includes(unionName));
     }
 
     if (blockName !== '') {
-      filtered = filtered.filter(project => project.address.block === blockName);
+      filtered = filtered.filter(project => project.address.block.includes(blockName));
     }
 
     return filtered; // Return the filtered projects
   };
+
 
   // Call filterProjects inside the useEffect hook to update filteredProjects state
   useEffect(() => {

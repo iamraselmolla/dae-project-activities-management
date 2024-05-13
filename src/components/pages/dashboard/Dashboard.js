@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../../AuthContext/AuthProvider';
-
+import React from "react";
 
 const Dashboard = () => {
+
+
     return (
-        <div>
-            Dashboard
-        </div>
+        <section className="py-6">
+
+        </section>
     );
 };
 

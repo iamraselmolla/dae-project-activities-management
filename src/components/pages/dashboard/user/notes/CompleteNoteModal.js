@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 import { markNoteAsComplete } from "../../../../../services/userServices";
+import { useDispatch } from "react-redux";
+import { daeAction } from "../../../../store/projectSlice";
 
-function CompleteModel({ data, setReload, reload }) {
-  const [open, setOpen] = useState(true);
+const CompleteNoteModal = ({ data }) => {
+  const dispatch = useDispatch()
+
   const [commentData, setCommentData] = useState("");
   // Handle Note completion
   const handleNoteCompleted = async (id) => {
@@ -17,7 +20,9 @@ function CompleteModel({ data, setReload, reload }) {
           const result = await markNoteAsComplete(id, commentData);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            setReload(!reload);
+            dispatch(daeAction.setRefetch())
+
+
           }
         }
       } catch (err) {
@@ -65,4 +70,4 @@ function CompleteModel({ data, setReload, reload }) {
   );
 }
 
-export default CompleteModel;
+export default CompleteNoteModal;

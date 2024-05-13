@@ -8,8 +8,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import {
   createDemo,
   editDemobyId,
-  findDemoById,
-  getAllProjects,
+  findDemoById
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import getFiscalYear from "../../shared/commonDataStores";
@@ -17,17 +16,23 @@ import { toBengaliNumber } from "bengali-number";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { makeSureOnline } from "../../shared/MessageConst";
 import Loader from "../../shared/Loader";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AddDemo = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const from = location?.state?.from?.pathname || "/";
   const queryParams = new URLSearchParams(location.search);
   const demoIdFromUrl = queryParams.get("id");
   const [demoId, setDemoId] = useState(demoIdFromUrl);
   const [selectedProject, setSelectedProject] = useState({});
-  const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const { projects: allProject
+  } = useSelector(state => state.dae)
+
+
   // const [fethedImgLink, setimgLink] = useState();
   // const [imageRawLink, setImageRawLink] = useState([]);
   const [datePickers, setDatePickers] = useState({
@@ -220,30 +225,7 @@ const AddDemo = () => {
     },
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllProjects();
-        if (result?.data?.success) {
-          setAllProjects(result.data.data);
-        } else {
-          setAllProjects([]);
-          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি");
-        }
-      } catch (error) {
-        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
-        toast.error(
-          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
-        );
-      }
-    };
 
-    if (navigator.onLine) {
-      fetchData();
-    } else {
-      makeSureOnline();
-    }
-  }, []);
   useEffect(() => {
     const fetchDemoId = async () => {
       if (!demoId) return;
@@ -251,6 +233,11 @@ const AddDemo = () => {
       try {
         const result = await findDemoById(demoId);
         const { data } = result?.data || {};
+        if (data?.completed) {
+          toast.error("এই প্রদর্শনীটি ইতিমধ্যে চূড়ান্ত হিসেবে গণ্য করা হয়ে গেছে । এইটা আর এডিট করার অনুমতি নেই।")
+          navigate(from, { replace: true })
+          return;
+        }
 
         formik.setValues({
           ...data,
@@ -307,7 +294,7 @@ const AddDemo = () => {
   // }, [demoId, fethedImgLink]);
 
   return (
-    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"প্রকল্পের প্রদর্শনীর তথ্য যুক্ত করুন"} />
       <div className="mt-2">
         <form onSubmit={formik.handleSubmit}>
@@ -527,7 +514,7 @@ const AddDemo = () => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="উপসহকারী কৃষি অফিসারের নাম"
-                value={user?.SAAO.name}
+                value={user?.SAAO?.name}
               />
 
               {formik.touched.SAAO &&
@@ -553,7 +540,7 @@ const AddDemo = () => {
                 maxLength={11}
                 onChange={formik.handleChange}
                 placeholder="উপসহকারী কৃষি অফিসারের মোবাইল নং"
-                value={user?.SAAO.mobile}
+                value={user?.SAAO?.mobile}
               />
 
               {formik.touched.SAAO &&

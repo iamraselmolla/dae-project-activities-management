@@ -6,17 +6,13 @@ import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
 import formatDateToday from "../../../../utilis/formatDate";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../../../AuthContext/AuthProvider";
-import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 
 const UserSingleDemoTableRow = ({
   data,
   index,
   handleDemoDeleting,
-  handleDemoComplete,
-  setReload, reload
+  handleOpenModal,
 }) => {
-
   const {
     _id,
     projectInfo,
@@ -119,7 +115,7 @@ const UserSingleDemoTableRow = ({
         </td>
 
         <td className="p-3 flex justify-center items-center  gap-1 text-center whitespace-nowrap text-sm font-medium">
-          {!data?.completed &&
+          {!data?.completed && (
             <>
               <div className="cursor-pointer">
                 <Link to={`/addDemo?id=${_id}`}>
@@ -128,13 +124,13 @@ const UserSingleDemoTableRow = ({
               </div>
               <div className="cursor-pointer">
                 <AiOutlineFileDone
-                  onClick={() => handleDemoComplete(data)}
+                  onClick={() => handleOpenModal(data)}
                   size={35}
                   color="green"
                 />
               </div>
             </>
-          }
+          )}
           <div className="cursor-pointer">
             <MdOutlineDelete
               onClick={() =>

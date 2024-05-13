@@ -2,14 +2,11 @@ import React, { useContext, useState } from "react";
 import { Field, Form, Formik } from "formik";
 import { BsEyeFill } from "react-icons/bs";
 import { RiEyeCloseLine } from "react-icons/ri";
-import UserTitle from "../../../shared/UserTitle";
-import { updateUser } from "../../../../services/userServices";
-import axios from "axios";
+import UserTitle from "../../../../shared/UserTitle";
+import { updateUser } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
-import { AuthContext } from "../../../AuthContext/AuthProvider";
 
-const SingleUser = ({ index, user, setReload, reload }) => {
-  const { jwtToken } = useContext(AuthContext);
+const SingleUser = ({ index, user }) => {
   const [name, setName] = useState(user?.SAAO?.name);
   const [mobile, setMobile] = useState(user?.SAAO?.mobile);
   const [password, setPassword] = useState(user?.password);
@@ -28,7 +25,7 @@ const SingleUser = ({ index, user, setReload, reload }) => {
       const response = await updateUser(_id, updateData)
       if (response.status === 200) {
         toast.success("তথ্য আপডেট সম্পাদন হয়েছে।");
-        setReload(!reload);
+
         // Handle success
       } else {
         toast.error("ইউজার তথ্য আপডেট করতে সমস্যা হয়েছে।");

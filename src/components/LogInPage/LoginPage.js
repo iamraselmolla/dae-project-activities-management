@@ -1,15 +1,16 @@
 import React, { useContext, useState } from "react";
-import axios from 'axios';
 import toast from "react-hot-toast";
 import { AuthContext } from "../AuthContext/AuthProvider";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getLoginUser } from "../../services/userServices";
 
 const LoginPage = () => {
+    const [loading, setLoading] = useState(false)
     const location = useLocation();
     const navigate = useNavigate();
-    const { setUser, loading, setLoading } = useContext(AuthContext);
+
     const from = location?.state?.from?.pathname || "/";
+    const { setUser, setRole } = useContext(AuthContext);
 
     // State to manage form inputs
     const [formData, setFormData] = useState({
@@ -33,11 +34,12 @@ const LoginPage = () => {
         setLoading(true);
 
         try {
-            const response = getLoginUser(formData)
-            if (response?.data?.success) {
+            const response = await getLoginUser(formData)
+            if (response?.status === 200) {
                 setLoading(false);
-                toast.success(response?.data?.message.name);
+                toast.success(response?.data?.message);
                 setUser(response?.data?.data);
+                setRole(response?.data?.data?.role)
 
                 // Format the user data for local storage
                 const userFormateForLocalStorage = {
@@ -56,7 +58,7 @@ const LoginPage = () => {
                 const { token } = response.data.token; // Assuming the server returns a token upon successful login
 
                 // Store the token in local storage
-                localStorage.setItem('token', token);
+                localStorage.setItem('CurrentUserToken', token);
 
                 // Reset form after successful login
                 setFormData({

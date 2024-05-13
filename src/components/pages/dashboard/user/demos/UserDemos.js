@@ -1,49 +1,33 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../../../AuthContext/AuthProvider";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { makeSureOnline } from "../../../../shared/MessageConst";
-import {
-  deleteUserDemo,
-  getUserDemos,
-} from "../../../../../services/userServices";
+import { deleteUserDemo } from "../../../../../services/userServices";
 import UserSingleDemoTableRow from "./UserSingleDemoTableRow";
-import Loader from "../../../../shared/Loader";
 import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 import SectionTitle from "../../../../shared/SectionTitle";
 import NoContentFound from "../../../../shared/NoContentFound";
+import AddModuleButton from "../../../../shared/AddModuleButton";
+import { useDispatch, useSelector } from "react-redux";
+import { daeAction } from "../../../../store/projectSlice";
 
 const UserDemos = () => {
-  const { user } = useContext(AuthContext);
-  const [userDemos, setUserDemos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [fetchEnd, setFetchEnd] = useState(false);
-  const [reload, setReload] = useState(false);
-  const [demodata, setDemoData] = useState(null);
-  useEffect(() => {
-    const fetchUserDemos = async () => {
-      setLoading(true);
-      try {
-        const result = await getUserDemos();
-        if (result?.status === 200) {
-          setUserDemos(result?.data?.data);
-          setLoading(false);
-          setFetchEnd(true);
-        }
-      } catch (err) {
-        toast.error(
-          "ইউজারের যুক্ত করা প্রদর্শনীর তথ্য আনতে সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।"
-        );
-        setLoading(false);
-        setFetchEnd(true);
-      }
-    };
-    if (navigator.onLine) {
-      fetchUserDemos();
-    } else {
-      makeSureOnline();
-    }
-  }, [user, reload]);
+  const {
+    demos: userDemos,
+    modalData,
+    endFetch,
+  } = useSelector((state) => state.dae);
+  const [showModal, setShowModal] = useState(false);
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleOpenModal = (data) => {
+    dispatch(daeAction.setModalData(data));
+    setShowModal(true);
+    document.getElementById("my_modal_33")?.showModal();
+  };
+  const dispatch = useDispatch();
   const handleDemoDeleting = async (
     id,
     project,
@@ -66,7 +50,7 @@ const UserDemos = () => {
           const result = await deleteUserDemo(id);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            setReload(!reload);
+            dispatch(daeAction.setRefetch());
           }
         } catch (err) {
           toast.error();
@@ -78,22 +62,21 @@ const UserDemos = () => {
     }
   };
 
-  const handleDemoComplete = (modalData) => {
-    setDemoData(modalData);
-    document.getElementById("my_modal_33")?.showModal();
-  };
-
-  const completedDemos = userDemos.filter(demo => demo.completed);
-  const incompleteDemos = userDemos.filter(demo => !demo.completed);
+  const completedDemos = userDemos?.filter((demo) => demo?.completed);
+  const incompleteDemos = userDemos?.filter((demo) => !demo?.completed);
   return (
     <>
       <div className="flex py-10 flex-col">
-        <div className="mt-10 overflow-x-auto">
+        <div className="mt-4 overflow-x-scroll">
           <div className="p-1.5 min-w-full inline-block align-middle">
+            <AddModuleButton
+              link={"addDemo"}
+              btnText={"প্রদর্শনী যুক্ত করুন"}
+            />
             <div>
-              <SectionTitle title={'চলমান প্রদর্শনী'} />
+              <SectionTitle title={"চলমান প্রদর্শনী"} />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-                {!loading && fetchEnd && incompleteDemos?.length > 0 && (
+                {incompleteDemos?.length > 0 && (
                   <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">
                     <thead>
                       <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
@@ -179,8 +162,7 @@ const UserDemos = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                      {!loading &&
-                        fetchEnd &&
+                      {endFetch &&
                         incompleteDemos?.length > 0 &&
                         incompleteDemos?.map((single, index) => (
                           <UserSingleDemoTableRow
@@ -188,24 +170,24 @@ const UserDemos = () => {
                             data={single}
                             index={index}
                             key={single?._id}
-                            handleDemoComplete={handleDemoComplete}
-                            setReload={setReload}
-                            reload={reload}
+                            handleOpenModal={handleOpenModal}
                           />
                         ))}
                     </tbody>
                   </table>
                 )}
-                {!loading && fetchEnd && incompleteDemos?.length < 1 && (
-                  <NoContentFound text={'কোনো চলমান প্রদর্শনীর তথ্য পাওয়া যায়নি!!'} />
+                {endFetch && incompleteDemos?.length < 1 && (
+                  <NoContentFound
+                    text={"কোনো চলমান প্রদর্শনীর তথ্য পাওয়া যায়নি!!"}
+                  />
                 )}
               </div>
             </div>
 
             <div className="mt-20">
-              <SectionTitle title={'চূড়ান্ত প্রদর্শনী'} />
+              <SectionTitle title={"চূড়ান্ত প্রদর্শনী"} />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-                {!loading && fetchEnd && completedDemos?.length > 0 && (
+                {completedDemos?.length > 0 && (
                   <table className="min-w-full bg-white divide-y divide-gray-200 dark:divide-gray-700">
                     <thead>
                       <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
@@ -291,8 +273,7 @@ const UserDemos = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                      {!loading &&
-                        fetchEnd &&
+                      {endFetch &&
                         completedDemos?.length > 0 &&
                         completedDemos?.map((single, index) => (
                           <UserSingleDemoTableRow
@@ -300,31 +281,24 @@ const UserDemos = () => {
                             data={single}
                             index={index}
                             key={single?._id}
-
+                            handleOpenModal={handleOpenModal}
                           />
                         ))}
                     </tbody>
                   </table>
                 )}
-                {!loading && fetchEnd && completedDemos?.length < 1 && (
-                  <NoContentFound text={'কোনো চূড়ান্ত প্রদর্শনীর তথ্য পাওয়া যায়নি!!'} />
+                {endFetch && completedDemos?.length < 1 && (
+                  <NoContentFound
+                    text={"কোনো চূড়ান্ত প্রদর্শনীর তথ্য পাওয়া যায়নি!!"}
+                  />
                 )}
-
-
               </div>
             </div>
           </div>
         </div>
       </div>
-      {loading && !fetchEnd && (
-        <div className="fixed daeLoader">
-          <Loader />
-          <h2 className="text-green-600 mt-3 text-4xl">
-            তথ্য আনা হচ্ছে। দয়া করে অপেক্ষা করুন
-          </h2>
-        </div>
-      )}
-      {demodata && <MarkDemoCompleteModal data={demodata} />}
+
+      {<MarkDemoCompleteModal data={modalData} onClose={handleCloseModal} />}
     </>
   );
 };

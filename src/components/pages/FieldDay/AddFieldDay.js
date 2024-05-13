@@ -7,7 +7,6 @@ import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import {
   createAFieldDay,
-  getAllProjects,
   getFieldDayDataById,
   updateAFieldDay,
 } from "../../../services/userServices";
@@ -21,6 +20,7 @@ import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import { makeSureOnline } from "../../shared/MessageConst";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AddFieldDay = () => {
   const location = useLocation();
@@ -33,12 +33,13 @@ const AddFieldDay = () => {
   });
   const [dateMessage, setDateMessage] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
-  const [allProject, setAllProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [imageLinks, setImageLinks] = useState([]);
   const [rawImages, setRawImages] = useState([]);
   const [loadingMessage, setLoadingMessage] = useState(null);
   const { user } = useContext(AuthContext);
+  const { projects: allProject
+  } = useSelector(state => state.dae)
 
   const handleImageChange = (e) => {
     const files = e.target.files;
@@ -101,31 +102,6 @@ const AddFieldDay = () => {
     date: Yup.string().required("মাঠ দিবসের তারিখ"),
     // images: Yup.array().min(1, "মাঠ দিবসের ছবি দিন"),
   });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllProjects();
-        if (result?.data?.success) {
-          setAllProjects(result.data.data);
-        } else {
-          setAllProjects([]);
-          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি"); // Notify user if data retrieval was not successful
-        }
-      } catch (error) {
-        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
-        toast.error(
-          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
-        );
-      }
-    };
-
-    if (navigator.onLine) {
-      fetchData();
-    } else {
-      makeSureOnline();
-    }
-  }, []);
   useEffect(() => {
     if (fieldDayId) {
       const fetchFieldDayById = async () => {
@@ -278,8 +254,8 @@ const AddFieldDay = () => {
             short: findProject?.name?.short,
           },
           SAAO: {
-            name: user?.SAAO.name,
-            mobile: user?.SAAO.mobile,
+            name: user?.SAAO?.name,
+            mobile: user?.SAAO?.mobile,
           },
           address: {
             ...formik.values.address,
@@ -320,7 +296,7 @@ const AddFieldDay = () => {
     }
   };
   return (
-    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"নতুন মাঠ দিবসের তথ্য যুক্ত করুন"} />
       <div className="mt-3">
         <form onSubmit={formik.handleSubmit}>
@@ -573,7 +549,7 @@ const AddFieldDay = () => {
                 readOnly
                 disabled={true}
                 placeholder="এসএএও নাম"
-                value={user?.SAAO.name}
+                value={user?.SAAO?.name}
               />
               {formik.touched.SAAO?.name && formik.errors.SAAO?.name && (
                 <div className="text-red-600">{formik.errors.SAAO?.name}</div>

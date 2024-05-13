@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Title from "../../../shared/Title";
+import Title from "../../../../shared/Title";
 import { toBengaliNumber } from "bengali-number";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
@@ -12,11 +12,11 @@ import {
   deleteAProject,
   markProjectComplete,
   updateProjectCrops,
-} from "../../../../services/userServices";
+} from "../../../../../services/userServices";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { makeSureOnline } from "../../../shared/MessageConst";
+import { makeSureOnline } from "../../../../shared/MessageConst";
 
-const SingleProject = ({ data, index, setRefetch, refetch }) => {
+const SingleProject = ({ data, index, }) => {
   const [allCrops, setAllCrops] = useState(data?.crops);
   const [crop, setCrop] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,6 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
         if (result?.status === 200) {
           toast.success(result?.data?.message);
           setLoading(false);
-          setRefetch(!refetch);
         }
       } catch (err) {
         setLoading(false);
@@ -75,7 +74,7 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
           const result = await deleteAProject(projectId); // Assuming deleteProject is a function that handles the deletion
           if (result?.status === 200) {
             toast.success("প্রকল্পটি মুছে দেয়া হয়েছে");
-            setRefetch(!refetch);
+
           }
         } else {
           toast.error("প্রকল্প মুছে ফেলা সম্ভব হয়নি। আবার চেষ্টা করুন");
@@ -95,6 +94,7 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
 
   // Handle Project completion
   const handleProjectDeletion = async (id) => {
+    console.log(id)
 
     if (!id) {
       return toast.error("প্রকল্পের তথ্য পেতে সমস্যা হচ্ছে।")
@@ -104,7 +104,6 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
         const result = await markProjectComplete(id)
         if (result?.status === 200) {
           toast.success(result?.data?.message)
-          setRefetch(!refetch)
         }
       }
     }
@@ -180,7 +179,7 @@ const SingleProject = ({ data, index, setRefetch, refetch }) => {
               <tbody>
                 {(data?.crops?.length > 0) & (allCrops?.length > 0) ? (
                   allCrops?.map((singleCrop, cropIndex) => (
-                    <tr>
+                    <tr key={cropIndex}>
                       <th>{toBengaliNumber(cropIndex + 1)}</th>
                       <td>{singleCrop}</td>
                       <td>

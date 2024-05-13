@@ -3,8 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import {
-  createANote,
-  getAllProjects,
+  createANote
 } from "../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
 import getFiscalYear from "../../shared/commonDataStores";
@@ -16,11 +15,10 @@ import { FaTimes } from "react-icons/fa";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
-import { makeSureOnline } from "../../shared/MessageConst";
 import SectionTitle from "../../shared/SectionTitle";
+import { useSelector } from "react-redux";
 
 const AddNotes = () => {
-  const [allProject, setAllProjects] = useState([]);
   const [images, setImages] = useState([]);
   const [rawImages, setRawImages] = useState([]);
   const { user } = useContext(AuthContext);
@@ -30,6 +28,8 @@ const AddNotes = () => {
     startDate: "",
     endDate: "",
   });
+  const { projects: allProject
+  } = useSelector(state => state.dae)
   const initialValues = {
     projectInfo: {
       details: "",
@@ -60,7 +60,10 @@ const AddNotes = () => {
       mobile: toBengaliNumber(user?.SAAO.mobile) || "", // Set default value
     },
     attachment: "",
-    comment: "",
+    comment: {
+      noteComment: '',
+      completedComment: ''
+    },
     username: user?.username,
   };
   const handleImageChange = (event) => {
@@ -135,8 +138,9 @@ const AddNotes = () => {
         SAAO: user?.SAAO,
         username: user?.username,
         done: false,
-        comment: "",
+        comment: values.comment
       };
+
       if (rawImages?.length > 0) {
         setLoadingMessage("ছবি আপ্লোড হচ্ছে");
         for (let i = 0; i < rawImages?.length; i++) {
@@ -165,36 +169,8 @@ const AddNotes = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllProjects();
-        if (result?.data?.success) {
-          setAllProjects(result.data.data);
-        } else {
-          setAllProjects([]);
-          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি"); // Notify user if data retrieval was not successful
-        }
-      } catch (error) {
-        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
-        toast.error(
-          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
-        );
-      }
-    };
-
-    if (navigator.onLine) {
-      fetchData();
-    } else {
-      makeSureOnline();
-    }
-  }, []);
-
-  const FormLabel = () => {
-
-  }
   return (
-    <div className="container py-8 px-6 mx-auto">
+    <div className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8 py-8">
       <SectionTitle title={'নোট যুক্ত করুন'} />
       <Formik
         initialValues={initialValues}
@@ -202,7 +178,7 @@ const AddNotes = () => {
         onSubmit={handleSubmit}
       >
         {(formik) => (
-          <Form className="space-y-4 bg-white p-6 rounded-3 ">
+          <Form className="space-y-4  p-6 rounded-3 ">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div>
                 <label className="font-extrabold mb-1 block">
@@ -344,6 +320,9 @@ const AddNotes = () => {
                   </option>
                   <option value="কৃষি পরামর্শ প্রদান">
                     কৃষি পরামর্শ প্রদান
+                  </option>
+                  <option value="মালামাল বিতরণ">
+                    ্মালামাল বিতরণ
                   </option>
                 </Field>
                 <ErrorMessage
@@ -583,6 +562,18 @@ const AddNotes = () => {
                     </button>
                   </div>
                 ))}
+              </div>
+              <div className="mt-5">
+                <label className="font-extrabold mb-1 block"> মন্তব্য</label>
+                <textarea
+                  name="comment.noteComment"
+                  id="comment.noteComment"
+                  className="input h-20 input-bordered w-full"
+                  rows={10}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.comment.noteComment}
+                ></textarea>
               </div>
             </div>
             {!loading && (

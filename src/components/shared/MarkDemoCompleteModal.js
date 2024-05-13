@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import toast from "react-hot-toast";
 import { markDemoComplete } from "../../services/userServices";
+import { useDispatch } from "react-redux";
+import { daeAction } from "../store/projectSlice";
 
 const MarkDemoCompleteModal = ({ data }) => {
-  const formik = useFormik({
-    initialValues: {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    formik.setValues({
       variety: data?.demoInfo?.variety || "",
       area: data?.demoInfo?.area || "",
       korton: {
@@ -19,6 +22,22 @@ const MarkDemoCompleteModal = ({ data }) => {
       production: {
         productionPerHector: data?.production?.productionPerHector || "",
         totalProduction: data?.production?.totalProduction || "",
+      },
+    });
+  }, [data]);
+  const formik = useFormik({
+    initialValues: {
+      variety: "",
+      area: "",
+      korton: {
+        startDate: "",
+        endDate: "",
+      },
+      farmersReview: "",
+      overallComment: "",
+      production: {
+        productionPerHector: "",
+        totalProduction: "",
       },
     },
     validationSchema: Yup.object({
@@ -37,7 +56,9 @@ const MarkDemoCompleteModal = ({ data }) => {
     }),
     onSubmit: async (values) => {
       if (!data?.demoDate?.bopon || !data?.demoDate?.ropon) {
-        toast.error("প্রদর্শনীকে চুড়ান্ত হিসেবে গণ্য করার জন্য অবশ্যই রোপন/বপন তারিখ দিতে হবে।");
+        toast.error(
+          "প্রদর্শনীকে চুড়ান্ত হিসেবে গণ্য করার জন্য অবশ্যই রোপন/বপন তারিখ দিতে হবে।"
+        );
         return;
       }
       if (!values.korton?.startDate || !values?.korton?.endDate) {
@@ -52,11 +73,11 @@ const MarkDemoCompleteModal = ({ data }) => {
       try {
         const result = await markDemoComplete(data?._id, values);
         if (result?.status === 200) {
-          toast.success("প্রদর্শনীটি চুড়ান্ত হিসেবে চিহ্নিত করা হয়েছে।")
+          toast.success("প্রদর্শনীটি চুড়ান্ত হিসেবে চিহ্নিত করা হয়েছে।");
+          dispatch(daeAction.setRefetch());
         }
-      }
-      catch (err) {
-        toast.error("প্রদর্শনী চুড়ান্ত হিসেবে চিহ্নিত করতে সমস্যা হচ্ছে।")
+      } catch (err) {
+        toast.error("প্রদর্শনী চুড়ান্ত হিসেবে চিহ্নিত করতে সমস্যা হচ্ছে।");
       }
 
       console.log("Form submitted with values:", values);
@@ -120,9 +141,12 @@ const MarkDemoCompleteModal = ({ data }) => {
                   showShortcuts={true}
                 />
               </div>
-              {formik.touched.korton && (formik.errors.korton?.startDate || formik.errors.korton?.endDate) ? (
+              {formik.touched.korton &&
+              (formik.errors.korton?.startDate ||
+                formik.errors.korton?.endDate) ? (
                 <div className="text-red-500">
-                  {formik.errors.korton?.startDate || formik.errors.korton?.endDate}
+                  {formik.errors.korton?.startDate ||
+                    formik.errors.korton?.endDate}
                 </div>
               ) : null}
             </div>
@@ -145,8 +169,8 @@ const MarkDemoCompleteModal = ({ data }) => {
               />
 
               {formik.touched.production &&
-                formik.touched.production.productionPerHector &&
-                formik.errors.production?.productionPerHector ? (
+              formik.touched.production.productionPerHector &&
+              formik.errors.production?.productionPerHector ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.productionPerHector}
                 </div>
@@ -165,14 +189,16 @@ const MarkDemoCompleteModal = ({ data }) => {
                 onChange={formik.handleChange}
                 placeholder="প্রদর্শনীতে সর্বমোট উৎপাদন"
                 value={
-                  (formik.values.area * formik.values.production?.productionPerHector) / 247
+                  (formik.values.area *
+                    formik.values.production?.productionPerHector) /
+                  247
                 }
                 disabled={true}
               />
 
               {formik.touched.production &&
-                formik.touched.production.totalProduction &&
-                formik.errors.production?.totalProduction ? (
+              formik.touched.production.totalProduction &&
+              formik.errors.production?.totalProduction ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.totalProduction}
                 </div>
