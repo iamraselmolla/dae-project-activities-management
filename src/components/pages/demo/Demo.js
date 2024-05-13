@@ -154,7 +154,6 @@ const Demo = () => {
                 >
                 </input>
               </div>
-
             </div>
 
             <div className="flex justify-between items-center gap-3 mt-3">
@@ -191,15 +190,8 @@ const Demo = () => {
                 />
               </div>
             </div>
-
-
-
-
-
-
-
-
           </div>
+
           <div className="text-right font-extrabold col-span-1">
             <AddModuleButton link={'addDemo'} btnText={'প্রদর্শনী যুক্ত করুন'} />
           </div>
@@ -209,10 +201,10 @@ const Demo = () => {
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
         {!loading &&
           fetchEnd &&
-          demos?.length > 0 &&
-          demos?.map((demo) => <SingleDemo key={demo?._id} data={demo} />)}
+          filteredProjects?.length > 0 &&
+          filteredProjects?.map((demo) => <SingleDemo key={demo?._id} data={demo} />)}
       </div>
-      {!loading && fetchEnd && demos?.length < 1 && (
+      {!loading && fetchEnd && filteredProjects?.length < 1 && (
         <NoContentFound text={'কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!'} />
       )}
       {!fetchEnd && loading && (
