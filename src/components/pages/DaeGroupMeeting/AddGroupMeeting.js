@@ -9,13 +9,22 @@ import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { toBengaliNumber } from "bengali-number";
-import { createAGroup } from "../../../services/userServices";
+import {
+  createAGroup,
+  getGroupInfoById,
+  updateGroupInfo,
+} from "../../../services/userServices";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import "./daegroupMeeting.css";
 import compressAndUploadImage from "../../utilis/compressImages";
+import { useLocation } from "react-router-dom";
+import { makeSureOnline } from "../../shared/MessageConst";
 
 const AddGroupMeeting = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const groupIdFromParams = queryParams.get("id");
   const { user } = useContext(AuthContext);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,6 +32,7 @@ const AddGroupMeeting = () => {
   const [rawImages, setRawImages] = useState([]);
   const [loadingMessage, setLoadingMessage] = useState(null);
   const [dateMessage, setDateMessage] = useState(null);
+  const [groupId, setGroupId] = useState(groupIdFromParams);
 
   useEffect(() => {
     if (user) {
@@ -42,16 +52,16 @@ const AddGroupMeeting = () => {
     },
     address: {
       village: "",
-      block: "",
-      union: "",
+      block: user?.blockB || "",
+      union: user?.unionB || "",
     },
     SAAO: {
-      name: "",
-      mobile: "",
+      name: user?.SAAO?.name || "",
+      mobile: toBengaliNumber(user?.SAAO?.mobile) || "",
     },
     discussion: "",
     images: [],
-    username: "",
+    username: user?.username || "",
   };
 
   const validationSchema = Yup.object({
@@ -72,50 +82,81 @@ const AddGroupMeeting = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
-      if (!values.time.date || !values.time.day) {
-        return toast.error("অবশ্যই আপনাকে তারিখ সিলেক্ট করতে হবে");
-      }
-      setLoading(true);
-      values.SAAO.name = user?.SAAO.name;
-      values.SAAO.mobile = user?.SAAO.mobile;
-      values.username = user?.username;
-      values.address.block = user?.blockB;
-      values.address.union = user?.unionB;
-      if (!values.username) {
-        return toast.error("ভালভাবে লগিন করুন অথবা পেইজ রিলোড করুন");
-      }
-      try {
-        if (rawImages?.length > 0) {
-          setLoadingMessage("ছবি আপ্লোড হচ্ছে");
-          const uploadedImageLinks = [];
-          for (let i = 0; i < rawImages?.length; i++) {
-            setLoadingMessage(
-              `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
-            );
-
-            const compressedImage = await compressAndUploadImage(rawImages[i]);
-            setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-            const result = await uploadToCloudinary(compressedImage, 'dae-group-meeting');
-            uploadedImageLinks.push(result);
-            setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
-          }
-          setImageLinks(uploadedImageLinks); // Set all image links at once
-          values.images = uploadedImageLinks;
-          setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
-
-          setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড হচ্ছে");
-          const result = await createAGroup(values);
-          if (result?.status === 200) {
-            toast.success(result?.data?.message);
-            setLoading(false);
-            setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড শেষ হয়েছে");
-          }
+    onSubmit: async (values, { resetForm }) => {
+      if (groupId) {
+        if (!groupId) return;
+        const result = await updateGroupInfo(groupId, values);
+        if (result?.status === 200) {
+          toast.success("কৃষক গ্রুপ মিটিং এর তথ্য এডিট সম্পন্ন হয়েছে।");
         }
-      } catch (err) {
-        toast.error(err?.response?.data?.message);
-        console.log(err, "error");
-        setLoading(false);
+      } else {
+        try {
+          if (!values.time.date || !values.time.day) {
+            return toast.error("অবশ্যই আপনাকে তারিখ সিলেক্ট করতে হবে");
+          }
+          if (rawImages?.length < 1) {
+            return toast.error("আপনাকে অবশ্যই গ্রুপ সভার ছবি দিতে হবে।")
+          }
+          setLoading(true);
+          values.SAAO.name = user?.SAAO.name;
+          values.SAAO.mobile = user?.SAAO.mobile;
+          values.username = user?.username;
+          values.address.block = user?.blockB;
+          values.address.union = user?.unionB;
+
+          if (
+            !values.username ||
+            !values.SAAO?.name ||
+            !values?.SAAO?.mobile ||
+            !values?.address?.block ||
+            !values?.address?.union
+          ) {
+            setLoading(false);
+            return toast.error(
+              "লগিনজনিত কোনো সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে জানান"
+            );
+          }
+          if (rawImages?.length > 0) {
+            setLoadingMessage("ছবি আপ্লোড হচ্ছে");
+            const uploadedImageLinks = [];
+            for (let i = 0; i < rawImages?.length; i++) {
+              setLoadingMessage(
+                `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`
+              );
+
+              const compressedImage = await compressAndUploadImage(
+                rawImages[i]
+              );
+              setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
+              const result = await uploadToCloudinary(
+                compressedImage,
+                "dae-group-meeting"
+              );
+              uploadedImageLinks.push(result);
+              setImageLinks((prevImageLinks) => [...prevImageLinks, result]);
+            }
+            setImageLinks(uploadedImageLinks); // Set all image links at once
+            values.images = uploadedImageLinks;
+            setLoadingMessage("ছবি আপ্লোড শেষ হয়েছে");
+
+            setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড হচ্ছে");
+            console.log(values);
+            const result = await createAGroup(values);
+            if (result?.status === 200) {
+              toast.success(result?.data?.message);
+              setLoading(false);
+              setLoadingMessage("কৃষক গ্রুপ তথ্য আপ্লোড শেষ হয়েছে");
+              resetForm();
+              setImageLinks([]);
+              setRawImages([]);
+              setImages([]);
+            }
+          }
+        } catch (err) {
+          toast.error(err?.response?.data?.message);
+          console.log(err, "error");
+          setLoading(false);
+        }
       }
     },
   });
@@ -142,20 +183,22 @@ const AddGroupMeeting = () => {
           <>
             <h3 className="font-bold mb-2">ছবি প্রিভিউ</h3>
             <div className="flex gap-3">
-              {images.map((image, index) => (
+              {images?.map((image, index) => (
                 <div key={index} className="relative">
                   <img
                     src={image}
                     alt={`Image ${index + 1}`}
                     className="w-32 border-success border-4 h-32 mr-2 mb-2 object-cover"
                   />
-                  <button
-                    type="button"
-                    className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
-                    onClick={() => handleRemoveImage(index)}
-                  >
-                    <FaTimes />
-                  </button>
+                  {!groupId && (
+                    <button
+                      type="button"
+                      className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      <FaTimes />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -180,7 +223,6 @@ const AddGroupMeeting = () => {
 
   const formatDate = (date) => {
     if (!date) return;
-    const today = new Date();
     const dayName = format(new Date(date.startDate), "EEEE", { locale: bn });
     if (dayName === "শুক্রবার" || dayName === "শনিবার") {
       return (
@@ -193,6 +235,31 @@ const AddGroupMeeting = () => {
     return dayName;
   };
 
+  // Fetch Group Data by Group ID
+  useEffect(() => {
+    if (navigator.onLine) {
+      if (groupId) {
+        const getGroupDataById = async () => {
+          try {
+            const result = await getGroupInfoById(groupId);
+            if (result?.status === 200) {
+              if (result?.data?.data?.groupInfo) {
+                formik.setValues(result?.data?.data);
+                setImages(result?.data?.data?.images);
+              }
+            }
+          } catch (err) {
+            toast.error(
+              "ডিএই কৃষক গ্রুপের তথ্য পেতে সমস্যার সৃষ্টি হয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে জানান।"
+            );
+          }
+        };
+        getGroupDataById();
+      }
+    } else {
+      makeSureOnline();
+    }
+  }, [groupId]);
   return (
     <section className={`mx-auto max-w-7xl px-2 sm:px-6 lg:px-8`}>
       <SectionTitle title={"ডিএই কৃষক গ্রুপ সভার তথ্য যুক্ত করুন"} />
@@ -214,12 +281,12 @@ const AddGroupMeeting = () => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="কৃষক গ্রুপের নাম"
-                value={formik.values.groupInfo.name}
+                value={formik.values.groupInfo?.name}
               />
               {formik.touched.groupInfo?.name &&
                 formik.errors.groupInfo?.name ? (
                 <div className="text-red-600">
-                  {formik.errors.groupInfo.name}
+                  {formik.errors.groupInfo?.name}
                 </div>
               ) : null}
             </div>
@@ -233,31 +300,32 @@ const AddGroupMeeting = () => {
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="স্থান"
-                value={formik.values.groupInfo.place}
+                value={formik.values.groupInfo?.place}
               />
               {formik.touched.groupInfo?.place &&
                 formik.errors.groupInfo?.place ? (
                 <div className="text-red-600">
-                  {formik.errors.groupInfo.place}
+                  {formik.errors.groupInfo?.place}
                 </div>
               ) : null}
             </div>
             <div>
               <label className="font-extrabold mb-1 block">মোবাইল</label>
               <input
-                type="number"
+                type="text"
                 className="input input-bordered w-full"
                 id="groupInfo.mobile"
                 name="groupInfo.mobile"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 placeholder="মোবাইল"
-                value={formik.values.groupInfo.mobile}
+                maxLength={11}
+                value={formik.values.groupInfo?.mobile}
               />
               {formik.touched.groupInfo?.mobile &&
                 formik.errors.groupInfo?.mobile ? (
                 <div className="text-red-600">
-                  {formik.errors.groupInfo.mobile}
+                  {formik.errors.groupInfo?.mobile}
                 </div>
               ) : null}
             </div>
@@ -391,31 +459,36 @@ const AddGroupMeeting = () => {
               ) : null}
             </div>
           </div>
-          <div>
-            <label className="font-extrabold mb-1 block">
-              কৃষক গ্রুপ সভার ছবি/ ছবি সমূহ
-            </label>
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={handleImageChange}
-              className="file-input input-bordered w-full"
-            />
-            {formik.touched.images && formik.errors.images ? (
-              <div className="text-red-600">{formik.errors.images}</div>
-            ) : null}
-            <div className="mt-4">
-              <div className="">{renderImages()}</div>
+          {!groupId && (
+            <div>
+              <label className="font-extrabold mb-1 block">
+                কৃষক গ্রুপ সভার ছবি/ ছবি সমূহ
+              </label>
+              <input
+                type="file"
+                multiple
+                disabled={groupId ? true : false}
+                accept="image/*"
+                onChange={handleImageChange}
+                className="file-input input-bordered w-full"
+              />
+              {formik.touched.images && formik.errors.images ? (
+                <div className="text-red-600">{formik.errors.images}</div>
+              ) : null}
+              <div className="mt-4">
+                <div className="">{renderImages()}</div>
+              </div>
             </div>
-          </div>
+          )}
           {!loading && (
             <>
               <button
                 type="submit"
                 className="btn mt-5 w-full font-extrabold text-white btn-success"
               >
-                কৃষক গ্রুপ সভার তথ্য যুক্ত করুন
+                {groupId
+                  ? "কৃষক গ্রুপ তথ্য সম্পাদন করুন"
+                  : "কৃষক গ্রুপ সভার তথ্য যুক্ত করুন"}
               </button>
             </>
           )}

@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SectionTitle from "../../shared/SectionTitle";
 import SingleDaeGroupMeetings from "./SingleDaeGroupMeetings";
 import { fetchAllGroups } from "../../../services/userServices";
 import Loader from "../../shared/Loader";
 import AddModuleButton from "../../shared/AddModuleButton";
-import toast from "react-hot-toast";
+import { makeSureOnline } from "../../shared/MessageConst";
+import { AuthContext } from "../../AuthContext/AuthProvider";
+import NoContentFound from "../../shared/NoContentFound";
 
 const DaeGroupMeeting = () => {
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [allGroups, setAllGroups] = useState([]);
   const [error, setError] = useState(null);
@@ -37,32 +40,27 @@ const DaeGroupMeeting = () => {
     if (navigator.onLine) {
       fetchGroups();
     } else {
-      toast.error("আপনার ইন্টারনেট সংযোগ অথবা ওয়াইফাই চালু করুন");
+      makeSureOnline();
     }
-  }, []);
+  }, [user]);
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <SectionTitle title={"সকল কৃষক গ্রুপ সভা"} />
       <AddModuleButton
         btnText={"কৃষক গ্রুপ সভা যুক্ত করুন"}
         link={"add-dae-group-meeting"}
       />
+      <SectionTitle title={"সকল কৃষক গ্রুপ সভা"} />
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
         {!loading &&
           !error &&
           allGroups?.length > 0 &&
-          allGroups?.map((singleGroup) => (
-            <SingleDaeGroupMeetings key={singleGroup?._id} data={singleGroup} />
+          allGroups?.map((group) => (
+            <SingleDaeGroupMeetings key={group?._id} data={group} />
           ))}
-
-        {!loading && allGroups?.length < 1 && fetchEnd && (
-          <div className="flex justify-center items-center">
-            <h2 className="text-red-600 text-2xl  font-extrabold">
-              কোনো গ্রুপের তথ্য পাওয়া যায়নি
-            </h2>
-          </div>
-        )}
       </div>
+      {!loading && allGroups?.length < 1 && fetchEnd && (
+        <NoContentFound text={'কোনো গ্রুপের তথ্য পাওয়া যায়নি'} />
+      )}
       {loading && !error && (
         <div className="flex justify-center items-center">
           <Loader />

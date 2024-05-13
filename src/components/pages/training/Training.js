@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SingleTraining from "./SingleTraining";
-import { Link } from "react-router-dom";
 import { getAllTraining } from "../../../services/userServices";
-import toast from "react-hot-toast";
-import SingleDemo from "../DaeGroupMeeting/SingleDaeGroupMeetings";
 import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import AddModuleButton from "../../shared/AddModuleButton";
+import { makeSureOnline } from "../../shared/MessageConst";
+import { AuthContext } from "../../AuthContext/AuthProvider";
+import NoContentFound from "../../shared/NoContentFound";
 
 const Training = () => {
   const [allTrainings, setAllTrainings] = useState([]);
@@ -14,6 +14,7 @@ const Training = () => {
   const [error, setError] = useState(null);
   const [fetchEnd, setFetchEnd] = useState(false);
   const [reload, setReload] = useState(false);
+  const { role } = useContext(AuthContext)
 
   const fetchAllTraining = async () => {
     setLoading(true);
@@ -41,17 +42,21 @@ const Training = () => {
     if (navigator.onLine) {
       fetchAllTraining();
     } else {
-      toast.error("আপনার ইন্টারনেট সংযোগটি চালু করুন");
+      makeSureOnline();
     }
   }, [reload]);
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      {role === 'admin' && <AddModuleButton
+        btnText={"প্রশিক্ষণ যুক্ত করুন"}
+        link={"addTraining"}
+        key={"addTraining"}
+      />}
       <SectionTitle title={"সকল প্রশিক্ষণ"} />
       <div className="text-right font-extrabold">
-        <AddModuleButton btnText={'প্রশিক্ষণ যুক্ত করুন'} link={'addTraining'} key={'addTraining'} />
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
         {!loading &&
           !error &&
           allTrainings?.length > 0 &&
@@ -63,15 +68,12 @@ const Training = () => {
               data={singleTraining}
             />
           ))}
-
-        {!loading && allTrainings?.length < 1 && fetchEnd && (
-          <div className="flex justify-center items-center">
-            <h2 className="text-red-600 text-2xl  font-extrabold">
-              কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।
-            </h2>
-          </div>
-        )}
       </div>
+      {!loading && allTrainings?.length < 1 && fetchEnd && (
+        <div className="flex justify-center items-center">
+          <NoContentFound text={'কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।'} />
+        </div>
+      )}
       {loading && !error && (
         <div className="flex justify-center items-center">
           <Loader />

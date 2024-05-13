@@ -18,23 +18,14 @@ const SingleUser = ({ index, user, setReload, reload }) => {
     ...user,
   });
 
-  const handleSubmit = async (values, jwtToken) => {
+  const handleSubmit = async (values) => {
     try {
       const { _id } = values; // Extract values from the form or wherever they are stored
-      const updateData = { _id, name, mobile, password };
+      const updateData = { name, mobile, password };
+      console.log("Update data:", updateData);
 
-      console.log(updateData, "checking from frontend");
 
-      const response = await axios.put(
-        "http://localhost:5000/api/v1/user/update-user",
-        updateData,
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`, // Attach JWT token in the Authorization header
-          },
-        }
-      );
-
+      const response = await updateUser(_id, updateData)
       if (response.status === 200) {
         toast.success("তথ্য আপডেট সম্পাদন হয়েছে।");
         setReload(!reload);
@@ -50,7 +41,8 @@ const SingleUser = ({ index, user, setReload, reload }) => {
   };
 
   const [show, setShow] = useState(false);
-  const handleToShow = () => {
+  const handleToShow = (e) => {
+    e.preventDefault()
     setShow(!show);
   };
 
@@ -66,10 +58,9 @@ const SingleUser = ({ index, user, setReload, reload }) => {
             {/* <Formik initialValues={initialValues} onSubmit={handleSubmit}> */}
             <Formik
               initialValues={user}
-              onSubmit={(values) => handleSubmit(values, jwtToken)} // Pass handleSubmit function here
+              onSubmit={(values) => handleSubmit(values)} // Pass handleSubmit function here
             >
-              {(
-                { values, handleChange } // Destructure values and handleChange from Formik props
+              {({ values, handleChange } // Destructure values and handleChange from Formik props
               ) => (
                 <Form>
                   <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4">
@@ -142,7 +133,7 @@ const SingleUser = ({ index, user, setReload, reload }) => {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button className="right-0 pr-2" onClick={handleToShow}>
+                        <button className="right-0 pr-2" onClick={(e) => handleToShow(e)}>
                           {show ? (
                             <BsEyeFill className="text-slate-500" />
                           ) : (
