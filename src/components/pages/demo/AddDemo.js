@@ -16,11 +16,13 @@ import { toBengaliNumber } from "bengali-number";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { makeSureOnline } from "../../shared/MessageConst";
 import Loader from "../../shared/Loader";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const AddDemo = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const from = location?.state?.from?.pathname || "/";
   const queryParams = new URLSearchParams(location.search);
   const demoIdFromUrl = queryParams.get("id");
   const [demoId, setDemoId] = useState(demoIdFromUrl);
@@ -231,6 +233,11 @@ const AddDemo = () => {
       try {
         const result = await findDemoById(demoId);
         const { data } = result?.data || {};
+        if (data?.completed) {
+          toast.error("এই প্রদর্শনীটি ইতিমধ্যে চূড়ান্ত হিসেবে গণ্য করা হয়ে গেছে । এইটা আর এডিট করার অনুমতি নেই।")
+          navigate(from, { replace: true })
+          return;
+        }
 
         formik.setValues({
           ...data,

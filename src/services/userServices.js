@@ -68,7 +68,6 @@ export function addProjectByAdmin(values) {
 }
 
 export function getAllProjects(role) {
-  console.log(role)
   if (!role) {
     role = "user";
   }

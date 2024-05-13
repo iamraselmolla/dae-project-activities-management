@@ -15,13 +15,15 @@ import SectionTitle from "../../../../shared/SectionTitle";
 import AddModuleButton from "../../../../shared/AddModuleButton";
 import NoContentFound from "../../../../shared/NoContentFound";
 import CompleteNoteModal from "./CompleteNoteModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { daeAction } from "../../../../store/projectSlice";
 
 const UserNotes = () => {
   const { notes: allNotes } = useSelector(state => state.dae)
   const [modalData, setModalData] = useState(null);
   const [completedNotes, setCompletedNotes] = useState([]);
   const [incompletedNotes, setIncompletedNotes] = useState([]);
+  const dispatch = useDispatch()
 
   // Find User All Notes
 
@@ -44,6 +46,7 @@ const UserNotes = () => {
               const result = await deleteAnote(userNotetobeDeleted?._id);
               if (result?.status === 200) {
                 toast.success(result?.data?.message);
+                dispatch(daeAction.setRefetch())
 
               }
             } catch (err) {
@@ -190,6 +193,7 @@ const UserNotes = () => {
                     <UserNoteTH text="গ্রাম" />
                     <UserNoteTH text="অর্থবছর ও মৌসুম" />
                     <UserNoteTH text="তারিখ" />
+                    <UserNoteTH text="কার্য মন্তব্য" />
                     <UserNoteTH text="কার্য শেষের মন্তব্য" />
                     <UserNoteTH text="SAAO-এর নাম ও মোবাইল নং" />
                     <UserNoteTH text="একশন" />
@@ -240,7 +244,7 @@ const UserNotes = () => {
                           )}
                         />
                         <UserNoteTD text={singleNote?.comment?.noteComment} />
-                        <UserNoteTD text={singleNote?.comment?.completedNotes} />
+                        <UserNoteTD text={singleNote?.comment?.completedComment} />
                         <UserNoteTD
                           text={
                             singleNote?.SAAO?.name +

@@ -10,8 +10,7 @@ import TableDivision from "./TableComponent/TableDivision";
 import ImageGallery from "react-image-gallery";
 
 
-const SingleTrainingRow = ({ index, data, setReload, reload }) => {
-  const { user, role } = useContext(AuthContext);
+const SingleTrainingRow = ({ index, data }) => {
   const {
     projectInfo,
     fiscalYear,
@@ -50,7 +49,6 @@ const SingleTrainingRow = ({ index, data, setReload, reload }) => {
       const result = await deleteATraining(_id);
       if (result.status === 200) {
         toast.success("প্রশিক্ষণ সফলভাবে মুছে দেয়া হয়েছে");
-        setReload(!reload);
       } else {
         toast.error("প্রশিক্ষণের তথ্য মুছতে গিয়ে সমস্যা হচ্ছে।");
       }

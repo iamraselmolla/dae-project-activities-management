@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../../../AuthContext/AuthProvider";
-import SectionTitle from "../../../shared/SectionTitle";
+import { AuthContext } from "../AuthContext/AuthProvider";
+import SectionTitle from "./SectionTitle";
 import SingleProfile from "./SingleProfile";
 
 function Profile() {

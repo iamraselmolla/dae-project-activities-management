@@ -9,8 +9,8 @@ const LoginPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const { setUser, setRole } = useContext(AuthContext);
     const from = location?.state?.from?.pathname || "/";
+    const { setUser, setRole } = useContext(AuthContext);
 
     // State to manage form inputs
     const [formData, setFormData] = useState({
@@ -58,7 +58,7 @@ const LoginPage = () => {
                 const { token } = response.data.token; // Assuming the server returns a token upon successful login
 
                 // Store the token in local storage
-                localStorage.setItem('token', token);
+                localStorage.setItem('CurrentUserToken', token);
 
                 // Reset form after successful login
                 setFormData({
