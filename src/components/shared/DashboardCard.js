@@ -1,3 +1,4 @@
+import { toBengaliNumber } from 'bengali-number';
 import React from 'react';
 import { GoProject } from 'react-icons/go';
 
@@ -8,7 +9,7 @@ const DashboardCard = ({ icon, count, text, backgroundColor }) => {
                 {icon}
             </div>
             <div className="text-xl mt-5 font-bold">
-                {count} টি
+                {toBengaliNumber(count)} টি
             </div>
             <p className="font-semibold">
                 {text}
