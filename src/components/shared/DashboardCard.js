@@ -10,7 +10,7 @@ const DashboardCard = ({ icon, count, text, backgroundColor }) => {
             <div className="text-xl mt-5 font-bold">
                 {count} টি
             </div>
-            <p className="">
+            <p className="font-semibold">
                 {text}
             </p>
         </div>
