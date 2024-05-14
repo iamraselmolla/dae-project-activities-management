@@ -1,5 +1,4 @@
-// AdminDashboard.js
-import React, { PureComponent } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -23,6 +22,39 @@ const AdminDashboard = () => {
   const { projects, users, trainings, notes } = useSelector(
     (state) => state.dae
   );
+  const [noteTypes, setNoteTypes] = useState([]);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // Create a Set to store unique note types
+    const uniqueNoteTypes = new Set();
+
+    // Push unique note types to the Set
+    notes.forEach((note) => {
+      if (note.purpose && note.purpose.target) {
+        uniqueNoteTypes.add(note.purpose.target);
+      }
+    });
+
+    // Convert Set to array
+    const uniqueNoteTypesArray = Array.from(uniqueNoteTypes);
+
+    // Set the state with unique note types array
+    setNoteTypes(uniqueNoteTypesArray);
+  }, [notes]);
+
+  useEffect(() => {
+    if (noteTypes.length > 0) {
+      const newData = noteTypes?.map((single) => ({
+        name: single,
+        uv: 4000,
+        pv: 2400,
+        amt: 2400,
+      }));
+      setData(newData);
+    }
+  }, [noteTypes]);
+
   const runningProjects = projects?.filter((single) => !single.end).length;
   const completedNotes = notes?.filter((single) => single.completed).length;
 
@@ -65,17 +97,6 @@ const AdminDashboard = () => {
     },
     // Add more cards as needed
   ];
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-  ];
-
-  const notesType = notes?.every((single) => single.purpose);
-  console.log(notes);
 
   return (
     <section className="py-5">
@@ -85,7 +106,13 @@ const AdminDashboard = () => {
             <DashboardCard key={index} {...card} />
           ))}
         </div>
-        <ResponsiveContainer width="100%" height="100%">
+      </div>
+      <div className="h-full">
+        <ResponsiveContainer
+          className={"bg-white p-3 rounded-xl"}
+          width="100%"
+          height="100%"
+        >
           <BarChart
             width={500}
             height={300}
@@ -103,13 +130,13 @@ const AdminDashboard = () => {
             <Tooltip />
             <Legend />
             <Bar
-              dataKey="pv"
-              fill="#8884d8"
+              dataKey="uv"
+              fill="#ede18b"
               activeBar={<Rectangle fill="pink" stroke="blue" />}
             />
             <Bar
-              dataKey="uv"
-              fill="#82ca9d"
+              dataKey="pv"
+              fill="#69d586"
               activeBar={<Rectangle fill="gold" stroke="purple" />}
             />
           </BarChart>
