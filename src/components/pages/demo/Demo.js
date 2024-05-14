@@ -76,6 +76,7 @@ const Demo = () => {
   const [season, setSeason] = useState('');
   const [unionName, setUnionName] = useState('');
   const [blockName, setBlockName] = useState('');
+  const [search, setSearch] = useState('');
   const [filteredProjects, setFilteredProjects] = useState(demos);
 
   // Filter function
@@ -117,7 +118,29 @@ const Demo = () => {
     setSelectedProject(e.target.value);
   };
 
-  console.log(filteredProjects)
+
+
+  useEffect(() => {
+    // Filter data whenever the search input changes
+    const filtered = demos.filter((item) => {
+      // Check if any field matches the search input
+      for (const key in item) {
+        if (typeof item[key] === "string" && item[key].includes(search)) {
+          return true;
+        }
+        if (typeof item[key] === "object") {
+          for (const subKey in item[key]) {
+            if (typeof item[key][subKey] === "string" && item[key][subKey].includes(search)) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    });
+    setFilteredProjects(filtered); // Update filtered data
+  }, [search]);
+
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -148,27 +171,30 @@ const Demo = () => {
 
               <div>
                 <label className="font-extrabold mb-1 block">অর্থবছর</label>
-                <input
+                <select
                   className="input input-bordered w-full"
                   type="text"
                   value={fiscalYear}
                   onChange={(e) => setFiscalYear(e.target.value)}
                   placeholder="অর্থবছর সিলেক্ট করুন"
                 >
-                </input>
+                  <FiscalYear />
+                </select>
               </div>
             </div>
 
             <div className="flex justify-between items-center gap-3 mt-3">
               <div>
                 <label className="font-extrabold mb-1 block">মৌসুম</label>
-                <input
-                  type="text"
+                <select
                   className="input input-bordered w-full"
+                  id="season"
+                  name="season"
                   value={season}
                   onChange={(e) => setSeason(e.target.value)}
-                  placeholder="মৌসুম লিখুন"
-                />
+                >
+                  <Season />
+                </select>
               </div>
 
               <div>
@@ -190,6 +216,17 @@ const Demo = () => {
                   value={blockName}
                   onChange={(e) => setBlockName(e.target.value)}
                   placeholder="ব্লকের নাম লিখুন"
+                />
+              </div>
+
+              <div>
+                <label className="font-extrabold mb-1 block">অনুসন্ধান</label>
+                <input
+                  type="text"
+                  className="input input-bordered w-full"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="অনুসন্ধান লিখুন"
                 />
               </div>
             </div>
