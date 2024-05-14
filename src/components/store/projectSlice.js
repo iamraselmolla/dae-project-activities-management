@@ -24,9 +24,6 @@ const daeSlice = createSlice({
     setAllUsers: (state, action) => {
       state.users = action.payload;
     },
-    setAllProjects: (state, action) => {
-      state.projects = action.payload;
-    },
     setAllTrainings: (state, action) => {
       state.trainings = action.payload;
     },
