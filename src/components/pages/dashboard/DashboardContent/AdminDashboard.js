@@ -21,8 +21,8 @@ const AdminDashboard = () => {
         { icon: <GrCheckboxSelected />, count: projects?.length - runningProjects, text: 'সম্পন্ন প্রকল্প', backgroundColor: '#fff4de' },
         { icon: <FaUser />, count: users?.length - 1, text: 'সকল ইউজার', backgroundColor: '#dcfce7' },
         { icon: <GiDiscussion />, count: trainings?.length, text: 'সকল প্রশিক্ষণ', backgroundColor: '#f4e8ff' },
-        { icon: <GoNote />, count: notes?.length - completedNotes, text: 'অসম্পন্ন নোটস', backgroundColor: '#f5b0b9' },
-        { icon: <AiOutlineFileDone />, count: completedNotes, text: 'সম্পন্ন নোটস', backgroundColor: '#ffc98b' },
+        { icon: <GoNote />, count: notes?.length - completedNotes, text: 'অসম্পন্ন নোটস', backgroundColor: '#a9cded59' },
+        { icon: <AiOutlineFileDone />, count: completedNotes, text: 'সম্পন্ন নোটস', backgroundColor: '#c4ff8b80' },
         // Add more cards as needed
     ];
     const data = [
