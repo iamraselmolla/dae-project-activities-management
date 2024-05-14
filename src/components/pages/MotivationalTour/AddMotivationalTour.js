@@ -68,6 +68,7 @@ const AddMotivationTour = () => {
     farmers: "",
     officers: "",
     comment: "",
+    images: []
   };
 
   const formik = useFormik({
@@ -78,15 +79,19 @@ const AddMotivationTour = () => {
       if (!user) {
         return toast.error("লগইন করুন প্রথমে।");
       }
+      if (images?.length < 1) {
+        toast.error("আপনাকে অবশ্যই উদ্বুদ্ধকরণ ভ্রমণের ছবিসমূহ দিতে হবে।");
+        return
+      }
       try {
-        // setLoading(true);
+        setLoading(true);
 
-        // const result = await createMotivationTour(formData);
-        // if (result?.status === 200) {
-        //   toast.success("মোটিভেশন টুর তথ্য সংরক্ষিত হয়েছে।");
-        //   formik.resetForm();
-        //   setImages([]);
-        // }
+        const result = await createMotivationTour(formData);
+        if (result?.status === 200) {
+          toast.success("মোটিভেশন টুর তথ্য সংরক্ষিত হয়েছে।");
+          formik.resetForm();
+          setImages([]);
+        }
       } catch (error) {
         console.error("Motivation tour creation error:", error);
         toast.error("মোটিভেশন টুর তথ্য সংরক্ষণে সমস্যা হয়েছে।");
