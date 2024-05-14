@@ -12,6 +12,8 @@ import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const Demo = () => {
   const [demos, setDemos] = useState([]);
@@ -79,8 +81,8 @@ const Demo = () => {
   const [search, setSearch] = useState('');
   const [filteredProjects, setFilteredProjects] = useState(demos);
 
-  // Filter function
-  // Filter function
+
+  // make the function to search accordingly selected filed's each changes 
   const filterProjects = () => {
     let filtered = demos;
 
@@ -107,7 +109,6 @@ const Demo = () => {
     return filtered; // Return the filtered projects
   };
 
-
   // Call filterProjects inside the useEffect hook to update filteredProjects state
   useEffect(() => {
     const filtered = filterProjects();
@@ -119,7 +120,7 @@ const Demo = () => {
   };
 
 
-
+  // make the function to search accordingly all filed and call the function in each change 
   useEffect(() => {
     // Filter data whenever the search input changes
     const filtered = demos.filter((item) => {
@@ -141,11 +142,97 @@ const Demo = () => {
     setFilteredProjects(filtered); // Update filtered data
   }, [search]);
 
+  // Function to export filtered data to Excel
+  const handleToExportInToExcel = () => {
+    const data = filteredProjects.map((project) => {
+      return [
+        project.projectInfo.full,
+        project.projectInfo.short,
+        project.demoTime.fiscalYear,
+        project.demoTime.season,
+        project.farmersInfo.name,
+        project.farmersInfo.fatherOrHusbandName,
+        project.numbersInfo.NID,
+        project.numbersInfo.BID,
+        project.numbersInfo.mobile,
+        project.address.village,
+        project.address.block,
+        project.address.union,
+        project.comment.farmersReview,
+        project.comment.overallComment,
+        project.completed,
+        project.createdAt,
+        project.updatedAt,
+        project.demoDate.bopon,
+        project.demoDate.ropon,
+        project.demoDate.korton.startDate,
+        project.demoDate.korton.endDate,
+        project.demoImages.map((image) => image.image.join(', ')).join('; '),
+        project.demoImages.map((image) => image.date).join('; '),
+        project.demoImages.map((image) => image.presentCondition).join('; '),
+        project.demoImages.map((image) => image.presentOfficer).join('; '),
+        project.demoInfo.tech,
+        project.demoInfo.crop,
+        project.demoInfo.variety,
+        project.production.productionPerHector,
+        project.production.totalProduction,
+        project.production.sidePlotProduction,
+      ];
+    });
+
+    const worksheet = XLSX.utils.aoa_to_sheet([
+      [
+        'Project Full Name',
+        'Project Short Name',
+        'Fiscal Year',
+        'Season',
+        'Farmer Name',
+        'Father/Husband Name',
+        'NID',
+        'BID',
+        'Mobile',
+        'Village',
+        'Block',
+        'Union',
+        "Farmer's Review",
+        'Overall Comment',
+        'Completed',
+        'Created At',
+        'Updated At',
+        'Demo Bopon',
+        'Demo Ropon',
+        'Demo Korton Start Date',
+        'Demo Korton End Date',
+        'Demo Image URLs',
+        'Demo Image Dates',
+        'Demo Image Present Condition',
+        'Demo Image Present Officer',
+        'Demo Tech',
+        'Demo Crop',
+        'Demo Variety',
+        'Production Per Hector',
+        'Total Production',
+        'Side Plot Production',
+      ],
+      ...data,
+    ]);
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Filtered Projects');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const dataBlob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    saveAs(dataBlob, `projects.xlsx`);
+  };
+
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       {user &&
         <div className="grid grid-cols-4 mb-10">
+
+          {/* Left side part */}
           <div className="col-span-3">
             <div className="flex justify-between items-center gap-3">
 
@@ -232,8 +319,12 @@ const Demo = () => {
             </div>
           </div>
 
+          {/* Right side part */}
           <div className="text-right font-extrabold col-span-1">
             <AddModuleButton link={'addDemo'} btnText={'প্রদর্শনী যুক্ত করুন'} />
+            <button
+              onClick={handleToExportInToExcel}
+              className="btn text-lg font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-3 px-12">Make Excel</button>
           </div>
         </div>
       }
