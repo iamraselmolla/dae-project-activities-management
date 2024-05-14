@@ -19,8 +19,8 @@ const AdminDashboard = () => {
     const cards = [
         { icon: <GoProject />, count: runningProjects, text: 'চলমান প্রকল্প', backgroundColor: '#ffe2e6' },
         { icon: <GrCheckboxSelected />, count: projects?.length - runningProjects, text: 'সম্পন্ন প্রকল্প', backgroundColor: '#fff4de' },
-        { icon: <FaUser />, count: users?.length - 1, text: 'সকল ইউজার', backgroundColor: '#dcfce7' },
-        { icon: <GiDiscussion />, count: trainings?.length, text: 'সকল প্রশিক্ষণ', backgroundColor: '#f4e8ff' },
+        { icon: <FaUser />, count: users?.length - 1, text: 'ইউজার', backgroundColor: '#dcfce7' },
+        { icon: <GiDiscussion />, count: trainings?.length, text: 'প্রশিক্ষণ', backgroundColor: '#f4e8ff' },
         { icon: <GoNote />, count: notes?.length - completedNotes, text: 'অসম্পন্ন নোটস', backgroundColor: '#a9cded59' },
         { icon: <AiOutlineFileDone />, count: completedNotes, text: 'সম্পন্ন নোটস', backgroundColor: '#c4ff8b80' },
         // Add more cards as needed
@@ -73,11 +73,12 @@ const AdminDashboard = () => {
     return (
         <section className='py-5'>
             <div className="grid grid-cols-2 gap-5 justify-center items-center">
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid bg-white p-4 rounded-xl grid-cols-3 gap-3">
                     {cards.map((card, index) => (
                         <DashboardCard key={index} {...card} />
                     ))}
-                </div><ResponsiveContainer width="100%" height="100%">
+                </div>
+                <ResponsiveContainer className={'bg-white p-4 rounded-xl'} width="100%" height="100%">
                     <AreaChart
                         width={500}
                         height={400}
@@ -98,9 +99,7 @@ const AdminDashboard = () => {
                         <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
                     </AreaChart>
                 </ResponsiveContainer>
-                <div>
 
-                </div>
             </div>
         </section>
     );
