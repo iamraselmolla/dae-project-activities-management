@@ -2,9 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
-import {
-  createANote
-} from "../../../services/userServices";
+import { createANote } from "../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
 import getFiscalYear from "../../shared/commonDataStores";
 import FiscalYear from "../../shared/FiscalYear";
@@ -28,8 +26,7 @@ const AddNotes = () => {
     startDate: "",
     endDate: "",
   });
-  const { projects: allProject
-  } = useSelector(state => state.dae)
+  const { projects: allProject } = useSelector((state) => state.dae);
   const initialValues = {
     projectInfo: {
       details: "",
@@ -61,8 +58,8 @@ const AddNotes = () => {
     },
     attachment: "",
     comment: {
-      noteComment: '',
-      completedComment: ''
+      noteComment: "",
+      completedComment: "",
     },
     username: user?.username,
   };
@@ -83,9 +80,9 @@ const AddNotes = () => {
     farmersInfo: Yup.object().shape({
       name: Yup.string().required("অবশ্যই কৃষকের নাম দিন"),
       fathersOrHusbandName: Yup.string().required("পিতা/স্বামীর নাম দিন"),
-      mobile: Yup.string()
-        .required("মোবাইল নম্বর দিন")
-        .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
+      // mobile: Yup.string()
+      //   .required("মোবাইল নম্বর দিন")
+      //   .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
     }),
     address: Yup.object().shape({
       village: Yup.string().required("গ্রামের নাম দিন"),
@@ -138,7 +135,7 @@ const AddNotes = () => {
         SAAO: user?.SAAO,
         username: user?.username,
         done: false,
-        comment: values.comment
+        comment: values.comment,
       };
 
       if (rawImages?.length > 0) {
@@ -171,7 +168,7 @@ const AddNotes = () => {
 
   return (
     <div className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8 py-8">
-      <SectionTitle title={'নোট যুক্ত করুন'} />
+      <SectionTitle title={"নোট যুক্ত করুন"} />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -206,8 +203,8 @@ const AddNotes = () => {
                   )}
                 </select>
                 {formik.touched.projectInfo &&
-                  formik.touched.projectInfo.details &&
-                  formik.errors.projectInfo?.details ? (
+                formik.touched.projectInfo.details &&
+                formik.errors.projectInfo?.details ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.details}
                   </div>
@@ -230,8 +227,8 @@ const AddNotes = () => {
                 />
 
                 {formik.touched.projectInfo &&
-                  formik.touched.projectInfo.short &&
-                  formik.errors.projectInfo?.short ? (
+                formik.touched.projectInfo.short &&
+                formik.errors.projectInfo?.short ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.short}
                   </div>
@@ -264,8 +261,8 @@ const AddNotes = () => {
                   <Season />
                 </select>
                 {formik.touched.timeFrame &&
-                  formik.touched.timeFrame.season &&
-                  formik.errors.timeFrame?.season ? (
+                formik.touched.timeFrame.season &&
+                formik.errors.timeFrame?.season ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.timeFrame.season}
                   </div>
@@ -321,9 +318,7 @@ const AddNotes = () => {
                   <option value="কৃষি পরামর্শ প্রদান">
                     কৃষি পরামর্শ প্রদান
                   </option>
-                  <option value="মালামাল বিতরণ">
-                    ্মালামাল বিতরণ
-                  </option>
+                  <option value="মালামাল বিতরণ">্মালামাল বিতরণ</option>
                 </Field>
                 <ErrorMessage
                   name="purpose.target"
