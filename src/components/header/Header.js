@@ -13,8 +13,7 @@ const Header = () => {
     localStorage.removeItem("CurrentUserToken");
     setUser(null);
     setShowMenu(false);
-    setRole(null)
-
+    setRole(null);
   };
 
   return (
@@ -55,7 +54,10 @@ const Header = () => {
                 link="dae-group-meeting"
                 text="ডিএই কৃষক গ্রুপ সভা"
               />
-              <HeaderMenuItem link="dashboard/user-notes" text="সকল নোটস" />
+              <HeaderMenuItem
+                link="motivational-tour"
+                text="উদ্বুদ্ধকরণ ভ্রমণ"
+              />
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost text-white text-xl">
@@ -69,7 +71,7 @@ const Header = () => {
           <HeaderMenuItem link="fielddays" text="মাঠদিবস" />
           <HeaderMenuItem link="distributions" text="মালামাল বিতরণ" />
           <HeaderMenuItem link="dae-group-meeting" text="ডিএই কৃষক গ্রুপ সভা" />
-          <HeaderMenuItem link="dashboard/user-notes" text="সকল নোটস" />
+          <HeaderMenuItem link="motivational-tour" text="উদ্বুদ্ধকরণ ভ্রমণ" />
         </div>
         <div className="navbar-end">
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -110,8 +112,8 @@ const Header = () => {
                             isPending
                               ? "pending"
                               : isActive
-                                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                                : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                              ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                              : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                           }
                         >
                           প্রফাইল
