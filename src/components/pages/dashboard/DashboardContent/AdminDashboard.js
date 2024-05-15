@@ -47,8 +47,12 @@ const AdminDashboard = () => {
     if (noteTypes.length > 0) {
       const newData = noteTypes?.map((single) => ({
         name: single,
-        uv: 4000,
-        pv: 2400,
+        uv: notes?.filter(
+          (single2) => single2?.purpose.target === single && !single2?.completed
+        ).length,
+        pv: notes?.filter(
+          (single2) => single2?.purpose.target === single && single2?.completed
+        ).length,
         amt: 2400,
       }));
       setData(newData);
@@ -107,7 +111,7 @@ const AdminDashboard = () => {
           ))}
         </div>
       </div>
-      <div className="h-full">
+      <div className="h-80 mt-8">
         <ResponsiveContainer
           className={"bg-white p-3 rounded-xl"}
           width="100%"

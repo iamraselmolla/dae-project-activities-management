@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import {
   findUserAllNotes,
+  getAllMotivationalTours,
   getAllProjects,
   getAllTraining,
   getAllUser,
@@ -80,6 +81,10 @@ const DashboardLayout = () => {
           const projectsResult = await getAllProjects(role);
           if (projectsResult?.status === 200) {
             dispatch(daeAction.setAllProjects(projectsResult?.data?.data));
+          }
+          const tourResult = await getAllMotivationalTours();
+          if (tourResult?.status === 200) {
+            dispatch(daeAction.setAllMotivationTours(tourResult?.data?.data));
           }
         } catch (err) {
           toast.error("তথ্য সেকশন-৩ সার্ভার থেকে আনতে অসুবিধা হচ্ছে।");

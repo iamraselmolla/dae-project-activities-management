@@ -56,11 +56,13 @@ const BASE_URL = {
   deleteNote: "/note/delete-note",
   completeANote: "/note/complete-note",
 
-
   // Distribution
-  createDistribution: '/distribution/create-distribution'
-};
+  createDistribution: "/distribution/create-distribution",
 
+  // Motivational Tour
+  createMotivationTour: "/tour/create-tour",
+  getAllMotivationalTour: "/tour/get-tours",
+};
 
 // Project APIs
 export function addProjectByAdmin(values) {
@@ -232,8 +234,16 @@ export function markNoteAsComplete(id, comment) {
   return http.put(BASE_URL.completeANote, { id, comment });
 }
 
-
 // Distribution
 export function createDistribution(data) {
-  return http.post(BASE_URL.createDistribution, { data })
+  return http.post(BASE_URL.createDistribution, { data });
+}
+
+// Motivatinal Tour
+
+export function createMotivationTour(data) {
+  return http.post(BASE_URL.createMotivationTour, { data });
+}
+export function getAllMotivationalTours() {
+  return http.post(BASE_URL.getAllMotivationalTour);
 }
