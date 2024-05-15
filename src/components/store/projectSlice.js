@@ -13,6 +13,7 @@ const initialState = {
   tours: [],
   refetch: 0,
   endFetch: false,
+  blockAndUnions: [],
 };
 
 const daeSlice = createSlice({
@@ -52,6 +53,9 @@ const daeSlice = createSlice({
     setAllMotivationTours: (state, action) => {
       state.tours = action.payload;
     },
+    setBlokAndUnion: (state, action) => {
+      state.blockAndUnions = action.payload
+    }
   },
 });
 

@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { getAllProjects } from "../../services/userServices";
+import { getAllProjects, getBlockandUnion } from "../../services/userServices";
 import { useDispatch } from "react-redux";
 import { daeAction } from "../store/projectSlice";
 
@@ -34,6 +34,11 @@ const AuthProvider = ({ children }) => {
         if (result?.status === 200) {
           dispatch(daeAction.setAllProjects(result?.data?.data))
 
+        }
+
+        const result2 = await getBlockandUnion()
+        if (result?.status === 200) {
+          dispatch(daeAction.setBlokAndUnion(result2?.data?.data))
         }
 
       }

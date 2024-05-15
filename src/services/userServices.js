@@ -26,6 +26,7 @@ const BASE_URL = {
   getAllUser: "/user/get-users",
   updateUser: "/user/update-user",
   login: "/user/get-login-user",
+  getUnionAndBlockInfo: '/user/get-user-info',
 
   // Groups
   createGroup: "/group/create-group",
@@ -146,6 +147,9 @@ export function getLoginUser(formData) {
   return http.post(BASE_URL.login, formData);
 }
 
+export function getBlockandUnion() {
+  return http.get(BASE_URL.getUnionAndBlockInfo)
+}
 // Group APIs
 export function createAGroup(values) {
   return http.post(BASE_URL.createGroup, values);

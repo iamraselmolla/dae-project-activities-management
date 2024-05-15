@@ -8,14 +8,13 @@ import Loader from "../../shared/Loader";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import AddModuleButton from "../../shared/AddModuleButton";
 import NoContentFound from "../../shared/NoContentFound";
-import getFiscalYear from "../../shared/commonDataStores";
-import { toBengaliNumber } from "bengali-number";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { SiMicrosoftexcel } from "react-icons/si";
 import SectionTitle from "../../shared/SectionTitle";
+import { useSelector } from "react-redux";
 
 const Demo = () => {
   const [demos, setDemos] = useState([]);
@@ -23,6 +22,18 @@ const Demo = () => {
   const [fetchEnd, setFetchEnd] = useState(false);
   const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext);
+  const { blockAndUnions } = useSelector(state => state.dae)
+  const [allUnion, setAllUnion] = useState([])
+
+  useEffect(() => {
+    const checkUnion = []
+
+
+    blockAndUnions?.map(single => (checkUnion.includes(single?.unionB)) ? '' : checkUnion.push(single?.unionB))
+
+    setAllUnion(checkUnion)
+
+  }, [blockAndUnions])
   useEffect(() => {
     const fetchAllDemos = async () => {
       setLoading(true);
@@ -81,6 +92,7 @@ const Demo = () => {
   const [blockName, setBlockName] = useState("");
   const [search, setSearch] = useState("");
   const [filteredProjects, setFilteredProjects] = useState(demos);
+  const [blocksOfUnion, setBlocksOfUnion] = useState([])
 
   // make the function to search accordingly selected filed's each changes
   const filterProjects = () => {
@@ -153,6 +165,19 @@ const Demo = () => {
     });
     setFilteredProjects(filtered); // Update filtered data
   }, [search]);
+
+  const handleUnionAndBlockSelection = (e) => {
+    const selectedUnion = e.target.value;
+    setUnionName(selectedUnion);
+
+    // Find the blocks under the selected union
+    const result = blockAndUnions?.filter((single) => single?.unionB === selectedUnion);
+    const blocks = result?.map((single) => single?.blockB); // Assuming result contains an array of objects with 'blockB' property
+
+    // Update the state with the blocks of the selected union
+    setBlocksOfUnion(blocks);
+  };
+
 
   // Function to export filtered data to Excel
   const handleToExportInToExcel = () => {
@@ -295,25 +320,30 @@ const Demo = () => {
 
           <div>
             <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
-            <input
-              type="text"
+            <select
               className="input input-bordered w-full"
               value={unionName}
-              onChange={(e) => setUnionName(e.target.value)}
-              placeholder="ইউনিয়নের নাম লিখুন"
-            />
+              onChange={handleUnionAndBlockSelection}
+            >
+              <option key={'kdsfkd'} value=''>ইউনিয়ন</option>
+              {allUnion?.map(single => <option key={single}>{single}</option>)}
+            </select>
           </div>
 
           <div>
             <label className="font-extrabold mb-1 block">ব্লকের নাম</label>
-            <input
-              type="text"
+            <select
               className="input input-bordered w-full"
               value={blockName}
               onChange={(e) => setBlockName(e.target.value)}
-              placeholder="ব্লকের নাম লিখুন"
-            />
+            >
+              <option value="">ব্লক সিলেক্ট করুন</option>
+              {blocksOfUnion?.map((single, index) => (
+                <option key={index} value={single}>{single}</option>
+              ))}
+            </select>
           </div>
+
 
           <div>
             <label className="font-extrabold mb-1 block">অনুসন্ধান</label>
