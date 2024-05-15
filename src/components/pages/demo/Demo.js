@@ -20,7 +20,7 @@ const Demo = () => {
   const [loading, setLoading] = useState(false);
   const [fetchEnd, setFetchEnd] = useState(false);
   const [allProject, setAllProjects] = useState([]);
-  const { user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
   useEffect(() => {
     const fetchAllDemos = async () => {
       setLoading(true);
@@ -28,7 +28,7 @@ const Demo = () => {
         const result = await getAllDemos();
         if (result?.status === 200) {
           setDemos(result.data?.data);
-          setFilteredProjects(result.data?.data)
+          setFilteredProjects(result.data?.data);
           setLoading(false);
           setFetchEnd(true);
         }
@@ -72,38 +72,46 @@ const Demo = () => {
     }
   }, []);
 
-
-  const [selectedProject, setSelectedProject] = useState('');
-  const [fiscalYear, setFiscalYear] = useState('');
-  const [season, setSeason] = useState('');
-  const [unionName, setUnionName] = useState('');
-  const [blockName, setBlockName] = useState('');
-  const [search, setSearch] = useState('');
+  const [selectedProject, setSelectedProject] = useState("");
+  const [fiscalYear, setFiscalYear] = useState("");
+  const [season, setSeason] = useState("");
+  const [unionName, setUnionName] = useState("");
+  const [blockName, setBlockName] = useState("");
+  const [search, setSearch] = useState("");
   const [filteredProjects, setFilteredProjects] = useState(demos);
 
-
-  // make the function to search accordingly selected filed's each changes 
+  // make the function to search accordingly selected filed's each changes
   const filterProjects = () => {
     let filtered = demos;
 
-    if (selectedProject !== '') {
-      filtered = filtered.filter(project => project.projectInfo.full.includes(selectedProject));
+    if (selectedProject !== "") {
+      filtered = filtered.filter((project) =>
+        project.projectInfo.full.includes(selectedProject)
+      );
     }
 
-    if (fiscalYear !== '') {
-      filtered = filtered.filter(project => project.demoTime.fiscalYear.includes(fiscalYear));
+    if (fiscalYear !== "") {
+      filtered = filtered.filter((project) =>
+        project.demoTime.fiscalYear.includes(fiscalYear)
+      );
     }
 
-    if (season !== '') {
-      filtered = filtered.filter(project => project.demoTime.season.includes(season));
+    if (season !== "") {
+      filtered = filtered.filter((project) =>
+        project.demoTime.season.includes(season)
+      );
     }
 
-    if (unionName !== '') {
-      filtered = filtered.filter(project => project.address.union.includes(unionName));
+    if (unionName !== "") {
+      filtered = filtered.filter((project) =>
+        project.address.union.includes(unionName)
+      );
     }
 
-    if (blockName !== '') {
-      filtered = filtered.filter(project => project.address.block.includes(blockName));
+    if (blockName !== "") {
+      filtered = filtered.filter((project) =>
+        project.address.block.includes(blockName)
+      );
     }
 
     return filtered; // Return the filtered projects
@@ -119,8 +127,7 @@ const Demo = () => {
     setSelectedProject(e.target.value);
   };
 
-
-  // make the function to search accordingly all filed and call the function in each change 
+  // make the function to search accordingly all filed and call the function in each change
   useEffect(() => {
     // Filter data whenever the search input changes
     const filtered = demos.filter((item) => {
@@ -131,7 +138,10 @@ const Demo = () => {
         }
         if (typeof item[key] === "object") {
           for (const subKey in item[key]) {
-            if (typeof item[key][subKey] === "string" && item[key][subKey].includes(search)) {
+            if (
+              typeof item[key][subKey] === "string" &&
+              item[key][subKey].includes(search)
+            ) {
               return true;
             }
           }
@@ -167,10 +177,10 @@ const Demo = () => {
         project.demoDate.ropon,
         project.demoDate.korton.startDate,
         project.demoDate.korton.endDate,
-        project.demoImages.map((image) => image.image.join(', ')).join('; '),
-        project.demoImages.map((image) => image.date).join('; '),
-        project.demoImages.map((image) => image.presentCondition).join('; '),
-        project.demoImages.map((image) => image.presentOfficer).join('; '),
+        project.demoImages.map((image) => image.image.join(", ")).join("; "),
+        project.demoImages.map((image) => image.date).join("; "),
+        project.demoImages.map((image) => image.presentCondition).join("; "),
+        project.demoImages.map((image) => image.presentOfficer).join("; "),
         project.demoInfo.tech,
         project.demoInfo.crop,
         project.demoInfo.variety,
@@ -182,60 +192,69 @@ const Demo = () => {
 
     const worksheet = XLSX.utils.aoa_to_sheet([
       [
-        'Project Full Name',
-        'Project Short Name',
-        'Fiscal Year',
-        'Season',
-        'Farmer Name',
-        'Father/Husband Name',
-        'NID',
-        'BID',
-        'Mobile',
-        'Village',
-        'Block',
-        'Union',
+        "Project Full Name",
+        "Project Short Name",
+        "Fiscal Year",
+        "Season",
+        "Farmer Name",
+        "Father/Husband Name",
+        "NID",
+        "BID",
+        "Mobile",
+        "Village",
+        "Block",
+        "Union",
         "Farmer's Review",
-        'Overall Comment',
-        'Completed',
-        'Created At',
-        'Updated At',
-        'Demo Bopon',
-        'Demo Ropon',
-        'Demo Korton Start Date',
-        'Demo Korton End Date',
-        'Demo Image URLs',
-        'Demo Image Dates',
-        'Demo Image Present Condition',
-        'Demo Image Present Officer',
-        'Demo Tech',
-        'Demo Crop',
-        'Demo Variety',
-        'Production Per Hector',
-        'Total Production',
-        'Side Plot Production',
+        "Overall Comment",
+        "Completed",
+        "Created At",
+        "Updated At",
+        "Demo Bopon",
+        "Demo Ropon",
+        "Demo Korton Start Date",
+        "Demo Korton End Date",
+        "Demo Image URLs",
+        "Demo Image Dates",
+        "Demo Image Present Condition",
+        "Demo Image Present Officer",
+        "Demo Tech",
+        "Demo Crop",
+        "Demo Variety",
+        "Production Per Hector",
+        "Total Production",
+        "Side Plot Production",
       ],
       ...data,
     ]);
 
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Filtered Projects');
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Filtered Projects");
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
     const dataBlob = new Blob([excelBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
     saveAs(dataBlob, `projects.xlsx`);
   };
 
-
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      {user &&
+      <div className="text-right font-extrabold col-span-1">
+        <AddModuleButton link={"addDemo"} btnText={"প্রদর্শনী যুক্ত করুন"} />
+        <button
+          onClick={handleToExportInToExcel}
+          className="btn text-lg font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-3 px-12"
+        >
+          Make Excel
+        </button>
+      </div>
+      {user && (
         <div className="grid grid-cols-4 mb-10">
-
           {/* Left side part */}
           <div className="col-span-3">
             <div className="flex justify-between items-center gap-3">
-
               <div>
                 <label className="font-extrabold mb-1 block">
                   প্রকল্পের পুরো নাম
@@ -285,7 +304,9 @@ const Demo = () => {
               </div>
 
               <div>
-                <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
+                <label className="font-extrabold mb-1 block">
+                  ইউনিয়নের নাম
+                </label>
                 <input
                   type="text"
                   className="input input-bordered w-full"
@@ -320,23 +341,19 @@ const Demo = () => {
           </div>
 
           {/* Right side part */}
-          <div className="text-right font-extrabold col-span-1">
-            <AddModuleButton link={'addDemo'} btnText={'প্রদর্শনী যুক্ত করুন'} />
-            <button
-              onClick={handleToExportInToExcel}
-              className="btn text-lg font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-3 px-12">Make Excel</button>
-          </div>
         </div>
-      }
+      )}
 
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
         {!loading &&
           fetchEnd &&
           filteredProjects?.length > 0 &&
-          filteredProjects?.map((demo) => <SingleDemo key={demo?._id} data={demo} />)}
+          filteredProjects?.map((demo) => (
+            <SingleDemo key={demo?._id} data={demo} />
+          ))}
       </div>
       {!loading && fetchEnd && filteredProjects?.length < 1 && (
-        <NoContentFound text={'কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!'} />
+        <NoContentFound text={"কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!"} />
       )}
       {!fetchEnd && loading && (
         <div className="py-20">
