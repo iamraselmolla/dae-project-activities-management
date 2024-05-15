@@ -35,7 +35,7 @@ const SingleDemo = ({ data }) => {
         { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" }
       );
     }
-  }, [demoImages, data]);
+  }, []);
 
   return (
     <div className="rounded-lg bg-white shadow-blue relative shadow-xl">
