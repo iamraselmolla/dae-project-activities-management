@@ -11,12 +11,44 @@ import { useSelector } from "react-redux";
 
 function MotivationalTour() {
   const { projects: allProjects } = useSelector(state => state.dae)
-  const [allTours, setAllTours] = useState(null);
+  const [allTours, setAllTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState("");
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
+  const [filteredTours, setFilteredTours] = useState(allTours);
+
+  const filterTours = () => {
+    let filtered = allTours;
+
+    if (selectedProject !== "") {
+      filtered = filtered.filter((project) =>
+        project.projectInfo.details.includes(selectedProject)
+      );
+    }
+
+    if (fiscalYear !== "") {
+      filtered = filtered.filter((project) =>
+        project.time.fiscalYear.includes(fiscalYear)
+      );
+    }
+
+    if (season !== "") {
+      filtered = filtered.filter((project) =>
+        project.time.season.includes(season)
+      );
+    }
+
+    return filtered; // Return the filtered projects
+  };
+
+  // Call filterProjects inside the useEffect hook to update filteredProjects state
+  useEffect(() => {
+    const filtered = filterTours();
+    setFilteredTours(filtered);
+  }, [selectedProject, fiscalYear, season]);
+
 
   useEffect(() => {
     const fetchTours = async () => {
@@ -103,9 +135,9 @@ function MotivationalTour() {
         </div>
         {!loading ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
-            {allTours &&
-              allTours?.length > 0 &&
-              allTours?.map((single) => (
+            {filteredTours &&
+              filteredTours?.length > 0 &&
+              filteredTours?.map((single) => (
                 <SingleTour key={single?._id} tour={single} />
               ))}
           </div>

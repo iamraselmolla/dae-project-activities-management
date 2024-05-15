@@ -115,6 +115,7 @@ const AddMotivationTour = () => {
           formik.resetForm();
           setImages([]);
           setSelectedProject({});
+          setRawImages([])
         }
       } catch (error) {
         console.error("Motivation tour creation error:", error);
@@ -173,8 +174,8 @@ const AddMotivationTour = () => {
               )}
             </select>
             {formik.touched.projectInfo &&
-            formik.touched.projectInfo.full &&
-            formik.errors.projectInfo?.full ? (
+              formik.touched.projectInfo.full &&
+              formik.errors.projectInfo?.full ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.full}
               </div>
@@ -201,8 +202,8 @@ const AddMotivationTour = () => {
             />
 
             {formik.touched.projectInfo &&
-            formik.touched.projectInfo.short &&
-            formik.errors.projectInfo?.short ? (
+              formik.touched.projectInfo.short &&
+              formik.errors.projectInfo?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.short}
               </div>

@@ -24,16 +24,21 @@ const Demo = () => {
   const { user } = useContext(AuthContext);
   const { blockAndUnions } = useSelector(state => state.dae)
   const [allUnion, setAllUnion] = useState([])
+  const [selectedProject, setSelectedProject] = useState("");
+  const [fiscalYear, setFiscalYear] = useState("");
+  const [season, setSeason] = useState("");
+  const [unionName, setUnionName] = useState("");
+  const [blockName, setBlockName] = useState("");
+  const [search, setSearch] = useState("");
+  const [filteredProjects, setFilteredProjects] = useState(demos);
+  const [blocksOfUnion, setBlocksOfUnion] = useState([])
 
   useEffect(() => {
     const checkUnion = []
-
-
     blockAndUnions?.map(single => (checkUnion.includes(single?.unionB)) ? '' : checkUnion.push(single?.unionB))
-
     setAllUnion(checkUnion)
+  }, [blockAndUnions]);
 
-  }, [blockAndUnions])
   useEffect(() => {
     const fetchAllDemos = async () => {
       setLoading(true);
@@ -60,14 +65,7 @@ const Demo = () => {
     }
   }, []);
 
-  const [selectedProject, setSelectedProject] = useState("");
-  const [fiscalYear, setFiscalYear] = useState("");
-  const [season, setSeason] = useState("");
-  const [unionName, setUnionName] = useState("");
-  const [blockName, setBlockName] = useState("");
-  const [search, setSearch] = useState("");
-  const [filteredProjects, setFilteredProjects] = useState(demos);
-  const [blocksOfUnion, setBlocksOfUnion] = useState([])
+
 
   // make the function to search accordingly selected filed's each changes
   const filterProjects = () => {
