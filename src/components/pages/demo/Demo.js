@@ -14,6 +14,8 @@ import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { SiMicrosoftexcel } from "react-icons/si";
+import SectionTitle from "../../shared/SectionTitle";
 
 const Demo = () => {
   const [demos, setDemos] = useState([]);
@@ -243,107 +245,97 @@ const Demo = () => {
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold col-span-1">
         <AddModuleButton link={"addDemo"} btnText={"প্রদর্শনী যুক্ত করুন"} />
-        <button
-          onClick={handleToExportInToExcel}
-          className="btn text-lg font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-3 px-12"
-        >
-          Make Excel
-        </button>
       </div>
       {user && (
-        <div className="grid grid-cols-4 mb-10">
-          {/* Left side part */}
-          <div className="col-span-3">
-            <div className="flex justify-between items-center gap-3">
-              <div>
-                <label className="font-extrabold mb-1 block">
-                  প্রকল্পের পুরো নাম
-                </label>
-                <select
-                  className="input input-bordered w-full"
-                  value={selectedProject}
-                  onChange={handleSelectChange}
-                >
-                  <option value="" label="প্রকল্প সিলেক্ট করুন" />
-                  {allProject.map((project) => (
-                    <option
-                      key={project._id}
-                      value={project?.name?.details}
-                      label={project?.name?.details}
-                    />
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="font-extrabold mb-1 block">অর্থবছর</label>
-                <select
-                  className="input input-bordered w-full"
-                  type="text"
-                  value={fiscalYear}
-                  onChange={(e) => setFiscalYear(e.target.value)}
-                  placeholder="অর্থবছর সিলেক্ট করুন"
-                >
-                  <FiscalYear />
-                </select>
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center gap-3 mt-3">
-              <div>
-                <label className="font-extrabold mb-1 block">মৌসুম</label>
-                <select
-                  className="input input-bordered w-full"
-                  id="season"
-                  name="season"
-                  value={season}
-                  onChange={(e) => setSeason(e.target.value)}
-                >
-                  <Season />
-                </select>
-              </div>
-
-              <div>
-                <label className="font-extrabold mb-1 block">
-                  ইউনিয়নের নাম
-                </label>
-                <input
-                  type="text"
-                  className="input input-bordered w-full"
-                  value={unionName}
-                  onChange={(e) => setUnionName(e.target.value)}
-                  placeholder="ইউনিয়নের নাম লিখুন"
+        <div className="flex py-6 flex-wrap justify-between items-center gap-3">
+          <div>
+            <label className="font-extrabold mb-1 block">
+              প্রকল্পের পুরো নাম
+            </label>
+            <select
+              className="input input-bordered w-full"
+              value={selectedProject}
+              onChange={handleSelectChange}
+            >
+              <option value="" label="প্রকল্প সিলেক্ট করুন" />
+              {allProject.map((project) => (
+                <option
+                  key={project._id}
+                  value={project?.name?.details}
+                  label={project?.name?.details}
                 />
-              </div>
-
-              <div>
-                <label className="font-extrabold mb-1 block">ব্লকের নাম</label>
-                <input
-                  type="text"
-                  className="input input-bordered w-full"
-                  value={blockName}
-                  onChange={(e) => setBlockName(e.target.value)}
-                  placeholder="ব্লকের নাম লিখুন"
-                />
-              </div>
-
-              <div>
-                <label className="font-extrabold mb-1 block">অনুসন্ধান</label>
-                <input
-                  type="text"
-                  className="input input-bordered w-full"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="অনুসন্ধান লিখুন"
-                />
-              </div>
-            </div>
+              ))}
+            </select>
           </div>
 
-          {/* Right side part */}
+          <div>
+            <label className="font-extrabold mb-1 block">অর্থবছর</label>
+            <select
+              className="input input-bordered w-full"
+              type="text"
+              value={fiscalYear}
+              onChange={(e) => setFiscalYear(e.target.value)}
+              placeholder="অর্থবছর সিলেক্ট করুন"
+            >
+              <FiscalYear />
+            </select>
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">মৌসুম</label>
+            <select
+              className="input input-bordered w-full"
+              id="season"
+              name="season"
+              value={season}
+              onChange={(e) => setSeason(e.target.value)}
+            >
+              <Season />
+            </select>
+          </div>
+
+          <div>
+            <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              value={unionName}
+              onChange={(e) => setUnionName(e.target.value)}
+              placeholder="ইউনিয়নের নাম লিখুন"
+            />
+          </div>
+
+          <div>
+            <label className="font-extrabold mb-1 block">ব্লকের নাম</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              value={blockName}
+              onChange={(e) => setBlockName(e.target.value)}
+              placeholder="ব্লকের নাম লিখুন"
+            />
+          </div>
+
+          <div>
+            <label className="font-extrabold mb-1 block">অনুসন্ধান</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="অনুসন্ধান লিখুন"
+            />
+          </div>
+          <div>
+            <SiMicrosoftexcel
+              color="green"
+              size={50}
+              onClick={handleToExportInToExcel}
+            />
+          </div>
         </div>
       )}
 
+      <SectionTitle title={"সকল প্রদর্শনী"} />
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
         {!loading &&
           fetchEnd &&
