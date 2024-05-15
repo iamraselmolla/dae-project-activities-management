@@ -10,6 +10,7 @@ import { CiCalendarDate } from "react-icons/ci";
 import formatDateToday from "../../utilis/formatDate";
 
 const SingleDemo = ({ data }) => {
+  const [allImages, setImages] = useState([])
   const {
     projectInfo,
     demoTime,
@@ -22,16 +23,14 @@ const SingleDemo = ({ data }) => {
     username,
   } = data;
 
-  const imagesArr = [];
+
   useEffect(() => {
     if (demoImages?.length > 0) {
       for (const image of demoImages) {
-        image.image?.map((single) =>
-          imagesArr.push({ original: single, thumbnail: single })
-        );
+        image.image?.map((single) => setImages([...allImages, { original: single, thumbnail: single }]));
       }
     } else {
-      imagesArr.push(
+      allImages.push(
         { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" },
         { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" }
       );
@@ -41,7 +40,7 @@ const SingleDemo = ({ data }) => {
   return (
     <div className="rounded-lg bg-white shadow-blue relative shadow-xl">
       <div className="relative">
-        <ImageGallery autoPlay={true} items={imagesArr} />
+        <ImageGallery autoPlay={true} items={allImages} />
         <div className="flex items-center absolute top-3">
           <p className="px-2 py-1 bg-black text-white rounded-r-md ">
             {projectInfo?.short}
