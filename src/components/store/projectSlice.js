@@ -10,6 +10,7 @@ const initialState = {
   fieldDays: [],
   daeMeetings: [],
   modalData: null,
+  tours: [],
   refetch: 0,
   endFetch: false,
 };
@@ -47,6 +48,9 @@ const daeSlice = createSlice({
     },
     setEndFetch: (state, action) => {
       state.endFetch = action.payload;
+    },
+    setAllMotivationTours: (state, action) => {
+      state.tours = action.payload;
     },
   },
 });

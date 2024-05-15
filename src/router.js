@@ -28,6 +28,7 @@ import UserRoute from "./components/PrivateRoute/UserRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import MotivationalTour from "./components/pages/MotivationalTour/MotivationalTour";
 import AddMotivationalTour from "./components/pages/MotivationalTour/AddMotivationalTour";
+import AllMotivationalTours from "./components/pages/dashboard/admin/motivational-tours/AllMotivationalTours";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -200,6 +201,14 @@ const router = createBrowserRouter([
               <UserRoute>
                 <UserDaeMeetings />
               </UserRoute>
+            ),
+          },
+          {
+            path: "/dashboard/motivational-tours",
+            element: (
+              <AdminRoute>
+                <AllMotivationalTours />
+              </AdminRoute>
             ),
           },
           {
