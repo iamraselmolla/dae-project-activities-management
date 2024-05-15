@@ -17,7 +17,24 @@ function MotivationalTour() {
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
-  const [filteredTours, setFilteredTours] = useState(allTours);
+  const [filteredTours, setFilteredTours] = useState([]);
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const result = await getAllMotivationalTours();
+        if (result.status === 200) {
+          setAllTours(result?.data?.data);
+          setFilteredTours(result?.data?.data); // Initialize filteredTours with allTours
+        }
+      } catch (err) {
+        toast.error("উদ্বুদ্ধকরণ  ভ্রমণ ডাটাবেইজ থেকে আনতে অসুবিধা হচ্ছে।");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTours();
+  }, []);
 
   const filterTours = () => {
     let filtered = allTours;
@@ -40,34 +57,17 @@ function MotivationalTour() {
       );
     }
 
-    return filtered; // Return the filtered projects
+    return filtered;
   };
 
-  // Call filterProjects inside the useEffect hook to update filteredProjects state
   useEffect(() => {
     const filtered = filterTours();
     setFilteredTours(filtered);
   }, [selectedProject, fiscalYear, season]);
 
-
-  useEffect(() => {
-    const fetchTours = async () => {
-      try {
-        const result = await getAllMotivationalTours();
-        if (result.status === 200) {
-          setAllTours(result?.data?.data);
-        }
-      } catch (err) {
-        toast.error("উদ্বুদ্ধকরণ  ভ্রমণ ডাটাবেইজ থেকে আনতে অসুবিধা হচ্ছে।");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchTours();
-  }, []);
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
-  };
+  }
   return (
     <>
       <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
