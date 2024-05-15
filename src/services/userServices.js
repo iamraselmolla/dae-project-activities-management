@@ -63,6 +63,7 @@ const BASE_URL = {
   // Motivational Tour
   createMotivationTour: "/tour/create-tour",
   getAllMotivationalTour: "/tour/get-tours",
+  deleteTour: '/tour/delete-a-tour'
 };
 
 // Project APIs
@@ -250,4 +251,8 @@ export function createMotivationTour(data) {
 }
 export function getAllMotivationalTours() {
   return http.post(BASE_URL.getAllMotivationalTour);
+}
+
+export function deleteATour(id) {
+  return http.delete(BASE_URL.deleteTour, { data: { id } })
 }

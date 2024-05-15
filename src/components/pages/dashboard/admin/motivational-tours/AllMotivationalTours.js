@@ -30,6 +30,9 @@ function AllMotivationalTours() {
                         প্রকল্প
                       </th>
                       <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
+                        অর্থবছর ও মৌসুম
+                      </th>
+                      <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
                         স্থান
                       </th>
                       <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
