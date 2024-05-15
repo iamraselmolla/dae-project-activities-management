@@ -9,7 +9,7 @@ function AllMotivationalTours() {
   const { tours } = useSelector((state) => state.dae);
   console.log(tours);
   return (
-    <div className="flex py-10 flex-col">
+    <div className="flex py-4 flex-col">
       <div className="mt-4 overflow-x-scroll">
         <div className="p-1.5 min-w-full inline-block align-middle">
           <AddModuleButton
@@ -45,7 +45,7 @@ function AllMotivationalTours() {
                         মন্তব্য
                       </th>
                       <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
-                        ছবিসমূ
+                        ছবিসমূহ
                       </th>
                       <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
                         একশন
