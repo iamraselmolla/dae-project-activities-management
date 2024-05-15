@@ -60,31 +60,6 @@ const Demo = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllProjects();
-        if (result?.data?.success) {
-          setAllProjects(result.data.data);
-        } else {
-          setAllProjects([]);
-          toast.error("প্রকল্পের তথ্য পাওয়া যায়নি");
-        }
-      } catch (error) {
-        console.error("প্রকল্পের তথ্যের সমস্যা:", error);
-        toast.error(
-          "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
-        );
-      }
-    };
-
-    if (navigator.onLine) {
-      fetchData();
-    } else {
-      makeSureOnline();
-    }
-  }, []);
-
   const [selectedProject, setSelectedProject] = useState("");
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
@@ -359,6 +334,7 @@ const Demo = () => {
             <SiMicrosoftexcel
               color="green"
               size={50}
+              cursor={'pointer'}
               onClick={handleToExportInToExcel}
             />
           </div>
