@@ -54,7 +54,7 @@ const FieldDay = () => {
           ))}
       </div>
       {!loading && allFieldDays?.length < 1 && fetchEnd && (
-        <NoContentFound text={' কোনো মাঠ দিবসের তথ্য পাওয়া যায়নি!'} />
+        <NoContentFound text={" কোনো মাঠ দিবসের তথ্য পাওয়া যায়নি!"} />
       )}
       {loading && !error && (
         <div className="flex justify-center items-center">

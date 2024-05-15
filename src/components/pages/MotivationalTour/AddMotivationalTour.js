@@ -10,6 +10,10 @@ import Loader from "../../shared/Loader";
 import { useSelector } from "react-redux";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
+import { createMotivationTour } from "../../../services/userServices";
+import { toBengaliNumber } from "bengali-number";
+import compressAndUploadImage from "../../utilis/compressImages";
+import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 
 const AddMotivationTour = () => {
   const { user } = useContext(AuthContext);
@@ -18,7 +22,7 @@ const AddMotivationTour = () => {
   const [images, setImages] = useState([]);
   const [selectedProject, setSelectedProject] = useState({});
   const [loadingMessage, setLoadingMessage] = useState(null);
-
+  const [rawImages, setRawImages] = useState([]);
   const handleRemoveImage = (index) => {
     const updatedImages = [...images];
     updatedImages.splice(index, 1);
@@ -27,6 +31,7 @@ const AddMotivationTour = () => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
+    setRawImages([...rawImages, ...files]);
     const imagesArray = files.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => prevImages.concat(imagesArray));
   };
@@ -48,7 +53,7 @@ const AddMotivationTour = () => {
 
     farmers: Yup.number().required("কৃষকের সংখ্যা প্রয়োজন").min(0),
     officers: Yup.string().required("অফিসারদের নাম প্রয়োজন"),
-    comment: Yup.string().required("মন্তব্য প্রয়োজন")
+    comment: Yup.string().required("মন্তব্য প্রয়োজন"),
   });
 
   const initialValues = {
@@ -58,39 +63,58 @@ const AddMotivationTour = () => {
     },
     place: "",
     time: {
-      fiscalYear: '',
-      season: '',
+      fiscalYear: "",
+      season: "",
       date: {
-        startDate: '',
-        endDate: ''
-      }
+        startDate: new Date(),
+        endDate: new Date(),
+      },
     },
     farmers: "",
     officers: "",
     comment: "",
-    images: []
+    images: [],
   };
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
+      if (!values.time.date?.startDate || !values.time.date?.endDate) {
+        return toast.error(
+          "আপনাকে অবশ্যই উদ্বুদ্ধকরণ ভ্রমণের শুরু ও শেষের তারিখ দিতে হবে।"
+        );
+      }
       console.log(values);
       if (!user) {
         return toast.error("লগইন করুন প্রথমে।");
       }
       if (images?.length < 1) {
         toast.error("আপনাকে অবশ্যই উদ্বুদ্ধকরণ ভ্রমণের ছবিসমূহ দিতে হবে।");
-        return
+        return;
       }
       try {
+        setLoadingMessage("ছবি আপ্লোড হচ্ছে");
         setLoading(true);
+        const uploadedImageLinks = [];
+        for (let i = 0; i < rawImages?.length; i++) {
+          setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`);
+          const compressedImage = await compressAndUploadImage(rawImages[i]);
+          setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
+          const result = await uploadToCloudinary(
+            compressedImage,
+            "motivational-tour"
+          );
+          uploadedImageLinks.push(result);
+        }
+        values.images = uploadedImageLinks;
 
-        const result = await createMotivationTour(formData);
+        const result = await createMotivationTour(values);
         if (result?.status === 200) {
-          toast.success("মোটিভেশন টুর তথ্য সংরক্ষিত হয়েছে।");
+          toast.success(result?.data?.message);
           formik.resetForm();
           setImages([]);
+          setSelectedProject({});
         }
       } catch (error) {
         console.error("Motivation tour creation error:", error);
@@ -118,9 +142,8 @@ const AddMotivationTour = () => {
     }
   };
 
-
   return (
-    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"নতুন মোটিভেশন টুর তথ্য যুক্ত করুন"} />
       <form onSubmit={formik.handleSubmit}>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -150,8 +173,8 @@ const AddMotivationTour = () => {
               )}
             </select>
             {formik.touched.projectInfo &&
-              formik.touched.projectInfo.full &&
-              formik.errors.projectInfo?.full ? (
+            formik.touched.projectInfo.full &&
+            formik.errors.projectInfo?.full ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.full}
               </div>
@@ -178,8 +201,8 @@ const AddMotivationTour = () => {
             />
 
             {formik.touched.projectInfo &&
-              formik.touched.projectInfo.short &&
-              formik.errors.projectInfo?.short ? (
+            formik.touched.projectInfo.short &&
+            formik.errors.projectInfo?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.short}
               </div>
@@ -227,7 +250,9 @@ const AddMotivationTour = () => {
               value={formik.values.place}
             />
             {formik.touched.place && formik.errors.place && (
-              <div className="text-red-600 font-bold">{formik.errors.place}</div>
+              <div className="text-red-600 font-bold">
+                {formik.errors.place}
+              </div>
             )}
           </div>
           <div>
@@ -236,17 +261,20 @@ const AddMotivationTour = () => {
               id="time.date"
               name="time.date"
               value={formik.values.time?.date} // Assuming startDate is the correct property
-              onChange={(dates) => formik.setFieldValue('time.date', {
-                startDate: dates?.startDate,
-                endDate: dates?.endDate,
-              })}
+              onChange={(dates) =>
+                formik.setFieldValue("time.date", {
+                  startDate: dates?.startDate || new Date(),
+                  endDate: dates?.endDate || new Date(),
+                })
+              }
               showShortcuts={true}
             />
 
             {formik.touched.time && formik.errors.time && (
-              <div className="text-red-600 font-bold">{formik.errors.time.date}</div>
+              <div className="text-red-600 font-bold">
+                {formik.errors.time.date}
+              </div>
             )}
-
           </div>
           <div>
             <label className="font-extrabold mb-1 block">কৃষকের সংখ্যা</label>
@@ -260,7 +288,9 @@ const AddMotivationTour = () => {
               value={formik.values.farmers}
             />
             {formik.touched.farmers && formik.errors.farmers && (
-              <div className="text-red-600 font-bold">{formik.errors.farmers}</div>
+              <div className="text-red-600 font-bold">
+                {formik.errors.farmers}
+              </div>
             )}
           </div>
           <div>
@@ -275,7 +305,9 @@ const AddMotivationTour = () => {
               value={formik.values.officers}
             />
             {formik.touched.officers && formik.errors.officers && (
-              <div className="text-red-600 font-bold">{formik.errors.officers}</div>
+              <div className="text-red-600 font-bold">
+                {formik.errors.officers}
+              </div>
             )}
           </div>
           <div>
@@ -290,7 +322,11 @@ const AddMotivationTour = () => {
             <div className="mt-2 flex flex-wrap">
               {images.map((image, index) => (
                 <div key={index} className="relative">
-                  <img src={image} alt={`Image ${index}`} className="w-20 h-20 object-cover mr-2 mb-2" />
+                  <img
+                    src={image}
+                    alt={`Image ${index}`}
+                    className="w-20 h-20 object-cover mr-2 mb-2"
+                  />
                   <button
                     className="absolute top-0 right-0 rounded-full bg-red-600 p-1 text-white"
                     onClick={() => handleRemoveImage(index)}
@@ -312,27 +348,32 @@ const AddMotivationTour = () => {
               value={formik.values.comment}
             />
             {formik.touched.comment && formik.errors.comment && (
-              <div className="text-red-600 font-bold">{formik.errors.comment}</div>
+              <div className="text-red-600 font-bold">
+                {formik.errors.comment}
+              </div>
             )}
           </div>
           <div className="col-span-full">
-            <button
-              type="submit"
-              className="btn btn-primary w-full"
-              disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <Loader />
-                  <span className="ml-2">{loadingMessage}</span>
-                </>
-              ) : (
-                "সংরক্ষণ করুন"
-              )}
-            </button>
+            {!loading && (
+              <button
+                type="submit"
+                className="btn mt-5 w-full font-extrabold text-white btn-success"
+                disabled={loading}
+              >
+                সংরক্ষণ করুন
+              </button>
+            )}
           </div>
         </div>
       </form>
+      {loading && (
+        <div className="fixed daeLoader">
+          <Loader />
+          <h2 className="text-green-600 mt-3 text-4xl">
+            {loadingMessage && loadingMessage}
+          </h2>
+        </div>
+      )}
     </section>
   );
 };
