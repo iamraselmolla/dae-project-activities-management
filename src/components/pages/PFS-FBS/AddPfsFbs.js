@@ -53,14 +53,11 @@ const AddPfsFbs = () => {
     place: Yup.string().required("স্থান প্রয়োজন"),
     block: Yup.string().required("ব্লক প্রয়োজন"),
     union: Yup.string().required("ইউনিয়ন প্রয়োজন"),
-    saao: Yup.object().shape({
+    SAAO: Yup.object().shape({
       name: Yup.string().required("এসএএও নাম প্রয়োজন"),
       mobile: Yup.string().required("এসএএও মোবাইল প্রয়োজন"),
     }),
     assistantOfficers: Yup.string().required("সহকারী অফিসারদের নাম প্রয়োজন"),
-    higherPerson: Yup.string().required("উচ্চতর ব্যক্তির নাম প্রয়োজন"),
-    dayNumber: Yup.number().required("দিনের সংখ্যা প্রয়োজন").min(1),
-    comment: Yup.string().required("মন্তব্য প্রয়োজন"),
     schoolName: Yup.string().required("স্কুলের নাম প্রয়োজন"),
     pfsFbs: Yup.string().required("PFS/FBS সিলেক্ট করুন"),
   });
@@ -73,6 +70,7 @@ const AddPfsFbs = () => {
     place: "",
     block: "",
     union: "",
+    crop: "",
     time: {
       fiscalYear: "",
       season: "",
@@ -81,7 +79,7 @@ const AddPfsFbs = () => {
         endDate: new Date(),
       },
     },
-    saao: {
+    SAAO: {
       name: "",
       mobile: "",
     },
@@ -278,6 +276,21 @@ const AddPfsFbs = () => {
             )}
           </div>
           <div>
+            <label className="font-extrabold mb-1 block">ফসল</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              id="crop"
+              name="crop"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.crop}
+            />
+            {formik.touched.crop && formik.errors.crop && (
+              <div className="text-red-600 font-bold">{formik.errors.crop}</div>
+            )}
+          </div>
+          <div>
             <label className="font-extrabold mb-1 block">স্কুলের নাম</label>
             <input
               type="text"
@@ -294,6 +307,7 @@ const AddPfsFbs = () => {
               </div>
             )}
           </div>
+
           <div>
             <label className="font-extrabold mb-1 block">স্থান</label>
             <input
@@ -472,17 +486,17 @@ const AddPfsFbs = () => {
             <input
               type="text"
               className="input input-bordered w-full"
-              id="saao.name"
-              name="saao.name"
+              id="SAAO.name"
+              name="SAAO.name"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={user?.SAAO?.name}
               disabled
               readOnly
             />
-            {formik.touched.saao && formik.errors.saao?.name && (
+            {formik.touched.SAAO && formik.errors.SAAO?.name && (
               <div className="text-red-600 font-bold">
-                {formik.errors.saao.name}
+                {formik.errors.SAAO.name}
               </div>
             )}
           </div>
@@ -491,17 +505,17 @@ const AddPfsFbs = () => {
             <input
               type="text"
               className="input input-bordered w-full"
-              id="saao.mobile"
-              name="saao.mobile"
+              id="SAAO.mobile"
+              name="SAAO.mobile"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={user?.SAAO?.mobile}
               disabled
               readOnly
             />
-            {formik.touched.saao && formik.errors.saao?.mobile && (
+            {formik.touched.SAAO && formik.errors.SAAO?.mobile && (
               <div className="text-red-600 font-bold">
-                {formik.errors.saao.mobile}
+                {formik.errors.SAAO.mobile}
               </div>
             )}
           </div>

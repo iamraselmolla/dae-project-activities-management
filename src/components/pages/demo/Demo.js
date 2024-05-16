@@ -3,7 +3,7 @@ import SingleDemo from "./SingleDemo";
 import { Link } from "react-router-dom";
 import { makeSureOnline } from "../../shared/MessageConst";
 import toast from "react-hot-toast";
-import { getAllDemos, getAllProjects } from "../../../services/userServices";
+import { getAllDemos } from "../../../services/userServices";
 import Loader from "../../shared/Loader";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import AddModuleButton from "../../shared/AddModuleButton";
@@ -17,10 +17,10 @@ import SectionTitle from "../../shared/SectionTitle";
 import { useSelector } from "react-redux";
 
 const Demo = () => {
+  const { projects: allProject } = useSelector((state) => state.dae);
   const [demos, setDemos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fetchEnd, setFetchEnd] = useState(false);
-  const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext);
   const { blockAndUnions } = useSelector((state) => state.dae);
   const [allUnion, setAllUnion] = useState([]);
@@ -257,7 +257,7 @@ const Demo = () => {
               onChange={handleSelectChange}
             >
               <option value="" label="প্রকল্প সিলেক্ট করুন" />
-              {allProject.map((project) => (
+              {allProject?.map((project) => (
                 <option
                   key={project._id}
                   value={project?.name?.details}
