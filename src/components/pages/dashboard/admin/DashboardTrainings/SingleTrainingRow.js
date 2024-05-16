@@ -8,6 +8,8 @@ import { deleteATraining } from "../../../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
 import TableDivision from "./TableComponent/TableDivision";
 import ImageGallery from "react-image-gallery";
+import { daeAction } from "../../../../store/projectSlice";
+import { useDispatch } from "react-redux";
 
 
 const SingleTrainingRow = ({ index, data }) => {
@@ -32,6 +34,7 @@ const SingleTrainingRow = ({ index, data }) => {
       }
     }
   }, [images]);
+  const dispatch = useDispatch()
 
   const handleTrainingDelete = async () => {
     if (!_id) {
@@ -49,6 +52,7 @@ const SingleTrainingRow = ({ index, data }) => {
       const result = await deleteATraining(_id);
       if (result.status === 200) {
         toast.success("প্রশিক্ষণ সফলভাবে মুছে দেয়া হয়েছে");
+        dispatch(daeAction.setRefetch())
       } else {
         toast.error("প্রশিক্ষণের তথ্য মুছতে গিয়ে সমস্যা হচ্ছে।");
       }
