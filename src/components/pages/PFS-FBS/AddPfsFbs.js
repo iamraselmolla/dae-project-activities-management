@@ -85,7 +85,6 @@ const AddPfsFbs = () => {
     },
     assistantOfficers: "",
     higherPerson: "",
-    dayNumber: "",
     comment: "",
     images: [],
     schoolName: "",
