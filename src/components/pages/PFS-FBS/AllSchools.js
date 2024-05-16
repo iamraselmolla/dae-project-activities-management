@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import SingleSchool from "./SingleSchool";
-import { Link } from "react-router-dom";
 import { makeSureOnline } from "../../shared/MessageConst";
 import toast from "react-hot-toast";
-import { getAllPfsFbs } from "../../../services/userServices"; // Assuming this service fetches PFS/FBS data
+import { getAllSchools } from "../../../services/userServices"; // Assuming this service fetches PFS/FBS data
 import Loader from "../../shared/Loader";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import AddModuleButton from "../../shared/AddModuleButton";
@@ -22,7 +21,7 @@ const AllSchools = () => {
     const fetchAllSchools = async () => {
       setLoading(true);
       try {
-        const result = await getAllPfsFbs();
+        const result = await getAllSchools();
         if (result?.status === 200) {
           setSchools(result.data?.data);
           setFilteredSchools(result.data?.data);
@@ -69,7 +68,7 @@ const AllSchools = () => {
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold col-span-1">
-        <AddModuleButton link={"addSchool"} btnText={"স্কুল যুক্ত করুন"} />
+        <AddModuleButton link={"add-school"} btnText={"স্কুল যুক্ত করুন"} />
       </div>
       {user && (
         <div className="flex py-6 flex-wrap justify-between items-center gap-3">

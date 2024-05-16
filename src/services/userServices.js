@@ -67,6 +67,7 @@ const BASE_URL = {
 
   // FBS PFS School
   creatPFSFBS: "/school/create-a-school",
+  getSchools: "/school/get-all-schools",
 };
 
 // Project APIs
@@ -264,4 +265,9 @@ export function deleteATour(id) {
 
 export function createASchool(data) {
   return http.post(BASE_URL.creatPFSFBS, { data });
+}
+
+// School APIs
+export function getAllSchools() {
+  return http.get(BASE_URL.getSchools);
 }

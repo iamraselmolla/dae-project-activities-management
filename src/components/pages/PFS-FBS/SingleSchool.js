@@ -4,7 +4,6 @@ import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
-import "./demo.css";
 import { GrTechnology } from "react-icons/gr";
 import { CiCalendarDate } from "react-icons/ci";
 
