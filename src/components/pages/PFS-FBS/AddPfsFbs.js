@@ -220,23 +220,7 @@ const AddPfsFbs = () => {
               </div>
             )}
           </div>
-          <div>
-            <label className="font-extrabold mb-1 block">স্কুলের নাম</label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              id="schoolName"
-              name="schoolName"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.schoolName}
-            />
-            {formik.touched.schoolName && formik.errors.schoolName && (
-              <div className="text-red-600 font-bold">
-                {formik.errors.schoolName}
-              </div>
-            )}
-          </div>
+
           <div>
             <label className="font-extrabold mb-1 block">অর্থবছর</label>
             <select
@@ -270,6 +254,43 @@ const AddPfsFbs = () => {
             {formik.touched.time && formik.errors.time?.season && (
               <div className="text-red-600 font-bold">
                 {formik.errors.time.season}
+              </div>
+            )}
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">PFS/FBS</label>
+            <select
+              className="input input-bordered w-full"
+              id="pfsFbs"
+              name="pfsFbs"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.pfsFbs}
+            >
+              <option value="" label="PFS/FBS সিলেক্ট করুন" />
+              <option value="pfs" label="PFS" />
+              <option value="fbs" label="FBS" />
+            </select>
+            {formik.touched.pfsFbs && formik.errors.pfsFbs && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.pfsFbs}
+              </div>
+            )}
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">স্কুলের নাম</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              id="schoolName"
+              name="schoolName"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.schoolName}
+            />
+            {formik.touched.schoolName && formik.errors.schoolName && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.schoolName}
               </div>
             )}
           </div>
@@ -329,11 +350,9 @@ const AddPfsFbs = () => {
             )}
           </div>
           <div>
-            <label className="font-extrabold mb-1 block">
-              শুরু এবং শেষ তারিখ
-            </label>
+            <label className="font-extrabold mb-1 block">তারিখ</label>
             <Datepicker
-              asSingle={false}
+              asSingle={true}
               value={formik.values.time.date}
               onChange={(value) =>
                 formik.setValues({
@@ -345,44 +364,7 @@ const AddPfsFbs = () => {
               inputClassName="input input-bordered w-full"
             />
           </div>
-          <div>
-            <label className="font-extrabold mb-1 block">এসএএও নাম</label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              id="saao.name"
-              name="saao.name"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={user?.SAAO?.name}
-              disabled
-              readOnly
-            />
-            {formik.touched.saao && formik.errors.saao?.name && (
-              <div className="text-red-600 font-bold">
-                {formik.errors.saao.name}
-              </div>
-            )}
-          </div>
-          <div>
-            <label className="font-extrabold mb-1 block">এসএএও মোবাইল</label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              id="saao.mobile"
-              name="saao.mobile"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={user?.SAAO?.mobile}
-              disabled
-              readOnly
-            />
-            {formik.touched.saao && formik.errors.saao?.mobile && (
-              <div className="text-red-600 font-bold">
-                {formik.errors.saao.mobile}
-              </div>
-            )}
-          </div>
+
           <div>
             <label className="font-extrabold mb-1 block">
               সহকারী অফিসারদের নাম
@@ -405,7 +387,7 @@ const AddPfsFbs = () => {
           </div>
           <div>
             <label className="font-extrabold mb-1 block">
-              উচ্চতর ব্যক্তির নাম
+              উর্ধবতন কর্মকর্তার নাম (যদি উপস্থিত থাকেন)
             </label>
             <input
               type="text"
@@ -455,28 +437,9 @@ const AddPfsFbs = () => {
               </div>
             )}
           </div>
-          <div>
-            <label className="font-extrabold mb-1 block">PFS/FBS</label>
-            <select
-              className="input input-bordered w-full"
-              id="pfsFbs"
-              name="pfsFbs"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.pfsFbs}
-            >
-              <option value="" label="PFS/FBS সিলেক্ট করুন" />
-              <option value="pfs" label="PFS" />
-              <option value="fbs" label="FBS" />
-            </select>
-            {formik.touched.pfsFbs && formik.errors.pfsFbs && (
-              <div className="text-red-600 font-bold">
-                {formik.errors.pfsFbs}
-              </div>
-            )}
-          </div>
+
           <div className="lg:col-span-2">
-            <label className="font-extrabold mb-1 block">ছবি আপলোড</label>
+            <label className="font-extrabold mb-1 block">স্কুলের ছবিসমূহ</label>
             <input
               type="file"
               className="file-input w-full"
@@ -503,6 +466,44 @@ const AddPfsFbs = () => {
                 </div>
               ))}
             </div>
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">এসএএও নাম</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              id="saao.name"
+              name="saao.name"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={user?.SAAO?.name}
+              disabled
+              readOnly
+            />
+            {formik.touched.saao && formik.errors.saao?.name && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.saao.name}
+              </div>
+            )}
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">এসএএও মোবাইল</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              id="saao.mobile"
+              name="saao.mobile"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={user?.SAAO?.mobile}
+              disabled
+              readOnly
+            />
+            {formik.touched.saao && formik.errors.saao?.mobile && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.saao.mobile}
+              </div>
+            )}
           </div>
         </div>
         <div className="text-right mt-4">
