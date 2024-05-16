@@ -76,9 +76,9 @@ const router = createBrowserRouter([
       {
         path: "/add-school",
         element: (
-          <UserRoute>
-            <AddPfsFbs></AddPfsFbs>
-          </UserRoute>
+          // <UserRoute>
+          <AddPfsFbs></AddPfsFbs>
+          // </UserRoute>
         ),
       },
       {

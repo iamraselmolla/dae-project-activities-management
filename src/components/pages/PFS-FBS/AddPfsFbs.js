@@ -61,6 +61,8 @@ const AddPfsFbs = () => {
     higherPerson: Yup.string().required("উচ্চতর ব্যক্তির নাম প্রয়োজন"),
     dayNumber: Yup.number().required("দিনের সংখ্যা প্রয়োজন").min(1),
     comment: Yup.string().required("মন্তব্য প্রয়োজন"),
+    schoolName: Yup.string().required("স্কুলের নাম প্রয়োজন"),
+    pfsFbs: Yup.string().required("PFS/FBS সিলেক্ট করুন"),
   });
 
   const initialValues = {
@@ -88,6 +90,8 @@ const AddPfsFbs = () => {
     dayNumber: "",
     comment: "",
     images: [],
+    schoolName: "",
+    pfsFbs: "",
   };
 
   const formik = useFormik({
@@ -114,7 +118,7 @@ const AddPfsFbs = () => {
           setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`);
           const compressedImage = await compressAndUploadImage(rawImages[i]);
           setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-          const result = await uploadToCloudinary(compressedImage, "pfs-fbs");
+          const result = await uploadToCloudinary(compressedImage, "pfsfbs");
           uploadedImageLinks.push(result);
         }
         values.images = uploadedImageLinks;
@@ -217,16 +221,39 @@ const AddPfsFbs = () => {
             )}
           </div>
           <div>
+            <label className="font-extrabold mb-1 block">স্কুলের নাম</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              id="schoolName"
+              name="schoolName"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.schoolName}
+            />
+            {formik.touched.schoolName && formik.errors.schoolName && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.schoolName}
+              </div>
+            )}
+          </div>
+          <div>
             <label className="font-extrabold mb-1 block">অর্থবছর</label>
             <select
               className="input input-bordered w-full"
               id="time.fiscalYear"
               name="time.fiscalYear"
-              value={formik.values.time.fiscalYear}
+              onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              value={formik.values.time.fiscalYear}
             >
               <FiscalYear />
             </select>
+            {formik.touched.time && formik.errors.time?.fiscalYear && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.time.fiscalYear}
+              </div>
+            )}
           </div>
           <div>
             <label className="font-extrabold mb-1 block">মৌসুম</label>
@@ -234,9 +261,9 @@ const AddPfsFbs = () => {
               className="input input-bordered w-full"
               id="time.season"
               name="time.season"
-              value={formik.values.time.season}
-              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.time.season}
             >
               <Season />
             </select>
@@ -272,7 +299,9 @@ const AddPfsFbs = () => {
               name="block"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.block}
+              value={user?.blockB}
+              disabled
+              readOnly
             />
             {formik.touched.block && formik.errors.block && (
               <div className="text-red-600 font-bold">
@@ -289,13 +318,32 @@ const AddPfsFbs = () => {
               name="union"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.union}
+              value={user?.unionB}
+              disabled
+              readOnly
             />
             {formik.touched.union && formik.errors.union && (
               <div className="text-red-600 font-bold">
                 {formik.errors.union}
               </div>
             )}
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">
+              শুরু এবং শেষ তারিখ
+            </label>
+            <Datepicker
+              asSingle={false}
+              value={formik.values.time.date}
+              onChange={(value) =>
+                formik.setValues({
+                  ...formik.values,
+                  time: { ...formik.values.time, date: value },
+                })
+              }
+              startFrom="1971-03-26"
+              inputClassName="input input-bordered w-full"
+            />
           </div>
           <div>
             <label className="font-extrabold mb-1 block">এসএএও নাম</label>
@@ -306,7 +354,9 @@ const AddPfsFbs = () => {
               name="saao.name"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.saao.name}
+              value={user?.SAAO?.name}
+              disabled
+              readOnly
             />
             {formik.touched.saao && formik.errors.saao?.name && (
               <div className="text-red-600 font-bold">
@@ -323,7 +373,9 @@ const AddPfsFbs = () => {
               name="saao.mobile"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.saao.mobile}
+              value={user?.SAAO?.mobile}
+              disabled
+              readOnly
             />
             {formik.touched.saao && formik.errors.saao?.mobile && (
               <div className="text-red-600 font-bold">
@@ -388,56 +440,9 @@ const AddPfsFbs = () => {
             )}
           </div>
           <div>
-            <label className="font-extrabold mb-1 block">তারিখ</label>
-            <Datepicker
-              id="time.date"
-              name="time.date"
-              value={formik.values.time?.date}
-              onChange={(dates) =>
-                formik.setFieldValue("time.date", {
-                  startDate: dates?.startDate || new Date(),
-                  endDate: dates?.endDate || new Date(),
-                })
-              }
-              showShortcuts={true}
-            />
-            {formik.touched.time && formik.errors.time?.date && (
-              <div className="text-red-600 font-bold">
-                {formik.errors.time.date}
-              </div>
-            )}
-          </div>
-          <div>
-            <label className="font-extrabold mb-1 block">ছবি</label>
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              className="file-input input-bordered w-full"
-              onChange={handleImageChange}
-            />
-            <div className="mt-2 flex flex-wrap">
-              {images.map((image, index) => (
-                <div key={index} className="relative">
-                  <img
-                    src={image}
-                    alt={`Image ${index}`}
-                    className="w-20 h-20 object-cover mr-2 mb-2"
-                  />
-                  <button
-                    className="absolute top-0 right-0 rounded-full bg-red-600 p-1 text-white"
-                    onClick={() => handleRemoveImage(index)}
-                  >
-                    <FaTimes />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="col-span-full">
             <label className="font-extrabold mb-1 block">মন্তব্য</label>
             <textarea
-              className="textarea textarea-bordered w-full h-24"
+              className="input input-bordered w-full"
               id="comment"
               name="comment"
               onBlur={formik.handleBlur}
@@ -450,27 +455,66 @@ const AddPfsFbs = () => {
               </div>
             )}
           </div>
-          <div className="col-span-full">
-            {!loading && (
-              <button
-                type="submit"
-                className="btn mt-5 w-full font-extrabold text-white btn-success"
-                disabled={loading}
-              >
-                সংরক্ষণ করুন
-              </button>
+          <div>
+            <label className="font-extrabold mb-1 block">PFS/FBS</label>
+            <select
+              className="input input-bordered w-full"
+              id="pfsFbs"
+              name="pfsFbs"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.pfsFbs}
+            >
+              <option value="" label="PFS/FBS সিলেক্ট করুন" />
+              <option value="pfs" label="PFS" />
+              <option value="fbs" label="FBS" />
+            </select>
+            {formik.touched.pfsFbs && formik.errors.pfsFbs && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.pfsFbs}
+              </div>
             )}
           </div>
+          <div className="lg:col-span-2">
+            <label className="font-extrabold mb-1 block">ছবি আপলোড</label>
+            <input
+              type="file"
+              className="file-input w-full"
+              id="images"
+              name="images"
+              onChange={handleImageChange}
+              multiple
+            />
+            <div className="grid grid-cols-4 gap-2 mt-2">
+              {images?.map((image, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={image}
+                    alt="project"
+                    className="w-full h-20 object-cover"
+                  />
+                  <button
+                    type="button"
+                    className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded"
+                    onClick={() => handleRemoveImage(index)}
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="text-right mt-4">
+          <button
+            type="submit"
+            className="btn mt-5 bg-green-600 hover:bg-green-700 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            disabled={loading}
+          >
+            {loading ? <Loader message={loadingMessage} /> : "তথ্য জমা দিন"}
+          </button>
         </div>
       </form>
-      {loading && (
-        <div className="fixed daeLoader">
-          <Loader />
-          <h2 className="text-green-600 mt-3 text-4xl">
-            {loadingMessage && loadingMessage}
-          </h2>
-        </div>
-      )}
     </section>
   );
 };
