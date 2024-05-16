@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 import "./demo.css";
 import { GrTechnology } from "react-icons/gr";
 import { CiCalendarDate } from "react-icons/ci";
-import formatDateToday from "../../utilis/formatDate";
-
 const SingleDemo = ({ data }) => {
   const [allImages, setImages] = useState([])
   const {
@@ -74,7 +72,11 @@ const SingleDemo = ({ data }) => {
           </div>
           <div className="flex items-center gap-2">
             <CiCalendarDate />
-            <p>{formatDateToday(demoDate?.ropon)}</p>
+            <p>{new Date(demoDate?.ropon).toLocaleString('bn-BD', {
+              day: 'numeric',
+              month: 'numeric',
+              year: 'numeric'
+            })}</p>
           </div>
           <div className="flex items-center gap-2">
             <GrTechnology /> <p>{demoInfo?.tech}</p>
