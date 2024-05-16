@@ -10,12 +10,12 @@ import Loader from "../../shared/Loader";
 import { useSelector } from "react-redux";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
-import { createMotivationTour } from "../../../services/userServices";
+import { createASchool } from "../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 
-const AddMotivationTour = () => {
+const AddPfsFbs = () => {
   const { user } = useContext(AuthContext);
   const { projects: allProjects } = useSelector((state) => state.dae);
   const [loading, setLoading] = useState(false);
@@ -23,6 +23,7 @@ const AddMotivationTour = () => {
   const [selectedProject, setSelectedProject] = useState({});
   const [loadingMessage, setLoadingMessage] = useState(null);
   const [rawImages, setRawImages] = useState([]);
+
   const handleRemoveImage = (index) => {
     const updatedImages = [...images];
     updatedImages.splice(index, 1);
@@ -42,7 +43,7 @@ const AddMotivationTour = () => {
       short: Yup.string().required("প্রকল্পের সংক্ষেপ নাম প্রয়োজন"),
     }),
     time: Yup.object().shape({
-      fiscalYear: Yup.string().required(" অর্থবছর সিলেক্ট করুন"),
+      fiscalYear: Yup.string().required("অর্থবছর সিলেক্ট করুন"),
       season: Yup.string().required("মৌসুম সিলেক্ট করুন"),
       date: Yup.object().shape({
         startDate: Yup.date().required("শুরু তারিখ প্রয়োজন"),
@@ -50,9 +51,15 @@ const AddMotivationTour = () => {
       }),
     }),
     place: Yup.string().required("স্থান প্রয়োজন"),
-
-    farmers: Yup.number().required("কৃষকের সংখ্যা প্রয়োজন").min(0),
-    officers: Yup.string().required("অফিসারদের নাম প্রয়োজন"),
+    block: Yup.string().required("ব্লক প্রয়োজন"),
+    union: Yup.string().required("ইউনিয়ন প্রয়োজন"),
+    saao: Yup.object().shape({
+      name: Yup.string().required("এসএএও নাম প্রয়োজন"),
+      mobile: Yup.string().required("এসএএও মোবাইল প্রয়োজন"),
+    }),
+    assistantOfficers: Yup.string().required("সহকারী অফিসারদের নাম প্রয়োজন"),
+    higherPerson: Yup.string().required("উচ্চতর ব্যক্তির নাম প্রয়োজন"),
+    dayNumber: Yup.number().required("দিনের সংখ্যা প্রয়োজন").min(1),
     comment: Yup.string().required("মন্তব্য প্রয়োজন"),
   });
 
@@ -62,6 +69,8 @@ const AddMotivationTour = () => {
       short: "",
     },
     place: "",
+    block: "",
+    union: "",
     time: {
       fiscalYear: "",
       season: "",
@@ -70,8 +79,13 @@ const AddMotivationTour = () => {
         endDate: new Date(),
       },
     },
-    farmers: "",
-    officers: "",
+    saao: {
+      name: "",
+      mobile: "",
+    },
+    assistantOfficers: "",
+    higherPerson: "",
+    dayNumber: "",
     comment: "",
     images: [],
   };
@@ -82,15 +96,14 @@ const AddMotivationTour = () => {
     onSubmit: async (values) => {
       if (!values.time.date?.startDate || !values.time.date?.endDate) {
         return toast.error(
-          "আপনাকে অবশ্যই উদ্বুদ্ধকরণ ভ্রমণের শুরু ও শেষের তারিখ দিতে হবে।"
+          "আপনাকে অবশ্যই প্রজেক্টের শুরু ও শেষের তারিখ দিতে হবে।"
         );
       }
-      console.log(values);
       if (!user) {
         return toast.error("লগইন করুন প্রথমে।");
       }
       if (images?.length < 1) {
-        toast.error("আপনাকে অবশ্যই উদ্বুদ্ধকরণ ভ্রমণের ছবিসমূহ দিতে হবে।");
+        toast.error("আপনাকে অবশ্যই প্রজেক্টের ছবিসমূহ দিতে হবে।");
         return;
       }
       try {
@@ -101,15 +114,12 @@ const AddMotivationTour = () => {
           setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`);
           const compressedImage = await compressAndUploadImage(rawImages[i]);
           setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-          const result = await uploadToCloudinary(
-            compressedImage,
-            "motivational-tour"
-          );
+          const result = await uploadToCloudinary(compressedImage, "pfs-fbs");
           uploadedImageLinks.push(result);
         }
         values.images = uploadedImageLinks;
 
-        const result = await createMotivationTour(values);
+        const result = await createASchool(values);
         if (result?.status === 200) {
           toast.success(result?.data?.message);
           formik.resetForm();
@@ -118,13 +128,14 @@ const AddMotivationTour = () => {
           setRawImages([]);
         }
       } catch (error) {
-        console.error("Motivation tour creation error:", error);
-        toast.error("মোটিভেশন টুর তথ্য সংরক্ষণে সমস্যা হয়েছে।");
+        console.error("PFS FBS creation error:", error);
+        toast.error("পিএফএস এফবিএস তথ্য সংরক্ষণে সমস্যা হয়েছে।");
       } finally {
         setLoading(false);
       }
     },
   });
+
   const handleSelectChange = (e) => {
     if (e.target.value) {
       const findProject = allProjects?.find(
@@ -145,7 +156,7 @@ const AddMotivationTour = () => {
 
   return (
     <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
-      <SectionTitle title={"নতুন মোটিভেশন টুর তথ্য যুক্ত করুন"} />
+      <SectionTitle title={"নতুন পিএফএস এফবিএস তথ্য যুক্ত করুন"} />
       <form onSubmit={formik.handleSubmit}>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div>
@@ -154,8 +165,8 @@ const AddMotivationTour = () => {
             </label>
             <select
               className="input input-bordered w-full"
-              id="projectInfo.full"
-              name="projectInfo.full"
+              id="projectInfo.details"
+              name="projectInfo.details"
               value={selectedProject?.name?.details}
               onChange={handleSelectChange}
               onBlur={formik.handleBlur}
@@ -174,12 +185,11 @@ const AddMotivationTour = () => {
               )}
             </select>
             {formik.touched.projectInfo &&
-            formik.touched.projectInfo.full &&
-            formik.errors.projectInfo?.full ? (
-              <div className="text-red-600 font-bold">
-                {formik.errors.projectInfo.full}
-              </div>
-            ) : null}
+              formik.errors.projectInfo?.details && (
+                <div className="text-red-600 font-bold">
+                  {formik.errors.projectInfo.details}
+                </div>
+              )}
           </div>
           <div>
             <label className="font-extrabold mb-1 block">
@@ -200,14 +210,11 @@ const AddMotivationTour = () => {
                   : formik.values.projectInfo?.short
               }
             />
-
-            {formik.touched.projectInfo &&
-            formik.touched.projectInfo.short &&
-            formik.errors.projectInfo?.short ? (
+            {formik.touched.projectInfo && formik.errors.projectInfo?.short && (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.short}
               </div>
-            ) : null}
+            )}
           </div>
           <div>
             <label className="font-extrabold mb-1 block">অর্থবছর</label>
@@ -233,7 +240,7 @@ const AddMotivationTour = () => {
             >
               <Season />
             </select>
-            {formik.touched.time && formik.errors.time && (
+            {formik.touched.time && formik.errors.time?.season && (
               <div className="text-red-600 font-bold">
                 {formik.errors.time.season}
               </div>
@@ -257,11 +264,135 @@ const AddMotivationTour = () => {
             )}
           </div>
           <div>
+            <label className="font-extrabold mb-1 block">ব্লক</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              id="block"
+              name="block"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.block}
+            />
+            {formik.touched.block && formik.errors.block && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.block}
+              </div>
+            )}
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">ইউনিয়ন</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              id="union"
+              name="union"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.union}
+            />
+            {formik.touched.union && formik.errors.union && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.union}
+              </div>
+            )}
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">এসএএও নাম</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              id="saao.name"
+              name="saao.name"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.saao.name}
+            />
+            {formik.touched.saao && formik.errors.saao?.name && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.saao.name}
+              </div>
+            )}
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">এসএএও মোবাইল</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              id="saao.mobile"
+              name="saao.mobile"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.saao.mobile}
+            />
+            {formik.touched.saao && formik.errors.saao?.mobile && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.saao.mobile}
+              </div>
+            )}
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">
+              সহকারী অফিসারদের নাম
+            </label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              id="assistantOfficers"
+              name="assistantOfficers"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.assistantOfficers}
+            />
+            {formik.touched.assistantOfficers &&
+              formik.errors.assistantOfficers && (
+                <div className="text-red-600 font-bold">
+                  {formik.errors.assistantOfficers}
+                </div>
+              )}
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">
+              উচ্চতর ব্যক্তির নাম
+            </label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              id="higherPerson"
+              name="higherPerson"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.higherPerson}
+            />
+            {formik.touched.higherPerson && formik.errors.higherPerson && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.higherPerson}
+              </div>
+            )}
+          </div>
+          <div>
+            <label className="font-extrabold mb-1 block">দিনের সংখ্যা</label>
+            <input
+              type="number"
+              className="input input-bordered w-full"
+              id="dayNumber"
+              name="dayNumber"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.dayNumber}
+            />
+            {formik.touched.dayNumber && formik.errors.dayNumber && (
+              <div className="text-red-600 font-bold">
+                {formik.errors.dayNumber}
+              </div>
+            )}
+          </div>
+          <div>
             <label className="font-extrabold mb-1 block">তারিখ</label>
             <Datepicker
               id="time.date"
               name="time.date"
-              value={formik.values.time?.date} // Assuming startDate is the correct property
+              value={formik.values.time?.date}
               onChange={(dates) =>
                 formik.setFieldValue("time.date", {
                   startDate: dates?.startDate || new Date(),
@@ -270,44 +401,9 @@ const AddMotivationTour = () => {
               }
               showShortcuts={true}
             />
-
-            {formik.touched.time && formik.errors.time && (
+            {formik.touched.time && formik.errors.time?.date && (
               <div className="text-red-600 font-bold">
                 {formik.errors.time.date}
-              </div>
-            )}
-          </div>
-          <div>
-            <label className="font-extrabold mb-1 block">কৃষকের সংখ্যা</label>
-            <input
-              type="number"
-              className="input input-bordered w-full"
-              id="farmers"
-              name="farmers"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.farmers}
-            />
-            {formik.touched.farmers && formik.errors.farmers && (
-              <div className="text-red-600 font-bold">
-                {formik.errors.farmers}
-              </div>
-            )}
-          </div>
-          <div>
-            <label className="font-extrabold mb-1 block">অফিসারদের নাম</label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              id="officers"
-              name="officers"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.officers}
-            />
-            {formik.touched.officers && formik.errors.officers && (
-              <div className="text-red-600 font-bold">
-                {formik.errors.officers}
               </div>
             )}
           </div>
@@ -379,4 +475,4 @@ const AddMotivationTour = () => {
   );
 };
 
-export default AddMotivationTour;
+export default AddPfsFbs;

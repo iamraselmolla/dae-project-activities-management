@@ -58,6 +58,7 @@ const Header = () => {
                 link="motivational-tour"
                 text="উদ্বুদ্ধকরণ ভ্রমণ"
               />
+              <HeaderMenuItem link="all-schools" text="FBS/PFS" />
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost text-white text-xl">
@@ -72,6 +73,7 @@ const Header = () => {
           <HeaderMenuItem link="distributions" text="মালামাল বিতরণ" />
           <HeaderMenuItem link="dae-group-meeting" text="ডিএই কৃষক গ্রুপ সভা" />
           <HeaderMenuItem link="motivational-tour" text="উদ্বুদ্ধকরণ ভ্রমণ" />
+          <HeaderMenuItem link="all-schools" text="FBS/PFS" />
         </div>
         <div className="navbar-end">
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">

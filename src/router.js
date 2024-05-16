@@ -29,6 +29,8 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import MotivationalTour from "./components/pages/MotivationalTour/MotivationalTour";
 import AddMotivationalTour from "./components/pages/MotivationalTour/AddMotivationalTour";
 import AllMotivationalTours from "./components/pages/dashboard/admin/motivational-tours/AllMotivationalTours";
+import AddPfsFbs from "./components/pages/PFS-FBS/AddPfsFbs";
+import AllSchools from "./components/pages/PFS-FBS/AllSchools";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -70,6 +72,18 @@ const router = createBrowserRouter([
             <AddDistribution></AddDistribution>
           </AdminRoute>
         ),
+      },
+      {
+        path: "/add-school",
+        element: (
+          <UserRoute>
+            <AddPfsFbs></AddPfsFbs>
+          </UserRoute>
+        ),
+      },
+      {
+        path: "/all-schools",
+        element: <AllSchools></AllSchools>,
       },
       {
         path: "/addDemo",

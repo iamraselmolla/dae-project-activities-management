@@ -26,7 +26,7 @@ const BASE_URL = {
   getAllUser: "/user/get-users",
   updateUser: "/user/update-user",
   login: "/user/get-login-user",
-  getUnionAndBlockInfo: '/user/get-user-info',
+  getUnionAndBlockInfo: "/user/get-user-info",
 
   // Groups
   createGroup: "/group/create-group",
@@ -63,7 +63,10 @@ const BASE_URL = {
   // Motivational Tour
   createMotivationTour: "/tour/create-tour",
   getAllMotivationalTour: "/tour/get-tours",
-  deleteTour: '/tour/delete-a-tour'
+  deleteTour: "/tour/delete-a-tour",
+
+  // FBS PFS School
+  creatPFSFBS: "/school/create-a-school",
 };
 
 // Project APIs
@@ -149,7 +152,7 @@ export function getLoginUser(formData) {
 }
 
 export function getBlockandUnion() {
-  return http.get(BASE_URL.getUnionAndBlockInfo)
+  return http.get(BASE_URL.getUnionAndBlockInfo);
 }
 // Group APIs
 export function createAGroup(values) {
@@ -254,5 +257,11 @@ export function getAllMotivationalTours() {
 }
 
 export function deleteATour(id) {
-  return http.delete(BASE_URL.deleteTour, { data: { id } })
+  return http.delete(BASE_URL.deleteTour, { data: { id } });
+}
+
+// School
+
+export function createASchool(data) {
+  return http.post(BASE_URL.creatPFSFBS, { data });
 }

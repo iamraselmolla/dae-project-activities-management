@@ -22,8 +22,8 @@ const Demo = () => {
   const [fetchEnd, setFetchEnd] = useState(false);
   const [allProject, setAllProjects] = useState([]);
   const { user } = useContext(AuthContext);
-  const { blockAndUnions } = useSelector(state => state.dae)
-  const [allUnion, setAllUnion] = useState([])
+  const { blockAndUnions } = useSelector((state) => state.dae);
+  const [allUnion, setAllUnion] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
@@ -31,12 +31,14 @@ const Demo = () => {
   const [blockName, setBlockName] = useState("");
   const [search, setSearch] = useState("");
   const [filteredProjects, setFilteredProjects] = useState(demos);
-  const [blocksOfUnion, setBlocksOfUnion] = useState([])
+  const [blocksOfUnion, setBlocksOfUnion] = useState([]);
 
   useEffect(() => {
-    const checkUnion = []
-    blockAndUnions?.map(single => (checkUnion.includes(single?.unionB)) ? '' : checkUnion.push(single?.unionB))
-    setAllUnion(checkUnion)
+    const checkUnion = [];
+    blockAndUnions?.map((single) =>
+      checkUnion.includes(single?.unionB) ? "" : checkUnion.push(single?.unionB)
+    );
+    setAllUnion(checkUnion);
   }, [blockAndUnions]);
 
   useEffect(() => {
@@ -64,8 +66,6 @@ const Demo = () => {
       makeSureOnline();
     }
   }, []);
-
-
 
   // make the function to search accordingly selected filed's each changes
   const filterProjects = () => {
@@ -144,13 +144,14 @@ const Demo = () => {
     setUnionName(selectedUnion);
 
     // Find the blocks under the selected union
-    const result = blockAndUnions?.filter((single) => single?.unionB === selectedUnion);
+    const result = blockAndUnions?.filter(
+      (single) => single?.unionB === selectedUnion
+    );
     const blocks = result?.map((single) => single?.blockB); // Assuming result contains an array of objects with 'blockB' property
 
     // Update the state with the blocks of the selected union
     setBlocksOfUnion(blocks);
   };
-
 
   // Function to export filtered data to Excel
   const handleToExportInToExcel = () => {
@@ -298,8 +299,12 @@ const Demo = () => {
               value={unionName}
               onChange={handleUnionAndBlockSelection}
             >
-              <option key={'kdsfkd'} value=''>ইউনিয়ন</option>
-              {allUnion?.map(single => <option key={single}>{single}</option>)}
+              <option key={"kdsfkd"} value="">
+                ইউনিয়ন
+              </option>
+              {allUnion?.map((single) => (
+                <option key={single}>{single}</option>
+              ))}
             </select>
           </div>
 
@@ -312,11 +317,12 @@ const Demo = () => {
             >
               <option value="">ব্লক সিলেক্ট করুন</option>
               {blocksOfUnion?.map((single, index) => (
-                <option key={index} value={single}>{single}</option>
+                <option key={index} value={single}>
+                  {single}
+                </option>
               ))}
             </select>
           </div>
-
 
           <div>
             <label className="font-extrabold mb-1 block">অনুসন্ধান</label>
@@ -332,7 +338,7 @@ const Demo = () => {
             <SiMicrosoftexcel
               color="green"
               size={50}
-              cursor={'pointer'}
+              cursor={"pointer"}
               onClick={handleToExportInToExcel}
             />
           </div>
