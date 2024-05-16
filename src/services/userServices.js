@@ -59,6 +59,7 @@ const BASE_URL = {
 
   // Distribution
   createDistribution: "/distribution/create-distribution",
+  getDistribution: "/distribution/get-distributions",
 
   // Motivational Tour
   createMotivationTour: "/tour/create-tour",
@@ -246,6 +247,10 @@ export function markNoteAsComplete(id, comment) {
 // Distribution
 export function createDistribution(data) {
   return http.post(BASE_URL.createDistribution, { data });
+}
+
+export function getAllDistributions() {
+  return http.get(BASE_URL.getDistribution);
 }
 
 // Motivatinal Tour

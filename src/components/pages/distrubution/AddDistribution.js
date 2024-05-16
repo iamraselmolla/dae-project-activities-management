@@ -3,7 +3,6 @@ import Datepicker from "react-tailwindcss-datepicker";
 import SectionTitle from "../../shared/SectionTitle";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { createDistribution, getAllProjects } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 import compressAndUploadImage from "../../utilis/compressImages";
@@ -16,6 +15,7 @@ import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
 import Season from "../../shared/Season";
 import { useSelector } from "react-redux";
+import { createDistribution } from "../../../services/userServices";
 
 const AddDistribution = () => {
     const [loading, setLoading] = useState(false);
@@ -23,18 +23,21 @@ const AddDistribution = () => {
     const [images, setImages] = useState([]);
     const { user } = useContext(AuthContext);
     const [selectedProject, setSelectedProject] = useState({});
-    const { projects: allProjects } = useSelector(state => state.dae)
+    const { projects: allProjects } = useSelector(state => state.dae);
+    const [rawImages, setRawImages] = useState([])
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
 
         const imagesArray = files.map((file) => URL.createObjectURL(file));
         setImages((prevImages) => prevImages.concat(imagesArray));
+        setRawImages([...rawImages, ...files]);
     };
 
     const handleRemoveImage = (index) => {
         const updatedImages = [...images];
         updatedImages.splice(index, 1);
+
         setImages(updatedImages);
         formik.setFieldValue("images", updatedImages);
     };
@@ -81,7 +84,6 @@ const AddDistribution = () => {
         initialValues,
         validationSchema,
         onSubmit: async (values) => {
-            values.images = images;
             if (!user) {
                 return toast.error(
                     "বিতরণের তথ্য যুক্ত করতে হলে আপনাকে অবশ্যই লগিন করতে হবে।"
@@ -97,11 +99,13 @@ const AddDistribution = () => {
                         `${i + 1} নং ছবি কম্প্রেসড এবং আপ্লোড হচ্ছে`
                     );
 
-                    const compressedImage = await compressAndUploadImage(images[i]);
+                    const compressedImage = await compressAndUploadImage(rawImages[i]);
                     const result = await uploadToCloudinary(compressedImage, "distribution");
                     uploadedImageLinks.push(result);
                 }
                 setLoadingMessage("বিতরণের তথ্য আপ্লোড হচ্ছে");
+                values.images = uploadedImageLinks;
+                values.time.date = formik.values.time.date?.startDate
 
                 const result = await createDistribution(values);
                 if (result?.status === 200) {
@@ -122,6 +126,7 @@ const AddDistribution = () => {
             (project) => project.name?.details === selectedProjectName
         );
         setSelectedProject(findProject);
+        formik.setFieldValue('projectInfo', findProject?.name)
     };
 
     return (
@@ -224,7 +229,7 @@ const AddDistribution = () => {
                             name="time.date"
                             asSingle={true}
                             value={formik.values.time?.date}
-                            onChange={(newValue) => formik.setFieldValue("time.date", newValue)}
+                            onChange={(newValue) => formik.setFieldValue("time.date", newValue) && console.log(newValue)}
                             showShortcuts={true}
                         />
                         {formik.touched.time?.date && formik.errors?.time?.date && (
