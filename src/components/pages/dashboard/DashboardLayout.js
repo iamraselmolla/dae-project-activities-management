@@ -74,9 +74,9 @@ const DashboardLayout = () => {
           }
 
 
-          const allDistribution = await getAllDistributions();
-          if (allDistribution?.status === 200) {
-            dispatch(daeAction.setDistribution(allDistribution?.data?.data))
+          const distributionResult = await getAllDistributions();
+          if (distributionResult?.status === 200) {
+            dispatch(daeAction.setDistribution(distributionResult?.data?.data))
           }
 
           // All Trainings

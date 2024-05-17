@@ -5,9 +5,12 @@ import { tableDivsionClass } from '../../../../shared/MessageConst';
 import { BsTrashFill } from 'react-icons/bs';
 import { toBengaliNumber } from 'bengali-number';
 import toast from 'react-hot-toast';
+import { deleteADistribution } from '../../../../../services/userServices';
+import { daeAction } from '../../../../store/projectSlice';
+import { useDispatch } from 'react-redux';
 
 const DistributionTableRow = ({ distribution, index }) => {
-    const { projectInfo, time, materialName, presentGuests, images, comment } = distribution;
+    const { projectInfo, time, materialName, presentGuests, images, comment, _id: id } = distribution;
     const imagesArr = [];
     const options = {
         weekday: 'long',
@@ -15,6 +18,7 @@ const DistributionTableRow = ({ distribution, index }) => {
         month: 'long',
         day: 'numeric'
     };
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (images?.length > 0) {
@@ -24,12 +28,17 @@ const DistributionTableRow = ({ distribution, index }) => {
         }
     }, [images, distribution]);
 
-    const handleDeleteDistribution = (id) => {
+    const handleDeleteDistribution = async (id) => {
         if (!id) {
             toast.error("উপকরণ বিতরণ তথ্যের ডাটাবেইজ আইডি পাওয়া যায়নি। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন।")
+            return;
         }
         if (window.confirm(`আপনি কি ${projectInfo?.short} প্রকল্পের ${time?.season}/${time?.fiscalYear} মৌসুমের ${new Date(time?.date).toLocaleString('bn-BD', options)} দিনের উপকরণ বিতরণের তথ্য মুছে ফেলতে চান?`)) {
-
+            const result = await deleteADistribution(id)
+            if (result.status === 200) {
+                toast.success(result?.data?.message)
+                dispatch(daeAction.setRefetch())
+            }
         }
     }
     return (
@@ -58,7 +67,7 @@ const DistributionTableRow = ({ distribution, index }) => {
                 )}
             </td>
             <td className={tableDivsionClass}>
-                <BsTrashFill onClick={() => handleDeleteDistribution(distribution?._id)} cursor='pointer' size={30} color='red' />
+                <BsTrashFill onClick={() => handleDeleteDistribution(id)} cursor='pointer' size={30} color='red' />
             </td>
         </tr>
     );

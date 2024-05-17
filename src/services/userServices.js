@@ -60,6 +60,7 @@ const BASE_URL = {
   // Distribution
   createDistribution: "/distribution/create-distribution",
   getDistribution: "/distribution/get-distributions",
+  deleteADistribution: '/distribution/delete-distribution',
 
   // Motivational Tour
   createMotivationTour: "/tour/create-tour",
@@ -251,6 +252,11 @@ export function createDistribution(data) {
 
 export function getAllDistributions() {
   return http.get(BASE_URL.getDistribution);
+}
+
+
+export function deleteADistribution(id) {
+  return http.delete(BASE_URL.deleteADistribution, { data: { id } });
 }
 
 // Motivatinal Tour

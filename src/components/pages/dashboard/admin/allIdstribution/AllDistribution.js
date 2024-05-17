@@ -6,7 +6,7 @@ import SectionTitle from '../../../../shared/SectionTitle';
 import AddModuleButton from '../../../../shared/AddModuleButton';
 
 const AllDistribution = () => {
-    const { distributions: allDistributions } = useSelector(state => state.dae)
+    const { distributions } = useSelector(state => state.dae)
     return (
         <div className="p-1.5 min-w-full inline-block align-middle">
             <AddModuleButton link={'addDistribution'} btnText={'নতুন উপকরণ বিতরণ তথ্য যুক্ত করুন'} />
@@ -27,7 +27,8 @@ const AllDistribution = () => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {allDistributions.map((distribution, index) => (
+                        {distributions?.length > 0 && distributions?.map((distribution, index) => (
+
                             <DistributionTableRow index={index} distribution={distribution} key={distribution?._id} />
                         ))}
                     </tbody>
