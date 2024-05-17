@@ -70,6 +70,7 @@ const BASE_URL = {
   // FBS PFS School
   creatPFSFBS: "/school/create-a-school",
   getSchools: "/school/get-all-schools",
+  userSchools: "/school/get-user-schools",
 };
 
 // Project APIs
@@ -280,4 +281,8 @@ export function createASchool(data) {
 
 export function getAllSchools() {
   return http.get(BASE_URL.getSchools);
+}
+
+export function getUserAllSchools() {
+  return http.get(BASE_URL.userSchools)
 }
