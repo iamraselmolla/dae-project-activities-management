@@ -1,17 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../../AuthContext/AuthProvider';
-import { useSelector } from 'react-redux';
-import { getUserAllSchools } from '../../../../../services/userServices';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteASchool, getUserAllSchools } from '../../../../../services/userServices';
 import toast from 'react-hot-toast';
 import SectionTitle from '../../../../shared/SectionTitle';
 import NoContentFound from '../../../../shared/NoContentFound';
 import TableHead from '../../../../shared/TableHead';
 import UserSchoolTableRow from './UserSchoolTableRow';
+import { daeAction } from '../../../../store/projectSlice';
 
 const UserSchools = () => {
     const [schools, setUserSchools] = useState([]);
     const { user } = useContext(AuthContext);
     const { refetch } = useSelector(state => state.dae);
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,22 +31,20 @@ const UserSchools = () => {
 
     // Delete a school
     const handleSchoolDeletion = async (schoolId) => {
-        // if (navigator.onLine) {
-        //     if (window.confirm(`আপনি কি এই স্কুলটি মুছে ফেলতে চান?`)) {
-        //         try {
-        //             const result = await deleteSchool(schoolId); // Assuming you have a deleteSchool function
-        //             if (result.status === 200) {
-        //                 toast.success(result.data.message);
-        //                 // Refetch user schools after deletion
-        //                 fetchData();
-        //             }
-        //         } catch (err) {
-        //             toast.error('স্কুলটি মুছতে সাময়িক অসুবিধা হচ্ছে।');
-        //         }
-        //     }
-        // } else {
-        //     makeSureOnline();
-        // }
+
+        if (window.confirm(`আপনি কি এই স্কুলটি মুছে ফেলতে চান?`)) {
+            try {
+                const result = await deleteASchool(schoolId); // Assuming you have a deleteSchool function
+                if (result.status === 200) {
+                    toast.success(result.data.message);
+                    dispatch(daeAction.setRefetch())
+
+                }
+            } catch (err) {
+                toast.error('স্কুলটি মুছতে সাময়িক অসুবিধা হচ্ছে।');
+            }
+        }
+
     };
 
     return (

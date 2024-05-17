@@ -71,7 +71,10 @@ const BASE_URL = {
   creatPFSFBS: "/school/create-a-school",
   getSchools: "/school/get-all-schools",
   userSchools: "/school/get-user-schools",
+  deleteSchool: '/school/delete-a-school'
 };
+
+
 
 // Project APIs
 export function addProjectByAdmin(values) {
@@ -286,3 +289,8 @@ export function getAllSchools() {
 export function getUserAllSchools() {
   return http.get(BASE_URL.userSchools)
 }
+
+export function deleteASchool(id) {
+  return http.delete(BASE_URL.deleteSchool, { data: { id } })
+}
+

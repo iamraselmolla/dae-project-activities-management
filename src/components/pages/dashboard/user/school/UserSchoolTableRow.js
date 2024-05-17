@@ -17,7 +17,7 @@ const UserSchoolTableRow = ({ school, index, handleSchoolDeletion }) => {
             <TableDivision text={school?.projectInfo?.short} />
             <TableDivision text={school.time.season + "/" + toBengaliNumber(school.time.fiscalYear)} />
             <TableDivision text={school.schoolInfo.pfsFbs + ", " + school.schoolInfo.schoolName + " " + school.schoolInfo.crop} />
-            <TableDivision text={school.localtion?.place} />
+            <TableDivision text={school.location?.place} />
             <TableDivision text={new Date(school.time?.date?.startDate).toLocaleString('bn-BD', {
                 day: "2-digit",
                 month: "2-digit",
