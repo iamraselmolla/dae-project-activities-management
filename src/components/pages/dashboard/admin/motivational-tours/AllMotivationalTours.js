@@ -14,7 +14,7 @@ function AllMotivationalTours() {
       <div className="mt-4 overflow-x-scroll">
         <div className="p-1.5 min-w-full inline-block align-middle">
           <AddModuleButton
-            link={"addTour"}
+            link={"add-motivational-tour"}
             btnText={"মোটিভেশনাল ট্যুর যুক্ত করুন"}
           />
           <div>
