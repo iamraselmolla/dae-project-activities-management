@@ -278,7 +278,6 @@ export function createASchool(data) {
   return http.post(BASE_URL.creatPFSFBS, { data });
 }
 
-// School APIs
 export function getAllSchools() {
   return http.get(BASE_URL.getSchools);
 }

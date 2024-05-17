@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import SingleSchool from "./SingleSchool";
 import { makeSureOnline } from "../../shared/MessageConst";
 import toast from "react-hot-toast";
-import { getAllSchools } from "../../../services/userServices"; // Assuming this service fetches PFS/FBS data
 import Loader from "../../shared/Loader";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import AddModuleButton from "../../shared/AddModuleButton";
 import NoContentFound from "../../shared/NoContentFound";
 import SectionTitle from "../../shared/SectionTitle";
+import { getAllSchools } from "../../../services/userServices";
 
 const AllSchools = () => {
   const [schools, setSchools] = useState([]);
