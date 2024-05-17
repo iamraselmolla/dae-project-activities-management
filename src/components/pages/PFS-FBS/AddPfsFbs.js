@@ -37,10 +37,47 @@ const AddPfsFbs = () => {
     setImages((prevImages) => prevImages.concat(imagesArray));
   };
 
+  const initialValues = {
+    projectInfo: {
+      details: "",
+      short: "",
+    },
+    location: {
+      place: "",
+      block: user?.blockB,
+      union: user?.unionB,
+    },
+    time: {
+      fiscalYear: "",
+      season: "",
+      date: {
+        startDate: new Date(),
+        endDate: new Date(),
+      },
+    },
+    schoolInfo: {
+      crop: "",
+      schoolName: "",
+      pfsFbs: "",
+    },
+    SAAO: {
+      name: user?.SAAO?.name,
+      mobile: user?.SAAO?.mobile,
+    },
+    assistantOfficers: "",
+    higherPerson: "",
+    comment: "",
+    images: [],
+  };
   const validationSchema = Yup.object().shape({
     projectInfo: Yup.object().shape({
       details: Yup.string().required("প্রকল্পের পুরো নাম প্রয়োজন"),
       short: Yup.string().required("প্রকল্পের সংক্ষেপ নাম প্রয়োজন"),
+    }),
+    location: Yup.object().shape({
+      place: Yup.string().required("স্থান প্রয়োজন"),
+      block: Yup.string().required("ব্লক প্রয়োজন"),
+      union: Yup.string().required("ইউনিয়ন প্রয়োজন"),
     }),
     time: Yup.object().shape({
       fiscalYear: Yup.string().required("অর্থবছর সিলেক্ট করুন"),
@@ -50,51 +87,30 @@ const AddPfsFbs = () => {
         endDate: Yup.date().required("শেষ তারিখ প্রয়োজন"),
       }),
     }),
-    place: Yup.string().required("স্থান প্রয়োজন"),
-    block: Yup.string().required("ব্লক প্রয়োজন"),
-    union: Yup.string().required("ইউনিয়ন প্রয়োজন"),
+    schoolInfo: Yup.object().shape({
+      crop: Yup.string().required("ফসল প্রয়োজন"),
+      schoolName: Yup.string().required("স্কুলের নাম প্রয়োজন"),
+      pfsFbs: Yup.string().required("PFS/FBS সিলেক্ট করুন"),
+    }),
     SAAO: Yup.object().shape({
       name: Yup.string().required("এসএএও নাম প্রয়োজন"),
       mobile: Yup.string().required("এসএএও মোবাইল প্রয়োজন"),
     }),
     assistantOfficers: Yup.string().required("সহকারী অফিসারদের নাম প্রয়োজন"),
-    schoolName: Yup.string().required("স্কুলের নাম প্রয়োজন"),
-    pfsFbs: Yup.string().required("PFS/FBS সিলেক্ট করুন"),
+    higherPerson: Yup.string().required(
+      "উর্ধবতন কর্মকর্তার নাম (যদি উপস্থিত থাকেন) প্রয়োজন"
+    ),
+    comment: Yup.string(),
+    // images: Yup.array().min(1, "প্রজেক্টের ছবিসমূহ প্রয়োজন"),
   });
 
-  const initialValues = {
-    projectInfo: {
-      details: "",
-      short: "",
-    },
-    place: "",
-    block: "",
-    union: "",
-    crop: "",
-    time: {
-      fiscalYear: "",
-      season: "",
-      date: {
-        startDate: new Date(),
-        endDate: new Date(),
-      },
-    },
-    SAAO: {
-      name: "",
-      mobile: "",
-    },
-    assistantOfficers: "",
-    higherPerson: "",
-    comment: "",
-    images: [],
-    schoolName: "",
-    pfsFbs: "",
-  };
+
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
+      console.log(values)
       if (!values.time.date?.startDate || !values.time.date?.endDate) {
         return toast.error(
           "আপনাকে অবশ্যই প্রজেক্টের শুরু ও শেষের তারিখ দিতে হবে।"
@@ -258,20 +274,18 @@ const AddPfsFbs = () => {
             <label className="font-extrabold mb-1 block">PFS/FBS</label>
             <select
               className="input input-bordered w-full"
-              id="pfsFbs"
-              name="pfsFbs"
+              id="schoolInfo.pfsFbs"
+              name="schoolInfo.pfsFbs"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.pfsFbs}
+              value={formik.values.schoolInfo.pfsFbs}
             >
               <option value="" label="PFS/FBS সিলেক্ট করুন" />
               <option value="pfs" label="PFS" />
               <option value="fbs" label="FBS" />
             </select>
-            {formik.touched.pfsFbs && formik.errors.pfsFbs && (
-              <div className="text-red-600 font-bold">
-                {formik.errors.pfsFbs}
-              </div>
+            {formik.touched.schoolInfo && formik.errors.schoolInfo?.pfsFbs && (
+              <div className="text-red-600 font-bold">{formik.errors.schoolInfo.pfsFbs}</div>
             )}
           </div>
           <div>
@@ -279,14 +293,14 @@ const AddPfsFbs = () => {
             <input
               type="text"
               className="input input-bordered w-full"
-              id="crop"
-              name="crop"
+              id="schoolInfo.crop"
+              name="schoolInfo.crop"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.crop}
+              value={formik.values.schoolInfo.crop}
             />
-            {formik.touched.crop && formik.errors.crop && (
-              <div className="text-red-600 font-bold">{formik.errors.crop}</div>
+            {formik.touched.schoolInfo && formik.errors.schoolInfo?.crop && (
+              <div className="text-red-600 font-bold">{formik.errors.schoolInfo.crop}</div>
             )}
           </div>
           <div>
@@ -294,16 +308,14 @@ const AddPfsFbs = () => {
             <input
               type="text"
               className="input input-bordered w-full"
-              id="schoolName"
-              name="schoolName"
+              id="schoolInfo.schoolName"
+              name="schoolInfo.schoolName"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.schoolName}
+              value={formik.values.schoolInfo.schoolName}
             />
-            {formik.touched.schoolName && formik.errors.schoolName && (
-              <div className="text-red-600 font-bold">
-                {formik.errors.schoolName}
-              </div>
+            {formik.touched.schoolInfo && formik.errors.schoolInfo?.schoolName && (
+              <div className="text-red-600 font-bold">{formik.errors.schoolInfo.schoolName}</div>
             )}
           </div>
 
@@ -312,15 +324,15 @@ const AddPfsFbs = () => {
             <input
               type="text"
               className="input input-bordered w-full"
-              id="place"
-              name="place"
+              id="location.place"
+              name="location.place"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.place}
+              value={formik.values.location.place}
             />
-            {formik.touched.place && formik.errors.place && (
+            {formik.touched.location && formik.errors.location?.place && (
               <div className="text-red-600 font-bold">
-                {formik.errors.place}
+                {formik.errors.location.place}
               </div>
             )}
           </div>
@@ -329,17 +341,17 @@ const AddPfsFbs = () => {
             <input
               type="text"
               className="input input-bordered w-full"
-              id="block"
-              name="block"
+              id="location.block"
+              name="location.block"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={user?.blockB}
+              value={formik.values.location.block}
               disabled
               readOnly
             />
-            {formik.touched.block && formik.errors.block && (
+            {formik.touched.location && formik.errors.location?.block && (
               <div className="text-red-600 font-bold">
-                {formik.errors.block}
+                {formik.errors.location.block}
               </div>
             )}
           </div>
@@ -348,17 +360,17 @@ const AddPfsFbs = () => {
             <input
               type="text"
               className="input input-bordered w-full"
-              id="union"
-              name="union"
+              id="location.union"
+              name="location.union"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={user?.unionB}
+              value={formik.values.location.union}
               disabled
               readOnly
             />
-            {formik.touched.union && formik.errors.union && (
+            {formik.touched.location && formik.errors.location?.union && (
               <div className="text-red-600 font-bold">
-                {formik.errors.union}
+                {formik.errors.location.union}
               </div>
             )}
           </div>
@@ -489,7 +501,7 @@ const AddPfsFbs = () => {
               name="SAAO.name"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={user?.SAAO?.name}
+              value={formik.values.SAAO?.name}
               disabled
               readOnly
             />
@@ -508,7 +520,7 @@ const AddPfsFbs = () => {
               name="SAAO.mobile"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={user?.SAAO?.mobile}
+              value={formik.values.SAAO?.mobile}
               disabled
               readOnly
             />
