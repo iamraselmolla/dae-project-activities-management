@@ -31,6 +31,7 @@ import AddMotivationalTour from "./components/pages/MotivationalTour/AddMotivati
 import AllMotivationalTours from "./components/pages/dashboard/admin/motivational-tours/AllMotivationalTours";
 import AddPfsFbs from "./components/pages/PFS-FBS/AddPfsFbs";
 import AllSchools from "./components/pages/PFS-FBS/AllSchools";
+import AllDistribution from "./components/pages/dashboard/admin/allIdstribution/AllDistribution";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -222,6 +223,14 @@ const router = createBrowserRouter([
             element: (
               <AdminRoute>
                 <AllMotivationalTours />
+              </AdminRoute>
+            ),
+          },
+          {
+            path: "/dashboard/all-distributions",
+            element: (
+              <AdminRoute>
+                <AllDistribution />
               </AdminRoute>
             ),
           },
