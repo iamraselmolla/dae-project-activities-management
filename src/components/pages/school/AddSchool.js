@@ -68,6 +68,7 @@ const AddSchool = () => {
     higherPerson: "",
     comment: "",
     images: [],
+    username: user?.username
   };
   const validationSchema = Yup.object().shape({
     projectInfo: Yup.object().shape({
@@ -117,6 +118,9 @@ const AddSchool = () => {
       if (images?.length < 1) {
         toast.error("আপনাকে অবশ্যই স্কুলের ছবিসমূহ দিতে হবে।");
         return;
+      }
+      if (!values.username) {
+        return toast.error("ইউজার নাম যুক্ত হয়নি। দয়া করে আবার লগিন করে রিলোড দিন অথবা সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন।")
       }
       try {
         setLoadingMessage("ছবি আপ্লোড হচ্ছে");
@@ -526,16 +530,22 @@ const AddSchool = () => {
             )}
           </div>
         </div>
-        <div className="text-right mt-4">
-          <button
-            type="submit"
-            className="btn mt-5 bg-green-600 hover:bg-green-700 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            disabled={loading}
-          >
-            {loading ? <Loader message={loadingMessage} /> : "তথ্য জমা দিন"}
-          </button>
-        </div>
+        {!loading && <button
+          type="submit"
+          className="btn mt-5 bg-green-600 hover:bg-green-700 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          disabled={loading}
+        >
+          তথ্য জমা দিন
+        </button>}
       </form>
+      {loading && <>
+        <div className="fixed daeLoader">
+          <Loader />
+          <h2 className="text-green-600 mt-3 text-4xl">
+            {loadingMessage && loadingMessage}
+          </h2>
+        </div>
+      </>}
     </section>
   );
 };
