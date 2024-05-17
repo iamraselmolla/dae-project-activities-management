@@ -52,7 +52,6 @@ const AddMotivationTour = () => {
     place: Yup.string().required("স্থান প্রয়োজন"),
 
     farmers: Yup.number().required("কৃষকের সংখ্যা প্রয়োজন").min(0),
-    officers: Yup.string().required("অফিসারদের নাম প্রয়োজন"),
     comment: Yup.string().required("মন্তব্য প্রয়োজন"),
   });
 
@@ -71,7 +70,6 @@ const AddMotivationTour = () => {
       },
     },
     farmers: "",
-    officers: "",
     comment: "",
     images: [],
   };
@@ -174,8 +172,8 @@ const AddMotivationTour = () => {
               )}
             </select>
             {formik.touched.projectInfo &&
-            formik.touched.projectInfo.full &&
-            formik.errors.projectInfo?.full ? (
+              formik.touched.projectInfo.full &&
+              formik.errors.projectInfo?.full ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.full}
               </div>
@@ -202,8 +200,8 @@ const AddMotivationTour = () => {
             />
 
             {formik.touched.projectInfo &&
-            formik.touched.projectInfo.short &&
-            formik.errors.projectInfo?.short ? (
+              formik.touched.projectInfo.short &&
+              formik.errors.projectInfo?.short ? (
               <div className="text-red-600 font-bold">
                 {formik.errors.projectInfo.short}
               </div>
@@ -291,23 +289,6 @@ const AddMotivationTour = () => {
             {formik.touched.farmers && formik.errors.farmers && (
               <div className="text-red-600 font-bold">
                 {formik.errors.farmers}
-              </div>
-            )}
-          </div>
-          <div>
-            <label className="font-extrabold mb-1 block">অফিসারদের নাম</label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              id="officers"
-              name="officers"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.officers}
-            />
-            {formik.touched.officers && formik.errors.officers && (
-              <div className="text-red-600 font-bold">
-                {formik.errors.officers}
               </div>
             )}
           </div>

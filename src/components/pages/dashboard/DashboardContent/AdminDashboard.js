@@ -24,24 +24,17 @@ const AdminDashboard = () => {
   const { projects, users, trainings, notes, tours } = useSelector(
     (state) => state.dae
   );
-  const [noteTypes, setNoteTypes] = useState([]);
   const [data, setData] = useState([]);
+  const [noteTypes, setNoteTypes] = useState([]);
 
   useEffect(() => {
-    // Create a Set to store unique note types
     const uniqueNoteTypes = new Set();
-
-    // Push unique note types to the Set
     notes.forEach((note) => {
       if (note.purpose && note.purpose.target) {
         uniqueNoteTypes.add(note.purpose.target);
       }
     });
-
-    // Convert Set to array
     const uniqueNoteTypesArray = Array.from(uniqueNoteTypes);
-
-    // Set the state with unique note types array
     setNoteTypes(uniqueNoteTypesArray);
   }, [notes]);
 

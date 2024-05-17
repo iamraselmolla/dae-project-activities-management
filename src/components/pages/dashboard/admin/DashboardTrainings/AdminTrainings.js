@@ -1,6 +1,6 @@
 import React from 'react';
 import SingleTrainingRow from './SingleTrainingRow';
-import TableHead from './TableComponent/TableHead';
+import TableHead from '../../../../shared/TableHead';
 import SectionTitle from '../../../../shared/SectionTitle';
 import NoContentFound from '../../../../shared/NoContentFound';
 import { useSelector } from 'react-redux';

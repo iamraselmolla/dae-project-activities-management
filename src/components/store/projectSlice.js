@@ -14,6 +14,7 @@ const initialState = {
   refetch: 0,
   endFetch: false,
   blockAndUnions: [],
+  distributions: []
 };
 
 const daeSlice = createSlice({
@@ -55,6 +56,9 @@ const daeSlice = createSlice({
     },
     setBlokAndUnion: (state, action) => {
       state.blockAndUnions = action.payload
+    },
+    setDistribution: (state, action) => {
+      state.distributions = action.payload;
     }
   },
 });

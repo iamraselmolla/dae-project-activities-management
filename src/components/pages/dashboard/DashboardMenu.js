@@ -9,6 +9,7 @@ import { GrDocumentNotes } from "react-icons/gr";
 import { CgDisplayGrid } from "react-icons/cg";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { AuthContext } from "../../AuthContext/AuthProvider";
+import { MdAgriculture } from "react-icons/md";
 
 const DashboardMenu = () => {
   const { user, role } = useContext(AuthContext);
@@ -43,6 +44,13 @@ const DashboardMenu = () => {
           text={"উদ্বুদ্ধকরণ ভ্রমণ"}
         />
       )}
+      {user && role === "admin" && (
+        <DashboardMenuItem
+          icon={<MdAgriculture />}
+          link="/all-distributions"
+          text={"উপকরণ বিতরণ"}
+        />
+      )}
       {user && role === "user" && (
         <DashboardMenuItem
           icon={<CgDisplayGrid />}
@@ -57,6 +65,7 @@ const DashboardMenu = () => {
           text={"মাঠ দিবস"}
         />
       )}
+
       {user && role === "user" && (
         <DashboardMenuItem
           icon={<FaPeopleGroup />}

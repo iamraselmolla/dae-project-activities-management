@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import {
   findUserAllNotes,
+  getAllDistributions,
   getAllMotivationalTours,
   getAllProjects,
   getAllTraining,
@@ -70,6 +71,12 @@ const DashboardLayout = () => {
           const userResult = await getAllUser();
           if (userResult?.status === 200) {
             dispatch(daeAction.setAllUsers(userResult?.data?.data));
+          }
+
+
+          const allDistribution = await getAllDistributions();
+          if (allDistribution?.status === 200) {
+            dispatch(daeAction.setDistribution(allDistribution?.data?.data))
           }
 
           // All Trainings

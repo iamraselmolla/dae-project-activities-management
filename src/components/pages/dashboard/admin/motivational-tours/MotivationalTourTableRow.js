@@ -52,7 +52,6 @@ const MotivationalTourTableRow = ({ data, index }) => {
         )}
       </td>
       <td className="py-4 px-2 text-center">{toBengaliNumber(farmers)}</td>
-      <td className="py-4 px-2 text-center">{officers}</td>
       <td className="py-4 px-2 text-center">{comment}</td>
       <td className="py-4 px-2 dashboard-image-control text-center">
         <ImageGallery autoPlay={true} items={imagesArr} />
