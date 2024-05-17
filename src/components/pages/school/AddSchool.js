@@ -101,16 +101,11 @@ const AddSchool = () => {
       "উর্ধবতন কর্মকর্তার নাম (যদি উপস্থিত থাকেন) প্রয়োজন"
     ),
     comment: Yup.string(),
-    // images: Yup.array().min(1, "প্রজেক্টের ছবিসমূহ প্রয়োজন"),
   });
-
-
-
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values)
       if (!values.time.date?.startDate || !values.time.date?.endDate) {
         return toast.error(
           "আপনাকে অবশ্যই প্রজেক্টের শুরু ও শেষের তারিখ দিতে হবে।"
@@ -131,7 +126,7 @@ const AddSchool = () => {
           setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`);
           const compressedImage = await compressAndUploadImage(rawImages[i]);
           setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-          const result = await uploadToCloudinary(compressedImage, "pfsfbs");
+          const result = await uploadToCloudinary(compressedImage, "school");
           uploadedImageLinks.push(result);
         }
         values.images = uploadedImageLinks;
@@ -146,7 +141,7 @@ const AddSchool = () => {
         }
       } catch (error) {
         console.error("PFS FBS creation error:", error);
-        toast.error("পিএফএস এফবিএস তথ্য সংরক্ষণে সমস্যা হয়েছে।");
+        toast.error("স্কুল তথ্য সংরক্ষণে সমস্যা হয়েছে।");
       } finally {
         setLoading(false);
       }
@@ -173,7 +168,7 @@ const AddSchool = () => {
 
   return (
     <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
-      <SectionTitle title={"নতুন পিএফএস এফবিএস তথ্য যুক্ত করুন"} />
+      <SectionTitle title={"নতুন স্কুল তথ্য যুক্ত করুন"} />
       <form onSubmit={formik.handleSubmit}>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div>
