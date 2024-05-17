@@ -15,7 +15,7 @@ import { toBengaliNumber } from "bengali-number";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 
-const AddPfsFbs = () => {
+const AddSchool = () => {
   const { user } = useContext(AuthContext);
   const { projects: allProjects } = useSelector((state) => state.dae);
   const [loading, setLoading] = useState(false);
@@ -120,7 +120,7 @@ const AddPfsFbs = () => {
         return toast.error("লগইন করুন প্রথমে।");
       }
       if (images?.length < 1) {
-        toast.error("আপনাকে অবশ্যই প্রজেক্টের ছবিসমূহ দিতে হবে।");
+        toast.error("আপনাকে অবশ্যই স্কুলের ছবিসমূহ দিতে হবে।");
         return;
       }
       try {
@@ -545,4 +545,4 @@ const AddPfsFbs = () => {
   );
 };
 
-export default AddPfsFbs;
+export default AddSchool;
