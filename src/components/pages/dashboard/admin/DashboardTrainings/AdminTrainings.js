@@ -4,6 +4,7 @@ import TableHead from '../../../../shared/TableHead';
 import SectionTitle from '../../../../shared/SectionTitle';
 import NoContentFound from '../../../../shared/NoContentFound';
 import { useSelector } from 'react-redux';
+import AddModuleButton from '../../../../shared/AddModuleButton';
 
 const AdminTrainings = () => {
     const { trainings } = useSelector(state => state.dae)
@@ -48,6 +49,7 @@ const AdminTrainings = () => {
                     </div>
                 </div>
             </div>
+            <AddModuleButton btnText={'addTraining'} />
         </div>
     );
 };
