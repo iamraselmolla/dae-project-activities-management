@@ -18,28 +18,27 @@ const SingleDemo = ({ data }) => {
     demoInfo,
     demoDate,
     demoImages,
-    username,
   } = data;
 
-  useEffect(() => {
-    if (demoImages?.length > 0) {
-      for (const image of demoImages) {
-        image.image?.map((single) =>
-          setImages([...allImages, { original: single, thumbnail: single }])
-        );
-      }
-    } else {
-      allImages.push(
-        { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" },
-        { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" }
+  const imagesArr = []
+  if (demoImages?.length > 0) {
+    for (const image of demoImages) {
+      image.image?.map((single) =>
+        imagesArr.push({ original: single, thumbnail: single })
       );
     }
-  }, []);
+  } else {
+    imagesArr.push(
+      { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" },
+      { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" }
+    );
+  }
+
 
   return (
     <div className="rounded-lg bg-white shadow-blue relative shadow-xl">
       <div className="relative">
-        <ImageGallery autoPlay={true} items={allImages} />
+        <ImageGallery autoPlay={true} items={imagesArr} />
         <div className="flex items-center absolute top-3">
           <p className="px-2 py-1 bg-black text-white rounded-r-md ">
             {projectInfo?.short}
