@@ -203,8 +203,8 @@ const AddNotes = () => {
                   )}
                 </select>
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.details &&
-                formik.errors.projectInfo?.details ? (
+                  formik.touched.projectInfo.details &&
+                  formik.errors.projectInfo?.details ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.details}
                   </div>
@@ -227,8 +227,8 @@ const AddNotes = () => {
                 />
 
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.short &&
-                formik.errors.projectInfo?.short ? (
+                  formik.touched.projectInfo.short &&
+                  formik.errors.projectInfo?.short ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.short}
                   </div>
@@ -261,8 +261,8 @@ const AddNotes = () => {
                   <Season />
                 </select>
                 {formik.touched.timeFrame &&
-                formik.touched.timeFrame.season &&
-                formik.errors.timeFrame?.season ? (
+                  formik.touched.timeFrame.season &&
+                  formik.errors.timeFrame?.season ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.timeFrame.season}
                   </div>
@@ -318,7 +318,7 @@ const AddNotes = () => {
                   <option value="কৃষি পরামর্শ প্রদান">
                     কৃষি পরামর্শ প্রদান
                   </option>
-                  <option value="মালামাল বিতরণ">মালামাল বিতরণ</option>
+                  <option value="উপকরণ বিতরণ">উপকরণ বিতরণ</option>
                 </Field>
                 <ErrorMessage
                   name="purpose.target"

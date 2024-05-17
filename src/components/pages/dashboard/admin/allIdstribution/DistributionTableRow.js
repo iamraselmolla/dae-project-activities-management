@@ -4,10 +4,17 @@ import TableDivision from '../../../../shared/TableDivision';
 import { tableDivsionClass } from '../../../../shared/MessageConst';
 import { BsTrashFill } from 'react-icons/bs';
 import { toBengaliNumber } from 'bengali-number';
+import toast from 'react-hot-toast';
 
 const DistributionTableRow = ({ distribution, index }) => {
     const { projectInfo, time, materialName, presentGuests, images, comment } = distribution;
     const imagesArr = [];
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    };
 
     useEffect(() => {
         if (images?.length > 0) {
@@ -17,6 +24,14 @@ const DistributionTableRow = ({ distribution, index }) => {
         }
     }, [images, distribution]);
 
+    const handleDeleteDistribution = (id) => {
+        if (!id) {
+            toast.error("উপকরণ বিতরণ তথ্যের ডাটাবেইজ আইডি পাওয়া যায়নি। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন।")
+        }
+        if (window.confirm(`আপনি কি ${projectInfo?.short} প্রকল্পের ${time?.season}/${time?.fiscalYear} মৌসুমের ${new Date(time?.date).toLocaleString('bn-BD', options)} দিনের উপকরণ বিতরণের তথ্য মুছে ফেলতে চান?`)) {
+
+        }
+    }
     return (
         <tr className='divide-x font-extrabold divide-gray-200 dark:divide-gray-700'>
             <TableDivision text={toBengaliNumber(index + 1)} />
@@ -43,7 +58,7 @@ const DistributionTableRow = ({ distribution, index }) => {
                 )}
             </td>
             <td className={tableDivsionClass}>
-                <BsTrashFill cursor='pointer' size={30} color='red' />
+                <BsTrashFill onClick={() => handleDeleteDistribution(distribution?._id)} cursor='pointer' size={30} color='red' />
             </td>
         </tr>
     );

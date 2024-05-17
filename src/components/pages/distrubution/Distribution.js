@@ -19,7 +19,7 @@ const Distribution = () => {
                     setDistributions(result?.data?.data);
                 }
             } catch (err) {
-                toast.error("সকল মালামাল বিতরণের তথ্য আনতে অসুবিধার সৃষ্টি হচ্ছে । ");
+                toast.error("সকল উপকরণ বিতরণের তথ্য আনতে অসুবিধার সৃষ্টি হচ্ছে । ");
             } finally {
                 setLoading(false);
             }
@@ -30,9 +30,9 @@ const Distribution = () => {
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             {user && <div className="text-right font-extrabold">
-                <AddModuleButton link={'addDistribution'} btnText={'মালামাল বিতরণের তথ্য যুক্ত করুন'} />
+                <AddModuleButton link={'addDistribution'} btnText={'উপকরণ বিতরণের তথ্য যুক্ত করুন'} />
             </div>}
-            <SectionTitle title={"সকল মালামাল বিতরণের তথ্য"} />
+            <SectionTitle title={"সকল উপকরণ বিতরণের তথ্য"} />
 
             {/* Display SingleDistribution components for each distribution */}
             {loading ? (

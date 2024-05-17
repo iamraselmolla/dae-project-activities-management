@@ -205,14 +205,14 @@ const AddDistribution = () => {
                         )}
                     </div>
                     <div>
-                        <label className="font-extrabold mb-1 block">বিতরণকৃত মালামালের বিবরণ</label>
+                        <label className="font-extrabold mb-1 block">বিতরণকৃত উপকরণের বিবরণ</label>
                         <input
                             type="text"
                             className="input input-bordered w-full"
                             id="materialName"
                             name="materialName"
                             onBlur={formik.handleBlur}
-                            placeholder="মালামালের নাম"
+                            placeholder="উপকরণের নাম"
                             onChange={formik.handleChange}
                             value={formik.values.materialName}
                         />

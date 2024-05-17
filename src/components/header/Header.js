@@ -49,7 +49,7 @@ const Header = () => {
               <HeaderMenuItem link="demos" text="প্রদর্শনী" />
               <HeaderMenuItem link="trainings" text="প্রশিক্ষণ" />
               <HeaderMenuItem link="fielddays" text="মাঠদিবস" />
-              <HeaderMenuItem link="distributions" text="মালামাল বিতরণ" />
+              <HeaderMenuItem link="distributions" text="উপকরণ বিতরণ" />
               <HeaderMenuItem
                 link="dae-group-meeting"
                 text="ডিএই কৃষক গ্রুপ সভা"
@@ -70,7 +70,7 @@ const Header = () => {
           <HeaderMenuItem link="demos" text="প্রদর্শনী" />
           <HeaderMenuItem link="trainings" text="প্রশিক্ষণ" />
           <HeaderMenuItem link="fielddays" text="মাঠদিবস" />
-          <HeaderMenuItem link="distributions" text="মালামাল বিতরণ" />
+          <HeaderMenuItem link="distributions" text="উপকরণ বিতরণ" />
           <HeaderMenuItem link="dae-group-meeting" text="ডিএই কৃষক গ্রুপ সভা" />
           <HeaderMenuItem link="motivational-tour" text="উদ্বুদ্ধকরণ ভ্রমণ" />
           <HeaderMenuItem link="all-schools" text="FBS/PFS" />
