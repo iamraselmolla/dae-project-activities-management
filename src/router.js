@@ -32,6 +32,7 @@ import AllMotivationalTours from "./components/pages/dashboard/admin/motivationa
 import AllDistribution from "./components/pages/dashboard/admin/allIdstribution/AllDistribution";
 import AddSchool from "./components/pages/school/AddSchool";
 import AllSchools from "./components/pages/school/AllSchools";
+import UserSchools from "./components/pages/dashboard/user/school/UserSchools";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -232,6 +233,14 @@ const router = createBrowserRouter([
               <AdminRoute>
                 <AllDistribution />
               </AdminRoute>
+            ),
+          },
+          {
+            path: "/dashboard/user-schools",
+            element: (
+              <UserRoute>
+                <UserSchools />
+              </UserRoute>
             ),
           },
           {

@@ -244,6 +244,7 @@ const Demo = () => {
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold col-span-1">
         <AddModuleButton link={"addDemo"} btnText={"প্রদর্শনী যুক্ত করুন"} />
+        <SectionTitle title={"সকল প্রদর্শনী"} />
       </div>
       {user && (
         <div className="flex py-6 flex-wrap justify-between items-center gap-3">
@@ -345,7 +346,7 @@ const Demo = () => {
         </div>
       )}
 
-      <SectionTitle title={"সকল প্রদর্শনী"} />
+
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
         {!loading &&
           fetchEnd &&
