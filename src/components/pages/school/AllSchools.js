@@ -89,12 +89,10 @@ const AllSchools = () => {
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
         {!loading &&
           fetchEnd &&
-          filteredSchools?.length > 0 &&
-          filteredSchools?.map((school) => (
-            <SingleSchool key={school?._id} data={school} />
-          ))}
+          schools?.length > 0 &&
+          schools?.map((school) => (<SingleSchool key={school?._id} data={school} />))}
       </div>
-      {!loading && fetchEnd && filteredSchools?.length < 1 && (
+      {!loading && fetchEnd && schools?.length < 1 && (
         <NoContentFound text={"কোনো স্কুলের তথ্য পাওয়া যায়নি!"} />
       )}
       {!fetchEnd && loading && (

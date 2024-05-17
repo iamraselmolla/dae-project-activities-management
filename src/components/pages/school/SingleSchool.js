@@ -1,101 +1,83 @@
 import React, { useEffect, useState } from "react";
-import { FaMobileAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
-import { Link } from "react-router-dom";
 import { GrTechnology } from "react-icons/gr";
-import { CiCalendarDate } from "react-icons/ci";
+import { toBengaliNumber } from "bengali-number";
+import { FaPeopleGroup } from "react-icons/fa6";
 
 const SingleSchool = ({ data }) => {
-  const [allImages, setImages] = useState([]);
+  const [allImages, setAllImages] = useState([])
   const {
+    projectInfo,
+    location,
+    time,
     schoolInfo,
-    address,
-    contactInfo,
-    facilities,
-    schoolImages,
-    username,
+    SAAO,
+    assistantOfficers,
+    higherPerson,
+    comment,
+    images,
   } = data;
 
-  useEffect(() => {
-    if (schoolImages?.length > 0) {
-      for (const image of schoolImages) {
-        image.image?.map((single) =>
-          setImages((prevImages) => [
-            ...prevImages,
-            { original: single, thumbnail: single },
-          ])
-        );
-      }
-    } else {
-      setImages([
-        { original: "images/default.jpg", thumbnail: "images/default.jpg" },
-      ]);
+  const imagesArr = []
+
+  if (images.length > 0) {
+    for (const image of images) {
+      imagesArr.push({ original: image, thumbnail: image });
     }
-  }, [schoolImages]);
+  }
 
   return (
     <div className="rounded-lg bg-white shadow-blue relative shadow-xl">
       <div className="relative">
-        <ImageGallery autoPlay={true} items={allImages} />
-        <div className="flex items-center absolute top-3">
-          <p className="px-2 py-1 bg-black text-white rounded-r-md ">
-            {schoolInfo?.shortName}
-          </p>
-        </div>
+        <ImageGallery autoPlay={true} items={imagesArr} />
+
         <div className="flex items-center absolute top-3 right-0">
           <p className="px-2 py-1 bg-black text-white rounded-l-md ">
-            {facilities?.type}
+            {projectInfo.short}
           </p>
         </div>
       </div>
-
       <div className="content-part px-3 py-2">
-        <h2 className="text-xl font-extrabold">{schoolInfo?.name}</h2>
+        <h2 className="text-xl font-extrabold">{schoolInfo.schoolName}</h2>
         <div>
           <div className="flex items-center gap-2">
-            <FaMobileAlt /> <p>{contactInfo?.mobile}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <MdLocationPin />
+            <div><MdLocationPin /></div>
             <p>
-              গ্রামঃ {address?.village}, ব্লকঃ {address?.block}, ইউনিয়নঃ{" "}
-              {address?.union}
+              গ্রামঃ {location.place}, ব্লকঃ {location.block}, ইউনিয়নঃ{" "}
+              {location.union}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <BsFillCloudSunFill />
-            <p>{facilities?.season}</p>
+            <div> <BsFillCloudSunFill /></div>
+            <p>{time.season}/ {new Date(time.date.startDate).toLocaleDateString("bn-BD", {
+              day: "numeric",
+              month: "numeric",
+              year: "numeric",
+            })}</p>
           </div>
           <div className="flex items-center gap-2">
-            <CiCalendarDate />
-            <p>
-              {new Date(schoolInfo?.established).toLocaleDateString("bn-BD", {
-                day: "numeric",
-                month: "numeric",
-                year: "numeric",
-              })}
-            </p>
+            <div><GrTechnology /></div> <p>{projectInfo.details}</p>
           </div>
           <div className="flex items-center gap-2">
-            <GrTechnology /> <p>{facilities?.tech}</p>
+            <div><FaPeopleGroup /></div> <p>{higherPerson}</p>
           </div>
-          <div className="font-extrabold mt-3">
-            <p>স্কুলের নামঃ {schoolInfo?.fullName}</p>
+          <div className="mt-2">
+            <p>মন্তব্য: {comment}</p>
           </div>
+          <div className="mt-2">
+            <p>সহায়তাকারী: {assistantOfficers}</p>
+          </div>
+          <h2 className="text-xl mt-4 font-extrabold">
+            উপসহকারী কৃষি কর্মকর্তার তথ্য
+          </h2>
+          <div className="mt-2">নামঃ {SAAO?.name}</div>
+          <div className="mt-1">মোবাইলঃ {toBengaliNumber(SAAO?.mobile)}</div>
 
-          <div className="mt-3 mb-4">
-            <Link
-              className="px-3 py-2 rounded-md transition-colors block border-2 border-black hover:bg-black hover:text-white text-black font-bold w-100 text-center"
-              to={`/school/${data?._id}`}
-            >
-              বিস্তারিত দেখুন
-            </Link>
-          </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
