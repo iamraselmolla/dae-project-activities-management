@@ -17,11 +17,11 @@ import { FaUser } from "react-icons/fa";
 import { GiDiscussion } from "react-icons/gi";
 import { GrCheckboxSelected } from "react-icons/gr";
 import { AiOutlineFileDone } from "react-icons/ai";
-import { MdTour } from "react-icons/md";
+import { MdAgriculture, MdTour } from "react-icons/md";
 
 
 const AdminDashboard = () => {
-  const { projects, users, trainings, notes, tours } = useSelector(
+  const { projects, users, trainings, notes, tours, distributions } = useSelector(
     (state) => state.dae
   );
   const [data, setData] = useState([]);
@@ -62,60 +62,59 @@ const AdminDashboard = () => {
       icon: <GoProject />,
       count: runningProjects,
       text: "চলমান প্রকল্প",
-      backgroundColor: "#ffe2e6",
+      backgroundColor: "#ffe2e6", // Light pink
     },
     {
       icon: <GrCheckboxSelected />,
       count: projects?.length - runningProjects,
       text: "সম্পন্ন প্রকল্প",
-      backgroundColor: "#fff4de",
+      backgroundColor: "#fff4de", // Light yellow
     },
     {
       icon: <FaUser />,
       count: users?.length - 1,
       text: "ইউজার",
-      backgroundColor: "#dcfce7",
+      backgroundColor: "#dcfce7", // Light green
     },
     {
       icon: <GiDiscussion />,
       count: trainings?.length,
       text: "প্রশিক্ষণ",
-      backgroundColor: "#f4e8ff",
+      backgroundColor: "#f4e8ff", // Light purple
     },
     {
       icon: <GoNote />,
       count: notes?.length - completedNotes,
       text: "অসম্পন্ন নোটস",
-      backgroundColor: "#a9cded59",
+      backgroundColor: "#a9cded", // Light blue
     },
     {
       icon: <AiOutlineFileDone />,
       count: completedNotes,
       text: "সম্পন্ন নোটস",
-      backgroundColor: "#c4ff8b80",
+      backgroundColor: "#c4ff8b", // Light green
     },
     {
       icon: <MdTour />,
       count: tours?.length,
       text: "উদ্বুদ্ধকরণ ভ্রমণ",
-      backgroundColor: "#c4ff8b80",
+      backgroundColor: "#ffdbdb", // Light red
     },
     {
-      icon: <GoNote />,
-      count: notes?.length - completedNotes,
-      text: "অসম্পন্ন নোটস",
-      backgroundColor: "#a9cded59",
+      icon: <MdAgriculture />,
+      count: distributions?.length,
+      text: "উপকরণ বিতরণ",
+      backgroundColor: "#fde2a8", // Light orange
     },
     {
       icon: <FaUser />,
       count: users?.length - 1,
       text: "ইউজার",
-      backgroundColor: "#dcfce7",
+      backgroundColor: "#e2f6ff", // Light cyan
     },
-
-
-    // Add more cards as needed
   ];
+
+
   const data5 = [
     {
       name: 'Page A',
