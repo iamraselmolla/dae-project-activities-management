@@ -16,7 +16,7 @@ const UserDashboard = () => {
     notes,
     userData: { demos, fieldDays, schools, daeMeetins },
   } = useSelector((state) => state.dae);
-  const getRunningFiscalYear = toBengaliNumber(getFiscalYear());
+  const runningFiscalYear = toBengaliNumber(getFiscalYear());
   const completedNotes = notes?.filter((single) => single.completed).length;
   const cards = [
     {
@@ -57,35 +57,20 @@ const UserDashboard = () => {
     },
   ];
 
-  const allRunningYearDemo = demos?.filter(single => single?.demoTime?.fiscalYear === getRunningFiscalYear);
-  const kharip1 = allRunningYearDemo?.filter(single => single?.demoTime?.season === 'খরিপ-১');
-  const kharip2 = allRunningYearDemo?.filter(single => single?.demoTime?.season === 'খরিপ-২');
-  const robi = allRunningYearDemo?.filter(single => single?.demoTime?.season === 'রবি');
-  console.log(allRunningYearDemo)
+  const seasons = ['খরিপ-১', 'খরিপ-২', 'রবি'];
 
+  const data = seasons.map(season => {
+    const seasonDemos = demos?.filter(single => single?.demoTime?.season === season && single?.demoTime?.fiscalYear === runningFiscalYear);
+    const completedCount = seasonDemos?.filter(single => single?.completed).length;
+    const incompleteCount = seasonDemos?.filter(single => !single?.completed).length;
 
-  const data = [
-    {
-      name: 'খরিপ-২',
-      pv: kharip2?.filter(single => !single?.completed).length,
-      uv: kharip2?.filter(single => single?.completed).length,
+    return {
+      name: season,
+      uv: completedCount || 0,
+      pv: incompleteCount || 0,
       amt: 2400,
-    },
-    {
-      name: 'রবি',
-      uv: robi?.filter(single => single?.completed).length,
-      pv: robi?.filter(single => !single?.completed).length,
-      amt: 2210,
-    },
-    {
-      name: 'খরিপ-১',
-      uv: kharip1?.filter(single => single?.completed).length,
-      pv: kharip1?.filter(single => !single?.completed).length,
-      amt: 2400,
-    }
-  ];
-
-  console.log(data)
+    };
+  });
   return (
     <section className="py-5">
       <div className="grid grid-cols-3 gap-5 justify-center items-center">
