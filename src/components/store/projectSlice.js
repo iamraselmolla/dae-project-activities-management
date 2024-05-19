@@ -17,6 +17,7 @@ const initialState = {
     fieldDays: [],
     schools: [],
     daeMeetins: [],
+    schools: [],
   },
 };
 
@@ -62,6 +63,9 @@ const daeSlice = createSlice({
     },
     setDistribution: (state, action) => {
       state.distributions = action.payload;
+    },
+    setUserSchools: (state, action) => {
+      state.userData.schools = action.payload;
     },
   },
 });

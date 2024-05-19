@@ -9,6 +9,7 @@ import {
   getAllUser,
   getUserAllFieldDay,
   getUserAllGroupMeeting,
+  getUserAllSchools,
   getUserDemos,
 } from "../../../services/userServices";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,6 +58,12 @@ const DashboardLayout = () => {
           if (meetingResult?.status === 200) {
             dispatch(daeAction.setDaeMeeting(meetingResult?.data?.data));
           }
+
+          // School
+          const schoolResults = await getUserAllSchools();
+          if (schoolResults.status === 200) {
+            dispatch(daeAction.setUserSchools(schoolResults?.data?.data));
+          }
         } catch (err) {
           toast.error("তথ্য সেকশন-২ সার্ভার থেকে আনতে অসুবিধা হচ্ছে।");
         }
@@ -73,10 +80,9 @@ const DashboardLayout = () => {
             dispatch(daeAction.setAllUsers(userResult?.data?.data));
           }
 
-
           const distributionResult = await getAllDistributions();
           if (distributionResult?.status === 200) {
-            dispatch(daeAction.setDistribution(distributionResult?.data?.data))
+            dispatch(daeAction.setDistribution(distributionResult?.data?.data));
           }
 
           // All Trainings
