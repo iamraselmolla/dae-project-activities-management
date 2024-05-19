@@ -17,7 +17,6 @@ const initialState = {
     fieldDays: [],
     schools: [],
     daeMeetins: [],
-    schools: [],
   },
 };
 
