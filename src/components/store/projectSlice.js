@@ -14,7 +14,14 @@ const initialState = {
   refetch: 0,
   endFetch: false,
   blockAndUnions: [],
-  distributions: []
+  distributions: [],
+  setUserData: {
+    demos: [],
+    fieldDays: [],
+    schools: [],
+    daeMeetins: [],
+    notes: [],
+  },
 };
 
 const daeSlice = createSlice({
@@ -55,11 +62,11 @@ const daeSlice = createSlice({
       state.tours = action.payload;
     },
     setBlokAndUnion: (state, action) => {
-      state.blockAndUnions = action.payload
+      state.blockAndUnions = action.payload;
     },
     setDistribution: (state, action) => {
       state.distributions = action.payload;
-    }
+    },
   },
 });
 
