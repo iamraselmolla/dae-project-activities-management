@@ -159,49 +159,21 @@ const AdminDashboard = () => {
   return (
     <section className="py-5">
       <div className="grid grid-cols-3 gap-5 justify-center items-center">
-        <div className="grid bg-white p-4 col-span-2 rounded-xl grid-cols-3 gap-3">
+        <div className="grid bg-white p-4 col-span-2 rounded-xl grid-cols-2 gap-3">
           {cards.map((card, index) => (
             <DashboardCard key={index} {...card} />
           ))}
         </div>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            width={500}
-            height={300}
-            data={data5}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-            barSize={20}
-          >
-            <XAxis
-              dataKey="name"
-              scale="point"
-              padding={{ left: 10, right: 10 }}
-            />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Bar dataKey="pv" fill="#8884d8" background={{ fill: "#eee" }} />
-          </BarChart>
-        </ResponsiveContainer>
+
       </div>
       <div className="h-80 mt-8">
-        <ResponsiveContainer
-          className={"bg-white p-3 rounded-xl"}
-          width="100%"
-          height="100%"
-        >
+        <ResponsiveContainer width="100%" height="100%">
           <BarChart
             width={500}
             height={300}
             data={data}
             margin={{
-              top: 5,
+              top: 20,
               right: 30,
               left: 20,
               bottom: 5,
@@ -212,16 +184,8 @@ const AdminDashboard = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar
-              dataKey="uv"
-              fill="#ede18b"
-              activeBar={<Rectangle fill="pink" stroke="blue" />}
-            />
-            <Bar
-              dataKey="pv"
-              fill="#69d586"
-              activeBar={<Rectangle fill="gold" stroke="purple" />}
-            />
+            <Bar dataKey="pv" stackId="a" fill="#8884d8" />
+            <Bar dataKey="uv" stackId="a" fill="#00ca92" />
           </BarChart>
         </ResponsiveContainer>
       </div>

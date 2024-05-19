@@ -577,7 +577,7 @@ const AddNotes = () => {
                 type="submit"
                 className="btn mt-5 w-full font-extrabold text-white btn-success"
               >
-                কৃষক গ্রুপ সভার তথ্য যুক্ত করুন
+                নোট যুক্ত করুন
               </button>
             )}
           </Form>
