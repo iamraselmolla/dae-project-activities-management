@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { MdOutlineDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
-import { AuthContext } from "../../../../AuthContext/AuthProvider";
-import { deleteAFieldDay, getUserAllFieldDay } from "../../../../../services/userServices";
+import { deleteAFieldDay } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
 import FieldDayTD from "./FieldDayTD";
 import { toBengaliNumber } from "bengali-number";
