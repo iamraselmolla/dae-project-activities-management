@@ -24,6 +24,7 @@ import { AiOutlineFileDone } from "react-icons/ai";
 import DashboardCard from "../../../shared/DashboardCard";
 import getFiscalYear from '../../../shared/commonDataStores';
 import { toBengaliNumber } from 'bengali-number';
+import { seasonsArr } from '../../../shared/MessageConst';
 
 const UserDashboard = () => {
   const {
@@ -70,53 +71,9 @@ const UserDashboard = () => {
       backgroundColor: "#c4ff8b", // Light green
     },
   ];
-  const data2 = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
-  const seasons = ['খরিপ-২', 'রবি', 'খরিপ-১',];
 
-  const data = seasons.map(season => {
+
+  const data = seasonsArr.map(season => {
     const seasonDemos = demos?.filter(single => single?.demoTime?.season === season && single?.demoTime?.fiscalYear === runningFiscalYear);
     const completedCount = seasonDemos?.filter(single => single?.completed).length;
     const incompleteCount = seasonDemos?.filter(single => !single?.completed).length;
@@ -150,6 +107,7 @@ const UserDashboard = () => {
             <DashboardCard key={index} {...card} />
           ))}
         </div>
+        {/* Running Year Fiscal Year Demos statics */}
         <div className='h-96 py-6  bg-white rounded-lg'>
           <div className='w-full h-full'>
             <ResponsiveContainer width="100%" height="100%">
@@ -178,6 +136,7 @@ const UserDashboard = () => {
           </div>
         </div>
       </div>
+      {/* User All Projects statics */}
       <div className="mt-10 max-h-96 bg-white py-6 rounded-lg">
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart
@@ -198,7 +157,37 @@ const UserDashboard = () => {
             <Tooltip />
             <Area type="monotone" dataKey="pv" stroke="#82ca9d" fill="#82ca9d" />
           </AreaChart>
+          <h2 className='text-md font-semibold text-center'>সকল প্রকল্পের প্রদর্শনীর তথ্য</h2>
         </ResponsiveContainer>
+      </div>
+
+      {/* Demos information Based on Fiscal Year */}
+      <div className='h-96 py-6  bg-white rounded-lg'>
+        <div className='w-full h-full'>
+          <ResponsiveContainer width="100%" height="100%">
+            <h2 className='text-md font-semibold text-center'>{toBengaliNumber(getFiscalYear())} অর্থবছরের প্রদর্শনী (প্রাথমিক ও চূড়ান্ত)</h2>
+            <BarChart
+              width={500}
+              height={300}
+              data={data}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="completed" stackId="a" fill="#00ca92" />
+              <Bar dataKey="incomplete" stackId="a" fill="#8884d8" />
+
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </section>
   );
