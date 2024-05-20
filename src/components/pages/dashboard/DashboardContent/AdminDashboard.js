@@ -184,7 +184,7 @@ const AdminDashboard = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="pv" stackId="a" fill="#8884d8" />
+            <Bar label={{ position: 'top', content: ({ value }) => `${value} Custom Label` }} dataKey="pv" stackId="a" fill="#8884d8" />
             <Bar dataKey="uv" stackId="a" fill="#00ca92" />
           </BarChart>
         </ResponsiveContainer>
