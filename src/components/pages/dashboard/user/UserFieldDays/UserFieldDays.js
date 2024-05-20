@@ -13,7 +13,7 @@ import AddModuleButton from "../../../../shared/AddModuleButton";
 import { useSelector } from "react-redux";
 
 const UserFieldDays = () => {
-  const { fieldDays: allFieldDays } = useSelector(state => state.dae)
+  const { userData: { fieldDays: allFieldDays } } = useSelector(state => state.dae)
 
   const handleFieldDayDelete = async (fieldDayData) => {
     if (window.confirm(`আপনি কি ${fieldDayData?.projectInfo?.short} প্রকল্পের ${fieldDayData?.subject} বিষয়ক ${toBengaliNumber(new Date(fieldDayData?.date).toLocaleDateString())} তারিখের মাঠ দিবসের তথ্যটি মুছে ফেলতে চান?`)) {

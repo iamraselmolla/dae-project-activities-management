@@ -181,7 +181,7 @@ const UserDashboard = () => {
 
       {/* Demos information Based on Fiscal Year */}
       <div className="grid grid-cols-2 mt-10 rounded-lg gap-5 justify-center items-center">
-        <div className='h-96 py-6  bg-white rounded-lg'>
+        <div className=' py-6  bg-white rounded-lg'>
           <div className='w-full h-full'>
             <ResponsiveContainer width="100%" height={200}>
               <LineChart
@@ -201,6 +201,7 @@ const UserDashboard = () => {
                 <Tooltip />
                 <Line connectNulls type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
               </LineChart>
+              <h2 className='text-md font-semibold text-center'>অর্থবছর অনুযায়ী প্রদর্শনীর তথ্য</h2>
             </ResponsiveContainer>
           </div>
         </div>
