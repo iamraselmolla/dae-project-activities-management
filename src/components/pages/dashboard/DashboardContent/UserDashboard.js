@@ -94,11 +94,28 @@ const UserDashboard = () => {
     const projectDemos = demos?.filter(singleDemo => singleDemo?.projectInfo?.short === single).length;
     return {
       name: single,
-      // uv: projectDemos  || 0,
+      uv: projectDemos || 0,
       pv: projectDemos || 0,
       amt: 2400,
     };
   })
+
+  // All demos based on every fiscal Year
+  const allFiscalYearSetMap = new Set();
+  demos?.forEach(single => {
+    allFiscalYearSetMap.add(single?.demoTime?.fiscalYear);
+  });
+  const fiscalYearArrMap = Array.from(allFiscalYearSetMap);
+  const fiscalYearData = fiscalYearArrMap?.map(single => {
+    const fiscalYearDemos = demos?.filter(singleDemo => singleDemo?.demoTime?.fiscalYear === single).length;
+    return {
+      name: single,
+      uv: fiscalYearDemos || 0,
+      pv: fiscalYearDemos || 0,
+      amt: 2400,
+    };
+  })
+  const demosBasedOnFiscalYear = demos?.filter(single => single?.demoTime?.fiscalYear === runningFiscalYear);
   return (
     <section className="py-5">
       <div className="grid grid-cols-3 gap-5 justify-center items-center">
@@ -138,6 +155,7 @@ const UserDashboard = () => {
       </div>
       {/* User All Projects statics */}
       <div className="mt-10 max-h-96 bg-white py-6 rounded-lg">
+        <h2 className='text-md font-semibold text-center'>সকল প্রকল্পের প্রদর্শনীর তথ্য</h2>
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart
             width={500}
@@ -157,36 +175,34 @@ const UserDashboard = () => {
             <Tooltip />
             <Area type="monotone" dataKey="pv" stroke="#82ca9d" fill="#82ca9d" />
           </AreaChart>
-          <h2 className='text-md font-semibold text-center'>সকল প্রকল্পের প্রদর্শনীর তথ্য</h2>
+
         </ResponsiveContainer>
       </div>
 
       {/* Demos information Based on Fiscal Year */}
-      <div className='h-96 py-6  bg-white rounded-lg'>
-        <div className='w-full h-full'>
-          <ResponsiveContainer width="100%" height="100%">
-            <h2 className='text-md font-semibold text-center'>{toBengaliNumber(getFiscalYear())} অর্থবছরের প্রদর্শনী (প্রাথমিক ও চূড়ান্ত)</h2>
-            <BarChart
-              width={500}
-              height={300}
-              data={data}
-              margin={{
-                top: 20,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="completed" stackId="a" fill="#00ca92" />
-              <Bar dataKey="incomplete" stackId="a" fill="#8884d8" />
-
-            </BarChart>
-          </ResponsiveContainer>
+      <div className="grid grid-cols-2 mt-10 rounded-lg gap-5 justify-center items-center">
+        <div className='h-96 py-6  bg-white rounded-lg'>
+          <div className='w-full h-full'>
+            <ResponsiveContainer width="100%" height={200}>
+              <LineChart
+                width={500}
+                height={200}
+                data={fiscalYearData}
+                margin={{
+                  top: 10,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Line connectNulls type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </section>
