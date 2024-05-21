@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { makeSureOnline } from "../../../../shared/MessageConst";
-import {
-  deleteGroupInfoById
-} from "../../../../../services/userServices";
+import { deleteGroupInfoById } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
 import UserSingleGroupTable from "./UserSingleGroupTable";
 import NoContentFound from "../../../../shared/NoContentFound";
@@ -10,8 +8,9 @@ import AddModuleButton from "../../../../shared/AddModuleButton";
 import { useSelector } from "react-redux";
 
 const UserDaeMeetings = () => {
-  const { daeMeetings: allGroupsMeeting } = useSelector(state => state.dae)
-
+  const {
+    userData: { daeMeetings: allGroupsMeeting },
+  } = useSelector((state) => state.dae);
 
   const handleGroupDeleting = (id) => {
     if (!id) return;
@@ -40,7 +39,10 @@ const UserDaeMeetings = () => {
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
-          <AddModuleButton link={"add-dae-group-meeting"} btnText={'কৃষক গ্রুপ সভা যুক্ত করুন'} />
+          <AddModuleButton
+            link={"add-dae-group-meeting"}
+            btnText={"কৃষক গ্রুপ সভা যুক্ত করুন"}
+          />
           <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead>
@@ -102,8 +104,7 @@ const UserDaeMeetings = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {
-                  allGroupsMeeting?.length > 0 &&
+                {allGroupsMeeting?.length > 0 &&
                   allGroupsMeeting?.map((singleGroup, index) => (
                     <UserSingleGroupTable
                       key={singleGroup?._id}
@@ -112,11 +113,12 @@ const UserDaeMeetings = () => {
                       index={index}
                     />
                   ))}
-
               </tbody>
             </table>
             {allGroupsMeeting?.length < 1 && (
-              <NoContentFound text={' কোনো ডিএই কৃষক গ্রুপ সভা খুজে পাওয়া যায়নি!'} />
+              <NoContentFound
+                text={" কোনো ডিএই কৃষক গ্রুপ সভা খুজে পাওয়া যায়নি!"}
+              />
             )}
           </div>
         </div>

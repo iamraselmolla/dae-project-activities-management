@@ -167,7 +167,7 @@ const AddNotes = () => {
   };
 
   return (
-    <div className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8 py-8" >
+    <div className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8 py-8">
       <SectionTitle title={"নোট যুক্ত করুন"} />
       <Formik
         initialValues={initialValues}
@@ -318,7 +318,7 @@ const AddNotes = () => {
                   <option value="কৃষি পরামর্শ প্রদান">
                     কৃষি পরামর্শ প্রদান
                   </option>
-                  <option value="মালামাল বিতরণ">্মালামাল বিতরণ</option>
+                  <option value="উপকরণ বিতরণ">উপকরণ বিতরণ</option>
                 </Field>
                 <ErrorMessage
                   name="purpose.target"
@@ -577,7 +577,7 @@ const AddNotes = () => {
                 type="submit"
                 className="btn mt-5 w-full font-extrabold text-white btn-success"
               >
-                কৃষক গ্রুপ সভার তথ্য যুক্ত করুন
+                নোট যুক্ত করুন
               </button>
             )}
           </Form>
@@ -591,7 +591,7 @@ const AddNotes = () => {
           </h2>
         </div>
       )}
-    </div >
+    </div>
   );
 };
 

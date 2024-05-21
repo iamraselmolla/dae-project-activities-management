@@ -11,11 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../../../../store/projectSlice";
 
 const UserDemos = () => {
-  const {
-    demos: userDemos,
-    modalData,
-    endFetch,
-  } = useSelector((state) => state.dae);
+  const { userData, modalData, endFetch } = useSelector((state) => state.dae);
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => {
@@ -62,8 +58,8 @@ const UserDemos = () => {
     }
   };
 
-  const completedDemos = userDemos?.filter((demo) => demo?.completed);
-  const incompleteDemos = userDemos?.filter((demo) => !demo?.completed);
+  const completedDemos = userData?.demos?.filter((demo) => demo?.completed);
+  const incompleteDemos = userData?.demos?.filter((demo) => !demo?.completed);
   return (
     <>
       <div className="flex py-10 flex-col">

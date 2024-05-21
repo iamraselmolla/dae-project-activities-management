@@ -4,6 +4,7 @@ import AddModuleButton from "../../../../shared/AddModuleButton";
 import SectionTitle from "../../../../shared/SectionTitle";
 import NoContentFound from "../../../../shared/NoContentFound";
 import MotivationalTourTableRow from "./MotivationalTourTableRow";
+import TableHead from "../../../../shared/TableHead";
 
 function AllMotivationalTours() {
   const { tours } = useSelector((state) => state.dae);
@@ -13,7 +14,7 @@ function AllMotivationalTours() {
       <div className="mt-4 overflow-x-scroll">
         <div className="p-1.5 min-w-full inline-block align-middle">
           <AddModuleButton
-            link={"addTour"}
+            link={"add-motivational-tour"}
             btnText={"মোটিভেশনাল ট্যুর যুক্ত করুন"}
           />
           <div>
@@ -23,33 +24,15 @@ function AllMotivationalTours() {
                 <table className="min-w-full bg-white divide-y divide-gray-200 dark:divide-gray-700">
                   <thead>
                     <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
-                      <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
-                        ক্র: নং:
-                      </th>
-                      <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
-                        প্রকল্প
-                      </th>
-                      <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
-                        স্থান
-                      </th>
-                      <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
-                        তারিখ
-                      </th>
-                      <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
-                        কৃষকের সংখ্যা
-                      </th>
-                      <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
-                        অফিসার
-                      </th>
-                      <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
-                        মন্তব্য
-                      </th>
-                      <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
-                        ছবিসমূহ
-                      </th>
-                      <th className="py-4 font-extrabold px-2 text-black text-center uppercase">
-                        একশন
-                      </th>
+                      <TableHead text={'ক্র: নং:'} />
+                      <TableHead text={'প্রকল্প'} />
+                      <TableHead text={'অর্থবছর ও মৌসুম'} />
+                      <TableHead text={'স্থান'} />
+                      <TableHead text={'তারিখ'} />
+                      <TableHead text={'কৃষকের সংখ্যা'} />
+                      <TableHead text={'মন্তব্য'} />
+                      <TableHead text={'ছবিসমূহ'} />
+                      <TableHead text={'একশন'} />
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">

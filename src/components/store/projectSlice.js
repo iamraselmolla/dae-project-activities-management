@@ -6,13 +6,18 @@ const initialState = {
   projects: [],
   trainings: [],
   notes: [],
-  demos: [],
-  fieldDays: [],
-  daeMeetings: [],
   modalData: null,
   tours: [],
   refetch: 0,
   endFetch: false,
+  blockAndUnions: [],
+  distributions: [],
+  userData: {
+    demos: [],
+    fieldDays: [],
+    schools: [],
+    daeMeetins: [],
+  },
 };
 
 const daeSlice = createSlice({
@@ -32,13 +37,13 @@ const daeSlice = createSlice({
       state.notes = action.payload;
     },
     setUserDemos: (state, action) => {
-      state.demos = action.payload;
+      state.userData.demos = action.payload;
     },
     setUserFieldDays: (state, action) => {
-      state.fieldDays = action.payload;
+      state.userData.fieldDays = action.payload;
     },
     setDaeMeeting: (state, action) => {
-      state.daeMeetings = action.payload;
+      state.userData.daeMeetings = action.payload;
     },
     setModalData: (state, action) => {
       state.modalData = action.payload;
@@ -51,6 +56,15 @@ const daeSlice = createSlice({
     },
     setAllMotivationTours: (state, action) => {
       state.tours = action.payload;
+    },
+    setBlokAndUnion: (state, action) => {
+      state.blockAndUnions = action.payload;
+    },
+    setDistribution: (state, action) => {
+      state.distributions = action.payload;
+    },
+    setUserSchools: (state, action) => {
+      state.userData.schools = action.payload;
     },
   },
 });

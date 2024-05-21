@@ -1,20 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { MdExposurePlus1 } from "react-icons/md";
 
-const AddModuleButton = ({ link, btnText }) => {
+const AddModuleButton = ({ link }) => {
     return (
-        <div className="text-right font-extrabold">
+        <div className="text-right text-green-700 hover:text-white  w-12 hover:bg-green-500  h-12 flex justify-center items-center border-4 border-green-700 rounded fixed-button">
             <Link to={`/${link}`}>
-                <button className="btn btn-outline btn-accent mb-5 border-2 px-5 py-22">
-                    <div className="flex justify-center items-center gap-2 text-lg">
-                        <span className="relative flex h-8 w-8">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-8 w-8 bg-sky-500"></span>
-                        </span>
-                        <div>{btnText}</div>
-                    </div>
-                </button>
-            </Link >
+                <div className="pulse">
+                    <MdExposurePlus1 size={30} />
+                </div>
+            </Link>
         </div>
     );
 };

@@ -4,7 +4,6 @@ import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
-import formatDateToday from "../../../../utilis/formatDate";
 import { Link } from "react-router-dom";
 
 const UserSingleDemoTableRow = ({
@@ -75,10 +74,26 @@ const UserSingleDemoTableRow = ({
           {numbersInfo?.agriCard}, {numbersInfo?.BID}
         </td>
         <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
-          রোপণঃ {formatDateToday(demoDate?.bopon)} <br />
-          বপণঃ {formatDateToday(demoDate?.ropon)} <br />
-          কর্তনঃ {formatDateToday(demoDate?.korton?.startDate)} - <br />
-          {formatDateToday(demoDate?.korton?.endDate)}
+          রোপণঃ {new Date(demoDate?.bopon).toLocaleString('bn-BD', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+          })} <br />
+          বপণঃ {new Date(demoDate?.ropon).toLocaleString('bn-BD', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+          })} <br />
+          কর্তনঃ {new Date(demoDate?.korton?.startDate).toLocaleString('bn-BD', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+          })} - <br />
+          {new Date(demoDate?.korton?.endDate).toLocaleString('bn-BD', {
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+          })}
         </td>
         <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
           ফলন/হেঃ {toBengaliNumber(production?.productionPerHector)} <br />

@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { MdOutlineDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
-import { AuthContext } from "../../../../AuthContext/AuthProvider";
-import { deleteAFieldDay, getUserAllFieldDay } from "../../../../../services/userServices";
+import { deleteAFieldDay } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
 import FieldDayTD from "./FieldDayTD";
 import { toBengaliNumber } from "bengali-number";
@@ -13,7 +12,7 @@ import AddModuleButton from "../../../../shared/AddModuleButton";
 import { useSelector } from "react-redux";
 
 const UserFieldDays = () => {
-  const { fieldDays: allFieldDays } = useSelector(state => state.dae)
+  const { userData: { fieldDays: allFieldDays } } = useSelector(state => state.dae)
 
   const handleFieldDayDelete = async (fieldDayData) => {
     if (window.confirm(`আপনি কি ${fieldDayData?.projectInfo?.short} প্রকল্পের ${fieldDayData?.subject} বিষয়ক ${toBengaliNumber(new Date(fieldDayData?.date).toLocaleDateString())} তারিখের মাঠ দিবসের তথ্যটি মুছে ফেলতে চান?`)) {

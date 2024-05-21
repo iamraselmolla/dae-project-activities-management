@@ -34,9 +34,8 @@ const SingleTraining = ({ data }) => {
 
   return (
     <div
-      className={`rounded-lg border ${
-        role === "admin" ? "pb-12" : ""
-      } relative shadow-xl`}
+      className={`rounded-lg border ${role === "admin" ? "pb-12" : ""
+        } relative shadow-xl`}
     >
       <div className="relative">
         <ImageGallery autoPlay={true} items={imagesArr} />
@@ -49,7 +48,8 @@ const SingleTraining = ({ data }) => {
           <p className="px-2 py-1 flex gap-2 items-center bg-black text-white rounded-l-md ">
             <BsCalendarDate />
             <div>
-              {toBengaliNumber(new Date(date?.startDate).toLocaleDateString())}
+              {toBengaliNumber(new Date(date?.startDate).toLocaleDateString('bn-BD')
+              )}
             </div>
           </p>
         </div>

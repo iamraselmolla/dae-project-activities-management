@@ -29,6 +29,10 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import MotivationalTour from "./components/pages/MotivationalTour/MotivationalTour";
 import AddMotivationalTour from "./components/pages/MotivationalTour/AddMotivationalTour";
 import AllMotivationalTours from "./components/pages/dashboard/admin/motivational-tours/AllMotivationalTours";
+import AllDistribution from "./components/pages/dashboard/admin/allIdstribution/AllDistribution";
+import AddSchool from "./components/pages/school/AddSchool";
+import AllSchools from "./components/pages/school/AllSchools";
+import UserSchools from "./components/pages/dashboard/user/school/UserSchools";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -70,6 +74,18 @@ const router = createBrowserRouter([
             <AddDistribution></AddDistribution>
           </AdminRoute>
         ),
+      },
+      {
+        path: "/add-school",
+        element: (
+          // <UserRoute>
+          <AddSchool />
+          // </UserRoute>
+        ),
+      },
+      {
+        path: "/all-schools",
+        element: <AllSchools />,
       },
       {
         path: "/addDemo",
@@ -209,6 +225,22 @@ const router = createBrowserRouter([
               <AdminRoute>
                 <AllMotivationalTours />
               </AdminRoute>
+            ),
+          },
+          {
+            path: "/dashboard/all-distributions",
+            element: (
+              <AdminRoute>
+                <AllDistribution />
+              </AdminRoute>
+            ),
+          },
+          {
+            path: "/dashboard/user-schools",
+            element: (
+              <UserRoute>
+                <UserSchools />
+              </UserRoute>
             ),
           },
           {
