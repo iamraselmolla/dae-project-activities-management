@@ -68,6 +68,32 @@ function MotivationalTour() {
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
   }
+
+  // Make and call function to change searching result according each searching key change
+  useEffect(() => {
+    // Filter data whenever the search input changes
+    const filtered = allTours.filter((item) => {
+      // Check if any field matches the search input
+      for (const key in item) {
+        if (typeof item[key] === "string" && item[key].includes(search)) {
+          return true;
+        }
+        if (typeof item[key] === "object") {
+          for (const subKey in item[key]) {
+            if (
+              typeof item[key][subKey] === "string" &&
+              item[key][subKey].includes(search)
+            ) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    });
+    setFilteredTours(filtered); // Update filtered data
+  }, [search]);
+
   return (
     <>
       <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
