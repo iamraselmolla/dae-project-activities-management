@@ -1,24 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
-import SingleDemo from "./SingleDemo";
-import { Link } from "react-router-dom";
+import SingleSchool from "./SingleSchool";
 import { makeSureOnline } from "../../shared/MessageConst";
 import toast from "react-hot-toast";
-import { getAllDemos } from "../../../services/userServices";
 import Loader from "../../shared/Loader";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import AddModuleButton from "../../shared/AddModuleButton";
 import NoContentFound from "../../shared/NoContentFound";
+import SectionTitle from "../../shared/SectionTitle";
+import { getAllSchools } from "../../../services/userServices";
+import { useSelector } from "react-redux";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
-import { SiMicrosoftexcel } from "react-icons/si";
-import SectionTitle from "../../shared/SectionTitle";
-import { useSelector } from "react-redux";
 
-const Demo = () => {
+const AllSchools = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
-  const [demos, setDemos] = useState([]);
+  const [schools, setSchools] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fetchEnd, setFetchEnd] = useState(false);
   const { user } = useContext(AuthContext);
@@ -30,81 +26,74 @@ const Demo = () => {
   const [unionName, setUnionName] = useState("");
   const [blockName, setBlockName] = useState("");
   const [search, setSearch] = useState("");
-  const [filteredProjects, setFilteredProjects] = useState(demos);
+  const [filteredProjects, setFilteredProjects] = useState(schools);
   const [blocksOfUnion, setBlocksOfUnion] = useState([]);
 
   useEffect(() => {
-    const checkUnion = [];
-    blockAndUnions?.map((single) =>
-      checkUnion.includes(single?.unionB) ? "" : checkUnion.push(single?.unionB)
-    );
-    setAllUnion(checkUnion);
-  }, [blockAndUnions]);
-
-  useEffect(() => {
-    const fetchAllDemos = async () => {
+    const fetchAllSchools = async () => {
       setLoading(true);
       try {
-        const result = await getAllDemos();
+        const result = await getAllSchools();
         if (result?.status === 200) {
-          setDemos(result.data?.data);
+          setSchools(result.data?.data);
           setFilteredProjects(result.data?.data);
           setLoading(false);
           setFetchEnd(true);
         }
       } catch (err) {
         toast.error(
-          "প্রদর্শনীর তথ্য ডাটাবেজ থেকে আনতে সমস্যা হয়েছে। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
+          "তথ্য ডাটাবেজ থেকে আনতে সমস্যা হয়েছে। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
         );
         setLoading(false);
         setFetchEnd(true);
       }
     };
     if (navigator.onLine) {
-      fetchAllDemos();
+      fetchAllSchools();
     } else {
       makeSureOnline();
     }
   }, []);
 
-  // make the function to search accordingly selected filed's each changes
+
+
+
   const filterProjects = () => {
-    let filtered = demos;
+    let filtered = schools;
 
     if (selectedProject !== "") {
       filtered = filtered.filter((project) =>
-        project.projectInfo.full.includes(selectedProject)
+        project.projectInfo.details.includes(selectedProject)
       );
     }
 
     if (fiscalYear !== "") {
       filtered = filtered.filter((project) =>
-        project.demoTime.fiscalYear.includes(fiscalYear)
+        project.time.fiscalYear.includes(fiscalYear)
       );
     }
 
     if (season !== "") {
       filtered = filtered.filter((project) =>
-        project.demoTime.season.includes(season)
+        project.time.season.includes(season)
       );
     }
 
     if (unionName !== "") {
       filtered = filtered.filter((project) =>
-        project.address.union.includes(unionName)
+        project.location.union.includes(unionName)
       );
     }
 
     if (blockName !== "") {
       filtered = filtered.filter((project) =>
-        project.address.block.includes(blockName)
+        project.location.block.includes(blockName)
       );
     }
 
     return filtered; // Return the filtered projects
   };
 
-  // Call filterProjects inside the useEffect hook to update filteredProjects state
   useEffect(() => {
     const filtered = filterProjects();
     setFilteredProjects(filtered);
@@ -114,10 +103,11 @@ const Demo = () => {
     setSelectedProject(e.target.value);
   };
 
-  // make the function to search accordingly all filed and call the function in each change
+
+  // make the function to search accordingly all field and call the function in each change
   useEffect(() => {
     // Filter data whenever the search input changes
-    const filtered = demos.filter((item) => {
+    const filtered = schools.filter((item) => {
       // Check if any field matches the search input
       for (const key in item) {
         if (typeof item[key] === "string" && item[key].includes(search)) {
@@ -139,6 +129,14 @@ const Demo = () => {
     setFilteredProjects(filtered); // Update filtered data
   }, [search]);
 
+  useEffect(() => {
+    const checkUnion = [];
+    blockAndUnions?.map((single) =>
+      checkUnion.includes(single?.unionB) ? "" : checkUnion.push(single?.unionB)
+    );
+    setAllUnion(checkUnion);
+  }, [blockAndUnions]);
+
   const handleUnionAndBlockSelection = (e) => {
     const selectedUnion = e.target.value;
     setUnionName(selectedUnion);
@@ -153,80 +151,12 @@ const Demo = () => {
     setBlocksOfUnion(blocks);
   };
 
-  // Function to export filtered data to Excel
-  const handleToExportInToExcel = () => {
-    const data = filteredProjects.map((project) => {
-      return [
-        project.projectInfo.full,
-        project.projectInfo.short,
-        project.demoTime.fiscalYear,
-        project.demoTime.season,
-        project.farmersInfo.name,
-        project.farmersInfo.fatherOrHusbandName,
-        project.numbersInfo.NID,
-        project.numbersInfo.BID,
-        project.numbersInfo.mobile,
-        project.address.village,
-        project.address.block,
-        project.address.union,
-        project.demoDate.bopon,
-        project.demoDate.ropon,
-        (project.demoDate.korton.startDate ? (project.demoDate.korton.startDate + ' - ' + project.demoDate.korton.endDate) : 'এখনো কর্তন হয়নি।'),
-        project.demoInfo.tech,
-        project.demoInfo.crop,
-        project.demoInfo.variety,
-        project.production.productionPerHector,
-        project.production.totalProduction,
-        project.production.sidePlotProduction,
-        (project?.SAAO?.name + ' - ' + project?.SAAO?.mobile)
-      ];
-    });
 
-    const worksheet = XLSX.utils.aoa_to_sheet([
-      [
-        "প্রকল্পের পুরো নাম",
-        "প্রকল্পের সংক্ষেপ",
-        "অর্থবছর",
-        "মৌসুম",
-        "কৃষক/কৃষাণীর নাম",
-        "পিতা/স্বামীর নাম",
-        "জাতীয় পরিচয়পত্র নং",
-        "BID",
-        "মোবাইল নং",
-        "গ্রাম",
-        "ব্লক",
-        "ইউনিয়ন",
-        "বপণ",
-        "রোপণ",
-        "কর্তন",
-        "প্রযুক্তি",
-        "ফসল",
-        "জাত",
-        "ফলন (মেঃটন/হেঃ)",
-        "প্রদর্শনীতে ফলন",
-        "কন্ট্রোল প্লটে ফলন (মেঃটন/হেঃ)",
-        "উপসহকারী কৃষি কর্মকর্তার নাম ও মোবাইল নং"
-      ],
-      ...data,
-    ]);
-
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Filtered Projects");
-    const excelBuffer = XLSX.write(workbook, {
-      bookType: "xlsx",
-      type: "array",
-    });
-    const dataBlob = new Blob([excelBuffer], {
-      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    });
-    saveAs(dataBlob, `projects.xlsx`);
-  };
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold col-span-1">
-
-        <SectionTitle title={"সকল প্রদর্শনী"} />
+        <AddModuleButton link={"add-school"} btnText={"স্কুল যুক্ত করুন"} />
       </div>
       {user && (
         <div className="flex py-6 flex-wrap justify-between items-center gap-3">
@@ -317,28 +247,18 @@ const Demo = () => {
               placeholder="অনুসন্ধান লিখুন"
             />
           </div>
-          <div>
-            <SiMicrosoftexcel
-              color="green"
-              size={50}
-              cursor={"pointer"}
-              onClick={handleToExportInToExcel}
-            />
-          </div>
         </div>
       )}
 
-
+      <SectionTitle title={"সকল স্কুল"} />
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
         {!loading &&
           fetchEnd &&
           filteredProjects?.length > 0 &&
-          filteredProjects?.map((demo) => (
-            <SingleDemo key={demo?._id} data={demo} />
-          ))}
+          filteredProjects?.map((school) => (<SingleSchool key={school?._id} data={school} />))}
       </div>
       {!loading && fetchEnd && filteredProjects?.length < 1 && (
-        <NoContentFound text={"কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!"} />
+        <NoContentFound text={"কোনো স্কুলের তথ্য পাওয়া যায়নি!"} />
       )}
       {!fetchEnd && loading && (
         <div className="py-20">
@@ -350,9 +270,8 @@ const Demo = () => {
           </div>
         </div>
       )}
-      <AddModuleButton link={"addDemo"} btnText={"প্রদর্শনী যুক্ত করুন"} />
     </section>
   );
 };
 
-export default Demo;
+export default AllSchools;

@@ -13,8 +13,7 @@ const Header = () => {
     localStorage.removeItem("CurrentUserToken");
     setUser(null);
     setShowMenu(false);
-    setRole(null)
-
+    setRole(null);
   };
 
   return (
@@ -50,12 +49,16 @@ const Header = () => {
               <HeaderMenuItem link="demos" text="প্রদর্শনী" />
               <HeaderMenuItem link="trainings" text="প্রশিক্ষণ" />
               <HeaderMenuItem link="fielddays" text="মাঠদিবস" />
-              <HeaderMenuItem link="distributions" text="মালামাল বিতরণ" />
+              <HeaderMenuItem link="distributions" text="উপকরণ বিতরণ" />
               <HeaderMenuItem
                 link="dae-group-meeting"
                 text="ডিএই কৃষক গ্রুপ সভা"
               />
-              <HeaderMenuItem link="dashboard/user-notes" text="সকল নোটস" />
+              <HeaderMenuItem
+                link="motivational-tour"
+                text="উদ্বুদ্ধকরণ ভ্রমণ"
+              />
+              <HeaderMenuItem link="all-schools" text="স্কুল" />
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost text-white text-xl">
@@ -67,9 +70,10 @@ const Header = () => {
           <HeaderMenuItem link="demos" text="প্রদর্শনী" />
           <HeaderMenuItem link="trainings" text="প্রশিক্ষণ" />
           <HeaderMenuItem link="fielddays" text="মাঠদিবস" />
-          <HeaderMenuItem link="distributions" text="মালামাল বিতরণ" />
+          <HeaderMenuItem link="distributions" text="উপকরণ বিতরণ" />
           <HeaderMenuItem link="dae-group-meeting" text="ডিএই কৃষক গ্রুপ সভা" />
-          <HeaderMenuItem link="dashboard/user-notes" text="সকল নোটস" />
+          <HeaderMenuItem link="motivational-tour" text="উদ্বুদ্ধকরণ ভ্রমণ" />
+          <HeaderMenuItem link="all-schools" text="স্কুল" />
         </div>
         <div className="navbar-end">
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">

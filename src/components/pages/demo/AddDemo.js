@@ -8,7 +8,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import {
   createDemo,
   editDemobyId,
-  findDemoById
+  findDemoById,
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import getFiscalYear from "../../shared/commonDataStores";
@@ -29,9 +29,7 @@ const AddDemo = () => {
   const [selectedProject, setSelectedProject] = useState({});
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const { projects: allProject
-  } = useSelector(state => state.dae)
-
+  const { projects: allProject } = useSelector((state) => state.dae);
 
   // const [fethedImgLink, setimgLink] = useState();
   // const [imageRawLink, setImageRawLink] = useState([]);
@@ -136,7 +134,9 @@ const AddDemo = () => {
     }),
     demoInfo: Yup.object().shape({
       crop: Yup.string().required("প্রদর্শনীর নাম / ফসলের নাম লিখুন"),
-      tech: Yup.string().required("প্রদর্শনীর ধরণ / প্রযুক্তি অবশ্যই সিলেক্ট করতে হবে।"),
+      tech: Yup.string().required(
+        "প্রদর্শনীর ধরণ / প্রযুক্তি অবশ্যই সিলেক্ট করতে হবে।"
+      ),
     }),
     numbersInfo: Yup.object().shape({
       mobile: Yup.string()
@@ -152,7 +152,6 @@ const AddDemo = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
-
       setLoading(true);
       values.demoDate.bopon = datePickers.bopon.startDate;
       values.demoDate.ropon = datePickers.ropon.startDate;
@@ -225,7 +224,6 @@ const AddDemo = () => {
     },
   });
 
-
   useEffect(() => {
     const fetchDemoId = async () => {
       if (!demoId) return;
@@ -234,8 +232,10 @@ const AddDemo = () => {
         const result = await findDemoById(demoId);
         const { data } = result?.data || {};
         if (data?.completed) {
-          toast.error("এই প্রদর্শনীটি ইতিমধ্যে চূড়ান্ত হিসেবে গণ্য করা হয়ে গেছে । এইটা আর এডিট করার অনুমতি নেই।")
-          navigate(from, { replace: true })
+          toast.error(
+            "এই প্রদর্শনীটি ইতিমধ্যে চূড়ান্ত হিসেবে গণ্য করা হয়ে গেছে । এইটা আর এডিট করার অনুমতি নেই।"
+          );
+          navigate(from, { replace: true });
           return;
         }
 

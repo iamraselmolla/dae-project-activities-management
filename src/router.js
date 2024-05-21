@@ -26,6 +26,13 @@ import AddDistribution from "./components/pages/distrubution/AddDistribution";
 import AdminRoute from "./components/PrivateRoute/AdminRoute";
 import UserRoute from "./components/PrivateRoute/UserRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import MotivationalTour from "./components/pages/MotivationalTour/MotivationalTour";
+import AddMotivationalTour from "./components/pages/MotivationalTour/AddMotivationalTour";
+import AllMotivationalTours from "./components/pages/dashboard/admin/motivational-tours/AllMotivationalTours";
+import AllDistribution from "./components/pages/dashboard/admin/allIdstribution/AllDistribution";
+import AddSchool from "./components/pages/school/AddSchool";
+import AllSchools from "./components/pages/school/AllSchools";
+import UserSchools from "./components/pages/dashboard/user/school/UserSchools";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -62,23 +69,55 @@ const router = createBrowserRouter([
       },
       {
         path: "/addDistribution",
-        element: <AdminRoute><AddDistribution></AddDistribution></AdminRoute>,
+        element: (
+          <AdminRoute>
+            <AddDistribution></AddDistribution>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/add-school",
+        element: (
+          // <UserRoute>
+          <AddSchool />
+          // </UserRoute>
+        ),
+      },
+      {
+        path: "/all-schools",
+        element: <AllSchools />,
       },
       {
         path: "/addDemo",
-        element: <UserRoute><AddDemo /></UserRoute>,
+        element: (
+          <UserRoute>
+            <AddDemo />
+          </UserRoute>
+        ),
       },
       {
         path: "/addFieldDay",
-        element: <UserRoute><AddFieldDay /></UserRoute>,
+        element: (
+          <UserRoute>
+            <AddFieldDay />
+          </UserRoute>
+        ),
       },
       {
         path: "/addTraining",
-        element: <AdminRoute><AddTraining /></AdminRoute>,
+        element: (
+          <AdminRoute>
+            <AddTraining />
+          </AdminRoute>
+        ),
       },
       {
         path: "/add-dae-group-meeting",
-        element: <UserRoute><AddGroupMeeting /></UserRoute>,
+        element: (
+          <UserRoute>
+            <AddGroupMeeting />
+          </UserRoute>
+        ),
       },
       {
         path: "/dae-group-meeting",
@@ -86,7 +125,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/addDemo",
-        element: <UserRoute><AddTraining /></UserRoute>,
+        element: (
+          <UserRoute>
+            <AddTraining />
+          </UserRoute>
+        ),
       },
       {
         path: "/login",
@@ -94,7 +137,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/add-note",
-        element: <PrivateRoute><AddNotes /></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <AddNotes />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/motivational-tour",
+        element: <MotivationalTour />,
+      },
+      {
+        path: "/add-motivational-tour",
+        element: <AddMotivationalTour />,
       },
       {
         path: "*",
@@ -102,7 +157,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <DashboardLayout />
+          </PrivateRoute>
+        ),
         children: [
           {
             path: "/dashboard",
@@ -110,15 +169,27 @@ const router = createBrowserRouter([
           },
           {
             path: "/dashboard/all-projects",
-            element: <AdminRoute><AllProjects /></AdminRoute>,
+            element: (
+              <AdminRoute>
+                <AllProjects />
+              </AdminRoute>
+            ),
           },
           {
             path: "/dashboard/all-users",
-            element: <AdminRoute><Allusers /></AdminRoute>,
+            element: (
+              <AdminRoute>
+                <Allusers />
+              </AdminRoute>
+            ),
           },
           {
             path: "/dashboard/addProject",
-            element: <AdminRoute><AddProjects /></AdminRoute>,
+            element: (
+              <AdminRoute>
+                <AddProjects />
+              </AdminRoute>
+            ),
           },
           {
             path: "/dashboard/profile",
@@ -126,15 +197,51 @@ const router = createBrowserRouter([
           },
           {
             path: "/dashboard/user-demos",
-            element: <UserDemos><UserDemos /></UserDemos>,
+            element: (
+              <UserDemos>
+                <UserDemos />
+              </UserDemos>
+            ),
           },
           {
             path: "/dashboard/user-fielddays",
-            element: <UserRoute><UserFieldDays /></UserRoute>,
+            element: (
+              <UserRoute>
+                <UserFieldDays />
+              </UserRoute>
+            ),
           },
           {
             path: "/dashboard/user-dae-meetings",
-            element: <UserRoute><UserDaeMeetings /></UserRoute>,
+            element: (
+              <UserRoute>
+                <UserDaeMeetings />
+              </UserRoute>
+            ),
+          },
+          {
+            path: "/dashboard/motivational-tours",
+            element: (
+              <AdminRoute>
+                <AllMotivationalTours />
+              </AdminRoute>
+            ),
+          },
+          {
+            path: "/dashboard/all-distributions",
+            element: (
+              <AdminRoute>
+                <AllDistribution />
+              </AdminRoute>
+            ),
+          },
+          {
+            path: "/dashboard/user-schools",
+            element: (
+              <UserRoute>
+                <UserSchools />
+              </UserRoute>
+            ),
           },
           {
             path: "/dashboard/user-notes",
@@ -142,7 +249,11 @@ const router = createBrowserRouter([
           },
           {
             path: "/dashboard/trainings",
-            element: <AdminRoute><AdminTrainings /></AdminRoute>,
+            element: (
+              <AdminRoute>
+                <AdminTrainings />
+              </AdminRoute>
+            ),
           },
         ],
       },

@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
 import toast from "react-hot-toast";
-import {
-  deleteAnote
-} from "../../../../../services/userServices";
+import { deleteAnote } from "../../../../../services/userServices";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
 import UserNoteTH from "./UserNoteTH";
@@ -19,11 +17,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../../../../store/projectSlice";
 
 const UserNotes = () => {
-  const { notes: allNotes } = useSelector(state => state.dae)
+  const { notes: allNotes } = useSelector((state) => state.dae);
   const [modalData, setModalData] = useState(null);
   const [completedNotes, setCompletedNotes] = useState([]);
   const [incompletedNotes, setIncompletedNotes] = useState([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // Find User All Notes
 
@@ -46,8 +44,7 @@ const UserNotes = () => {
               const result = await deleteAnote(userNotetobeDeleted?._id);
               if (result?.status === 200) {
                 toast.success(result?.data?.message);
-                dispatch(daeAction.setRefetch())
-
+                dispatch(daeAction.setRefetch());
               }
             } catch (err) {
               toast.error("নোটটি মুছতে সাময়িক অসুবিধার সৃষ্টি হচ্ছে।");
@@ -70,7 +67,7 @@ const UserNotes = () => {
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
-          <AddModuleButton link={"add-note"} btnText={'নোট যুক্ত করুন'} />
+          <AddModuleButton link={"add-note"} btnText={"নোট যুক্ত করুন"} />
           <SectionTitle title={"অসম্পন্ন নোট"} />
           <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900 mb-16">
             <>
@@ -93,8 +90,7 @@ const UserNotes = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {/* Table Body */}
-                  {
-                    incompletedNotes?.length > 0 &&
+                  {incompletedNotes?.length > 0 &&
                     incompletedNotes?.map((singleNote, index) => (
                       <tr
                         key={singleNote?._id}
@@ -144,11 +140,7 @@ const UserNotes = () => {
                             toBengaliNumber(singleNote?.SAAO?.mobile)
                           }
                         />
-                        <UserNoteTD
-                          text={
-                            singleNote?.comment?.noteComment
-                          }
-                        />
+                        <UserNoteTD text={singleNote?.comment?.noteComment} />
 
                         <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
                           <span className="cursor-pointer">
@@ -173,7 +165,7 @@ const UserNotes = () => {
                 </tbody>
               </table>
               {incompletedNotes?.length < 1 && (
-                <NoContentFound text={' কোনো অসম্পন্ন নোট খুজে পাওয়া যায়নি!'} />
+                <NoContentFound text={" কোনো অসম্পন্ন নোট খুজে পাওয়া যায়নি!"} />
               )}
             </>
           </div>
@@ -244,7 +236,9 @@ const UserNotes = () => {
                           )}
                         />
                         <UserNoteTD text={singleNote?.comment?.noteComment} />
-                        <UserNoteTD text={singleNote?.comment?.completedComment} />
+                        <UserNoteTD
+                          text={singleNote?.comment?.completedComment}
+                        />
                         <UserNoteTD
                           text={
                             singleNote?.SAAO?.name +
@@ -273,14 +267,11 @@ const UserNotes = () => {
                         </td>
                       </tr>
                     ))}
-                  <CompleteNoteModal
-                    data={modalData}
-                  />
-
+                  <CompleteNoteModal data={modalData} />
                 </tbody>
               </table>
               {completedNotes?.length < 1 && (
-                <NoContentFound text={' কোনো সম্পন্ন নোট খুজে পাওয়া যায়নি!'} />
+                <NoContentFound text={" কোনো সম্পন্ন নোট খুজে পাওয়া যায়নি!"} />
               )}
             </>
           </div>

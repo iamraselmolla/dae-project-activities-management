@@ -19,8 +19,6 @@ const SingleUser = ({ index, user }) => {
     try {
       const { _id } = values; // Extract values from the form or wherever they are stored
       const updateData = { name, mobile, password };
-      console.log("Update data:", updateData);
-
 
       const response = await updateUser(_id, updateData)
       if (response.status === 200) {

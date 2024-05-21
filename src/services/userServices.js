@@ -26,6 +26,7 @@ const BASE_URL = {
   getAllUser: "/user/get-users",
   updateUser: "/user/update-user",
   login: "/user/get-login-user",
+  getUnionAndBlockInfo: "/user/get-user-info",
 
   // Groups
   createGroup: "/group/create-group",
@@ -56,10 +57,23 @@ const BASE_URL = {
   deleteNote: "/note/delete-note",
   completeANote: "/note/complete-note",
 
-
   // Distribution
-  createDistribution: '/distribution/create-distribution'
+  createDistribution: "/distribution/create-distribution",
+  getDistribution: "/distribution/get-distributions",
+  deleteADistribution: '/distribution/delete-distribution',
+
+  // Motivational Tour
+  createMotivationTour: "/tour/create-tour",
+  getAllMotivationalTour: "/tour/get-tours",
+  deleteTour: "/tour/delete-a-tour",
+
+  // FBS PFS School
+  creatPFSFBS: "/school/create-a-school",
+  getSchools: "/school/get-all-schools",
+  userSchools: "/school/get-user-schools",
+  deleteSchool: '/school/delete-a-school'
 };
+
 
 
 // Project APIs
@@ -144,6 +158,9 @@ export function getLoginUser(formData) {
   return http.post(BASE_URL.login, formData);
 }
 
+export function getBlockandUnion() {
+  return http.get(BASE_URL.getUnionAndBlockInfo);
+}
 // Group APIs
 export function createAGroup(values) {
   return http.post(BASE_URL.createGroup, values);
@@ -232,8 +249,48 @@ export function markNoteAsComplete(id, comment) {
   return http.put(BASE_URL.completeANote, { id, comment });
 }
 
-
 // Distribution
 export function createDistribution(data) {
-  return http.post(BASE_URL.createDistribution, { data })
+  return http.post(BASE_URL.createDistribution, { data });
 }
+
+export function getAllDistributions() {
+  return http.get(BASE_URL.getDistribution);
+}
+
+
+export function deleteADistribution(id) {
+  return http.delete(BASE_URL.deleteADistribution, { data: { id } });
+}
+
+// Motivatinal Tour
+
+export function createMotivationTour(data) {
+  return http.post(BASE_URL.createMotivationTour, { data });
+}
+export function getAllMotivationalTours() {
+  return http.post(BASE_URL.getAllMotivationalTour);
+}
+
+export function deleteATour(id) {
+  return http.delete(BASE_URL.deleteTour, { data: { id } });
+}
+
+// School
+
+export function createASchool(data) {
+  return http.post(BASE_URL.creatPFSFBS, { data });
+}
+
+export function getAllSchools() {
+  return http.get(BASE_URL.getSchools);
+}
+
+export function getUserAllSchools() {
+  return http.get(BASE_URL.userSchools)
+}
+
+export function deleteASchool(id) {
+  return http.delete(BASE_URL.deleteSchool, { data: { id } })
+}
+

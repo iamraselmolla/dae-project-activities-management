@@ -38,8 +38,7 @@ const AddTraining = () => {
   const [imageLinks, setImageLinks] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]); // Initialize as an empty array
   const { user } = useContext(AuthContext);
-  const { projects: allProject
-  } = useSelector(state => state.dae)
+  const { projects: allProject } = useSelector((state) => state.dae);
   const handleSelectChange = (e) => {
     if (e.target.value) {
       const findProject = allProject?.find(

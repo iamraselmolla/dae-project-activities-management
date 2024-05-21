@@ -80,9 +80,9 @@ const AddNotes = () => {
     farmersInfo: Yup.object().shape({
       name: Yup.string().required("অবশ্যই কৃষকের নাম দিন"),
       fathersOrHusbandName: Yup.string().required("পিতা/স্বামীর নাম দিন"),
-      // mobile: Yup.string()
-      //   .required("মোবাইল নম্বর দিন")
-      //   .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
+      mobile: Yup.string()
+        .required("মোবাইল নম্বর দিন")
+        .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
     }),
     address: Yup.object().shape({
       village: Yup.string().required("গ্রামের নাম দিন"),
@@ -203,8 +203,8 @@ const AddNotes = () => {
                   )}
                 </select>
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.details &&
-                formik.errors.projectInfo?.details ? (
+                  formik.touched.projectInfo.details &&
+                  formik.errors.projectInfo?.details ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.details}
                   </div>
@@ -227,8 +227,8 @@ const AddNotes = () => {
                 />
 
                 {formik.touched.projectInfo &&
-                formik.touched.projectInfo.short &&
-                formik.errors.projectInfo?.short ? (
+                  formik.touched.projectInfo.short &&
+                  formik.errors.projectInfo?.short ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.projectInfo.short}
                   </div>
@@ -261,8 +261,8 @@ const AddNotes = () => {
                   <Season />
                 </select>
                 {formik.touched.timeFrame &&
-                formik.touched.timeFrame.season &&
-                formik.errors.timeFrame?.season ? (
+                  formik.touched.timeFrame.season &&
+                  formik.errors.timeFrame?.season ? (
                   <div className="text-red-600 font-bold">
                     {formik.errors.timeFrame.season}
                   </div>
@@ -318,7 +318,7 @@ const AddNotes = () => {
                   <option value="কৃষি পরামর্শ প্রদান">
                     কৃষি পরামর্শ প্রদান
                   </option>
-                  <option value="মালামাল বিতরণ">্মালামাল বিতরণ</option>
+                  <option value="উপকরণ বিতরণ">উপকরণ বিতরণ</option>
                 </Field>
                 <ErrorMessage
                   name="purpose.target"
@@ -577,7 +577,7 @@ const AddNotes = () => {
                 type="submit"
                 className="btn mt-5 w-full font-extrabold text-white btn-success"
               >
-                কৃষক গ্রুপ সভার তথ্য যুক্ত করুন
+                নোট যুক্ত করুন
               </button>
             )}
           </Form>

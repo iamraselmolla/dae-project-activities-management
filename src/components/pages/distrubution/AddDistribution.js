@@ -3,7 +3,6 @@ import Datepicker from "react-tailwindcss-datepicker";
 import SectionTitle from "../../shared/SectionTitle";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { createDistribution, getAllProjects } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 import compressAndUploadImage from "../../utilis/compressImages";
@@ -15,6 +14,8 @@ import FiscalYear from "../../shared/FiscalYear";
 import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
 import Season from "../../shared/Season";
+import { useSelector } from "react-redux";
+import { createDistribution } from "../../../services/userServices";
 
 const AddDistribution = () => {
     const [loading, setLoading] = useState(false);
@@ -22,29 +23,41 @@ const AddDistribution = () => {
     const [images, setImages] = useState([]);
     const { user } = useContext(AuthContext);
     const [selectedProject, setSelectedProject] = useState({});
-    const [allProjects, setAllProjects] = useState([]);
+    const { projects: allProjects } = useSelector(state => state.dae);
+    const [rawImages, setRawImages] = useState([])
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
 
         const imagesArray = files.map((file) => URL.createObjectURL(file));
         setImages((prevImages) => prevImages.concat(imagesArray));
+        setRawImages([...rawImages, ...files]);
     };
 
     const handleRemoveImage = (index) => {
         const updatedImages = [...images];
         updatedImages.splice(index, 1);
+
         setImages(updatedImages);
         formik.setFieldValue("images", updatedImages);
     };
 
     const validationSchema = Yup.object().shape({
-        projectName: Yup.string().required("প্রকল্পের নাম প্রয়োজন"),
-        materialName: Yup.string().required("মালামালের নাম প্রয়োজন"),
-        date: Yup.date().required("তারিখ প্রয়োজন"),
-        presentGuests: Yup.string().required("উপস্থিত অতিথিদের নাম প্রয়োজন"),
-        comment: Yup.string().required("মন্তব্য প্রয়োজন"),
+        // projectInfo: Yup.object().shape({
+        //     details: Yup.string().required("প্রকল্পের নাম প্রয়োজন"),
+        //     short: Yup.string().required("প্রকল্পের সংক্ষেপ নাম প্রয়োজন"),
+        // }),
+        // time: Yup.object().shape({
+        //     fiscalYear: Yup.string().required("অর্থবছর প্রয়োজন"),
+        //     season: Yup.string().required("মৌসুম প্রয়োজন"),
+        //     date: Yup.date().required("তারিখ প্রয়োজন"),
+        // }),
+        // materialName: Yup.string().required("বিতরণকৃত মালামালের বিবরণ প্রয়োজন"),
+        // images: Yup.array().required("ছবিসমূহ প্রয়োজন").min(1, "কমপক্ষে ১টি ছবি যুক্ত করুন"),
+        // presentGuests: Yup.string().required("উপস্থিত অতিথিদের নাম প্রয়োজন"),
+        // comment: Yup.string().required("মন্তব্য প্রয়োজন"),
     });
+
 
     const resetForm = () => {
         formik.resetForm();
@@ -52,12 +65,16 @@ const AddDistribution = () => {
     };
 
     const initialValues = {
-        projectName: "",
-        projectShortName: "",
-        fiscalYear: "",
-        season: "",
+        projectInfo: {
+            details: "",
+            short: ""
+        },
+        time: {
+            fiscalYear: "",
+            season: "",
+            date: new Date(),
+        },
         materialName: "",
-        date: new Date(),
         presentGuests: "",
         images: [],
         comment: "",
@@ -67,7 +84,6 @@ const AddDistribution = () => {
         initialValues,
         validationSchema,
         onSubmit: async (values) => {
-            values.images = images;
             if (!user) {
                 return toast.error(
                     "বিতরণের তথ্য যুক্ত করতে হলে আপনাকে অবশ্যই লগিন করতে হবে।"
@@ -83,11 +99,13 @@ const AddDistribution = () => {
                         `${i + 1} নং ছবি কম্প্রেসড এবং আপ্লোড হচ্ছে`
                     );
 
-                    const compressedImage = await compressAndUploadImage(images[i]);
+                    const compressedImage = await compressAndUploadImage(rawImages[i]);
                     const result = await uploadToCloudinary(compressedImage, "distribution");
                     uploadedImageLinks.push(result);
                 }
                 setLoadingMessage("বিতরণের তথ্য আপ্লোড হচ্ছে");
+                values.images = uploadedImageLinks;
+                values.time.date = formik.values.time.date?.startDate
 
                 const result = await createDistribution(values);
                 if (result?.status === 200) {
@@ -108,28 +126,8 @@ const AddDistribution = () => {
             (project) => project.name?.details === selectedProjectName
         );
         setSelectedProject(findProject);
+        formik.setFieldValue('projectInfo', findProject?.name)
     };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const result = await getAllProjects();
-                if (result?.data?.success) {
-                    setAllProjects(result.data.data);
-                } else {
-                    setAllProjects([]);
-                    toast.error("প্রকল্পের তথ্য পাওয়া যায়নি");
-                }
-            } catch (error) {
-                console.error("প্রকল্পের তথ্যের সমস্যা:", error);
-                toast.error(
-                    "প্রকল্পের তথ্য সার্ভার থেকে আনতে অসুবিধার সৃষ্টি হয়েছে। পুনরায় রিলোড করেন অথবা সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
-                );
-            }
-        };
-
-        fetchData();
-    }, []);
 
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -142,9 +140,9 @@ const AddDistribution = () => {
                         </label>
                         <select
                             className="input input-bordered w-full"
-                            id="projectName"
-                            name="projectName"
-                            value={selectedProject?.name?.details || formik.values.projectName}
+                            id="projectInfo?.details"
+                            name="projectInfo?.details"
+                            value={selectedProject?.name?.details || formik.values.projectInfo?.details}
                             onChange={handleSelectChange}
                         >
                             <option value="" label="প্রকল্প সিলেক্ট করুন" />
@@ -156,9 +154,9 @@ const AddDistribution = () => {
                                 />
                             ))}
                         </select>
-                        {formik.touched.projectName && formik.errors.projectName && (
+                        {formik.touched.projectInfo?.details && formik.errors.projectInfo?.details && (
                             <div className="text-red-600 font-bold">
-                                {formik.errors.projectName}
+                                {formik.errors.projectInfo?.details}
                             </div>
                         )}
                     </div>
@@ -169,8 +167,8 @@ const AddDistribution = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="projectShortName"
-                            name="projectShortName"
+                            id="projectInfo?.short"
+                            name="projectInfo?.short"
                             value={selectedProject?.name?.short || ""}
                             readOnly
                         />
@@ -179,9 +177,9 @@ const AddDistribution = () => {
                         <label className="font-extrabold mb-1 block">অর্থবছর</label>
                         <select
                             className="input input-bordered w-full"
-                            id="fiscalYear"
-                            name="fiscalYear"
-                            value={formik.values.fiscalYear}
+                            id="time.fiscalYear"
+                            name="time.fiscalYear"
+                            value={formik.values.time.fiscalYear}
                             onChange={formik.handleChange}
                             defaultValue={toBengaliNumber(getFiscalYear())}
                         >
@@ -192,24 +190,29 @@ const AddDistribution = () => {
                         <label className="font-extrabold mb-1 block">মৌসুম</label>
                         <select
                             className="input input-bordered w-full"
-                            id="season"
-                            name="season"
-                            value={formik.values.season} // Update value to use formik values
+                            id="time.season"
+                            name="time.season"
+                            value={formik.values.time?.season} // Update value to use formik values
                             onChange={formik.handleChange} // Update the onChange handler
                             onBlur={formik.handleBlur}
                         >
                             <Season />
                         </select>
+                        {formik.touched.time?.season && formik.errors.time?.season && (
+                            <div className="text-red-600 font-bold">
+                                {formik.errors.time?.season}
+                            </div>
+                        )}
                     </div>
                     <div>
-                        <label className="font-extrabold mb-1 block">বিতরণকৃত মালামালের নাম</label>
+                        <label className="font-extrabold mb-1 block">বিতরণকৃত উপকরণের বিবরণ</label>
                         <input
                             type="text"
                             className="input input-bordered w-full"
                             id="materialName"
                             name="materialName"
                             onBlur={formik.handleBlur}
-                            placeholder="মালামালের নাম"
+                            placeholder="উপকরণের নাম"
                             onChange={formik.handleChange}
                             value={formik.values.materialName}
                         />
@@ -222,20 +225,20 @@ const AddDistribution = () => {
                     <div>
                         <label className="font-extrabold mb-1 block">তারিখ</label>
                         <Datepicker
-                            id="date"
-                            name="date"
+                            id="time.date"
+                            name="time.date"
                             asSingle={true}
-                            value={formik.values.date}
-                            onChange={(newValue) => formik.setFieldValue("date", newValue)}
+                            value={formik.values.time?.date}
+                            onChange={(newValue) => formik.setFieldValue("time.date", newValue) && console.log(newValue)}
                             showShortcuts={true}
                         />
-                        {formik.touched.date && formik.errors.date && (
-                            <div className="text-red-600 font-bold">{formik.errors.date}</div>
+                        {formik.touched.time?.date && formik.errors?.time?.date && (
+                            <div className="text-red-600 font-bold">{formik.errors?.time?.date}</div>
                         )}
                     </div>
                     <div>
                         <label className="font-extrabold mb-1 block">
-                            উপস্থিত অতিথিদের নাম
+                            উপস্থিত কর্মকর্তা/গণ্যমান্য ব্যক্তিবর্গের নাম (যদি থাকে)
                         </label>
                         <input
                             type="text"
@@ -253,10 +256,8 @@ const AddDistribution = () => {
                             </div>
                         )}
                     </div>
-                </div>
-                <div className="grid grid-cols-1 mt-3 mb-3 gap-4 lg:grid-cols-3">
                     <div>
-                        <label className="font-extrabold mb-1 block">ছবি আপলোড করুন</label>
+                        <label className="font-extrabold mb-1 block">ছবিসমূহ</label>
                         <input
                             multiple
                             name="images"

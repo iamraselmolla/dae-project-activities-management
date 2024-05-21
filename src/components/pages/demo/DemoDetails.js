@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FaBirthdayCake } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { getSingleDemoById } from "../../../services/userServices";
 import toast from "react-hot-toast";
@@ -10,7 +9,6 @@ import { BsFillCloudSunFill } from "react-icons/bs";
 import { GrTechnology } from "react-icons/gr";
 import { FaBowlRice } from "react-icons/fa6";
 import { toBengaliNumber } from "bengali-number";
-import formatDateToday from "../../utilis/formatDate";
 import { MdOutlinePlace } from "react-icons/md";
 import { notGivenFinalReportMessage } from "../../shared/MessageConst";
 
@@ -164,13 +162,21 @@ function DemoDetails() {
               <h3>
                 বপণ:{" "}
                 <span className="font-semibold">
-                  {formatDateToday(demoData?.demoDate?.bopon)}
+                  {new Date(demoData?.demoDate?.bopon).toLocaleString('bn-BD', {
+                    day: 'numeric',
+                    month: 'numeric',
+                    year: 'numeric'
+                  })}
                 </span>
               </h3>
               <h3>
                 রোপণ :{" "}
                 <span className="font-semibold">
-                  {formatDateToday(demoData?.demoDate?.ropon)}
+                  {new Date(demoData?.demoDate?.ropon).toLocaleString('bn-BD', {
+                    day: 'numeric',
+                    month: 'numeric',
+                    year: 'numeric'
+                  })}
                 </span>
               </h3>
 
@@ -179,9 +185,17 @@ function DemoDetails() {
                 <span className="font-semibold">
                   {demoData?.demoDate?.korton?.startDate ? (
                     <>
-                      {formatDateToday(demoData?.demoDate?.korton?.startDate)}
+                      {new Date(demoData?.demoDate?.korton?.startDate).toLocaleString('bn-BD', {
+                        day: 'numeric',
+                        month: 'numeric',
+                        year: 'numeric'
+                      })}
                       {" "}থেকে{" "}
-                      {formatDateToday(demoData?.demoDate?.korton?.endDate)}
+                      {new Date(demoData?.demoDate?.korton?.endDate).toLocaleString('bn-BD', {
+                        day: 'numeric',
+                        month: 'numeric',
+                        year: 'numeric'
+                      })}
                     </>
                   ) : (
                     "এখনো চূড়ান্ত প্রতিবেদন দেওয়া হয়নি"
@@ -280,7 +294,11 @@ function DemoDetails() {
                   {demoData?.demoImages?.length > 0 && demoData?.demoImages?.map((single, index) =>
                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <td className="px-6 py-4">{toBengaliNumber(index + 1)}</td>
-                      <td className="px-6 py-4">{formatDateToday(single?.date)}</td>
+                      <td className="px-6 py-4">{new Date(single?.date).toLocaleString('bn-BD', {
+                        day: 'numeric',
+                        month: 'numeric',
+                        year: 'numeric'
+                      })}</td>
                       <td className="px-6 py-4">{single?.presentCondition}</td>
                       <td className="px-6 py-4">{single?.presentOfficer}</td>
                       <td className="px-6 py-4 flex gap-1 ">

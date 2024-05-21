@@ -6,7 +6,7 @@ const compressAndUploadImage = async (file) => {
 
         // Compress the image
         const compressedFile = await compressor.compress(file, {
-            quality: 0.5, // Adjust the quality as needed (0.6 means 60% quality)
+            quality: 1, // Adjust the quality as needed (0.6 means 60% quality)
             maxWidth: 1000, // Set max width if needed
             maxHeight: 700, // Set max height if needed
             mimeType: 'image/jpeg', // Output format

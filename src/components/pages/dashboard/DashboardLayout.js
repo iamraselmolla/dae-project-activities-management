@@ -2,11 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import {
   findUserAllNotes,
+  getAllDistributions,
+  getAllMotivationalTours,
   getAllProjects,
   getAllTraining,
   getAllUser,
   getUserAllFieldDay,
   getUserAllGroupMeeting,
+  getUserAllSchools,
   getUserDemos,
 } from "../../../services/userServices";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,6 +58,12 @@ const DashboardLayout = () => {
           if (meetingResult?.status === 200) {
             dispatch(daeAction.setDaeMeeting(meetingResult?.data?.data));
           }
+
+          // School
+          const schoolResults = await getUserAllSchools();
+          if (schoolResults.status === 200) {
+            dispatch(daeAction.setUserSchools(schoolResults?.data?.data));
+          }
         } catch (err) {
           toast.error("তথ্য সেকশন-২ সার্ভার থেকে আনতে অসুবিধা হচ্ছে।");
         }
@@ -71,6 +80,11 @@ const DashboardLayout = () => {
             dispatch(daeAction.setAllUsers(userResult?.data?.data));
           }
 
+          const distributionResult = await getAllDistributions();
+          if (distributionResult?.status === 200) {
+            dispatch(daeAction.setDistribution(distributionResult?.data?.data));
+          }
+
           // All Trainings
           const trainingsResult = await getAllTraining();
           if (trainingsResult?.status === 200) {
@@ -80,6 +94,10 @@ const DashboardLayout = () => {
           const projectsResult = await getAllProjects(role);
           if (projectsResult?.status === 200) {
             dispatch(daeAction.setAllProjects(projectsResult?.data?.data));
+          }
+          const tourResult = await getAllMotivationalTours();
+          if (tourResult?.status === 200) {
+            dispatch(daeAction.setAllMotivationTours(tourResult?.data?.data));
           }
         } catch (err) {
           toast.error("তথ্য সেকশন-৩ সার্ভার থেকে আনতে অসুবিধা হচ্ছে।");

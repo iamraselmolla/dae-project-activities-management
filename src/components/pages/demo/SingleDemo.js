@@ -7,9 +7,8 @@ import { Link } from "react-router-dom";
 import "./demo.css";
 import { GrTechnology } from "react-icons/gr";
 import { CiCalendarDate } from "react-icons/ci";
-import formatDateToday from "../../utilis/formatDate";
-
 const SingleDemo = ({ data }) => {
+  const [allImages, setImages] = useState([]);
   const {
     projectInfo,
     demoTime,
@@ -19,24 +18,22 @@ const SingleDemo = ({ data }) => {
     demoInfo,
     demoDate,
     demoImages,
-    username,
   } = data;
 
-  const imagesArr = [];
-  useEffect(() => {
-    if (demoImages?.length > 0) {
-      for (const image of demoImages) {
-        image.image?.map((single) =>
-          imagesArr.push({ original: single, thumbnail: single })
-        );
-      }
-    } else {
-      imagesArr.push(
-        { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" },
-        { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" }
+  const imagesArr = []
+  if (demoImages?.length > 0) {
+    for (const image of demoImages) {
+      image.image?.map((single) =>
+        imagesArr.push({ original: single, thumbnail: single })
       );
     }
-  }, [demoImages]);
+  } else {
+    imagesArr.push(
+      { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" },
+      { original: "images/pi/pi2.jpg", thumbnail: "images/pi/pi2.jpg" }
+    );
+  }
+
 
   return (
     <div className="rounded-lg bg-white shadow-blue relative shadow-xl">
@@ -75,7 +72,13 @@ const SingleDemo = ({ data }) => {
           </div>
           <div className="flex items-center gap-2">
             <CiCalendarDate />
-            <p>{formatDateToday(demoDate?.ropon)}</p>
+            <p>
+              {new Date(demoDate?.ropon).toLocaleString("bn-BD", {
+                day: "numeric",
+                month: "numeric",
+                year: "numeric",
+              })}
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <GrTechnology /> <p>{demoInfo?.tech}</p>

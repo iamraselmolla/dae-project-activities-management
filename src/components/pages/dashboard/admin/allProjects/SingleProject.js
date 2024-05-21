@@ -16,7 +16,7 @@ import {
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 
-const SingleProject = ({ data, index, }) => {
+const SingleProject = ({ data, index }) => {
   const [allCrops, setAllCrops] = useState(data?.crops);
   const [crop, setCrop] = useState("");
   const [loading, setLoading] = useState(false);
@@ -74,7 +74,6 @@ const SingleProject = ({ data, index, }) => {
           const result = await deleteAProject(projectId); // Assuming deleteProject is a function that handles the deletion
           if (result?.status === 200) {
             toast.success("প্রকল্পটি মুছে দেয়া হয়েছে");
-
           }
         } else {
           toast.error("প্রকল্প মুছে ফেলা সম্ভব হয়নি। আবার চেষ্টা করুন");
@@ -91,26 +90,30 @@ const SingleProject = ({ data, index, }) => {
     }
   };
 
-
   // Handle Project completion
   const handleProjectDeletion = async (id) => {
-    console.log(id)
+    console.log(id);
 
     if (!id) {
-      return toast.error("প্রকল্পের তথ্য পেতে সমস্যা হচ্ছে।")
+      return toast.error("প্রকল্পের তথ্য পেতে সমস্যা হচ্ছে।");
     }
     try {
-      if (window.confirm(`আপনি কি ${data?.name?.details}-কে সম্পন্ন হিসেবে চিহ্নিত করতে চান?`)) {
-        const result = await markProjectComplete(id)
+      if (
+        window.confirm(
+          `আপনি কি ${data?.name?.details}-কে সম্পন্ন হিসেবে চিহ্নিত করতে চান?`
+        )
+      ) {
+        const result = await markProjectComplete(id);
         if (result?.status === 200) {
-          toast.success(result?.data?.message)
+          toast.success(result?.data?.message);
         }
       }
+    } catch (err) {
+      toast.error(
+        "প্রকল্প সম্পন্ন করতে অসুবিধার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।"
+      );
     }
-    catch (err) {
-      toast.error("প্রকল্প সম্পন্ন করতে অসুবিধার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।")
-    }
-  }
+  };
   return (
     <div className="collapse">
       <input type="checkbox" />
@@ -120,28 +123,33 @@ const SingleProject = ({ data, index, }) => {
       <div className="collapse-content bg-white flex flex-col gap-2">
         <h2 className="text-xl flex gap-5  pt-8 pb-5 font-bold items-center">
           <span>প্রকল্পের পুরো নামঃ {data?.name?.details}</span>
-          {!data?.end &&
+          {!data?.end && (
             <span className="ml-3 flex gap-1">
               <Link
                 className="flex justify-center items-center"
                 to={`/dashboard/addproject?id=${data?._id}`}
               >
-                <button className="btn btn-info font-bold">
+                <button className="btn btn-info text-white font-extrabold">
                   <CiEdit size={20} cursor={"pointer"} /> এডিট করুন
                 </button>
               </Link>
 
               <button
                 onClick={() => handleProjectDeleting(data?._id)}
-                className="btn bg-red-500 font-bold"
+                className="btn bg-red-500  text-white font-extrabold"
               >
-                <RiDeleteBin5Line size={20} cursor={"pointer"} /> প্রকল্প মুছে দিন
+                <RiDeleteBin5Line size={20} cursor={"pointer"} /> প্রকল্প মুছে
+                দিন
               </button>
 
-              <button onClick={() => handleProjectDeletion(data?._id)} className="btn btn-success font-bold">
+              <button
+                onClick={() => handleProjectDeletion(data?._id)}
+                className="btn btn-success text-white font-extrabold "
+              >
                 <FiCheckCircle size={20} cursor={"pointer"} /> সমাপ্ত ঘোষণা করুন
               </button>
-            </span>}
+            </span>
+          )}
         </h2>
         <h2 className="text-xl font-bold">
           প্রকল্পের সংক্ষেপ নামঃ {data?.name?.short}

@@ -51,3 +51,28 @@ section {
   .image-gallery-image {
   height: 100%;
 }
+
+.fixed-button {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(0.9);
+  }
+}
+
+.pulse {
+  animation-name: pulse;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
