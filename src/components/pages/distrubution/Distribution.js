@@ -103,61 +103,66 @@ const Distribution = () => {
             <SectionTitle title={"সকল উপকরণ বিতরণের তথ্য"} />
 
             {user && (
-                <div className="flex py-6 flex-wrap justify-between items-center gap-3">
-                    <div>
-                        <label className="font-extrabold mb-1 block">
-                            প্রকল্পের পুরো নাম
-                        </label>
-                        <select
-                            className="input input-bordered w-full"
-                            value={selectedProject}
-                            onChange={handleSelectChange}
-                        >
-                            <option value="" label="প্রকল্প সিলেক্ট করুন" />
-                            {allProject?.map((project) => (
-                                <option
-                                    key={project._id}
-                                    value={project?.name?.details}
-                                    label={project?.name?.details}
-                                />
-                            ))}
-                        </select>
-                    </div>
+                <div className='mb-12'>
+                    <div className="flex py-6 flex-wrap justify-between items-center gap-3">
+                        <div>
+                            <label className="font-extrabold mb-1 block">
+                                প্রকল্পের পুরো নাম
+                            </label>
+                            <select
+                                className="input input-bordered w-full"
+                                value={selectedProject}
+                                onChange={handleSelectChange}
+                            >
+                                <option value="" label="প্রকল্প সিলেক্ট করুন" />
+                                {allProject?.map((project) => (
+                                    <option
+                                        key={project._id}
+                                        value={project?.name?.details}
+                                        label={project?.name?.details}
+                                    />
+                                ))}
+                            </select>
+                        </div>
 
-                    <div>
-                        <label className="font-extrabold mb-1 block">অর্থবছর</label>
-                        <select
-                            className="input input-bordered w-full"
-                            type="text"
-                            value={fiscalYear}
-                            onChange={(e) => setFiscalYear(e.target.value)}
-                            placeholder="অর্থবছর সিলেক্ট করুন"
-                        >
-                            <FiscalYear />
-                        </select>
-                    </div>
-                    <div>
-                        <label className="font-extrabold mb-1 block">মৌসুম</label>
-                        <select
-                            className="input input-bordered w-full"
-                            id="season"
-                            name="season"
-                            value={season}
-                            onChange={(e) => setSeason(e.target.value)}
-                        >
-                            <Season />
-                        </select>
-                    </div>
+                        <div>
+                            <label className="font-extrabold mb-1 block">অর্থবছর</label>
+                            <select
+                                className="input input-bordered w-full"
+                                type="text"
+                                value={fiscalYear}
+                                onChange={(e) => setFiscalYear(e.target.value)}
+                                placeholder="অর্থবছর সিলেক্ট করুন"
+                            >
+                                <FiscalYear />
+                            </select>
+                        </div>
+                        <div>
+                            <label className="font-extrabold mb-1 block">মৌসুম</label>
+                            <select
+                                className="input input-bordered w-full"
+                                id="season"
+                                name="season"
+                                value={season}
+                                onChange={(e) => setSeason(e.target.value)}
+                            >
+                                <Season />
+                            </select>
+                        </div>
 
-                    <div>
-                        <label className="font-extrabold mb-1 block">অনুসন্ধান</label>
-                        <input
-                            type="text"
-                            className="input input-bordered w-full"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            placeholder="অনুসন্ধান লিখুন"
-                        />
+
+                    </div>
+                    <div className="w-full">
+                        <div>
+                            <label className="font-extrabold mb-1 block">অনুসন্ধান</label>
+                            <input
+                                type="text"
+                                className="input input-bordered w-full"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder="অনুসন্ধান লিখুন"
+                            />
+                        </div>
                     </div>
                 </div>
             )}
