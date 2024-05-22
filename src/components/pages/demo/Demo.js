@@ -299,7 +299,7 @@ const Demo = () => {
                 value={blockName}
                 onChange={(e) => setBlockName(e.target.value)}
               >
-                <option value="">ব্লক সিলেক্ট করুন</option>
+                <option value="">সিলেক্ট করুন</option>
                 {blocksOfUnion?.map((single, index) => (
                   <option key={index} value={single}>
                     {single}

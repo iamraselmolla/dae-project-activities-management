@@ -154,6 +154,9 @@ const Training = () => {
             onChange={(e) => setFiscalYear(e.target.value)}
             placeholder="অর্থবছর সিলেক্ট করুন"
           >
+            <option value={''}>
+              সিলেক্ট করুন
+            </option>
             <FiscalYear />
           </select>
         </div>
@@ -177,7 +180,7 @@ const Training = () => {
           className="input input-bordered w-full"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="খুজুন (প্রশিক্ষণের বিষয়, প্রকল্পের নাম, অর্থ বছর, মৌসুম, উপস্থিত কর্মকর্তার নাম"
+          placeholder="খুজুন (প্রশিক্ষণের বিষয়, প্রকল্পের নাম, অর্থ বছর, মৌসুম, উপস্থিত কর্মকর্তার নাম)"
         />
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
