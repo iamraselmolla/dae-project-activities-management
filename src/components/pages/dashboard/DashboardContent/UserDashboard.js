@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Pie, PieChart } from 'recharts';
 import {
   LineChart,
@@ -31,6 +31,35 @@ const UserDashboard = () => {
     notes,
     userData: { demos, fieldDays, schools, daeMeetins },
   } = useSelector((state) => state.dae);
+  const [noteTypes, setNoteTypes] = useState([]);
+  const [Notedata, setData] = useState([]);
+
+  useEffect(() => {
+    const uniqueNoteTypes = new Set();
+    notes.forEach((note) => {
+      if (note.purpose && note.purpose.target) {
+        uniqueNoteTypes.add(note.purpose.target);
+      }
+    });
+    const uniqueNoteTypesArray = Array.from(uniqueNoteTypes);
+    setNoteTypes(uniqueNoteTypesArray);
+  }, [notes]);
+
+  useEffect(() => {
+    if (noteTypes.length > 0) {
+      const newData = noteTypes?.map((single) => ({
+        name: single,
+        incompleted: notes?.filter(
+          (single2) => single2?.purpose.target === single && !single2?.completed
+        ).length,
+        completed: notes?.filter(
+          (single2) => single2?.purpose.target === single && single2?.completed
+        ).length,
+        amt: 2400,
+      }));
+      setData(newData);
+    }
+  }, [noteTypes]);
   const runningFiscalYear = toBengaliNumber(getFiscalYear());
   const completedNotes = notes?.filter((single) => single.completed).length;
   const cards = [
@@ -192,9 +221,11 @@ const UserDashboard = () => {
       </div>
 
       {/* Demos information Based on Fiscal Year */}
-      <div className="grid gap-5 grid-cols-3">
-        <div className='py-6 mt-10 col-span-1 bg-white rounded-lg'>
+      <div className="grid gap-5 grid-cols-5">
+        <div className='py-6 mt-10 pr-3 col-span-2 bg-white rounded-lg'>
           <div className='w-full h-full'>
+            <h2 className='text-md font-semibold text-center'>অর্থবছর অনুযায়ী প্রদর্শনীর তথ্য</h2>
+
             <ResponsiveContainer width="100%" height={200}>
               <LineChart
                 width={500}
@@ -213,11 +244,12 @@ const UserDashboard = () => {
                 <Tooltip />
                 <Line connectNulls type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
               </LineChart>
-              <h2 className='text-md font-semibold text-center'>অর্থবছর অনুযায়ী প্রদর্শনীর তথ্য</h2>
             </ResponsiveContainer>
           </div>
         </div>
-        <div className='col-span-2 h-80 bg-white rounded-xl py-2 mt-10'>
+        <div className='col-span-3 h-80 bg-white pb-10 rounded-xl py-2 mt-10'>
+          <h2 className='text-md font-semibold text-center'>অর্থবছর অনুযায়ী সকল মাঠদিবসের মৌসুম ভিত্তিক তথ্য</h2>
+
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               width={500}
@@ -243,6 +275,32 @@ const UserDashboard = () => {
         </div>
       </div>
 
+
+      <div className="h-96 mt-6 py-6 bg-white rounded-xl">
+        <h2 className='text-md font-semibold text-center'>নোটস</h2>
+
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            width={500}
+            height={300}
+            data={Notedata}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="completed" stackId="a" fill="#00ca92" />
+            <Bar dataKey="incompleted" stackId="a" fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </section>
   );
 };
