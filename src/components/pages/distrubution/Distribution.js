@@ -152,15 +152,14 @@ const Distribution = () => {
 
 
                     </div>
-                    <div className="w-full">
+                    <div className="w-full mb-12">
                         <div>
-                            <label className="font-extrabold mb-1 block">অনুসন্ধান</label>
                             <input
                                 type="text"
                                 className="input input-bordered w-full"
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                placeholder="অনুসন্ধান লিখুন"
+                                placeholder="খুজুন (প্রকল্পের নাম, উপস্থিত কর্মকর্তার নাম, মালামালের বিবরণ, অর্থবছর, মৌসুম)"
                             />
                         </div>
                     </div>

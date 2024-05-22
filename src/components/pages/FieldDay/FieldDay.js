@@ -244,7 +244,7 @@ const FieldDay = () => {
                 className="input input-bordered w-full"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="খজুন (প্রকল্পের নাম, গ্রাম, ব্লক, ইউনিয়ন, উপস্থিত কর্মকর্তার নাম, মন্তব্য)"
+                placeholder="খুজুন (প্রকল্পের নাম, গ্রাম, ব্লক, ইউনিয়ন, উপস্থিত কর্মকর্তার নাম, মন্তব্য)"
               />
             </div>
           </div>
