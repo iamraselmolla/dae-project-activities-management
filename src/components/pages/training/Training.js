@@ -171,14 +171,13 @@ const Training = () => {
         </div>
 
       </div>
-      <div className=" mb-10">
-        <label className="font-extrabold mb-1 block">খুজুন</label>
+      <div className="mt-6 mb-10">
         <input
           type="text"
           className="input input-bordered w-full"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="অনুসন্ধান লিখুন"
+          placeholder="খুজুন (প্রশিক্ষণের বিষয়, প্রকল্পের নাম, অর্থ বছর, মৌসুম, উপস্থিত কর্মকর্তার নাম"
         />
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
