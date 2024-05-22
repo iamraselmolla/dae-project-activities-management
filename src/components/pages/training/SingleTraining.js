@@ -30,7 +30,7 @@ const SingleTraining = ({ data }) => {
         imagesArr.push({ original: image, thumbnail: image });
       }
     }
-  }, [images]);
+  }, [images, data]);
 
   return (
     <div
