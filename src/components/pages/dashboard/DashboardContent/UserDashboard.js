@@ -117,10 +117,16 @@ const UserDashboard = () => {
   })
 
   const allProjectsFieldDaysDataArray = fiscalYearArrMap?.map(single => {
-    // let name = single;
-  })
-
-  console.log(allProjectsFieldDaysDataArray)
+    const kharip1 = fieldDays?.filter(singleFieldDay => singleFieldDay?.fiscalYear === single && singleFieldDay?.season === 'খরিপ-১').length;
+    const kharip2 = fieldDays?.filter(singleFieldDay => singleFieldDay?.fiscalYear === single && singleFieldDay?.season === 'খরিপ-২').length;
+    const robi = fieldDays?.filter(singleFieldDay => singleFieldDay?.fiscalYear === single && singleFieldDay?.season === 'রবি').length;
+    return {
+      name: single,
+      kharip2: kharip2 || 0,
+      robi: robi || 0,
+      kharip1: kharip1 || 0,
+    }
+  });
 
   return (
     <section className="py-5">
@@ -186,55 +192,57 @@ const UserDashboard = () => {
       </div>
 
       {/* Demos information Based on Fiscal Year */}
-
-      <div className=' py-6 mt-10  bg-white rounded-lg'>
-        <div className='w-full h-full'>
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart
+      <div className="grid gap-5 grid-cols-3">
+        <div className='py-6 mt-10 col-span-1 bg-white rounded-lg'>
+          <div className='w-full h-full'>
+            <ResponsiveContainer width="100%" height={200}>
+              <LineChart
+                width={500}
+                height={200}
+                data={fiscalYearData}
+                margin={{
+                  top: 10,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Line connectNulls type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
+              </LineChart>
+              <h2 className='text-md font-semibold text-center'>অর্থবছর অনুযায়ী প্রদর্শনীর তথ্য</h2>
+            </ResponsiveContainer>
+          </div>
+        </div>
+        <div className='col-span-2 h-80 bg-white rounded-xl py-2 mt-10'>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
               width={500}
-              height={200}
-              data={fiscalYearData}
+              height={300}
+              data={allProjectsFieldDaysDataArray}
               margin={{
-                top: 10,
+                top: 20,
                 right: 30,
-                left: 0,
-                bottom: 0,
+                left: 20,
+                bottom: 5,
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Line connectNulls type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-            </LineChart>
-            <h2 className='text-md font-semibold text-center'>অর্থবছর অনুযায়ী প্রদর্শনীর তথ্য</h2>
+              <Legend />
+              <Bar dataKey="kharip1" fill="#ffc658" />
+              <Bar dataKey="robi" stackId="a" fill="#82ca9d" />
+              <Bar dataKey="kharip2" stackId="a" fill="#8884d8" />
+            </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
-      <div className='h-80 bg-white rounded-xl py-2 mt-10'>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            width={500}
-            height={300}
-            data={allProjectsFieldDaysDataArray}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="pv" stackId="a" fill="#8884d8" />
-            <Bar dataKey="amt" stackId="a" fill="#82ca9d" />
-            <Bar dataKey="uv" fill="#ffc658" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+
     </section>
   );
 };
