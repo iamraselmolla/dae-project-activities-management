@@ -96,7 +96,7 @@ function MotivationalTour() {
 
   return (
     <>
-      <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <AddModuleButton
           link={"add-motivational-tour"}
           btnText={"উদ্বদ্ধরণ ভ্রমণ যুক্ত করুন"}
@@ -149,18 +149,8 @@ function MotivationalTour() {
           </div>
 
         </div>
-        <div className=" mb-10">
-          <label className="font-extrabold mb-1 block">খুজুন</label>
-          <input
-            type="text"
-            className="input input-bordered w-full"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="অনুসন্ধান লিখুন"
-          />
-        </div>
         {!loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
+          <div className="grid mt-12 md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
             {filteredTours &&
               filteredTours?.length > 0 &&
               filteredTours?.map((single) => (
