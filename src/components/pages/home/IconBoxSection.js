@@ -8,49 +8,50 @@ import { AiOutlineFileDone } from 'react-icons/ai';
 const IconBoxSection = () => {
     const data = [
         {
-            icon: < MdAgriculture />,
+            icon: <MdAgriculture />,
             text: "প্রদর্শনী",
-            backgroundColor: "#c4ff8b", // Light green
+            backgroundColor: "#E2FBD9", // Light green
         },
         {
             icon: <MdTour />,
             text: "মাঠ দিবস",
-            backgroundColor: "#ffdbdb", // Light red
+            backgroundColor: "#FED7D7", // Light red
         },
         {
-            icon: < AiOutlineFileDone />,
+            icon: <AiOutlineFileDone />,
             text: "প্রশিক্ষণ",
-            backgroundColor: "#fde2a8", // Light orange
+            backgroundColor: "#FDF3C7", // Light yellow
         },
         {
             icon: <GiDiscussion />,
             text: "উদ্বুদ্ধকরণ ভ্রমণ",
-            backgroundColor: "#f4e8ff", // Light purple
+            backgroundColor: "#F5E1FF", // Light purple
         },
         {
             icon: <GoNote />,
             text: "মালামাল বিতরণ",
-            backgroundColor: "#a9cded", // Light blue
+            backgroundColor: "#BBE1FA", // Light blue
         },
         {
             icon: <GoNote />,
             text: "ডিএই কৃষক গ্রুপ সভা",
-            backgroundColor: "#a9cded", // Light blue
+            backgroundColor: "#FFEDD8", // Light orange
         },
         {
             icon: <GoNote />,
             text: "স্কুল",
-            backgroundColor: "#a9cded", // Light blue
+            backgroundColor: "#B2CCFF", // Light blue
         },
         {
             icon: <GoNote />,
             text: "নোটস",
-            backgroundColor: "#a9cded", // Light blue
+            backgroundColor: "#C9D6FF", // Light blue
         },
-    ]
+    ];
+
     return (
-        <section className='py-24'>
-            <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols- 3 lg:grid-cols-4 gap-4'>
+        <section className='py-24 bg-white'>
+            <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
                 {data.map((card, index) => (
                     <IconBox key={index} {...card} />
                 ))}
