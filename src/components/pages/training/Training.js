@@ -8,6 +8,7 @@ import { makeSureOnline } from "../../shared/MessageConst";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import { useSelector } from "react-redux";
+import { toBengaliNumber } from "bengali-number";
 const Training = () => {
   const [allTrainings, setAllTrainings] = useState([]);
   const [filterAllTrainings, setFilterAllTrainings] = useState([]);
@@ -19,7 +20,7 @@ const Training = () => {
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
-  const { projects: allProjects } = useSelector(state => state.dae)
+  const { projects: allProjects } = useSelector((state) => state.dae);
   const fetchAllTraining = async () => {
     setLoading(true);
     try {
@@ -67,9 +68,7 @@ const Training = () => {
     }
 
     if (season !== "") {
-      filtered = filtered.filter((project) =>
-        project.season.includes(season)
-      );
+      filtered = filtered.filter((project) => project.season.includes(season));
     }
 
     return filtered;
@@ -111,12 +110,11 @@ const Training = () => {
     setFilterAllTrainings(filtered); // Update filtered data
   }, [search]);
 
-
-
-
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <SectionTitle title={"সকল প্রশিক্ষণ"} />
+      <SectionTitle
+        title={`সকল প্রশিক্ষণ (${toBengaliNumber(allTrainings?.length)})`}
+      />
       <div className="text-right font-extrabold">
         <AddModuleButton
           btnText={"প্রশিক্ষণ যুক্ত করুন"}
@@ -154,9 +152,7 @@ const Training = () => {
             onChange={(e) => setFiscalYear(e.target.value)}
             placeholder="অর্থবছর সিলেক্ট করুন"
           >
-            <option value={''}>
-              সিলেক্ট করুন
-            </option>
+            <option value={""}>সিলেক্ট করুন</option>
             <FiscalYear />
           </select>
         </div>
@@ -172,7 +168,6 @@ const Training = () => {
             <Season />
           </select>
         </div>
-
       </div>
       <div className="mt-6 mb-10">
         <input
