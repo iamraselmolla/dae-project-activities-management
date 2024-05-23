@@ -11,6 +11,7 @@ import { getAllSchools } from "../../../services/userServices";
 import { useSelector } from "react-redux";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
+import { toBengaliNumber } from "bengali-number";
 
 const AllSchools = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -26,7 +27,7 @@ const AllSchools = () => {
   const [unionName, setUnionName] = useState("");
   const [blockName, setBlockName] = useState("");
   const [search, setSearch] = useState("");
-  const [filteredProjects, setFilteredProjects] = useState(schools);
+  const [filteredSchools, setFilteredSchools] = useState(schools);
   const [blocksOfUnion, setBlocksOfUnion] = useState([]);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const AllSchools = () => {
         const result = await getAllSchools();
         if (result?.status === 200) {
           setSchools(result.data?.data);
-          setFilteredProjects(result.data?.data);
+          setFilteredSchools(result.data?.data);
           setLoading(false);
           setFetchEnd(true);
         }
@@ -54,9 +55,6 @@ const AllSchools = () => {
       makeSureOnline();
     }
   }, []);
-
-
-
 
   const filterProjects = () => {
     let filtered = schools;
@@ -96,13 +94,12 @@ const AllSchools = () => {
 
   useEffect(() => {
     const filtered = filterProjects();
-    setFilteredProjects(filtered);
+    setFilteredSchools(filtered);
   }, [selectedProject, fiscalYear, season, unionName, blockName]);
 
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
   };
-
 
   // make the function to search accordingly all field and call the function in each change
   useEffect(() => {
@@ -126,7 +123,7 @@ const AllSchools = () => {
       }
       return false;
     });
-    setFilteredProjects(filtered); // Update filtered data
+    setFilteredSchools(filtered); // Update filtered data
   }, [search]);
 
   useEffect(() => {
@@ -151,14 +148,14 @@ const AllSchools = () => {
     setBlocksOfUnion(blocks);
   };
 
-
-
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold col-span-1">
         <AddModuleButton link={"add-school"} btnText={"স্কুল যুক্ত করুন"} />
 
-        <SectionTitle title={"সকল স্কুল"} />
+        <SectionTitle
+          title={`সকল স্কুল (${toBengaliNumber(schools?.length)})`}
+        />
       </div>
       {user && (
         <>
@@ -256,10 +253,12 @@ const AllSchools = () => {
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
         {!loading &&
           fetchEnd &&
-          filteredProjects?.length > 0 &&
-          filteredProjects?.map((school) => (<SingleSchool key={school?._id} data={school} />))}
+          filteredSchools?.length > 0 &&
+          filteredSchools?.map((school) => (
+            <SingleSchool key={school?._id} data={school} />
+          ))}
       </div>
-      {!loading && fetchEnd && filteredProjects?.length < 1 && (
+      {!loading && fetchEnd && filteredSchools?.length < 1 && (
         <NoContentFound text={"কোনো স্কুলের তথ্য পাওয়া যায়নি!"} />
       )}
       {!fetchEnd && loading && (
