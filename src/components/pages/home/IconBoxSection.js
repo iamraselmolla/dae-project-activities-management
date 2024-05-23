@@ -1,9 +1,14 @@
 import React from 'react';
-import { GiDiscussion } from 'react-icons/gi';
+import { GiDiscussion, GiField } from 'react-icons/gi';
 import { GoNote } from 'react-icons/go';
 import { MdAgriculture, MdTour } from 'react-icons/md';
 import IconBox from './IconBox';
 import { AiOutlineFileDone } from 'react-icons/ai';
+import { LiaSchoolSolid } from "react-icons/lia";
+import { LuHelpingHand } from "react-icons/lu";
+
+
+
 
 const IconBoxSection = () => {
     const data = [
@@ -13,39 +18,39 @@ const IconBoxSection = () => {
             backgroundColor: "#E2FBD9", // Light green
         },
         {
-            icon: <MdTour />,
+            icon: <GiField />,
             text: "মাঠ দিবস",
             backgroundColor: "#FED7D7", // Light red
         },
         {
             icon: <AiOutlineFileDone />,
             text: "প্রশিক্ষণ",
-            backgroundColor: "#FDF3C7", // Light yellow
+            backgroundColor: "#FDF3C7",
+        },
+        {
+            icon: <MdTour />,
+            text: "উদ্বুদ্ধকরণ ভ্রমণ",
+            backgroundColor: "#F5E1FF",
+        },
+        {
+            icon: <LuHelpingHand />,
+            text: "মালামাল বিতরণ",
+            backgroundColor: "#ac725d4f",
         },
         {
             icon: <GiDiscussion />,
-            text: "উদ্বুদ্ধকরণ ভ্রমণ",
-            backgroundColor: "#F5E1FF", // Light purple
-        },
-        {
-            icon: <GoNote />,
-            text: "মালামাল বিতরণ",
-            backgroundColor: "#BBE1FA", // Light blue
-        },
-        {
-            icon: <GoNote />,
             text: "ডিএই কৃষক গ্রুপ সভা",
-            backgroundColor: "#FFEDD8", // Light orange
+            backgroundColor: "#FFEDD8",
         },
         {
-            icon: <GoNote />,
+            icon: <LiaSchoolSolid />,
             text: "স্কুল",
-            backgroundColor: "#B2CCFF", // Light blue
+            backgroundColor: "#b2ccff80",
         },
         {
             icon: <GoNote />,
             text: "নোটস",
-            backgroundColor: "#C9D6FF", // Light blue
+            backgroundColor: "#c9ffcd",
         },
     ];
 
