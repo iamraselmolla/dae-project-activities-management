@@ -15,6 +15,7 @@ import { saveAs } from "file-saver";
 import { SiMicrosoftexcel } from "react-icons/si";
 import SectionTitle from "../../shared/SectionTitle";
 import { useSelector } from "react-redux";
+import getFiscalYear from "../../shared/commonDataStores";
 
 const Demo = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -219,7 +220,7 @@ const Demo = () => {
     const dataBlob = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
-    saveAs(dataBlob, `projects.xlsx`);
+    saveAs(dataBlob, `${user?.block} ${getFiscalYear()}.xlsx`);
   };
 
 
