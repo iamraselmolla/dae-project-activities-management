@@ -10,6 +10,7 @@ import { AuthContext } from "../../AuthContext/AuthProvider";
 import { useSelector } from "react-redux";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
+import { toBengaliNumber } from "bengali-number";
 
 const FieldDay = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -35,7 +36,7 @@ const FieldDay = () => {
       const result = await getAllFieldDays();
       if (result?.status === 200) {
         setAllFieldDay(result?.data?.data);
-        setFilteredFieldDays(result?.data?.data)
+        setFilteredFieldDays(result?.data?.data);
         setLoading(false);
         setFetchEnd(true);
       } else {
@@ -76,9 +77,7 @@ const FieldDay = () => {
     }
 
     if (season !== "") {
-      filtered = filtered.filter((project) =>
-        project.season.includes(season)
-      );
+      filtered = filtered.filter((project) => project.season.includes(season));
     }
 
     if (unionName !== "") {
@@ -154,7 +153,9 @@ const FieldDay = () => {
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <AddModuleButton btnText={"মাঠদিবস যুক্ত করুন"} link={"addFieldDay"} />
-      <SectionTitle title={"সকল মাঠ দিবস"} />
+      <SectionTitle
+        title={`সকল মাঠ দিবস (${toBengaliNumber(filteredFieldDays?.length)})`}
+      />
       {user && (
         <>
           <div className="flex py-6 justify-between items-center gap-3">
@@ -234,10 +235,8 @@ const FieldDay = () => {
                 ))}
               </select>
             </div>
-
           </div>
           <div className="w-full mb-12">
-
             <div>
               <input
                 type="text"
