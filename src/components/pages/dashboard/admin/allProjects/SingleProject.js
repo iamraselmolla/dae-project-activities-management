@@ -129,14 +129,17 @@ const SingleProject = ({ data, index }) => {
           <span>প্রকল্পের পুরো নামঃ {data?.name?.details}</span>
 
           <span className="ml-3 flex gap-1">
-            <Link
-              className="flex justify-center items-center"
-              to={`/dashboard/addproject?id=${data?._id}`}
-            >
-              <button className="btn btn-info text-white font-extrabold">
-                <CiEdit size={20} cursor={"pointer"} /> এডিট করুন
-              </button>
-            </Link>
+            {!data?.end &&
+              <Link
+                className="flex justify-center items-center"
+                to={`/dashboard/addproject?id=${data?._id}`}
+              >
+                <button className="btn btn-info text-white font-extrabold">
+                  <CiEdit size={20} cursor={"pointer"} /> এডিট করুন
+                </button>
+              </Link>
+            }
+
 
             <button
               onClick={() => handleProjectDeleting(data?._id)}
@@ -145,13 +148,14 @@ const SingleProject = ({ data, index }) => {
               <RiDeleteBin5Line size={20} cursor={"pointer"} /> প্রকল্প মুছে
               দিন
             </button>
-
-            <button
-              onClick={() => handleProjectCompletion(data?._id)}
-              className="btn btn-success text-white font-extrabold "
-            >
-              <FiCheckCircle size={20} cursor={"pointer"} /> সমাপ্ত ঘোষণা করুন
-            </button>
+            {!data?.end &&
+              <button
+                onClick={() => handleProjectCompletion(data?._id)}
+                className="btn btn-success text-white font-extrabold "
+              >
+                <FiCheckCircle size={20} cursor={"pointer"} /> সমাপ্ত ঘোষণা করুন
+              </button>
+            }
           </span>
 
         </h2>
