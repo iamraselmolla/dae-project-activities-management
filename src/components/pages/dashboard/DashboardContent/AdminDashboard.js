@@ -40,10 +40,10 @@ const AdminDashboard = () => {
     if (noteTypes.length > 0) {
       const newData = noteTypes?.map((single) => ({
         name: single,
-        uv: notes?.filter(
+        incomplete: notes?.filter(
           (single2) => single2?.purpose.target === single && !single2?.completed
         ).length,
-        pv: notes?.filter(
+        completed: notes?.filter(
           (single2) => single2?.purpose.target === single && single2?.completed
         ).length,
         amt: 2400,
@@ -112,83 +112,39 @@ const AdminDashboard = () => {
     },
   ];
 
-  const data5 = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
   return (
     <section className="py-5">
       <div className="grid grid-cols-3 gap-5 justify-center items-center">
-        <div className="grid bg-white p-4 col-span-2 rounded-xl grid-cols-2 gap-3">
+        <div className="grid bg-white p-4 col-span-2 rounded-xl grid-cols-3 gap-3">
           {cards.map((card, index) => (
             <DashboardCard key={index} {...card} />
           ))}
         </div>
+        <div className="h-96 bg-white rounded-xl">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              width={500}
+              height={600}
+              data={data}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="completed" stackId="a" fill="#8884d8" />
+              <Bar dataKey="incomplete" stackId="a" fill="#00ca92" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
 
-      </div>
-      <div className="h-80 mt-8">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            width={500}
-            height={300}
-            data={data}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar label={{ position: 'top', content: ({ value }) => `${value} Custom Label` }} dataKey="pv" stackId="a" fill="#8884d8" />
-            <Bar dataKey="uv" stackId="a" fill="#00ca92" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
     </section>
   );
 };

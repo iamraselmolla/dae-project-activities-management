@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaMobileAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
