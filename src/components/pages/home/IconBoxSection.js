@@ -8,34 +8,49 @@ import { AiOutlineFileDone } from 'react-icons/ai';
 const IconBoxSection = () => {
     const data = [
         {
-            icon: <AiOutlineFileDone />,
-            text: "উদ্বুদ্ধকরণ ভ্রমণ",
+            icon: < MdAgriculture />,
+            text: "প্রদর্শনী",
             backgroundColor: "#c4ff8b", // Light green
         },
         {
             icon: <MdTour />,
-            text: "উদ্বুদ্ধকরণ ভ্রমণ",
+            text: "মাঠ দিবস",
             backgroundColor: "#ffdbdb", // Light red
         },
         {
-            icon: <MdAgriculture />,
-            text: "উপকরণ বিতরণ",
+            icon: < AiOutlineFileDone />,
+            text: "প্রশিক্ষণ",
             backgroundColor: "#fde2a8", // Light orange
         },
         {
             icon: <GiDiscussion />,
-            text: "প্রশিক্ষণ",
+            text: "উদ্বুদ্ধকরণ ভ্রমণ",
             backgroundColor: "#f4e8ff", // Light purple
         },
         {
             icon: <GoNote />,
-            text: "অসম্পন্ন নোটস",
+            text: "মালামাল বিতরণ",
+            backgroundColor: "#a9cded", // Light blue
+        },
+        {
+            icon: <GoNote />,
+            text: "ডিএই কৃষক গ্রুপ সভা",
+            backgroundColor: "#a9cded", // Light blue
+        },
+        {
+            icon: <GoNote />,
+            text: "স্কুল",
+            backgroundColor: "#a9cded", // Light blue
+        },
+        {
+            icon: <GoNote />,
+            text: "নোটস",
             backgroundColor: "#a9cded", // Light blue
         },
     ]
     return (
-        <section className='py-8'>
-            <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4'>
+        <section className='py-24'>
+            <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols- 3 lg:grid-cols-4 gap-4'>
                 {data.map((card, index) => (
                     <IconBox key={index} {...card} />
                 ))}

@@ -1,6 +1,5 @@
 import React from "react";
 import Banner from "./Banner";
-import Features from "./Features";
 import IconBoxSection from "./IconBoxSection";
 
 const Home = () => {
@@ -8,7 +7,6 @@ const Home = () => {
     <>
       <Banner></Banner>
       <IconBoxSection />
-      <Features key={1}></Features>
     </>
   );
 };
