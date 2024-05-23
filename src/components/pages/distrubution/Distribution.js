@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import { toBengaliNumber } from "bengali-number";
+import Loader from "../../shared/Loader";
 
 const Distribution = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -173,15 +174,18 @@ const Distribution = () => {
       )}
 
       {/* Display SingleDistribution components for each distribution */}
-      {loading ? (
-        <div>Loading...</div> // Show loader while data is being fetched
-      ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
-          {filteredDistributions.map((distribution, index) => (
-            <SingleDistribution key={index} data={distribution} />
-          ))}
-        </div>
-      )}
+      {loading ?
+        (<div className="flex justify-center items-center">
+          <Loader />
+        </div>)
+        : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
+            {filteredDistributions.map((distribution, index) => (
+              <SingleDistribution key={index} data={distribution} />
+            ))}
+          </div>
+        )}
+
     </section>
   );
 };
