@@ -16,6 +16,7 @@ import { SiMicrosoftexcel } from "react-icons/si";
 import SectionTitle from "../../shared/SectionTitle";
 import { useSelector } from "react-redux";
 import getFiscalYear from "../../shared/commonDataStores";
+import { toBengaliNumber } from "bengali-number";
 
 const Demo = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -172,14 +173,18 @@ const Demo = () => {
         project.address.union,
         project.demoDate.bopon,
         project.demoDate.ropon,
-        (project.demoDate.korton.startDate ? (project.demoDate.korton.startDate + ' - ' + project.demoDate.korton.endDate) : 'এখনো কর্তন হয়নি।'),
+        project.demoDate.korton.startDate
+          ? project.demoDate.korton.startDate +
+            " - " +
+            project.demoDate.korton.endDate
+          : "এখনো কর্তন হয়নি।",
         project.demoInfo.tech,
         project.demoInfo.crop,
         project.demoInfo.variety,
         project.production.productionPerHector,
         project.production.totalProduction,
         project.production.sidePlotProduction,
-        (project?.SAAO?.name + ' - ' + project?.SAAO?.mobile)
+        project?.SAAO?.name + " - " + project?.SAAO?.mobile,
       ];
     });
 
@@ -206,7 +211,7 @@ const Demo = () => {
         "ফলন (মেঃটন/হেঃ)",
         "প্রদর্শনীতে ফলন",
         "কন্ট্রোল প্লটে ফলন (মেঃটন/হেঃ)",
-        "উপসহকারী কৃষি কর্মকর্তার নাম ও মোবাইল নং"
+        "উপসহকারী কৃষি কর্মকর্তার নাম ও মোবাইল নং",
       ],
       ...data,
     ]);
@@ -223,12 +228,12 @@ const Demo = () => {
     saveAs(dataBlob, `${user?.block} ${getFiscalYear()}.xlsx`);
   };
 
-
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold col-span-1">
-
-        <SectionTitle title={"সকল প্রদর্শনী"} />
+        <SectionTitle
+          title={`সকল প্রদর্শনী (${toBengaliNumber(filteredProjects?.length)})`}
+        />
       </div>
       {user && (
         <>
@@ -309,8 +314,6 @@ const Demo = () => {
                 ))}
               </select>
             </div>
-
-
           </div>
           <div className="flex mb-12 items-center justify-center gap-4">
             <div className="w-full">
@@ -333,7 +336,6 @@ const Demo = () => {
           </div>
         </>
       )}
-
 
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
         {!loading &&
