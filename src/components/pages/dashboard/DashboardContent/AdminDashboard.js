@@ -138,8 +138,8 @@ const AdminDashboard = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="completed" stackId="a" fill="#8884d8" />
-              <Bar dataKey="incomplete" stackId="a" fill="#00ca92" />
+              <Bar dataKey="completed" stackId="a" fill="#00ca92" />
+              <Bar dataKey="incomplete" stackId="a" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>
         </div>
