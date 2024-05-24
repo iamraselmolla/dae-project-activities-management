@@ -15,11 +15,14 @@ import {
 } from "../../../../../services/userServices";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { makeSureOnline } from "../../../../shared/MessageConst";
+import { useDispatch } from "react-redux";
+import { daeAction } from "../../../../store/projectSlice";
 
 const SingleProject = ({ data, index }) => {
   const [allCrops, setAllCrops] = useState(data?.crops);
   const [crop, setCrop] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch()
   const handleCropUpdate = (cropIndex) => {
     const result = allCrops.splice(cropIndex, 1);
     setAllCrops([...allCrops]);
@@ -74,6 +77,7 @@ const SingleProject = ({ data, index }) => {
           const result = await deleteAProject(projectId); // Assuming deleteProject is a function that handles the deletion
           if (result?.status === 200) {
             toast.success("প্রকল্পটি মুছে দেয়া হয়েছে");
+            dispatch(daeAction.setRefetch())
           }
         } else {
           toast.error("প্রকল্প মুছে ফেলা সম্ভব হয়নি। আবার চেষ্টা করুন");
@@ -91,8 +95,7 @@ const SingleProject = ({ data, index }) => {
   };
 
   // Handle Project completion
-  const handleProjectDeletion = async (id) => {
-    console.log(id);
+  const handleProjectCompletion = async (id) => {
 
     if (!id) {
       return toast.error("প্রকল্পের তথ্য পেতে সমস্যা হচ্ছে।");
@@ -106,6 +109,7 @@ const SingleProject = ({ data, index }) => {
         const result = await markProjectComplete(id);
         if (result?.status === 200) {
           toast.success(result?.data?.message);
+          dispatch(daeAction.setRefetch())
         }
       }
     } catch (err) {
@@ -123,8 +127,9 @@ const SingleProject = ({ data, index }) => {
       <div className="collapse-content bg-white flex flex-col gap-2">
         <h2 className="text-xl flex gap-5  pt-8 pb-5 font-bold items-center">
           <span>প্রকল্পের পুরো নামঃ {data?.name?.details}</span>
-          {!data?.end && (
-            <span className="ml-3 flex gap-1">
+
+          <span className="ml-3 flex gap-1">
+            {!data?.end &&
               <Link
                 className="flex justify-center items-center"
                 to={`/dashboard/addproject?id=${data?._id}`}
@@ -133,23 +138,26 @@ const SingleProject = ({ data, index }) => {
                   <CiEdit size={20} cursor={"pointer"} /> এডিট করুন
                 </button>
               </Link>
+            }
 
-              <button
-                onClick={() => handleProjectDeleting(data?._id)}
-                className="btn bg-red-500  text-white font-extrabold"
-              >
-                <RiDeleteBin5Line size={20} cursor={"pointer"} /> প্রকল্প মুছে
-                দিন
-              </button>
 
+            <button
+              onClick={() => handleProjectDeleting(data?._id)}
+              className="btn bg-red-500  text-white font-extrabold"
+            >
+              <RiDeleteBin5Line size={20} cursor={"pointer"} /> প্রকল্প মুছে
+              দিন
+            </button>
+            {!data?.end &&
               <button
-                onClick={() => handleProjectDeletion(data?._id)}
+                onClick={() => handleProjectCompletion(data?._id)}
                 className="btn btn-success text-white font-extrabold "
               >
                 <FiCheckCircle size={20} cursor={"pointer"} /> সমাপ্ত ঘোষণা করুন
               </button>
-            </span>
-          )}
+            }
+          </span>
+
         </h2>
         <h2 className="text-xl font-bold">
           প্রকল্পের সংক্ষেপ নামঃ {data?.name?.short}

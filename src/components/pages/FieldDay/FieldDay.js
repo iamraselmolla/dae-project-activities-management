@@ -10,6 +10,7 @@ import { AuthContext } from "../../AuthContext/AuthProvider";
 import { useSelector } from "react-redux";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
+import { toBengaliNumber } from "bengali-number";
 
 const FieldDay = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -35,7 +36,7 @@ const FieldDay = () => {
       const result = await getAllFieldDays();
       if (result?.status === 200) {
         setAllFieldDay(result?.data?.data);
-        setFilteredFieldDays(result?.data?.data)
+        setFilteredFieldDays(result?.data?.data);
         setLoading(false);
         setFetchEnd(true);
       } else {
@@ -76,9 +77,7 @@ const FieldDay = () => {
     }
 
     if (season !== "") {
-      filtered = filtered.filter((project) =>
-        project.season.includes(season)
-      );
+      filtered = filtered.filter((project) => project.season.includes(season));
     }
 
     if (unionName !== "") {
@@ -154,97 +153,101 @@ const FieldDay = () => {
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <AddModuleButton btnText={"মাঠদিবস যুক্ত করুন"} link={"addFieldDay"} />
-      <SectionTitle title={"সকল মাঠ দিবস"} />
+      <SectionTitle
+        title={`সকল মাঠ দিবস (${toBengaliNumber(filteredFieldDays?.length)})`}
+      />
       {user && (
-        <div className="flex py-6 flex-wrap justify-between items-center gap-3">
-          <div>
-            <label className="font-extrabold mb-1 block">
-              প্রকল্পের পুরো নাম
-            </label>
-            <select
-              className="input input-bordered w-full"
-              value={selectedProject}
-              onChange={handleSelectChange}
-            >
-              <option value="" label="প্রকল্প সিলেক্ট করুন" />
-              {allProject?.map((project) => (
-                <option
-                  key={project._id}
-                  value={project?.name?.details}
-                  label={project?.name?.details}
-                />
-              ))}
-            </select>
-          </div>
+        <>
+          <div className="flex py-6 justify-between items-center gap-3">
+            <div>
+              <label className="font-extrabold mb-1 block">
+                প্রকল্পের পুরো নাম
+              </label>
+              <select
+                className="input input-bordered w-full"
+                value={selectedProject}
+                onChange={handleSelectChange}
+              >
+                <option value="" label="প্রকল্প সিলেক্ট করুন" />
+                {allProject?.map((project) => (
+                  <option
+                    key={project._id}
+                    value={project?.name?.details}
+                    label={project?.name?.details}
+                  />
+                ))}
+              </select>
+            </div>
 
-          <div>
-            <label className="font-extrabold mb-1 block">অর্থবছর</label>
-            <select
-              className="input input-bordered w-full"
-              type="text"
-              value={fiscalYear}
-              onChange={(e) => setFiscalYear(e.target.value)}
-              placeholder="অর্থবছর সিলেক্ট করুন"
-            >
-              <FiscalYear />
-            </select>
-          </div>
-          <div>
-            <label className="font-extrabold mb-1 block">মৌসুম</label>
-            <select
-              className="input input-bordered w-full"
-              id="season"
-              name="season"
-              value={season}
-              onChange={(e) => setSeason(e.target.value)}
-            >
-              <Season />
-            </select>
-          </div>
+            <div>
+              <label className="font-extrabold mb-1 block">অর্থবছর</label>
+              <select
+                className="input input-bordered w-full"
+                type="text"
+                value={fiscalYear}
+                onChange={(e) => setFiscalYear(e.target.value)}
+                placeholder="অর্থবছর সিলেক্ট করুন"
+              >
+                <FiscalYear />
+              </select>
+            </div>
+            <div>
+              <label className="font-extrabold mb-1 block">মৌসুম</label>
+              <select
+                className="input input-bordered w-full"
+                id="season"
+                name="season"
+                value={season}
+                onChange={(e) => setSeason(e.target.value)}
+              >
+                <Season />
+              </select>
+            </div>
 
-          <div>
-            <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
-            <select
-              className="input input-bordered w-full"
-              value={unionName}
-              onChange={handleUnionAndBlockSelection}
-            >
-              <option key={"kdsfkd"} value="">
-                ইউনিয়ন
-              </option>
-              {allUnion?.map((single) => (
-                <option key={single}>{single}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="font-extrabold mb-1 block">ব্লকের নাম</label>
-            <select
-              className="input input-bordered w-full"
-              value={blockName}
-              onChange={(e) => setBlockName(e.target.value)}
-            >
-              <option value="">ব্লক সিলেক্ট করুন</option>
-              {blocksOfUnion?.map((single, index) => (
-                <option key={index} value={single}>
-                  {single}
+            <div>
+              <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
+              <select
+                className="input input-bordered w-full"
+                value={unionName}
+                onChange={handleUnionAndBlockSelection}
+              >
+                <option key={"kdsfkd"} value="">
+                  ইউনিয়ন
                 </option>
-              ))}
-            </select>
-          </div>
+                {allUnion?.map((single) => (
+                  <option key={single}>{single}</option>
+                ))}
+              </select>
+            </div>
 
-          <div>
-            <label className="font-extrabold mb-1 block">অনুসন্ধান</label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="অনুসন্ধান লিখুন"
-            />
+            <div>
+              <label className="font-extrabold mb-1 block">ব্লকের নাম</label>
+              <select
+                className="input input-bordered w-full"
+                value={blockName}
+                onChange={(e) => setBlockName(e.target.value)}
+              >
+                <option value="">ব্লক সিলেক্ট করুন</option>
+                {blocksOfUnion?.map((single, index) => (
+                  <option key={index} value={single}>
+                    {single}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
+          <div className="w-full mb-12">
+            <div>
+              <input
+                type="text"
+                className="input input-bordered w-full"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="খুজুন (প্রকল্পের নাম, গ্রাম, ব্লক, ইউনিয়ন, উপস্থিত কর্মকর্তার নাম, মন্তব্য)"
+              />
+            </div>
+          </div>
+        </>
       )}
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">

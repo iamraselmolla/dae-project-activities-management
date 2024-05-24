@@ -8,9 +8,10 @@ import SectionTitle from "../../shared/SectionTitle";
 import Season from "../../shared/Season";
 import FiscalYear from "../../shared/FiscalYear";
 import { useSelector } from "react-redux";
+import { toBengaliNumber } from "bengali-number";
 
 function MotivationalTour() {
-  const { projects: allProjects } = useSelector(state => state.dae)
+  const { projects: allProjects } = useSelector((state) => state.dae);
   const [allTours, setAllTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState("");
@@ -67,7 +68,7 @@ function MotivationalTour() {
 
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
-  }
+  };
 
   // Make and call function to change searching result according each searching key change
   useEffect(() => {
@@ -96,12 +97,16 @@ function MotivationalTour() {
 
   return (
     <>
-      <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <AddModuleButton
           link={"add-motivational-tour"}
           btnText={"উদ্বদ্ধরণ ভ্রমণ যুক্ত করুন"}
         />
-        <SectionTitle title={"সকল উদ্বুদ্ধকরণ ভ্রমণ"} />
+        <SectionTitle
+          title={`সকল উদ্বুদ্ধকরণ ভ্রমণ (${toBengaliNumber(
+            filteredTours?.length
+          )})`}
+        />
         <div className="flex flex-wrap justify-between items-center gap-3">
           <div>
             <label className="font-extrabold mb-1 block">
@@ -147,20 +152,9 @@ function MotivationalTour() {
               <Season />
             </select>
           </div>
-
-        </div>
-        <div className=" mb-10">
-          <label className="font-extrabold mb-1 block">খুজুন</label>
-          <input
-            type="text"
-            className="input input-bordered w-full"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="অনুসন্ধান লিখুন"
-          />
         </div>
         {!loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
+          <div className="grid mt-12 md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
             {filteredTours &&
               filteredTours?.length > 0 &&
               filteredTours?.map((single) => (

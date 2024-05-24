@@ -1,12 +1,16 @@
 import React from "react";
 import Banner from "./Banner";
-import Features from "./Features";
+import IconBoxSection from "./IconBoxSection";
+import WhyweUs from "./WhyWeUs";
+import WhyweUs2 from "./WhyWeUs2";
 
 const Home = () => {
   return (
     <>
       <Banner></Banner>
-      <Features key={1}></Features>
+      <IconBoxSection />
+      <WhyweUs />
+      <WhyweUs2 />
     </>
   );
 };
