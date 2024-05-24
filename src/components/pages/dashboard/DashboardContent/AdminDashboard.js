@@ -18,6 +18,8 @@ import { GiDiscussion } from "react-icons/gi";
 import { GrCheckboxSelected } from "react-icons/gr";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { MdAgriculture, MdTour } from "react-icons/md";
+import { toBengaliNumber } from "bengali-number";
+import getFiscalYear from '../../../shared/commonDataStores';
 
 const AdminDashboard = () => {
   const { projects, users, trainings, notes, tours, distributions } =
@@ -111,6 +113,27 @@ const AdminDashboard = () => {
       backgroundColor: "#e2f6ff", // Light cyan
     },
   ];
+  const data2 = [
+    {
+      name: 'Page A',
+      uv: 4000,
+      pv: 2400,
+      amt: 2400,
+    },
+    {
+      name: 'Page B',
+      uv: 3000,
+      pv: 1398,
+      amt: 2210,
+    },
+    {
+      name: 'Page C',
+      uv: 2000,
+      pv: 9800,
+      amt: 2290,
+    }
+  ];
+
 
   return (
     <section className="py-5">
@@ -120,29 +143,56 @@ const AdminDashboard = () => {
             <DashboardCard key={index} {...card} />
           ))}
         </div>
-        <div className="h-96 bg-white rounded-xl">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              width={500}
-              height={600}
-              data={data}
-              margin={{
-                top: 20,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="completed" stackId="a" fill="#00ca92" />
-              <Bar dataKey="incomplete" stackId="a" fill="#8884d8" />
-            </BarChart>
-          </ResponsiveContainer>
+        <div>
+          <div className="h-96 pb-10 pt-6 px-6 bg-white rounded-xl" style={{ minHeight: '450px' }}>
+            <h2>{toBengaliNumber(getFiscalYear())} অর্থবছরের প্রশিক্ষণ</h2>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                width={500}
+                height={300}
+                data={data2}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+                barSize={20}
+              >
+                <XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Bar dataKey="pv" fill="#8884d8" background={{ fill: '#eee' }} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
+
+      </div>
+      <div className="h-96 mt-12 bg-white rounded-xl">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            width={500}
+            height={600}
+            data={data}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="completed" stackId="a" fill="#00ca92" />
+            <Bar dataKey="incomplete" stackId="a" fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
 
     </section>
