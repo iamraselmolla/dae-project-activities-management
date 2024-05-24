@@ -9,6 +9,9 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Line,
+  Brush,
+  LineChart,
 } from "recharts";
 import { useSelector } from "react-redux";
 import { GoNote, GoProject } from "react-icons/go";
@@ -20,8 +23,10 @@ import { AiOutlineFileDone } from "react-icons/ai";
 import { MdAgriculture, MdTour } from "react-icons/md";
 import { toBengaliNumber } from "bengali-number";
 import getFiscalYear from '../../../shared/commonDataStores';
+import { seasonsArr } from "../../../shared/MessageConst";
 
 const AdminDashboard = () => {
+  const runningFiscalYear = toBengaliNumber(getFiscalYear());
   const { projects, users, trainings, notes, tours, distributions } =
     useSelector((state) => state.dae);
   const [data, setData] = useState([]);
@@ -113,59 +118,54 @@ const AdminDashboard = () => {
       backgroundColor: "#e2f6ff", // Light cyan
     },
   ];
-  const data2 = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
+  const allProjectsFieldDaysDataArray = seasonsArr?.map(single => {
+    const kharip1 = trainings?.filter(singleFieldDay => singleFieldDay?.fiscalYear === runningFiscalYear && singleFieldDay?.season === 'খরিপ-১').length;
+    const kharip2 = trainings?.filter(singleFieldDay => singleFieldDay?.fiscalYear === runningFiscalYear && singleFieldDay?.season === 'খরিপ-২').length;
+    const robi = trainings?.filter(singleFieldDay => singleFieldDay?.fiscalYear === runningFiscalYear && singleFieldDay?.season === 'রবি').length;
+    return {
+      name: single,
+      kharip2: kharip2 || 0,
+      robi: robi || 0,
+      kharip1: kharip1 || 0,
     }
-  ];
+  });
+
+  // Now you have aggregated data for all seasons into a single object
+  console.log(allProjectsFieldDaysDataArray);
 
 
   return (
     <section className="py-5">
-      <div className="grid grid-cols-3 gap-5 justify-center items-center">
+      <div className="grid grid-cols-3 gap-5">
         <div className="grid bg-white p-4 col-span-2 rounded-xl grid-cols-3 gap-3">
           {cards.map((card, index) => (
             <DashboardCard key={index} {...card} />
           ))}
         </div>
         <div>
-          <div className="h-96 pb-10 pt-6 px-6 bg-white rounded-xl" style={{ minHeight: '450px' }}>
-            <h2>{toBengaliNumber(getFiscalYear())} অর্থবছরের প্রশিক্ষণ</h2>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
+          <div className="h-64 pb-16 pt-4 px-2 bg-white rounded-xl">
+            <h2 className="font-extrabold text-center text-xl">{toBengaliNumber(getFiscalYear())} অর্থবছরের প্রশিক্ষণ</h2>
+            <ResponsiveContainer width="100%" height={200}>
+              <LineChart
                 width={500}
-                height={300}
-                data={data2}
+                height={200}
+                data={allProjectsFieldDaysDataArray}
+                syncId="anyId"
                 margin={{
-                  top: 5,
+                  top: 10,
                   right: 30,
-                  left: 20,
-                  bottom: 5,
+                  left: 0,
+                  bottom: 0,
                 }}
-                barSize={20}
               >
-                <XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Legend />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Bar dataKey="pv" fill="#8884d8" background={{ fill: '#eee' }} />
-              </BarChart>
+                <Line type="monotone" dataKey="kharip2" stroke="#82ca9d" fill="#82ca9d" />
+                <Line type="monotone" dataKey="kharip1" stroke="#82ca9d" fill="#82ca9d" />
+                <Line type="monotone" dataKey="robi" stroke="#82ca9d" fill="#82ca9d" />
+              </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
