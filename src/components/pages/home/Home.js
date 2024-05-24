@@ -1,14 +1,14 @@
 import React from "react";
 import Banner from "./Banner";
 import IconBoxSection from "./IconBoxSection";
-import RunningProjects from "./RunningProjects";
+import WhyweUs from "./WhyWeUs";
 
 const Home = () => {
   return (
     <>
       <Banner></Banner>
       <IconBoxSection />
-      <RunningProjects />
+      <WhyweUs />
     </>
   );
 };
