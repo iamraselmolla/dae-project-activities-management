@@ -15,6 +15,8 @@ import { saveAs } from "file-saver";
 import { SiMicrosoftexcel } from "react-icons/si";
 import SectionTitle from "../../shared/SectionTitle";
 import { useSelector } from "react-redux";
+import getFiscalYear from "../../shared/commonDataStores";
+import { toBengaliNumber } from "bengali-number";
 
 const Demo = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -171,14 +173,18 @@ const Demo = () => {
         project.address.union,
         project.demoDate.bopon,
         project.demoDate.ropon,
-        (project.demoDate.korton.startDate ? (project.demoDate.korton.startDate + ' - ' + project.demoDate.korton.endDate) : 'এখনো কর্তন হয়নি।'),
+        project.demoDate.korton.startDate
+          ? project.demoDate.korton.startDate +
+            " - " +
+            project.demoDate.korton.endDate
+          : "এখনো কর্তন হয়নি।",
         project.demoInfo.tech,
         project.demoInfo.crop,
         project.demoInfo.variety,
         project.production.productionPerHector,
         project.production.totalProduction,
         project.production.sidePlotProduction,
-        (project?.SAAO?.name + ' - ' + project?.SAAO?.mobile)
+        project?.SAAO?.name + " - " + project?.SAAO?.mobile,
       ];
     });
 
@@ -205,7 +211,7 @@ const Demo = () => {
         "ফলন (মেঃটন/হেঃ)",
         "প্রদর্শনীতে ফলন",
         "কন্ট্রোল প্লটে ফলন (মেঃটন/হেঃ)",
-        "উপসহকারী কৃষি কর্মকর্তার নাম ও মোবাইল নং"
+        "উপসহকারী কৃষি কর্মকর্তার নাম ও মোবাইল নং",
       ],
       ...data,
     ]);
@@ -219,115 +225,117 @@ const Demo = () => {
     const dataBlob = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
-    saveAs(dataBlob, `projects.xlsx`);
+    saveAs(dataBlob, `${user?.block} ${getFiscalYear()}.xlsx`);
   };
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold col-span-1">
-
-        <SectionTitle title={"সকল প্রদর্শনী"} />
+        <SectionTitle
+          title={`সকল প্রদর্শনী (${toBengaliNumber(filteredProjects?.length)})`}
+        />
       </div>
       {user && (
-        <div className="flex py-6 flex-wrap justify-between items-center gap-3">
-          <div>
-            <label className="font-extrabold mb-1 block">
-              প্রকল্পের পুরো নাম
-            </label>
-            <select
-              className="input input-bordered w-full"
-              value={selectedProject}
-              onChange={handleSelectChange}
-            >
-              <option value="" label="প্রকল্প সিলেক্ট করুন" />
-              {allProject?.map((project) => (
-                <option
-                  key={project._id}
-                  value={project?.name?.details}
-                  label={project?.name?.details}
-                />
-              ))}
-            </select>
-          </div>
+        <>
+          <div className="flex py-6  justify-between items-center gap-3">
+            <div>
+              <label className="font-extrabold mb-1 block">
+                প্রকল্পের পুরো নাম
+              </label>
+              <select
+                className="input input-bordered w-full"
+                value={selectedProject}
+                onChange={handleSelectChange}
+              >
+                <option value="" label="প্রকল্প সিলেক্ট করুন" />
+                {allProject?.map((project) => (
+                  <option
+                    key={project._id}
+                    value={project?.name?.details}
+                    label={project?.name?.details}
+                  />
+                ))}
+              </select>
+            </div>
 
-          <div>
-            <label className="font-extrabold mb-1 block">অর্থবছর</label>
-            <select
-              className="input input-bordered w-full"
-              type="text"
-              value={fiscalYear}
-              onChange={(e) => setFiscalYear(e.target.value)}
-              placeholder="অর্থবছর সিলেক্ট করুন"
-            >
-              <FiscalYear />
-            </select>
-          </div>
-          <div>
-            <label className="font-extrabold mb-1 block">মৌসুম</label>
-            <select
-              className="input input-bordered w-full"
-              id="season"
-              name="season"
-              value={season}
-              onChange={(e) => setSeason(e.target.value)}
-            >
-              <Season />
-            </select>
-          </div>
+            <div>
+              <label className="font-extrabold mb-1 block">অর্থবছর</label>
+              <select
+                className="input input-bordered w-full"
+                type="text"
+                value={fiscalYear}
+                onChange={(e) => setFiscalYear(e.target.value)}
+                placeholder="অর্থবছর সিলেক্ট করুন"
+              >
+                <FiscalYear />
+              </select>
+            </div>
+            <div>
+              <label className="font-extrabold mb-1 block">মৌসুম</label>
+              <select
+                className="input input-bordered w-full"
+                id="season"
+                name="season"
+                value={season}
+                onChange={(e) => setSeason(e.target.value)}
+              >
+                <Season />
+              </select>
+            </div>
 
-          <div>
-            <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
-            <select
-              className="input input-bordered w-full"
-              value={unionName}
-              onChange={handleUnionAndBlockSelection}
-            >
-              <option key={"kdsfkd"} value="">
-                ইউনিয়ন
-              </option>
-              {allUnion?.map((single) => (
-                <option key={single}>{single}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="font-extrabold mb-1 block">ব্লকের নাম</label>
-            <select
-              className="input input-bordered w-full"
-              value={blockName}
-              onChange={(e) => setBlockName(e.target.value)}
-            >
-              <option value="">ব্লক সিলেক্ট করুন</option>
-              {blocksOfUnion?.map((single, index) => (
-                <option key={index} value={single}>
-                  {single}
+            <div>
+              <label className="font-extrabold mb-1 block">ইউনিয়নের নাম</label>
+              <select
+                className="input input-bordered w-full"
+                value={unionName}
+                onChange={handleUnionAndBlockSelection}
+              >
+                <option key={"kdsfkd"} value="">
+                  ইউনিয়ন
                 </option>
-              ))}
-            </select>
-          </div>
+                {allUnion?.map((single) => (
+                  <option key={single}>{single}</option>
+                ))}
+              </select>
+            </div>
 
-          <div>
-            <label className="font-extrabold mb-1 block">অনুসন্ধান</label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="অনুসন্ধান লিখুন"
-            />
+            <div>
+              <label className="font-extrabold mb-1 block">ব্লকের নাম</label>
+              <select
+                className="input input-bordered w-full"
+                value={blockName}
+                onChange={(e) => setBlockName(e.target.value)}
+              >
+                <option value="">সিলেক্ট করুন</option>
+                {blocksOfUnion?.map((single, index) => (
+                  <option key={index} value={single}>
+                    {single}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <div>
-            <SiMicrosoftexcel
-              color="green"
-              size={50}
-              cursor={"pointer"}
-              onClick={handleToExportInToExcel}
-            />
+          <div className="flex mb-12 items-center justify-center gap-4">
+            <div className="w-full">
+              <input
+                type="text"
+                className="input input-bordered w-full"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="খুজুন (নাম, পিতার নাম, মোবাইল নং, NID, BID, কৃষিকার্ড, প্রকল্পের নাম, প্রযুক্তি, ফসল)"
+              />
+            </div>
+            <div>
+              <SiMicrosoftexcel
+                color="green"
+                size={50}
+                cursor={"pointer"}
+                onClick={handleToExportInToExcel}
+              />
+            </div>
           </div>
-        </div>
+        </>
       )}
-
 
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
         {!loading &&

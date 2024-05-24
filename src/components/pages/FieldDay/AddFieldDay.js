@@ -171,13 +171,16 @@ const AddFieldDay = () => {
       try {
         if (!fieldDayId) {
           if (!formik.values.date) {
+            setLoading(false)
             return toast.error("অবশ্যই তারিখ সিলেক্ট করতে হবে।");
           }
           if (!user) {
+            setLoading(false)
             return toast.error("আপনাকে অবশ্যই লগিন করতে হবে।");
           }
           if (rawImages?.length < 1) {
             toast.error("অবশ্যই মাঠ দিবসের ছবি দিতে হবে।");
+            setLoading(false)
             return;
           }
           values.username = user?.username;

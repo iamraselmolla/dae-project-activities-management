@@ -30,9 +30,9 @@ const SingleFieldDay = ({ data }) => {
         imagesArr.push({ original: image, thumbnail: image });
       }
     }
-  }, [images]);
+  }, [images, data]);
   return (
-    <div className="rounded-lg shadow-xl">
+    <div className="rounded-lg bg-white shadow-xl">
       <div className="relative">
         <ImageGallery autoPlay={true} items={imagesArr} />
         <div className="flex items-center absolute top-3">
