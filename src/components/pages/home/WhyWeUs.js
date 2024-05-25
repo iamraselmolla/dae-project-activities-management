@@ -10,7 +10,7 @@ import WhyThisSoftwareIcon from '../../shared/WhyThisSofywareIcon';
 const WhyweUs = () => {
     return (
         <section className='py-24'>
-            <div className='mx-auto  max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-24'>
+            <div className='mx-auto  max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-24'>
 
                 <div className=" text-center">
                     <figure className="m-0 p-0"><img className="w-auto" src="https://sandbox-tailwindcss.ibthemespro.com/assets/img/illustrations/3d8.png" srcSet="https://sandbox-tailwindcss.ibthemespro.com/assets/img/illustrations/3d8.png" alt="image" /></figure>
