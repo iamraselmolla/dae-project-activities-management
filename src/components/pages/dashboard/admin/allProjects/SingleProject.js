@@ -24,8 +24,9 @@ const SingleProject = ({ data, index }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch()
   const handleCropUpdate = (cropIndex) => {
-    const result = allCrops.splice(cropIndex, 1);
-    setAllCrops([...allCrops]);
+    let allCropsData = [...allCrops];
+    const result = allCropsData.splice(cropIndex, 1);
+    setAllCrops([...allCropsData]);
   };
   const handleCropAdding = () => {
     setAllCrops([...allCrops, crop]);
@@ -45,6 +46,7 @@ const SingleProject = ({ data, index }) => {
         if (result?.status === 200) {
           toast.success(result?.data?.message);
           setLoading(false);
+          dispatch(daeAction.setRefetch())
         }
       } catch (err) {
         setLoading(false);
