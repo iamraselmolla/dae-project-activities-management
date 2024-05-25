@@ -31,7 +31,7 @@ const SingleTrainingRow = ({ index, data }) => {
         imagesArr.push({ original: image, thumbnail: image });
       }
     }
-  }, [images]);
+  }, [images, data]);
   const dispatch = useDispatch();
 
   const handleTrainingDelete = async () => {
