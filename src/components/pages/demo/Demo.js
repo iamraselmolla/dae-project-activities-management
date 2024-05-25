@@ -237,7 +237,7 @@ const Demo = () => {
       </div>
       {user && (
         <>
-          <div className="flex py-6  justify-between items-center gap-3">
+          <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-nowrap  justify-between items-center gap-3">
             <div>
               <label className="font-extrabold mb-1 block">
                 প্রকল্পের পুরো নাম

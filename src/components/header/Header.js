@@ -19,12 +19,12 @@ const Header = () => {
   return (
     <nav className="bg-slate-400">
       <div className="navbar mx-auto py-4 px-2 sm:px-6 lg:px-8">
-        <div className="navbar-start hidden lg:flex">
+        <div className="navbar-start">
           <div className="dropdown">
             <div
               tabIndex={0}
               role="button"
-              className="btn text-white btn-ghost"
+              className="btn flex md:hidden lg:hidden text-white btn-ghost"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +43,7 @@ const Header = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm gap-4 dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className={`menu menu-sm gap-4 dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${!showMenu ? "block" : "hidden"}`}
             >
               <HeaderMenuItem link="" text="হোম" />
               <HeaderMenuItem link="demos" text="প্রদর্শনী" />
@@ -101,7 +101,7 @@ const Header = () => {
                   {showMenu && (
                     <>
                       <div
-                        className="absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${showMenu ? "block" : "hidden"}`}
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="user-menu-button"
