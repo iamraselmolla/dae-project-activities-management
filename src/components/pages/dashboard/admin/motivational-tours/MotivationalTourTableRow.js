@@ -1,11 +1,11 @@
 import React from "react";
 import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
-import { MdOutlineDeleteForever } from "react-icons/md";
 import { deleteATour } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { daeAction } from "../../../../store/projectSlice";
+import { BsTrashFill } from "react-icons/bs";
 
 
 const MotivationalTourTableRow = ({ data, index }) => {
@@ -58,7 +58,7 @@ const MotivationalTourTableRow = ({ data, index }) => {
       </td>
       <td className="py-4 px-2 text-center">
         <div onClick={handleDeleteTour} className="w-10 h-10 rounded-full border-4 border-red-700 flex justify-center items-center">
-          <MdOutlineDeleteForever size={40} color="red" />
+          <BsTrashFill size={40} color="red" />
         </div>
       </td>
     </tr>
