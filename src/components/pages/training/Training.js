@@ -73,8 +73,7 @@ const Training = () => {
 
     return filtered;
   };
-
-  console.log(allTrainings, "all Training");
+  ;
 
   useEffect(() => {
     const filtered = filterTours();
