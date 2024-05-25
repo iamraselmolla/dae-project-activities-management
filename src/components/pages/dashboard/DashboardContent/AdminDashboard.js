@@ -118,20 +118,15 @@ const AdminDashboard = () => {
       backgroundColor: "#e2f6ff", // Light cyan
     },
   ];
-  const allProjectsFieldDaysDataArray = seasonsArr?.map(single => {
-    const kharip1 = trainings?.filter(singleFieldDay => singleFieldDay?.fiscalYear === runningFiscalYear && singleFieldDay?.season === 'খরিপ-১').length;
-    const kharip2 = trainings?.filter(singleFieldDay => singleFieldDay?.fiscalYear === runningFiscalYear && singleFieldDay?.season === 'খরিপ-২').length;
-    const robi = trainings?.filter(singleFieldDay => singleFieldDay?.fiscalYear === runningFiscalYear && singleFieldDay?.season === 'রবি').length;
+
+  const allProjectsFieldDaysDataArray = seasonsArr.map(single => {
     return {
       name: single,
-      kharip2: kharip2 || 0,
-      robi: robi || 0,
-      kharip1: kharip1 || 0,
+      uv: trainings?.filter(singleTraining => singleTraining?.season === single && singleTraining?.fiscalYear === runningFiscalYear).length,
+
     }
   });
 
-  // Now you have aggregated data for all seasons into a single object
-  console.log(allProjectsFieldDaysDataArray);
 
 
   return (
@@ -162,9 +157,7 @@ const AdminDashboard = () => {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="kharip2" stroke="#82ca9d" fill="#82ca9d" />
-                <Line type="monotone" dataKey="kharip1" stroke="#82ca9d" fill="#82ca9d" />
-                <Line type="monotone" dataKey="robi" stroke="#82ca9d" fill="#82ca9d" />
+                <Line type="monotone" dataKey="uv" stroke="#82ca9d" fill="#82ca9d" />
               </LineChart>
             </ResponsiveContainer>
           </div>
