@@ -128,7 +128,7 @@ const UserDemos = () => {
   }, [search]);
   return (
     <>
-      <div className="flex py-10 flex-col">
+      <div className="py-10 ">
         <div className="mt-4 overflow-x-scroll">
           <div className="p-1.5 min-w-full inline-block align-middle">
             <AddModuleButton
