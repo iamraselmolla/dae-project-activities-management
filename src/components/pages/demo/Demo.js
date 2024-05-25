@@ -175,8 +175,8 @@ const Demo = () => {
         project.demoDate.ropon,
         project.demoDate.korton.startDate
           ? project.demoDate.korton.startDate +
-            " - " +
-            project.demoDate.korton.endDate
+          " - " +
+          project.demoDate.korton.endDate
           : "এখনো কর্তন হয়নি।",
         project.demoInfo.tech,
         project.demoInfo.crop,
