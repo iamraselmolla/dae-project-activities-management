@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
-  Rectangle,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -10,8 +9,9 @@ import {
   Legend,
   ResponsiveContainer,
   Line,
-  Brush,
   LineChart,
+  AreaChart,
+  Area,
 } from "recharts";
 import { useSelector } from "react-redux";
 import { GoNote, GoProject } from "react-icons/go";
@@ -126,7 +126,57 @@ const AdminDashboard = () => {
 
     }
   });
+  const data6 = [
+    {
+      name: '18-24',
+      uv: 31.47,
+      pv: 2400,
+      fill: '#8884d8',
+    },
+    {
+      name: '25-29',
+      uv: 26.69,
+      pv: 4567,
+      fill: '#83a6ed',
+    },
+    {
+      name: '30-34',
+      uv: 15.69,
+      pv: 1398,
+      fill: '#8dd1e1',
+    },
+    // {
+    //   name: '35-39',
+    //   uv: 8.22,
+    //   pv: 9800,
+    //   fill: '#82ca9d',
+    // },
+    // {
+    //   name: '40-49',
+    //   uv: 8.63,
+    //   pv: 3908,
+    //   fill: '#a4de6c',
+    // },
+    // {
+    //   name: '50+',
+    //   uv: 2.63,
+    //   pv: 4800,
+    //   fill: '#d0ed57',
+    // },
+    // {
+    //   name: 'unknow',
+    //   uv: 6.67,
+    //   pv: 4800,
+    //   fill: '#ffc658',
+    // },
+  ];
 
+  const style = {
+    top: '50%',
+    right: 0,
+    transform: 'translate(0, -50%)',
+    lineHeight: '24px',
+  };
 
 
   return (
@@ -159,6 +209,29 @@ const AdminDashboard = () => {
                 <Tooltip />
                 <Line type="monotone" dataKey="uv" stroke="#82ca9d" fill="#82ca9d" />
               </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="h-64 mt-8 pb-16 pt-4 px-2 bg-white rounded-xl">
+            <h2 className="font-extrabold text-center text-xl">{toBengaliNumber(getFiscalYear())} অর্থবছরের উপকরণ বিতরণ</h2>
+            <ResponsiveContainer width="100%" height={200}>
+              <AreaChart
+                width={500}
+                height={200}
+                data={data6}
+                syncId="anyId"
+                margin={{
+                  top: 10,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Area type="monotone" dataKey="pv" stroke="#82ca9d" fill="#82ca9d" />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>

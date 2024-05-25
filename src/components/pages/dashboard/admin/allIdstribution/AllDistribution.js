@@ -128,7 +128,7 @@ const AllDistribution = () => {
                             className="input input-bordered w-full"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder="খুজুন (প্রকল্পের নাম, উপস্থিত কর্মকর্তার নাম, মালামালের বিবরণ, অর্থবছর, মৌসুম)"
+                            placeholder="খুজুন (প্রকল্পের নাম, উপস্থিত কর্মকর্তার নাম, উপকরণের বিবরণ, অর্থবছর, মৌসুম)"
                         />
                     </div>
                 </div>

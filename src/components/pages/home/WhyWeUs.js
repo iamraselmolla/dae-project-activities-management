@@ -24,7 +24,7 @@ const WhyweUs = () => {
                         <WhyThisSoftwareIcon heading={'ভিজিট সংরক্ষণ'} text={'তারিখ এবং নামসহ সকল হাই-অফিশিয়াল ভিজিট সংরক্ষণ'} Icon={FaPersonCirclePlus} />
 
                         <WhyThisSoftwareIcon heading={'প্রদর্শনী প্রতিবেদন প্রদান'} text={'প্রদর্শনী প্রাথমিক এবং চূড়ান্ত হিসেবে তথ্য প্রদান করে কার্যক্রম সমাপ্ত'} Icon={PiGrains} />
-                        <WhyThisSoftwareIcon heading={'মালামাল বিতরণ'} text={'বিতরণকৃত সকল প্রকল্পের মালামালের তথ্য এবং উপস্থিত কর্মকর্তার নাম, পদবীসহ তথ্য সংরক্ষণ'} Icon={LiaHandsHelpingSolid} />
+                        <WhyThisSoftwareIcon heading={'উপকরণ বিতরণ'} text={'বিতরণকৃত সকল প্রকল্পের উপকরণের তথ্য এবং উপস্থিত কর্মকর্তার নাম, পদবীসহ তথ্য সংরক্ষণ'} Icon={LiaHandsHelpingSolid} />
 
                     </div>
                 </div>
