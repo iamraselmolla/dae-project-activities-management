@@ -24,7 +24,7 @@ const Header = () => {
             <div
               tabIndex={0}
               role="button"
-              className="btn flex md:hidden lg:hidden text-white btn-ghost"
+              className="btn flex sm:flex md:flex lg:hidden text-white btn-ghost"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@ const Header = () => {
             DAE
           </Link>
         </div>
-        <div className="navbar-center gap-2 hidden lg:flex">
+        <div className="navbar-center gap-2 hidden sm:hidden md:hidden lg:flex">
           <HeaderMenuItem link="" text="হোম" />
           <HeaderMenuItem link="demos" text="প্রদর্শনী" />
           <HeaderMenuItem link="trainings" text="প্রশিক্ষণ" />
