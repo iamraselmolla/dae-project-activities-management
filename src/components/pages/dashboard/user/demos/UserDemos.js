@@ -9,6 +9,7 @@ import NoContentFound from "../../../../shared/NoContentFound";
 import AddModuleButton from "../../../../shared/AddModuleButton";
 import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../../../../store/projectSlice";
+import { toBengaliNumber } from "bengali-number";
 
 const UserDemos = () => {
   const { userData, modalData, endFetch } = useSelector((state) => state.dae);
@@ -70,7 +71,7 @@ const UserDemos = () => {
               btnText={"প্রদর্শনী যুক্ত করুন"}
             />
             <div>
-              <SectionTitle title={"চলমান প্রদর্শনী"} />
+              <SectionTitle title={`চলমান প্রদর্শনী (${toBengaliNumber(incompleteDemos?.length)})`} />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
                 {incompleteDemos?.length > 0 && (
                   <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">
@@ -181,7 +182,7 @@ const UserDemos = () => {
             </div>
 
             <div className="mt-20">
-              <SectionTitle title={"চূড়ান্ত প্রদর্শনী"} />
+              <SectionTitle title={`চূড়ান্ত প্রদর্শনী (${toBengaliNumber(completedDemos?.length)})`} />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
                 {completedDemos?.length > 0 && (
                   <table className="min-w-full bg-white divide-y divide-gray-200 dark:divide-gray-700">
