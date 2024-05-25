@@ -56,10 +56,9 @@ const MotivationalTourTableRow = ({ data, index }) => {
       <td className="py-4 px-2 dashboard-image-control text-center">
         <ImageGallery autoPlay={true} items={imagesArr} />
       </td>
-      <td className="py-4 px-2 text-center">
-        <div onClick={handleDeleteTour} className="w-10 h-10 rounded-full border-4 border-red-700 flex justify-center items-center">
-          <BsTrashFill size={40} color="red" />
-        </div>
+      <td className="py-4 px-2 flex justify-center items-center">
+        <BsTrashFill cursor={"pointer"} onClick={handleDeleteTour} size={40} color="red" />
+
       </td>
     </tr>
   );
