@@ -43,7 +43,9 @@ const Header = () => {
             </div>
             <ul
               tabIndex={0}
-              className={`menu menu-sm gap-4 dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${!showMenu ? "block" : "hidden"}`}
+              className={`menu menu-sm flex flex-col gap-4 dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${
+                !showMenu ? "block" : "hidden"
+              }`}
             >
               <HeaderMenuItem link="" text="হোম" />
               <HeaderMenuItem link="demos" text="প্রদর্শনী" />
@@ -101,7 +103,9 @@ const Header = () => {
                   {showMenu && (
                     <>
                       <div
-                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${showMenu ? "block" : "hidden"}`}
+                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+                          showMenu ? "block" : "hidden"
+                        }`}
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="user-menu-button"
@@ -114,8 +118,8 @@ const Header = () => {
                             isPending
                               ? "pending"
                               : isActive
-                                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                                : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                              ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                              : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                           }
                         >
                           প্রফাইল
