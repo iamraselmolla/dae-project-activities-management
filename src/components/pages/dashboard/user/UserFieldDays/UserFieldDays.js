@@ -162,6 +162,9 @@ const UserFieldDays = () => {
               </select>
             </div>
             <div>
+              <label className="font-extrabold mb-1 block">
+                লিখে খুজে বের করুন
+              </label>
               <input
                 type="text"
                 className="input input-bordered w-full"
