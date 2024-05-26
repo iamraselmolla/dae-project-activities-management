@@ -14,7 +14,12 @@ import Season from "../../../../shared/Season";
 import FiscalYear from "../../../../shared/FiscalYear";
 
 const UserDemos = () => {
-  const { userData, modalData, endFetch, projects: allProjects } = useSelector((state) => state.dae);
+  const {
+    userData,
+    modalData,
+    endFetch,
+    projects: allProjects,
+  } = useSelector((state) => state.dae);
   const [showModal, setShowModal] = useState(false);
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
@@ -136,8 +141,12 @@ const UserDemos = () => {
               btnText={"প্রদর্শনী যুক্ত করুন"}
             />
             <div>
-              <SectionTitle title={`চলমান প্রদর্শনী (${toBengaliNumber(incompleteDemos?.length)})`} />
-              <div className="flex py-6 items-center gap-3">
+              <SectionTitle
+                title={`চলমান প্রদর্শনী (${toBengaliNumber(
+                  incompleteDemos?.length
+                )})`}
+              />
+              <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-wrap xl:flex-nowrap  gap-3">
                 <div>
                   <label className="font-extrabold mb-1 block">
                     প্রকল্পের পুরো নাম
@@ -182,7 +191,6 @@ const UserDemos = () => {
                     <Season />
                   </select>
                 </div>
-
               </div>
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
                 {incompleteDemos?.length > 0 && (
@@ -294,7 +302,11 @@ const UserDemos = () => {
             </div>
 
             <div className="mt-20">
-              <SectionTitle title={`চূড়ান্ত প্রদর্শনী (${toBengaliNumber(completedDemos?.length)})`} />
+              <SectionTitle
+                title={`চূড়ান্ত প্রদর্শনী (${toBengaliNumber(
+                  completedDemos?.length
+                )})`}
+              />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
                 {completedDemos?.length > 0 && (
                   <table className="min-w-full bg-white divide-y divide-gray-200 dark:divide-gray-700">
