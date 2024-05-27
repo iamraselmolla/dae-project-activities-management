@@ -19,12 +19,12 @@ const Header = () => {
   return (
     <nav className="bg-slate-400">
       <div className="navbar mx-auto py-4 px-2 sm:px-6 lg:px-8">
-        <div className="navbar-start hidden lg:flex">
+        <div className="navbar-start">
           <div className="dropdown">
             <div
               tabIndex={0}
               role="button"
-              className="btn text-white btn-ghost"
+              className="btn flex sm:flex md:flex lg:hidden text-white btn-ghost"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +43,9 @@ const Header = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm gap-4 dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className={`menu menu-sm flex flex-col gap-4 dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${
+                !showMenu ? "block" : "hidden"
+              }`}
             >
               <HeaderMenuItem link="" text="হোম" />
               <HeaderMenuItem link="demos" text="প্রদর্শনী" />
@@ -65,7 +67,7 @@ const Header = () => {
             DAE
           </Link>
         </div>
-        <div className="navbar-center gap-2 hidden lg:flex">
+        <div className="navbar-center gap-2 hidden sm:hidden md:hidden lg:flex">
           <HeaderMenuItem link="" text="হোম" />
           <HeaderMenuItem link="demos" text="প্রদর্শনী" />
           <HeaderMenuItem link="trainings" text="প্রশিক্ষণ" />
@@ -76,7 +78,7 @@ const Header = () => {
           <HeaderMenuItem link="all-schools" text="স্কুল" />
         </div>
         <div className="navbar-end">
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div className="absolute right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             {user && (
               <>
                 <div className="relative ml-3">
@@ -101,7 +103,9 @@ const Header = () => {
                   {showMenu && (
                     <>
                       <div
-                        className="absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+                          showMenu ? "block" : "hidden"
+                        }`}
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="user-menu-button"
@@ -114,8 +118,8 @@ const Header = () => {
                             isPending
                               ? "pending"
                               : isActive
-                                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                                : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                              ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                              : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                           }
                         >
                           প্রফাইল

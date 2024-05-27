@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
-  Rectangle,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Line,
+  LineChart,
+  AreaChart,
+  Area,
 } from "recharts";
 import { useSelector } from "react-redux";
 import { GoNote, GoProject } from "react-icons/go";
@@ -18,8 +21,12 @@ import { GiDiscussion } from "react-icons/gi";
 import { GrCheckboxSelected } from "react-icons/gr";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { MdAgriculture, MdTour } from "react-icons/md";
+import { toBengaliNumber } from "bengali-number";
+import getFiscalYear from '../../../shared/commonDataStores';
+import { seasonsArr } from "../../../shared/MessageConst";
 
 const AdminDashboard = () => {
+  const runningFiscalYear = toBengaliNumber(getFiscalYear());
   const { projects, users, trainings, notes, tours, distributions } =
     useSelector((state) => state.dae);
   const [data, setData] = useState([]);
@@ -112,37 +119,103 @@ const AdminDashboard = () => {
     },
   ];
 
+  const allProjectsFieldDaysDataArray = seasonsArr.map(single => {
+    return {
+      name: single,
+      uv: trainings?.filter(singleTraining => singleTraining?.season === single && singleTraining?.fiscalYear === runningFiscalYear).length,
+
+    }
+  });
+  const allProjectsDistributionsDataArray = seasonsArr.map(single => {
+    return {
+      name: single,
+      pv: distributions?.filter(singleDistribution => singleDistribution?.time.season === single && singleDistribution?.time.fiscalYear === runningFiscalYear).length,
+
+    }
+  });
+
+
+
   return (
     <section className="py-5">
-      <div className="grid grid-cols-3 gap-5 justify-center items-center">
+      <div className="grid grid-cols-3 gap-5">
         <div className="grid bg-white p-4 col-span-2 rounded-xl grid-cols-3 gap-3">
           {cards.map((card, index) => (
             <DashboardCard key={index} {...card} />
           ))}
         </div>
-        <div className="h-96 bg-white rounded-xl">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              width={500}
-              height={600}
-              data={data}
-              margin={{
-                top: 20,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="completed" stackId="a" fill="#00ca92" />
-              <Bar dataKey="incomplete" stackId="a" fill="#8884d8" />
-            </BarChart>
-          </ResponsiveContainer>
+        <div>
+          <div className="h-64 pb-16 pt-4 px-2 bg-white rounded-xl">
+            <h2 className="font-extrabold text-center text-xl">{toBengaliNumber(getFiscalYear())} অর্থবছরের প্রশিক্ষণ</h2>
+            <ResponsiveContainer width="100%" height={200}>
+              <LineChart
+                width={500}
+                height={200}
+                data={allProjectsFieldDaysDataArray}
+                syncId="anyId"
+                margin={{
+                  top: 10,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="uv" stroke="#82ca9d" fill="#82ca9d" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="h-64 mt-8 pb-16 pt-4 px-2 bg-white rounded-xl">
+            <h2 className="font-extrabold text-center text-xl">{toBengaliNumber(getFiscalYear())} অর্থবছরের উপকরণ বিতরণ</h2>
+            <ResponsiveContainer width="100%" height={200}>
+              <AreaChart
+                width={500}
+                height={200}
+                data={allProjectsDistributionsDataArray}
+                syncId="anyId"
+                margin={{
+                  top: 10,
+                  right: 30,
+                  left: 0,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Area type="monotone" dataKey="pv" stroke="#82ca9d" fill="#82ca9d" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
         </div>
+
+      </div>
+      <div className="h-96 mt-12 bg-white rounded-xl">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            width={500}
+            height={600}
+            data={data}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="completed" stackId="a" fill="#00ca92" />
+            <Bar dataKey="incomplete" stackId="a" fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
 
     </section>

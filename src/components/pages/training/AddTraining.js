@@ -134,16 +134,19 @@ const AddTraining = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      values.images = selectedImages;
       if (!user) {
         return toast.error(
           "প্রশিক্ষণের তথ্য যুক্ত কর‍তে হলে আপনাকে অবশ্যই লগিন করতে হবে।"
         );
       }
+      if (rawImages?.length < 1) {
+        toast.error('অবশ্যই আপনাকে প্রশিক্ষণের ছবি সংযুক্ত করতে হবে।')
+        return;
+      }
       const postTrainingData = async () => {
         try {
           if (!trainingId) {
-            if (setRawImages?.length > 0) {
+            if (rawImages?.length > 0) {
               setLoadingMessage("ছবি আপ্লোড হচ্ছে");
               setLoading(true);
               const uploadedImageLinks = [];

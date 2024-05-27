@@ -34,7 +34,7 @@ const IconBoxSection = () => {
         },
         {
             icon: <LuHelpingHand />,
-            text: "মালামাল বিতরণ",
+            text: "উপকরণ বিতরণ",
             backgroundColor: "#ac725d4f",
         },
         {
