@@ -52,7 +52,7 @@ const AddDistribution = () => {
         //     season: Yup.string().required("মৌসুম প্রয়োজন"),
         //     date: Yup.date().required("তারিখ প্রয়োজন"),
         // }),
-        // materialName: Yup.string().required("বিতরণকৃত মালামালের বিবরণ প্রয়োজন"),
+        // materialName: Yup.string().required("বিতরণকৃত উপকরণের বিবরণ প্রয়োজন"),
         // images: Yup.array().required("ছবিসমূহ প্রয়োজন").min(1, "কমপক্ষে ১টি ছবি যুক্ত করুন"),
         // presentGuests: Yup.string().required("উপস্থিত অতিথিদের নাম প্রয়োজন"),
         // comment: Yup.string().required("মন্তব্য প্রয়োজন"),

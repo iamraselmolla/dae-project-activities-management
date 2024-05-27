@@ -9,10 +9,23 @@ import NoContentFound from "../../../../shared/NoContentFound";
 import AddModuleButton from "../../../../shared/AddModuleButton";
 import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../../../../store/projectSlice";
+import { toBengaliNumber } from "bengali-number";
+import Season from "../../../../shared/Season";
+import FiscalYear from "../../../../shared/FiscalYear";
 
 const UserDemos = () => {
-  const { userData, modalData, endFetch } = useSelector((state) => state.dae);
+  const {
+    userData,
+    modalData,
+    endFetch,
+    projects: allProjects,
+  } = useSelector((state) => state.dae);
   const [showModal, setShowModal] = useState(false);
+  const [fiscalYear, setFiscalYear] = useState("");
+  const [season, setSeason] = useState("");
+  const [selectedProject, setSelectedProject] = useState("");
+  const [filteredDemos, setFilteredDemos] = useState(userData?.demos);
+  const [search, setSearch] = useState("");
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -58,11 +71,69 @@ const UserDemos = () => {
     }
   };
 
-  const completedDemos = userData?.demos?.filter((demo) => demo?.completed);
-  const incompleteDemos = userData?.demos?.filter((demo) => !demo?.completed);
+  const completedDemos = filteredDemos?.filter((demo) => demo?.completed);
+  const incompleteDemos = filteredDemos?.filter((demo) => !demo?.completed);
+  const filterProjects = () => {
+    let filtered = userData?.demos;
+
+    if (selectedProject !== "") {
+      filtered = filtered.filter((project) =>
+        project.projectInfo.full.includes(selectedProject)
+      );
+    }
+
+    if (fiscalYear !== "") {
+      filtered = filtered.filter((project) =>
+        project.demoTime.fiscalYear.includes(fiscalYear)
+      );
+    }
+
+    if (season !== "") {
+      filtered = filtered.filter((project) =>
+        project.demoTime.season.includes(season)
+      );
+    }
+
+    return filtered; // Return the filtered projects
+  };
+
+  // Call filterProjects inside the useEffect hook to update filteredProjects state
+  useEffect(() => {
+    const filtered = filterProjects();
+    setFilteredDemos(filtered);
+  }, [selectedProject, fiscalYear, season]);
+
+  const handleSelectChange = (e) => {
+    setSelectedProject(e.target.value);
+  };
+
+  // make the function to search accordingly all filed and call the function in each change
+  useEffect(() => {
+    // Filter data whenever the search input changes
+    const filtered = userData?.demos.filter((item) => {
+      // Check if any field matches the search input
+      for (const key in item) {
+        if (typeof item[key] === "string" && item[key].includes(search)) {
+          return true;
+        }
+        if (typeof item[key] === "object") {
+          for (const subKey in item[key]) {
+            if (
+              typeof item[key][subKey] === "string" &&
+              item[key][subKey].includes(search)
+            ) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    });
+    setFilteredDemos(filtered); // Update filtered data
+  }, [search]);
   return (
     <>
-      <div className="flex py-10 flex-col">
+      <div className="py-10 ">
         <div className="mt-4 overflow-x-scroll">
           <div className="p-1.5 min-w-full inline-block align-middle">
             <AddModuleButton
@@ -70,7 +141,57 @@ const UserDemos = () => {
               btnText={"প্রদর্শনী যুক্ত করুন"}
             />
             <div>
-              <SectionTitle title={"চলমান প্রদর্শনী"} />
+              <SectionTitle
+                title={`চলমান প্রদর্শনী (${toBengaliNumber(
+                  incompleteDemos?.length
+                )})`}
+              />
+              <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-wrap xl:flex-nowrap  gap-3">
+                <div>
+                  <label className="font-extrabold mb-1 block">
+                    প্রকল্পের পুরো নাম
+                  </label>
+                  <select
+                    className="input input-bordered w-full"
+                    value={selectedProject}
+                    onChange={handleSelectChange}
+                  >
+                    <option value="" label="প্রকল্প সিলেক্ট করুন" />
+                    {allProjects?.map((project) => (
+                      <option
+                        key={project._id}
+                        value={project?.name?.details}
+                        label={project?.name?.details}
+                      />
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="font-extrabold mb-1 block">অর্থবছর</label>
+                  <select
+                    className="input input-bordered w-full"
+                    type="text"
+                    value={fiscalYear}
+                    onChange={(e) => setFiscalYear(e.target.value)}
+                    placeholder="অর্থবছর সিলেক্ট করুন"
+                  >
+                    <FiscalYear />
+                  </select>
+                </div>
+                <div>
+                  <label className="font-extrabold mb-1 block">মৌসুম</label>
+                  <select
+                    className="input input-bordered w-full"
+                    id="season"
+                    name="season"
+                    value={season}
+                    onChange={(e) => setSeason(e.target.value)}
+                  >
+                    <Season />
+                  </select>
+                </div>
+              </div>
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
                 {incompleteDemos?.length > 0 && (
                   <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">
@@ -181,7 +302,11 @@ const UserDemos = () => {
             </div>
 
             <div className="mt-20">
-              <SectionTitle title={"চূড়ান্ত প্রদর্শনী"} />
+              <SectionTitle
+                title={`চূড়ান্ত প্রদর্শনী (${toBengaliNumber(
+                  completedDemos?.length
+                )})`}
+              />
               <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
                 {completedDemos?.length > 0 && (
                   <table className="min-w-full bg-white divide-y divide-gray-200 dark:divide-gray-700">

@@ -10,7 +10,7 @@ import WhyThisSoftwareIcon from '../../shared/WhyThisSofywareIcon';
 const WhyweUs = () => {
     return (
         <section className='py-24'>
-            <div className='mx-auto  max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-24'>
+            <div className='mx-auto  max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-24'>
 
                 <div className=" text-center">
                     <figure className="m-0 p-0"><img className="w-auto" src="https://sandbox-tailwindcss.ibthemespro.com/assets/img/illustrations/3d8.png" srcSet="https://sandbox-tailwindcss.ibthemespro.com/assets/img/illustrations/3d8.png" alt="image" /></figure>
@@ -24,7 +24,7 @@ const WhyweUs = () => {
                         <WhyThisSoftwareIcon heading={'ভিজিট সংরক্ষণ'} text={'তারিখ এবং নামসহ সকল হাই-অফিশিয়াল ভিজিট সংরক্ষণ'} Icon={FaPersonCirclePlus} />
 
                         <WhyThisSoftwareIcon heading={'প্রদর্শনী প্রতিবেদন প্রদান'} text={'প্রদর্শনী প্রাথমিক এবং চূড়ান্ত হিসেবে তথ্য প্রদান করে কার্যক্রম সমাপ্ত'} Icon={PiGrains} />
-                        <WhyThisSoftwareIcon heading={'মালামাল বিতরণ'} text={'বিতরণকৃত সকল প্রকল্পের মালামালের তথ্য এবং উপস্থিত কর্মকর্তার নাম, পদবীসহ তথ্য সংরক্ষণ'} Icon={LiaHandsHelpingSolid} />
+                        <WhyThisSoftwareIcon heading={'উপকরণ বিতরণ'} text={'বিতরণকৃত সকল প্রকল্পের উপকরণের তথ্য এবং উপস্থিত কর্মকর্তার নাম, পদবীসহ তথ্য সংরক্ষণ'} Icon={LiaHandsHelpingSolid} />
 
                     </div>
                 </div>

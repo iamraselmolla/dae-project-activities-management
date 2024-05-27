@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { getAllProjects, getBlockandUnion } from "../../services/userServices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../store/projectSlice";
 
 export const AuthContext = createContext();
@@ -12,6 +12,7 @@ const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null);
   const [username, setUsername] = useState(null);
   const dispatch = useDispatch();
+  const { refetch } = useSelector(state => state.dae)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("CurrentUser");
@@ -47,7 +48,7 @@ const AuthProvider = ({ children }) => {
       }
     }
     fetchAllProjects()
-  }, [])
+  }, [refetch])
 
 
 
