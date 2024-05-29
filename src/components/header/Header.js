@@ -60,8 +60,8 @@ const Header = () => {
                 text="উদ্বুদ্ধকরণ ভ্রমণ"
               />
               <HeaderMenuItem link="all-schools" text="স্কুল" />
-              <HeaderMenuItem link="all-schools" text="প্রকল্প" />
-              <HeaderMenuItem link="all-schools" text="ব্যবহারকারী" />
+              <HeaderMenuItem link="all-projects" text="প্রকল্প" />
+              <HeaderMenuItem link="all-users" text="ব্যবহারকারী" />
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost text-white text-xl">
@@ -77,8 +77,8 @@ const Header = () => {
           <HeaderMenuItem link="dae-group-meeting" text="ডিএই কৃষক গ্রুপ সভা" />
           <HeaderMenuItem link="motivational-tour" text="উদ্বুদ্ধকরণ ভ্রমণ" />
           <HeaderMenuItem link="all-schools" text="স্কুল" />
-          <HeaderMenuItem link="all-schools" text="প্রকল্প" />
-          <HeaderMenuItem link="all-schools" text="ব্যবহারকারী" />
+          <HeaderMenuItem link="all-projects" text="প্রকল্প" />
+          <HeaderMenuItem link="all-users" text="ব্যবহারকারী" />
         </div>
         <div className="navbar-end">
           <div className="absolute right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">

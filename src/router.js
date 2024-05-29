@@ -33,6 +33,8 @@ import AllDistribution from "./components/pages/dashboard/admin/allIdstribution/
 import AddSchool from "./components/pages/school/AddSchool";
 import AllSchools from "./components/pages/school/AllSchools";
 import UserSchools from "./components/pages/dashboard/user/school/UserSchools";
+import AllUsers from "./components/pages/allUsers/AllUsers";
+import AllProjectsForUser from "./components/pages/allprojects/AllProjects"
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -78,14 +80,22 @@ const router = createBrowserRouter([
       {
         path: "/add-school",
         element: (
-          // <UserRoute>
-          <AddSchool />
-          // </UserRoute>
+          <UserRoute>
+            <AddSchool />
+          </UserRoute>
         ),
       },
       {
         path: "/all-schools",
         element: <AllSchools />,
+      },
+      {
+        path: "/all-users",
+        element: <AllUsers />,
+      },
+      {
+        path: "/all-projects",
+        element: <AllProjectsForUser />,
       },
       {
         path: "/addDemo",
