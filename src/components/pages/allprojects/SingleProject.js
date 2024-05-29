@@ -1,22 +1,37 @@
 import React from 'react';
 import { GiGrainBundle } from "react-icons/gi";
 import { toBengaliNumber } from 'bengali-number';
+import { IoTimer } from "react-icons/io5";
+import { BsPersonWorkspace } from "react-icons/bs";
+
+
 
 const SingleProject = ({ single }) => {
     return (
-        <div className='px-3 py-5 rounded-xl bg-white'>
+        <div className='px-3 relative py-5 pt-16 rounded-xl bg-white'>
+            <div className='absolute top-2'>
+                <BsPersonWorkspace />
+            </div>
             <h2 className="text-md font-bold">
                 {single?.name?.details} ({single?.name?.short})
             </h2>
-            <div className="mt-4">
-                <h3 className="flex gap-3">
+            <div className="mt-4 flex justify-between">
+                <div className="flex gap-3">
                     <div className='flex gap-1 items-center'>
-                        <GiGrainBundle /> প্রযুক্তিঃ
+                        <GiGrainBundle />
                     </div>
                     <div>
                         {toBengaliNumber(single?.crops?.length)}
                     </div>
-                </h3>
+                </div>
+                <div className='flex '>
+                    <div className="flex gap-1 items-center">
+                        <IoTimer />
+                    </div>
+                    <div>
+                        {new Date(single?.time?.start).toLocaleDateString('bn-BD')} - {new Date(single?.time?.end).toLocaleDateString('bn-BD')}
+                    </div>
+                </div>
             </div>
         </div>
     );
