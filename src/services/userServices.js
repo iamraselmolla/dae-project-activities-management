@@ -9,6 +9,7 @@ const BASE_URL = {
   deleteProject: "/projects/delete-project",
   findProject: "/projects/get-project",
   endProject: "/projects/end-project",
+  findAllProjects: "/projects/find-all-projects",
 
   // Demos
   addDemo: "/demo/create-demo",
@@ -104,6 +105,9 @@ export function markProjectComplete(id) {
   return http.put(BASE_URL.endProject, { id });
 }
 
+export function findAllProjectsData() {
+  return http.get(BASE_URL.findAllProjects)
+}
 // Demo API
 export function createDemo(values) {
   return http.post(BASE_URL.addDemo, values);
