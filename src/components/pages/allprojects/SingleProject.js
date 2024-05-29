@@ -3,14 +3,17 @@ import { GiGrainBundle } from "react-icons/gi";
 import { toBengaliNumber } from 'bengali-number';
 import { IoTimer } from "react-icons/io5";
 import { BsPersonWorkspace } from "react-icons/bs";
+import { LiaCheckSquareSolid } from "react-icons/lia";
+
+
 
 
 
 const SingleProject = ({ single }) => {
     return (
         <div className='px-3 relative py-5 pt-16 rounded-xl bg-white'>
-            <div className='absolute top-2'>
-                <BsPersonWorkspace />
+            <div className='absolute top-2 w-16 h-16 rounded-full  text-white justify-center items-center flex'>
+                {!single?.end ? <BsPersonWorkspace size={25} /> : <LiaCheckSquareSolid size={25} />}
             </div>
             <h2 className="text-md font-bold">
                 {single?.name?.details} ({single?.name?.short})

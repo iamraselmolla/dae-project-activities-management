@@ -34,7 +34,7 @@ const AllProjects = () => {
             <div className="container">
                 {!loading ? <>
                     <SectionTitle title={'সকল প্রকল্প'} />
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div className="grid grid-cols-1 mt-10 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {projects?.map((single, index) => <SingleProject key={single?.name?.details} single={single} />)}
 
                     </div></> : <>
