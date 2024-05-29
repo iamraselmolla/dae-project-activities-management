@@ -1,16 +1,44 @@
 import React from "react";
 
 function DevelopmentTeam() {
+  const teamData = [
+    {
+      name: "শেখ সাখাওয়াত হোসেন",
+      title: "UAO & Project Advisor",
+      img: "https://avatars.githubusercontent.com/u/108364128?v=4",
+      socialLinks: {
+        facebook: "iamraselmolla",
+        github: "iamraselmolla",
+        linkedin: "iamraselmolla",
+        whatsapp: "+8801944835365",
+        portfolio: "http://iamraselmolla.netlify.app/",
+        gmail: "raselmolla6336@gmail.com",
+      },
+    },
+    {
+      name: "মোঃ রাসেল মোল্লা",
+      title: "Project Manager and Project Lead",
+      img: "https://avatars.githubusercontent.com/u/108364128?v=4",
+      socialLinks: {
+        facebook: "iamraselmolla",
+        github: "iamraselmolla",
+        linkedin: "iamraselmolla",
+        whatsapp: "+8801944835365",
+        portfolio: "http://iamraselmolla.netlify.app/",
+        gmail: "raselmolla6336@gmail.com",
+      },
+    },
+  ];
   return (
     <section className={"mx-auto max-w-7xl px-2 sm:px-6 lg:px-8"}>
       <div class=" relative">
-        <div class="grid grid-cols-1 pb-8 text-center">
+        <div class="grid grid-cols-1 pb-4 text-center">
           <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">
             ডেভেলপমেন্ট টিমের পরিচিতি
           </h3>
         </div>
-        <div class="grid md:grid-cols-12 grid-cols-1 items-center mt-8 gap-8">
-          <div class="lg:col-span-3 md:col-span-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 items-center mt-8 gap-8">
+          <div>
             <div class="team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
               <div class="bg-indigo-600/10 dark:bg-indigo-600/30 absolute inset-0 rounded-md -mt-[10px] -ms-[10px] w-[98%] h-[98%] -z-1"></div>
               <img
