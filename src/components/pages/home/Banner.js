@@ -22,10 +22,10 @@ const Banner = () => {
             </p>
             <div className="mt-8 flex">
               <button className="btn text-xl font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-5 px-16">
-                প্রদর্শনী
+                সকল প্রকল্প
               </button>
               <button className="btn text-xl font-extrabold border-3 border-black bg-transparent hover:bg-black hover:text-white px-16">
-                মিডিয়া ভিডিও
+                সকল ইউজার
               </button>
             </div>
           </div>
