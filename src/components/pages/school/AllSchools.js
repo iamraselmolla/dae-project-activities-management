@@ -29,6 +29,11 @@ const AllSchools = () => {
   const [search, setSearch] = useState("");
   const [filteredSchools, setFilteredSchools] = useState(schools);
   const [blocksOfUnion, setBlocksOfUnion] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+
+
 
   useEffect(() => {
     const fetchAllSchools = async () => {

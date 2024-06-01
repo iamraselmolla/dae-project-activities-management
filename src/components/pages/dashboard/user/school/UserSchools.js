@@ -29,10 +29,10 @@ const UserSchools = () => {
   const [filteredSchools, setFilteredSchools] = useState(schools);
 
   // Delete a school
-  const handleSchoolDeletion = async (schoolId) => {
+  const handleSchoolDeletion = async (schoolData) => {
     if (window.confirm(`আপনি কি এই স্কুলটি মুছে ফেলতে চান?`)) {
       try {
-        const result = await deleteASchool(schoolId); // Assuming you have a deleteSchool function
+        const result = await deleteASchool(schoolData); // Assuming you have a deleteSchool function
         if (result.status === 200) {
           toast.success(result.data.message);
           dispatch(daeAction.setRefetch());
@@ -42,6 +42,7 @@ const UserSchools = () => {
       }
     }
   };
+
   const filterProjects = () => {
     let filtered = schools;
 
@@ -182,8 +183,8 @@ const UserSchools = () => {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {/* Table Body */}
-              {schools.length > 0 ? (
-                schools.map((school, index) => (
+              {filteredSchools.length > 0 ? (
+                filteredSchools.map((school, index) => (
                   <UserSchoolTableRow
                     handleSchoolDeletion={handleSchoolDeletion}
                     index={index}
