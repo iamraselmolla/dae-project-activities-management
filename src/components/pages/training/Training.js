@@ -166,7 +166,7 @@ const Training = () => {
           </select>
         </div>
       </div>
-      <div className="mt-6 mb-10">
+      <div className=" mb-10">
         <input
           type="text"
           className="input input-bordered w-full"

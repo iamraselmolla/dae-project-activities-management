@@ -35,7 +35,7 @@ const SingleProject = ({ single }) => {
           </div>
           <div>{toBengaliNumber(single?.crops?.length)}</div>
         </div>
-        <div className="flex ">
+        <div className="flex gap-1">
           <div className="flex gap-1 items-center">
             <IoTimer />
           </div>

@@ -55,7 +55,7 @@ function DevelopmentTeam() {
         github: "",
         linkedin: "habibullah-hs",
         whatsapp: "",
-        portfolio: "",
+        portfolio: "/",
         gmail: "habibullah.diu@gmail.com",
       },
     },
