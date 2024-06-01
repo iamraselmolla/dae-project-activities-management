@@ -8,9 +8,8 @@ import { LiaCheckSquareSolid } from "react-icons/lia";
 const SingleProject = ({ single }) => {
   return (
     <div
-      className={`px-3 relative py-5 pt-12 mb-10 rounded-xl bg-white ${
-        single?.end ? "border-2 border-green-500" : ""
-      }`}
+      className={`px-4 relative py-5 pt-12 mb-10 rounded-xl bg-white ${single?.end ? "border-2 border-green-500" : ""
+        }`}
     >
       <div
         className="absolute bg-[#14b8a6] flex h-16 items-center justify-center rounded-full text-white w-16"
@@ -30,8 +29,8 @@ const SingleProject = ({ single }) => {
         {single?.name?.details} ({single?.name?.short})
       </h2>
       <div className="mt-4 flex justify-between">
-        <div className="flex gap-3">
-          <div className="flex gap-1 items-center">
+        <div className="flex gap-2">
+          <div className="flex items-center">
             <GiGrainBundle />
           </div>
           <div>{toBengaliNumber(single?.crops?.length)}</div>
