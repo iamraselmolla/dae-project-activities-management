@@ -13,6 +13,14 @@ import UserSchoolTableRow from "./UserSchoolTableRow";
 import { daeAction } from "../../../../store/projectSlice";
 import FiscalYear from "../../../../shared/FiscalYear";
 import Season from "../../../../shared/Season";
+// import { Cloudinary } from 'cloudinary-core';
+
+
+// const cloudinary = new Cloudinary({
+//   cloud_name: 'your-cloud-name',
+//   api_key: 'your-api-key',
+//   api_secret: 'your-api-secret'
+// });
 
 const UserSchools = () => {
   const { user } = useContext(AuthContext);
@@ -32,6 +40,18 @@ const UserSchools = () => {
   const handleSchoolDeletion = async (schoolData) => {
     if (window.confirm(`আপনি কি এই স্কুলটি মুছে ফেলতে চান?`)) {
       try {
+        // Extract image public IDs from schoolData (assuming it has an images property)
+        const imagePublicIds = schoolData.images.map((img) => img.split('/').pop().split('.')[0]);
+        console.log(imagePublicIds)
+        return;
+
+        // Delete images from Cloudinary
+        // const deleteImagePromises = imagePublicIds.map((public_id) =>
+        //   cloudinary.uploader.destroy(public_id)
+        // );
+        // await Promise.all(deleteImagePromises);
+
+        // Delete school from the database
         const result = await deleteASchool(schoolData); // Assuming you have a deleteSchool function
         if (result.status === 200) {
           toast.success(result.data.message);
