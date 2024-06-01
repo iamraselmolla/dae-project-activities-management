@@ -97,10 +97,10 @@ const AddSchool = () => {
       name: Yup.string().required("এসএএও নাম প্রয়োজন"),
       mobile: Yup.string().required("এসএএও মোবাইল প্রয়োজন"),
     }),
-    assistantOfficers: Yup.string().required("সহকারী অফিসারদের নাম প্রয়োজন"),
-    higherPerson: Yup.string().required(
-      "উর্ধবতন কর্মকর্তার নাম (যদি উপস্থিত থাকেন) প্রয়োজন"
-    ),
+    // assistantOfficers: Yup.string().required("সহকারী অফিসারদের নাম প্রয়োজন"),
+    // higherPerson: Yup.string().required(
+    //   "উর্ধবতন কর্মকর্তার নাম (যদি উপস্থিত থাকেন) প্রয়োজন"
+    // ),
     comment: Yup.string(),
   });
   const formik = useFormik({
