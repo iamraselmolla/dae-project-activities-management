@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import("../../../css/banner.css");
 
 const Banner = () => {
@@ -21,12 +22,16 @@ const Banner = () => {
               উপকরণ বিতরণ সংরক্ষণ, পর্যবেক্ষণ ও প্রদান করা হবে।
             </p>
             <div className="mt-8 flex">
-              <button className="btn text-xl font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-5 px-16">
-                সকল প্রকল্প
-              </button>
-              <button className="btn text-xl font-extrabold border-3 border-black bg-transparent hover:bg-black hover:text-white px-16">
-                সকল ইউজার
-              </button>
+              <Link to="/all-projects">
+                <button className="btn text-xl font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-5 px-16">
+                  সকল প্রকল্প
+                </button>
+              </Link>
+              <Link to={'/all-users'}>
+                <button className="btn text-xl font-extrabold border-3 border-black bg-transparent hover:bg-black hover:text-white px-16">
+                  সকল ইউজার
+                </button>
+              </Link>
             </div>
           </div>
           <div className="flex md:pt-10 justify-center">
