@@ -19,7 +19,7 @@ const AllUsers = () => {
                 ব্লকঃ {single?.blockB} <br /> ইউনিয়নঃ {single?.unionB}
               </h2>
               <div>
-                <h4>উপসহকারী কৃষি কর্মকর্তাঃ {single?.SAAO?.name}</h4>
+                <h4>উপঃ কৃষি কর্মকর্তাঃ {single?.SAAO?.name}</h4>
                 <h4>মোবাইলঃ {single?.SAAO?.mobile}</h4>
               </div>
             </div>
