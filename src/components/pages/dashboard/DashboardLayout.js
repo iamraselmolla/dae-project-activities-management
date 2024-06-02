@@ -119,10 +119,10 @@ const DashboardLayout = () => {
         </div>
       </div>
       <div className="md:col-span-10 px-6 bg-slate-50">
-        {loading && <Loader />}
-        {!loading && <Outlet />}
+        {loading ? <Loader /> : <Outlet />}
       </div>
     </section>
+
   );
 };
 

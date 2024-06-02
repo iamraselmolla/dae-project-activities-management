@@ -15,7 +15,7 @@ import { RiSchoolLine } from "react-icons/ri";
 const DashboardMenu = () => {
   const { user, role } = useContext(AuthContext);
   return (
-    <>
+    <div className="md:flex md:flex-wrap flex flex-wrap">
       <DashboardMenuItem icon={<RxDashboard />} link="" text={"ড্যাশবোর্ড"} />
       {user && role === "admin" && (
         <DashboardMenuItem
@@ -86,7 +86,7 @@ const DashboardMenu = () => {
         link="/user-notes"
         text={"নোটস"}
       />
-    </>
+    </div>
   );
 };
 
