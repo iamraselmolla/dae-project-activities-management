@@ -5,6 +5,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
+import AddImageModal from "../../../../shared/AddImageModal";
 
 const UserSingleDemoTableRow = ({
   data,
@@ -163,6 +164,7 @@ const UserSingleDemoTableRow = ({
           </div>
         </td>
       </tr>
+      <AddImageModal data={data} />
     </>
   );
 };

@@ -8,7 +8,8 @@ import { addImageAndDetails } from "../../services/userServices";
 import Loader from "./Loader";
 import { toBengaliNumber } from "bengali-number";
 
-const AddImageModal = ({ data, showModal, closeModal }) => {
+const AddImageModal = ({ data }) => {
+  console.log(data)
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewURLs, setPreviewURLs] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -69,7 +70,6 @@ const AddImageModal = ({ data, showModal, closeModal }) => {
         toast.success(result2?.data?.message);
         setLoading(false);
         setLoadingMessage(null);
-        closeModal(); // Close modal after successful upload
       }
     } catch (err) {
       toast.error(
@@ -80,7 +80,7 @@ const AddImageModal = ({ data, showModal, closeModal }) => {
 
   return (
     <>
-      {!loading && showModal && (
+      {!loading && (
         <dialog id="my_modal_1" className="modal text-center">
           <div className="modal-box w-6/12 max-w-5xl">
             <h3 className="font-bold text-xl mb-2">
