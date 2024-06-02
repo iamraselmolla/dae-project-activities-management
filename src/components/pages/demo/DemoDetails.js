@@ -295,8 +295,8 @@ function DemoDetails() {
                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <td className="px-6 py-4">{toBengaliNumber(index + 1)}</td>
                       <td className="px-6 py-4">{new Date(single?.date).toLocaleString('bn-BD', {
-                        day: 'numeric',
-                        month: 'numeric',
+                        day: '2-digit',
+                        month: '2-digit',
                         year: 'numeric'
                       })}</td>
                       <td className="px-6 py-4">{single?.presentCondition}</td>
