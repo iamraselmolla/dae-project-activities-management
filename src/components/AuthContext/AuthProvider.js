@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null);
   const [username, setUsername] = useState(null);
   const dispatch = useDispatch();
-  const { refetch } = useSelector(state => state.dae)
+  const { refetch } = useSelector((state) => state.dae);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("CurrentUser");
@@ -33,24 +33,19 @@ const AuthProvider = ({ children }) => {
       try {
         const result = await getAllProjects();
         if (result?.status === 200) {
-          dispatch(daeAction.setAllProjects(result?.data?.data))
-
+          dispatch(daeAction.setAllProjects(result?.data?.data));
         }
 
-        const result2 = await getBlockandUnion()
+        const result2 = await getBlockandUnion();
         if (result?.status === 200) {
-          dispatch(daeAction.setBlokAndUnion(result2?.data?.data))
+          dispatch(daeAction.setBlokAndUnion(result2?.data?.data));
         }
-
+      } catch (err) {
+        toast.error("প্রকল্পের তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে।");
       }
-      catch (err) {
-        toast.error('প্রকল্পের তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে।')
-      }
-    }
-    fetchAllProjects()
-  }, [refetch])
-
-
+    };
+    fetchAllProjects();
+  }, [refetch]);
 
   const authInfo = {
     user,
@@ -66,9 +61,7 @@ const AuthProvider = ({ children }) => {
   }
   return (
     <>
-      <AuthContext.Provider value={authInfo}>
-        {children}
-      </AuthContext.Provider>
+      <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
     </>
   );
 };
