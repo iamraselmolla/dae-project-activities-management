@@ -7,16 +7,17 @@ import { uploadToCloudinary } from "../utilis/uploadToCloudinary";
 import { addImageAndDetails } from "../../services/userServices";
 import Loader from "./Loader";
 import { toBengaliNumber } from "bengali-number";
+import { daeAction } from "../store/projectSlice";
+import { useDispatch } from "react-redux";
 
 const AddImageModal = ({ data }) => {
-  console.log(data)
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewURLs, setPreviewURLs] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [presentCondition, setPresentCondition] = useState("");
   const [presentOfficers, setPresentOfficers] = useState("");
   const [loadingMessage, setLoadingMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); const dispatch = useDispatch()
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
@@ -70,6 +71,7 @@ const AddImageModal = ({ data }) => {
         toast.success(result2?.data?.message);
         setLoading(false);
         setLoadingMessage(null);
+        dispatch(daeAction.setRefetch());
       }
     } catch (err) {
       toast.error(

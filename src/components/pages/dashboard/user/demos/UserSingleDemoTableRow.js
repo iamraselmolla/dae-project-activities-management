@@ -25,8 +25,7 @@ const UserSingleDemoTableRow = ({
     demoDate,
     production,
     comment,
-    demoImages,
-    username,
+    demoImages
   } = data;
 
   const imagesArr = [];
@@ -38,7 +37,7 @@ const UserSingleDemoTableRow = ({
         );
       }
     }
-  }, [demoImages, username]);
+  }, [data]);
 
   const handleModaOpen = (dataValues) => {
     document.getElementById("my_modal_1")?.showModal();
