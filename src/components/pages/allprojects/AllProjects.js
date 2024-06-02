@@ -5,6 +5,7 @@ import SingleProject from './SingleProject';
 import { findAllProjectsData } from '../../../services/userServices';
 import toast from 'react-hot-toast';
 import Loader from '../../shared/Loader';
+import { toBengaliNumber } from 'bengali-number';
 
 
 const AllProjects = () => {
@@ -33,7 +34,7 @@ const AllProjects = () => {
         <section className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
             <div className="container">
                 {!loading ? <>
-                    <SectionTitle title={'সকল প্রকল্প'} />
+                    <SectionTitle title={`সকল প্রকল্প (${toBengaliNumber(projects?.length)})`} />
                     <div className="grid grid-cols-1 mt-10 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {projects?.map((single, index) => <SingleProject key={single?.name?.details} single={single} />)}
 
