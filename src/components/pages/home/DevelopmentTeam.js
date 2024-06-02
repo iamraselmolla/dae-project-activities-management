@@ -12,7 +12,7 @@ function DevelopmentTeam() {
         facebook: "",
         github: "",
         linkedin: "",
-        whatsapp: "+",
+        whatsapp: "+8801737939379",
         portfolio: "",
         gmail: "sakhoat.dae@gmailcom",
       },
