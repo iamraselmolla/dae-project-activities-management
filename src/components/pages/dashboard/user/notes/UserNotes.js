@@ -68,7 +68,7 @@ const UserNotes = () => {
       <div className="mt-10 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
           <AddModuleButton link={"add-note"} btnText={"নোট যুক্ত করুন"} />
-          <SectionTitle title={`অসম্পন্ন নোট ${toBengaliNumber(completedNotes?.length)}`} />
+          <SectionTitle title={`অসম্পন্ন নোট (${toBengaliNumber(completedNotes?.length)})`} />
           <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900 mb-16">
             <>
               <table className="min-w-full divide-y bg-white  divide-gray-200 dark:divide-gray-700">
@@ -171,7 +171,7 @@ const UserNotes = () => {
           </div>
 
           {/* Completed Notes Table */}
-          <SectionTitle title={"সম্পন্ন নোট"} />
+          <SectionTitle title={`সম্পন্ন নোট (${toBengaliNumber(incompletedNotes?.length)})`} />
           <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
             <>
               <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">
