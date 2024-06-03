@@ -13,6 +13,7 @@ import UserSchoolTableRow from "./UserSchoolTableRow";
 import { daeAction } from "../../../../store/projectSlice";
 import FiscalYear from "../../../../shared/FiscalYear";
 import Season from "../../../../shared/Season";
+import { toBengaliNumber } from "bengali-number";
 // import { Cloudinary } from 'cloudinary-core';
 
 
@@ -123,7 +124,7 @@ const UserSchools = () => {
 
   return (
     <div className="flex flex-col">
-      <SectionTitle title="ইউজারের স্কুলসমূহ" />
+      <SectionTitle title={`ইউজারের স্কুলসমূহ (${toBengaliNumber(filteredSchools?.length || 0)})`} />
       <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-nowrap  justify-between items-center gap-3">
         <div>
           <label className="font-extrabold mb-1 block">
