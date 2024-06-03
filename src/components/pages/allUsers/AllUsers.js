@@ -20,7 +20,7 @@ const AllUsers = () => {
               </h2>
               <div>
                 <h4>উপঃ কৃষি কর্মকর্তাঃ {single?.SAAO?.name}</h4>
-                <h4 className="blur">মোবাইলঃ {single?.SAAO?.mobile}</h4>
+                <h4>মোবাইলঃ {single?.SAAO?.mobile}</h4>
               </div>
             </div>
           ))}
