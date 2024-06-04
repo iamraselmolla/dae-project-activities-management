@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 
 function SingleProfile({ user }) {
   const location = useLocation();
-  console.log(location.pathname)
   return (
     <form>
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4">

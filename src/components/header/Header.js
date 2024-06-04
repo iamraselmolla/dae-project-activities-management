@@ -67,7 +67,7 @@ const Header = () => {
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost text-white text-xl">
-            <img src="images/logo.png" width={'60px'} alt="" srcSet="" />
+            <img src="/images/logo.png" width={'60px'} alt="" srcSet="" />
           </Link>
         </div>
         <div className="navbar-center gap-2 hidden sm:hidden md:hidden lg:flex">
