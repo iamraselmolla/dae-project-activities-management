@@ -5,11 +5,9 @@ const Footer = () => {
   return (
     <footer className="bg-gray-800 py-6">
       <div className="mx-auto flex flex-col items-center text-center max-w-7xl px-2 sm:px-6 lg:px-8">
-        <h1 className="text-2xl flex items-center mb-4 text-white font-bold">
-          DAE
-        </h1>
+        <img src="images/logo.png" width={100} alt="" srcSet="" />
         <div>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center mt-6 gap-4">
             <FooterMenuItem link="" text="হোম" />
             <FooterMenuItem link="demos" text="প্রদর্শনী" />
             <FooterMenuItem link="trainings" text="প্রশিক্ষণ" />

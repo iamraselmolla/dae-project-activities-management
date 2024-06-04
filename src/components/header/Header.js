@@ -20,7 +20,7 @@ const Header = () => {
 
   return (
     <nav className="bg-slate-400">
-      <div className="navbar mx-auto py-4 px-2 sm:px-6 lg:px-8">
+      <div className="navbar mx-auto px-2 sm:px-6 lg:px-8">
         <div className="navbar-start">
           <div className="dropdown">
             <div
@@ -67,7 +67,7 @@ const Header = () => {
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost text-white text-xl">
-            <img src="images/logo.png" width={'70px'} alt="" srcset="" />
+            <img src="images/logo.png" width={'60px'} alt="" srcSet="" />
           </Link>
         </div>
         <div className="navbar-center gap-2 hidden sm:hidden md:hidden lg:flex">
@@ -97,7 +97,7 @@ const Header = () => {
                     >
                       <span className="absolute -inset-1.5"></span>
                       <span className="sr-only">Open user menu</span>
-                      <FaRegCircleUser size={40} color="white" />
+                      <FaRegCircleUser size={25} color="white" />
                     </button>
                   </div>
 
