@@ -87,7 +87,7 @@ const UserNotes = () => {
           <AddModuleButton link={"add-note"} btnText={"নোট যুক্ত করুন"} />
           <SectionTitle title={`অসম্পন্ন নোট (${toBengaliNumber(completedNotes?.length)})`} />
           <section>
-            <select onChange={handlePurposeSelection}>
+            <select className="input input-bordered w-full" onChange={handlePurposeSelection}>
               <option value="" label="উদ্দেশ্য নির্বাচন করুন" />
               <option value="প্রদর্শনী দেওয়া">প্রদর্শনী দেওয়া</option>
               <option value="প্রশিক্ষণে নাম দেয়া">প্রশিক্ষণে নাম দেয়া</option>

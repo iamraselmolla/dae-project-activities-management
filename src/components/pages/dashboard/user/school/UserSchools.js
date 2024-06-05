@@ -171,7 +171,7 @@ const UserSchools = () => {
           </select>
         </div>
       </div>
-      <div className="w-full mb-12">
+      <div className="w-full mb-4">
         <div>
           <input
             type="text"
@@ -182,7 +182,7 @@ const UserSchools = () => {
           />
         </div>
       </div>
-      <div className="mt-10 overflow-x-auto">
+      <div className="overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
           <table className="min-w-full divide-y bg-white divide-gray-200">
             {/* Table Header */}
