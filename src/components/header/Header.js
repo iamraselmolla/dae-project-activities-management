@@ -111,8 +111,10 @@ const Header = () => {
                         aria-labelledby="user-menu-button"
                         tabIndex="-1"
                       >
-                        <HeaderMenuItem link="dashboard" text="Dashboard" />
+                        <HeaderMenuItem
+                          link="dashboard" text="Dashboard" />
                         <NavLink
+                          end
                           to={`/dashboard/profile`}
                           className={({ isActive, isPending }) =>
                             isPending
