@@ -16,24 +16,20 @@ import FiscalYear from "../../../../shared/FiscalYear";
 const UserDemos = () => {
   const {
     userData,
-    modalData,
     endFetch,
     projects: allProjects,
   } = useSelector((state) => state.dae);
-  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState(null)
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
   const [filteredDemos, setFilteredDemos] = useState(userData?.demos);
   const [search, setSearch] = useState("");
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+
 
   const handleOpenModal = (data) => {
-    dispatch(daeAction.setModalData(data));
-    setShowModal(true);
+    setModalData(data);
     document.getElementById("my_modal_33")?.showModal();
   };
   const dispatch = useDispatch();
@@ -159,7 +155,7 @@ const UserDemos = () => {
                     <option value="" label="প্রকল্প সিলেক্ট করুন" />
                     {allProjects?.map((project) => (
                       <option
-                        key={project._id}
+                        key={project.name?.details}
                         value={project?.name?.details}
                         label={project?.name?.details}
                       />
@@ -419,7 +415,7 @@ const UserDemos = () => {
         </div>
       </div>
 
-      {<MarkDemoCompleteModal data={modalData} onClose={handleCloseModal} />}
+      {modalData && <MarkDemoCompleteModal data={modalData} />}
     </>
   );
 };
