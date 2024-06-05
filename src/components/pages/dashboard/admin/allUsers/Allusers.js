@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 const Allusers = () => {
   const { users: allUser } = useSelector((state) => state.dae);
-  console.log(allUser);
 
   return (
     <div className="px-5 py-5">

@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 const DashboardMenuItem = ({ link, text, icon }) => {
     return (
         <NavLink
+            end
             to={`/dashboard${link}`}
             className={({ isActive, isPending }) =>
                 isPending

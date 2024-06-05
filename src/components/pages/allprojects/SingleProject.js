@@ -9,9 +9,8 @@ const SingleProject = ({ single }) => {
   const [show, setShow] = useState(false);
   return (
     <div
-      className={`px-4 relative py-5 pt-12 mb-10 rounded-xl bg-white ${
-        single?.end ? "border-2 border-green-500" : ""
-      }`}
+      className={`px-4 relative py-5 pt-12 mb-10 rounded-xl bg-white ${single?.end ? "border-2 border-green-500" : ""
+        }`}
     >
       <div
         className="absolute bg-[#14b8a6] flex h-16 items-center justify-center rounded-full text-white w-16"
