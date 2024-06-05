@@ -19,7 +19,7 @@ const Training = () => {
   const [selectedProject, setSelectedProject] = useState("");
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = usetate("");
   const { projects: allProjects } = useSelector((state) => state.dae);
   const fetchAllTraining = async () => {
     setLoading(true);
