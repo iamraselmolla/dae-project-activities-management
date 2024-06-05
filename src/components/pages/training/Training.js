@@ -19,14 +19,13 @@ const Training = () => {
   const [selectedProject, setSelectedProject] = useState("");
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
-  const [search, setSearch] = usetate("");
+  const [search, setSearch] = useState("");
   const { projects: allProjects } = useSelector((state) => state.dae);
   const fetchAllTraining = async () => {
     setLoading(true);
     try {
       const result = await getAllTraining();
       if (result.status === 200) {
-        console.log(result);
         setAllTrainings(result?.data?.data);
         setFilterAllTrainings(result?.data?.data);
         setLoading(false);
