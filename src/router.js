@@ -34,7 +34,7 @@ import AddSchool from "./components/pages/school/AddSchool";
 import AllSchools from "./components/pages/school/AllSchools";
 import UserSchools from "./components/pages/dashboard/user/school/UserSchools";
 import AllUsers from "./components/pages/allUsers/AllUsers";
-import AllProjectsForUser from "./components/pages/allprojects/AllProjects"
+import AllProjectsForUser from "./components/pages/allprojects/AllProjects";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -159,7 +159,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/add-motivational-tour",
-        element: <AddMotivationalTour />,
+        element: (
+          <AdminRoute>
+            <AddMotivationalTour />
+          </AdminRoute>
+        ),
       },
       {
         path: "*",
