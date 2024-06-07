@@ -19,7 +19,6 @@ import UserNotes from "./components/pages/dashboard/user/notes/UserNotes";
 import AdminTrainings from "./components/pages/dashboard/admin/DashboardTrainings/AdminTrainings";
 import UserFieldDays from "./components/pages/dashboard/user/UserFieldDays/UserFieldDays";
 import UserDaeMeetings from "./components/pages/dashboard/user/group-meeting/UserDaeMeetings";
-import UserDemos from "./components/pages/dashboard/user/demos/UserDemos";
 import AddNotes from "./components/pages/note/AddUserNotes";
 import DemoDetails from "./components/pages/demo/DemoDetails";
 import AddDistribution from "./components/pages/distrubution/AddDistribution";
@@ -35,6 +34,7 @@ import AllSchools from "./components/pages/school/AllSchools";
 import UserSchools from "./components/pages/dashboard/user/school/UserSchools";
 import AllUsers from "./components/pages/allUsers/AllUsers";
 import AllProjectsForUser from "./components/pages/allprojects/AllProjects";
+import UserPrimaryDemos from "./components/pages/dashboard/user/demos/UserPrimaryDemos";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -212,9 +212,9 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/user-demos-primary",
             element: (
-              <UserDemos>
-                <UserDemos />
-              </UserDemos>
+              <UserRoute>
+                <UserPrimaryDemos />
+              </UserRoute>
             ),
           },
           {

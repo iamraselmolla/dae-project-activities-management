@@ -56,7 +56,7 @@ const DashboardMenu = () => {
         <DashboardMenuItem
           icon={<CgDisplayGrid />}
           link="/user-demos-primary"
-          text={"প্রদর্শনী"}
+          text={"প্রাথমিক প্রদর্শনী"}
         />
       )}
       {user && role === "user" && (

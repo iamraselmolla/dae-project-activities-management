@@ -13,7 +13,7 @@ import { toBengaliNumber } from "bengali-number";
 import Season from "../../../../shared/Season";
 import FiscalYear from "../../../../shared/FiscalYear";
 
-const UserDemos = () => {
+const UserFinalDemos = () => {
   const {
     userData,
     endFetch,
@@ -201,130 +201,6 @@ const UserDemos = () => {
                 </select>
               </div>
             </div>
-            <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-              {currentEntries?.length > 0 && (
-                <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead>
-                    <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        ক্র: নং:
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        প্রকল্প
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        প্রদর্শনী সম্পর্কিত
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        অর্থবছর ও মৌসুম
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        কৃষকের নাম ও পিতার নাম
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        ঠিকানা
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 whitespace-nowrap font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        মোবাইল, এনআইডি,
-                        <br /> কৃষি কার্ড, বিআইডি
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        বপন, রোপন ও কর্তন
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        উৎপাদন সংক্রান্ত
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        ভিজিট সংক্রান্ত
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        মন্তব্য
-                      </th>
-                      <th
-                        scope="col"
-                        className=" py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        SAAO-এর নাম ও মোবাইল নং
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        একশন
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {endFetch &&
-                      incompleteDemos?.length > 0 &&
-                      incompleteDemos?.map((single, index) => (
-                        <UserSingleDemoTableRow
-                          handleDemoDeleting={handleDemoDeleting}
-                          data={single}
-                          index={index}
-                          key={single?._id}
-                          handleOpenModal={handleOpenModal}
-                        />
-                      ))}
-                  </tbody>
-                </table>
-              )}
-              {endFetch && incompleteDemos?.length < 1 && (
-                <NoContentFound
-                  text={"কোনো চলমান প্রদর্শনীর তথ্য পাওয়া যায়নি!!"}
-                />
-              )}
-            </div>
-            <div>
-              <span>প্রতি পৃষ্ঠায়:</span>
-              <select className="ml-2 border rounded" value={entriesPerPage} onChange={handleEntriesChange}>
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={filteredDemos?.length}>সব</option>
-              </select>
-            </div>
-            <div>
-              <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>&laquo; পূর্ববর্তী</button>
-              <span className="mx-2">পৃষ্ঠা {currentPage} / {totalPages}</span>
-              <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>পরবর্তী &raquo;</button>
-            </div>
-
-
-
             <div className="mt-20">
               <SectionTitle
                 title={`চূড়ান্ত প্রদর্শনী (${toBengaliNumber(
@@ -450,4 +326,4 @@ const UserDemos = () => {
   );
 };
 
-export default UserDemos;
+export default UserFinalDemos;
