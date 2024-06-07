@@ -25,6 +25,21 @@ const UserDemos = () => {
   const [selectedProject, setSelectedProject] = useState("");
   const [filteredDemos, setFilteredDemos] = useState(userData?.demos);
   const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [entriesPerPage, setEntriesPerPage] = useState(5);
+  const indexOfLastEntry = currentPage * entriesPerPage;
+  const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
+  const currentEntries = filteredDemos?.slice(indexOfFirstEntry, indexOfLastEntry);
+  const completedDemos = filteredDemos?.filter((demo) => demo?.completed);
+  const incompleteDemos = filteredDemos?.filter((demo) => !demo?.completed);
+  // Handle pagination controls
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const handleEntriesChange = (e) => {
+    setEntriesPerPage(parseInt(e.target.value));
+    setCurrentPage(1); // Reset to first page on entries change
+  };
+
+  const totalPages = Math.ceil(incompleteDemos?.length / entriesPerPage);
 
 
 
@@ -67,8 +82,6 @@ const UserDemos = () => {
     }
   };
 
-  const completedDemos = filteredDemos?.filter((demo) => demo?.completed);
-  const incompleteDemos = filteredDemos?.filter((demo) => !demo?.completed);
   const filterProjects = () => {
     let filtered = userData?.demos;
 
@@ -136,166 +149,181 @@ const UserDemos = () => {
               link={"addDemo"}
               btnText={"প্রদর্শনী যুক্ত করুন"}
             />
-            <div>
-              <SectionTitle
-                title={`চলমান প্রদর্শনী (${toBengaliNumber(
-                  incompleteDemos?.length
-                )})`}
-              />
-              <div className="flex pb-6 pt-3 flex-wrap md:flex-wrap lg:flex-wrap xl:flex-nowrap  gap-3">
-                <div>
-                  <label className="font-extrabold mb-1 block">
-                    প্রকল্পের পুরো নাম
-                  </label>
-                  <select
-                    className="input input-bordered w-full"
-                    value={selectedProject}
-                    onChange={handleSelectChange}
-                  >
-                    <option value="" label="প্রকল্প সিলেক্ট করুন" />
-                    {allProjects?.map((project) => (
-                      <option
-                        key={project.name?.details}
-                        value={project?.name?.details}
-                        label={project?.name?.details}
-                      />
-                    ))}
-                  </select>
-                </div>
 
-                <div>
-                  <label className="font-extrabold mb-1 block">অর্থবছর</label>
-                  <select
-                    className="input input-bordered w-full"
-                    type="text"
-                    value={fiscalYear}
-                    onChange={(e) => setFiscalYear(e.target.value)}
-                    placeholder="অর্থবছর সিলেক্ট করুন"
-                  >
-                    <FiscalYear />
-                  </select>
-                </div>
-                <div>
-                  <label className="font-extrabold mb-1 block">মৌসুম</label>
-                  <select
-                    className="input input-bordered w-full"
-                    id="season"
-                    name="season"
-                    value={season}
-                    onChange={(e) => setSeason(e.target.value)}
-                  >
-                    <Season />
-                  </select>
-                </div>
+            <SectionTitle
+              title={`চলমান প্রদর্শনী (${toBengaliNumber(
+                incompleteDemos?.length
+              )})`}
+            />
+            <div className="flex pb-6 pt-3 flex-wrap md:flex-wrap lg:flex-wrap xl:flex-nowrap  gap-3">
+              <div>
+                <label className="font-extrabold mb-1 block">
+                  প্রকল্পের পুরো নাম
+                </label>
+                <select
+                  className="input input-bordered w-full"
+                  value={selectedProject}
+                  onChange={handleSelectChange}
+                >
+                  <option value="" label="প্রকল্প সিলেক্ট করুন" />
+                  {allProjects?.map((project) => (
+                    <option
+                      key={project.name?.details}
+                      value={project?.name?.details}
+                      label={project?.name?.details}
+                    />
+                  ))}
+                </select>
               </div>
-              <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-                {incompleteDemos?.length > 0 && (
-                  <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead>
-                      <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
-                        <th
-                          scope="col"
-                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          ক্র: নং:
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          প্রকল্প
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          প্রদর্শনী সম্পর্কিত
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          অর্থবছর ও মৌসুম
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          কৃষকের নাম ও পিতার নাম
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          ঠিকানা
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 whitespace-nowrap font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          মোবাইল, এনআইডি,
-                          <br /> কৃষি কার্ড, বিআইডি
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          বপন, রোপন ও কর্তন
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          উৎপাদন সংক্রান্ত
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          ভিজিট সংক্রান্ত
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          মন্তব্য
-                        </th>
-                        <th
-                          scope="col"
-                          className=" py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          SAAO-এর নাম ও মোবাইল নং
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                        >
-                          একশন
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                      {endFetch &&
-                        incompleteDemos?.length > 0 &&
-                        incompleteDemos?.map((single, index) => (
-                          <UserSingleDemoTableRow
-                            handleDemoDeleting={handleDemoDeleting}
-                            data={single}
-                            index={index}
-                            key={single?._id}
-                            handleOpenModal={handleOpenModal}
-                          />
-                        ))}
-                    </tbody>
-                  </table>
-                )}
-                {endFetch && incompleteDemos?.length < 1 && (
-                  <NoContentFound
-                    text={"কোনো চলমান প্রদর্শনীর তথ্য পাওয়া যায়নি!!"}
-                  />
-                )}
+
+              <div>
+                <label className="font-extrabold mb-1 block">অর্থবছর</label>
+                <select
+                  className="input input-bordered w-full"
+                  type="text"
+                  value={fiscalYear}
+                  onChange={(e) => setFiscalYear(e.target.value)}
+                  placeholder="অর্থবছর সিলেক্ট করুন"
+                >
+                  <FiscalYear />
+                </select>
+              </div>
+              <div>
+                <label className="font-extrabold mb-1 block">মৌসুম</label>
+                <select
+                  className="input input-bordered w-full"
+                  id="season"
+                  name="season"
+                  value={season}
+                  onChange={(e) => setSeason(e.target.value)}
+                >
+                  <Season />
+                </select>
               </div>
             </div>
+            <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
+              {currentEntries?.length > 0 && (
+                <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead>
+                    <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
+                      <th
+                        scope="col"
+                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        ক্র: নং:
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        প্রকল্প
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        প্রদর্শনী সম্পর্কিত
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        অর্থবছর ও মৌসুম
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        কৃষকের নাম ও পিতার নাম
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        ঠিকানা
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-4 whitespace-nowrap font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        মোবাইল, এনআইডি,
+                        <br /> কৃষি কার্ড, বিআইডি
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        বপন, রোপন ও কর্তন
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        উৎপাদন সংক্রান্ত
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        ভিজিট সংক্রান্ত
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        মন্তব্য
+                      </th>
+                      <th
+                        scope="col"
+                        className=" py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        SAAO-এর নাম ও মোবাইল নং
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
+                      >
+                        একশন
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {endFetch &&
+                      incompleteDemos?.length > 0 &&
+                      incompleteDemos?.map((single, index) => (
+                        <UserSingleDemoTableRow
+                          handleDemoDeleting={handleDemoDeleting}
+                          data={single}
+                          index={index}
+                          key={single?._id}
+                          handleOpenModal={handleOpenModal}
+                        />
+                      ))}
+                  </tbody>
+                </table>
+              )}
+              {endFetch && incompleteDemos?.length < 1 && (
+                <NoContentFound
+                  text={"কোনো চলমান প্রদর্শনীর তথ্য পাওয়া যায়নি!!"}
+                />
+              )}
+            </div>
+            <div>
+              <span>প্রতি পৃষ্ঠায়:</span>
+              <select className="ml-2 border rounded" value={entriesPerPage} onChange={handleEntriesChange}>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={filteredDemos?.length}>সব</option>
+              </select>
+            </div>
+            <div>
+              <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>&laquo; পূর্ববর্তী</button>
+              <span className="mx-2">পৃষ্ঠা {currentPage} / {totalPages}</span>
+              <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>পরবর্তী &raquo;</button>
+            </div>
+
+
 
             <div className="mt-20">
               <SectionTitle
@@ -413,9 +441,11 @@ const UserDemos = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div >
 
-      {modalData && <MarkDemoCompleteModal data={modalData} />}
+
+      {modalData && <MarkDemoCompleteModal data={modalData} />
+      }
     </>
   );
 };

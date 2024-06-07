@@ -210,7 +210,7 @@ const router = createBrowserRouter([
             element: <Profile />,
           },
           {
-            path: "/dashboard/user-demos",
+            path: "/dashboard/user-demos-primary",
             element: (
               <UserDemos>
                 <UserDemos />
