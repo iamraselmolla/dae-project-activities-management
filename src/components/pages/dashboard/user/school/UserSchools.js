@@ -14,6 +14,7 @@ import { daeAction } from "../../../../store/projectSlice";
 import FiscalYear from "../../../../shared/FiscalYear";
 import Season from "../../../../shared/Season";
 import { toBengaliNumber } from "bengali-number";
+import AddModuleButton from "../../../../shared/AddModuleButton";
 // import { Cloudinary } from 'cloudinary-core';
 
 
@@ -124,6 +125,8 @@ const UserSchools = () => {
 
   return (
     <div className="flex flex-col">
+
+      <AddModuleButton link={"add-school"} btnText={"স্কুল যুক্ত করুন"} />
       <SectionTitle title={`ইউজারের স্কুলসমূহ (${toBengaliNumber(filteredSchools?.length || 0)})`} />
       <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-nowrap  justify-between items-center gap-3">
         <div>
