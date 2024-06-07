@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 import { deleteUserDemo } from "../../../../../services/userServices";
-import UserSingleDemoTableRow from "./UserSingleDemoTableRow";
 import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 import SectionTitle from "../../../../shared/SectionTitle";
 import NoContentFound from "../../../../shared/NoContentFound";
@@ -12,6 +11,7 @@ import { daeAction } from "../../../../store/projectSlice";
 import { toBengaliNumber } from "bengali-number";
 import Season from "../../../../shared/Season";
 import FiscalYear from "../../../../shared/FiscalYear";
+import UserSingleDemoTableRowPrimary from "./UserSingleDemoTableRowPrimary";
 
 const UserPrimaryDemos = () => {
   const {
@@ -253,25 +253,14 @@ const UserPrimaryDemos = () => {
                         scope="col"
                         className="py-4 font-extrabold px-2  text-black text-center uppercase"
                       >
-                        বপন, রোপন ও কর্তন
+                        বপন / রোপন
                       </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        উৎপাদন সংক্রান্ত
-                      </th>
+
                       <th
                         scope="col"
                         className="py-4 font-extrabold px-2  text-black text-center uppercase"
                       >
                         ভিজিট সংক্রান্ত
-                      </th>
-                      <th
-                        scope="col"
-                        className="py-4 font-extrabold px-2  text-black text-center uppercase"
-                      >
-                        মন্তব্য
                       </th>
                       <th
                         scope="col"
@@ -291,7 +280,7 @@ const UserPrimaryDemos = () => {
                     {endFetch &&
                       incompleteDemos?.length > 0 &&
                       incompleteDemos?.map((single, index) => (
-                        <UserSingleDemoTableRow
+                        <UserSingleDemoTableRowPrimary
                           handleDemoDeleting={handleDemoDeleting}
                           data={single}
                           index={index}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 import { deleteUserDemo } from "../../../../../services/userServices";
-import UserSingleDemoTableRow from "./UserSingleDemoTableRow";
+import UserSingleDemoTableRow from "./UserSingleDemoTableRowFinal";
 import MarkDemoCompleteModal from "../../../../shared/MarkDemoCompleteModal";
 import SectionTitle from "../../../../shared/SectionTitle";
 import NoContentFound from "../../../../shared/NoContentFound";
