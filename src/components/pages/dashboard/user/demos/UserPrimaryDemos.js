@@ -24,14 +24,13 @@ const UserPrimaryDemos = () => {
   const [season, setSeason] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
   const [filteredDemos, setFilteredDemos] = useState(userData?.demos);
+  const incompleteDemos = filteredDemos?.filter((demo) => !demo?.completed);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [entriesPerPage, setEntriesPerPage] = useState(5);
   const indexOfLastEntry = currentPage * entriesPerPage;
   const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
-  const currentEntries = filteredDemos?.slice(indexOfFirstEntry, indexOfLastEntry);
-  const completedDemos = filteredDemos?.filter((demo) => demo?.completed);
-  const incompleteDemos = filteredDemos?.filter((demo) => !demo?.completed);
+  const currentEntries = incompleteDemos?.slice(indexOfFirstEntry, indexOfLastEntry);
   // Handle pagination controls
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const handleEntriesChange = (e) => {
@@ -40,9 +39,6 @@ const UserPrimaryDemos = () => {
   };
 
   const totalPages = Math.ceil(incompleteDemos?.length / entriesPerPage);
-
-
-
   const handleOpenModal = (data) => {
     setModalData(data);
     document.getElementById("my_modal_33")?.showModal();
@@ -306,10 +302,12 @@ const UserPrimaryDemos = () => {
                 <option value={filteredDemos?.length}>সব</option>
               </select>
             </div>
-            <div>
-              <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>&laquo; পূর্ববর্তী</button>
-              <span className="mx-2">পৃষ্ঠা {currentPage} / {totalPages}</span>
-              <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>পরবর্তী &raquo;</button>
+            <div className="mt-4 flex items-center justify-between">
+              <div>
+                <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md">&laquo; পূর্ববর্তী</button>
+                <span className="mx-2">পৃষ্ঠা {currentPage} / {totalPages}</span>
+                <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages} className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md">পরবর্তী &raquo;</button>
+              </div>
             </div>
           </div>
         </div>

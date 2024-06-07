@@ -29,9 +29,8 @@ const UserFinalDemos = () => {
   const [entriesPerPage, setEntriesPerPage] = useState(5);
   const indexOfLastEntry = currentPage * entriesPerPage;
   const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
-  const currentEntries = filteredDemos?.slice(indexOfFirstEntry, indexOfLastEntry);
   const completedDemos = filteredDemos?.filter((demo) => demo?.completed);
-  const incompleteDemos = filteredDemos?.filter((demo) => !demo?.completed);
+  const currentEntries = completedDemos?.slice(indexOfFirstEntry, indexOfLastEntry);
   // Handle pagination controls
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const handleEntriesChange = (e) => {
@@ -39,7 +38,7 @@ const UserFinalDemos = () => {
     setCurrentPage(1); // Reset to first page on entries change
   };
 
-  const totalPages = Math.ceil(incompleteDemos?.length / entriesPerPage);
+  const totalPages = Math.ceil(completedDemos?.length / entriesPerPage);
 
 
 
@@ -140,6 +139,7 @@ const UserFinalDemos = () => {
     });
     setFilteredDemos(filtered); // Update filtered data
   }, [search]);
+  console.log(userData?.demos)
   return (
     <>
       <div className="py-10 ">
@@ -201,7 +201,7 @@ const UserFinalDemos = () => {
               </div>
             </div>
             <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-              {completedDemos?.length > 0 && (
+              {currentEntries?.length > 0 && (
                 <table className="min-w-full bg-white divide-y divide-gray-200 dark:divide-gray-700">
                   <thead>
                     <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
