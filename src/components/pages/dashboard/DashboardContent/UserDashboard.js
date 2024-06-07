@@ -3,6 +3,12 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import {
   LineChart,
   Line,
+  // XAxis,
+  // YAxis,
+  // CartesianGrid,
+  // Tooltip,
+  // Legend,
+  Brush,
   AreaChart,
   Area,
   // ResponsiveContainer,
@@ -59,15 +65,9 @@ const UserDashboard = () => {
   const cards = [
     {
       icon: <FaBowlRice />,
-      count: demos?.filter(single => single.completed).length,
-      text: "প্রাথমিক প্রদর্শনী",
+      count: demos?.length,
+      text: "প্রদর্শনী",
       backgroundColor: "#ffe2e6", // Light pink
-    },
-    {
-      icon: <FaBowlRice />,
-      count: demos?.filter(single => !single.completed).length,
-      text: "চূড়ান্ত প্রদর্শনী",
-      backgroundColor: "#dfd2ff7d", // Light pink
     },
     {
       icon: <FaPeopleGroup />,
@@ -91,13 +91,13 @@ const UserDashboard = () => {
       icon: <GoNote />,
       count: notes?.length - completedNotes,
       text: "অসম্পন্ন নোটস",
-      backgroundColor: "#a9cded52", // Light blue
+      backgroundColor: "#a9cded", // Light blue
     },
     {
       icon: <AiOutlineFileDone />,
       count: completedNotes,
       text: "সম্পন্ন নোটস",
-      backgroundColor: "#c4ff8b8a", // Light green
+      backgroundColor: "#c4ff8b", // Light green
     },
   ];
 
