@@ -8,9 +8,8 @@ import { GrDocumentNotes } from "react-icons/gr";
 import { CgDisplayGrid } from "react-icons/cg";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { AuthContext } from "../../AuthContext/AuthProvider";
-import { MdAgriculture } from "react-icons/md";
+import { MdAgriculture, MdCreditScore } from "react-icons/md";
 import { RiSchoolLine } from "react-icons/ri";
-import { CheckmarkIcon } from "react-hot-toast";
 
 
 const DashboardMenu = () => {
@@ -62,7 +61,7 @@ const DashboardMenu = () => {
       )}
       {user && role === "user" && (
         <DashboardMenuItem
-          icon={<CheckmarkIcon />}
+          icon={<MdCreditScore />}
           link="/user-demos-final"
           text={"চূড়ান্ত প্রদর্শনী"}
         />
