@@ -35,6 +35,7 @@ import UserSchools from "./components/pages/dashboard/user/school/UserSchools";
 import AllUsers from "./components/pages/allUsers/AllUsers";
 import AllProjectsForUser from "./components/pages/allprojects/AllProjects";
 import UserPrimaryDemos from "./components/pages/dashboard/user/demos/UserPrimaryDemos";
+import UserFinalDemos from "./components/pages/dashboard/user/demos/UserFinalDemos";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -214,6 +215,14 @@ const router = createBrowserRouter([
             element: (
               <UserRoute>
                 <UserPrimaryDemos />
+              </UserRoute>
+            ),
+          },
+          {
+            path: "/dashboard/user-demos-final",
+            element: (
+              <UserRoute>
+                <UserFinalDemos />
               </UserRoute>
             ),
           },
