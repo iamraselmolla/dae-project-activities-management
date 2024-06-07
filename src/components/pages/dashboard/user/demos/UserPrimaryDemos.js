@@ -151,7 +151,7 @@ const UserPrimaryDemos = () => {
             />
 
             <SectionTitle
-              title={`চলমান প্রদর্শনী (${toBengaliNumber(
+              title={`প্রাথমিক প্রদর্শনী (${toBengaliNumber(
                 incompleteDemos?.length
               )})`}
             />
@@ -304,7 +304,7 @@ const UserPrimaryDemos = () => {
               )}
               {endFetch && incompleteDemos?.length < 1 && (
                 <NoContentFound
-                  text={"কোনো চলমান প্রদর্শনীর তথ্য পাওয়া যায়নি!!"}
+                  text={"কোনো প্রাথমিক প্রদর্শনীর তথ্য পাওয়া যায়নি!!"}
                 />
               )}
             </div>
