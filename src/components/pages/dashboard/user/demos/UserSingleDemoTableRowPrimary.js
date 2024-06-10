@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
+import AddImageModal from "../../../../shared/AddImageModal";
 
-const UserSingleDemoTableRow = ({
+const UserSingleDemoTableRowPrimary = ({
   data,
   index,
   handleDemoDeleting,
@@ -24,8 +25,7 @@ const UserSingleDemoTableRow = ({
     demoDate,
     production,
     comment,
-    demoImages,
-    username,
+    demoImages
   } = data;
 
   const imagesArr = [];
@@ -37,7 +37,7 @@ const UserSingleDemoTableRow = ({
         );
       }
     }
-  }, [demoImages, username]);
+  }, [data]);
 
   const handleModaOpen = (dataValues) => {
     document.getElementById("my_modal_1")?.showModal();
@@ -84,23 +84,8 @@ const UserSingleDemoTableRow = ({
             month: 'numeric',
             year: 'numeric'
           })} <br />
-          কর্তনঃ {new Date(demoDate?.korton?.startDate).toLocaleString('bn-BD', {
-            day: 'numeric',
-            month: 'numeric',
-            year: 'numeric'
-          })} - <br />
-          {new Date(demoDate?.korton?.endDate).toLocaleString('bn-BD', {
-            day: 'numeric',
-            month: 'numeric',
-            year: 'numeric'
-          })}
         </td>
-        <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
-          ফলন/হেঃ {toBengaliNumber(production?.productionPerHector)} <br />
-          উৎপাদনঃ {toBengaliNumber(production?.totalProduction)} <br />
-          কন্ট্রোল প্লটঃ {toBengaliNumber(production?.sidePlotProduction)}
-          <br />
-        </td>
+
         <td className="text-center flex-col flex justify-center items-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2">
           {demoImages?.length > 0 && (
             <ImageGallery
@@ -120,10 +105,7 @@ const UserSingleDemoTableRow = ({
             +
           </span>
         </td>
-        <td className="text-center text-balance dashboard-image-control text-sm font-medium text-gray-800 dark:text-gray-200 p-2 whitespace-nowrap">
-          {comment?.farmersReview && `কৃষকঃ` + comment?.farmersReview} <br />
-          {comment?.overallComment && `অন্যান্যঃ` + comment?.overallComment}
-        </td>
+
         <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
           {SAAO?.name} <br />
           {toBengaliNumber(SAAO?.mobile)}
@@ -163,8 +145,9 @@ const UserSingleDemoTableRow = ({
           </div>
         </td>
       </tr>
+      <AddImageModal data={data} />
     </>
   );
 };
 
-export default UserSingleDemoTableRow;
+export default UserSingleDemoTableRowPrimary;

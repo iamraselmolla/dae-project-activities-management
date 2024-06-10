@@ -59,7 +59,7 @@ function DemoDetails() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="col-span-1 bg-white  rounded-xl overflow-hidden">
               <img
-                src={demoData?.demoImages[1]?.image[0]}
+                src={demoData?.demoImages[1]?.image[0] || '/images/pi/pi2.jpg'}
                 className="h-[100%] m-auto"
                 alt="User Image"
               />
@@ -295,8 +295,8 @@ function DemoDetails() {
                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <td className="px-6 py-4">{toBengaliNumber(index + 1)}</td>
                       <td className="px-6 py-4">{new Date(single?.date).toLocaleString('bn-BD', {
-                        day: 'numeric',
-                        month: 'numeric',
+                        day: '2-digit',
+                        month: '2-digit',
                         year: 'numeric'
                       })}</td>
                       <td className="px-6 py-4">{single?.presentCondition}</td>

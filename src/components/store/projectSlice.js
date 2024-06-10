@@ -6,7 +6,6 @@ const initialState = {
   projects: [],
   trainings: [],
   notes: [],
-  modalData: null,
   tours: [],
   refetch: 0,
   endFetch: false,
@@ -44,9 +43,6 @@ const daeSlice = createSlice({
     },
     setDaeMeeting: (state, action) => {
       state.userData.daeMeetings = action.payload;
-    },
-    setModalData: (state, action) => {
-      state.modalData = action.payload;
     },
     setRefetch: (state, action) => {
       state.refetch++;

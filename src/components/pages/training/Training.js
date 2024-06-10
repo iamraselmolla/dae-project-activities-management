@@ -26,7 +26,6 @@ const Training = () => {
     try {
       const result = await getAllTraining();
       if (result.status === 200) {
-        console.log(result);
         setAllTrainings(result?.data?.data);
         setFilterAllTrainings(result?.data?.data);
         setLoading(false);
@@ -166,7 +165,7 @@ const Training = () => {
           </select>
         </div>
       </div>
-      <div className="mt-6 mb-10">
+      <div className=" mb-10">
         <input
           type="text"
           className="input input-bordered w-full"

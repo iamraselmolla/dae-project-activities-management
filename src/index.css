@@ -21,6 +21,13 @@ code {
 section {
   padding: 50px 0;
 }
+
+/* Media query for screens smaller than a certain width */
+@media screen and (max-width: 768px) {
+  section {
+    padding: 20px 0; /* Adjusted padding for mobile */
+  }
+}
 .container {
   margin: 0 auto;
 }

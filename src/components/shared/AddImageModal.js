@@ -7,15 +7,17 @@ import { uploadToCloudinary } from "../utilis/uploadToCloudinary";
 import { addImageAndDetails } from "../../services/userServices";
 import Loader from "./Loader";
 import { toBengaliNumber } from "bengali-number";
+import { daeAction } from "../store/projectSlice";
+import { useDispatch } from "react-redux";
 
-const AddImageModal = ({ data, showModal, closeModal }) => {
+const AddImageModal = ({ data }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewURLs, setPreviewURLs] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [presentCondition, setPresentCondition] = useState("");
   const [presentOfficers, setPresentOfficers] = useState("");
   const [loadingMessage, setLoadingMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); const dispatch = useDispatch()
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
@@ -69,7 +71,7 @@ const AddImageModal = ({ data, showModal, closeModal }) => {
         toast.success(result2?.data?.message);
         setLoading(false);
         setLoadingMessage(null);
-        closeModal(); // Close modal after successful upload
+        dispatch(daeAction.setRefetch());
       }
     } catch (err) {
       toast.error(
@@ -80,7 +82,7 @@ const AddImageModal = ({ data, showModal, closeModal }) => {
 
   return (
     <>
-      {!loading && showModal && (
+      {!loading && (
         <dialog id="my_modal_1" className="modal text-center">
           <div className="modal-box w-6/12 max-w-5xl">
             <h3 className="font-bold text-xl mb-2">

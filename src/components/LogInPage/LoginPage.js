@@ -55,10 +55,10 @@ const LoginPage = () => {
                 localStorage.setItem('CurrentUser', JSON.stringify(userFormateForLocalStorage));
                 navigate(from, { replace: true })
 
-                const { token } = response.data.token; // Assuming the server returns a token upon successful login
+                const { token } = response.data; // Assuming the server returns a token upon successful login
 
                 // Store the token in local storage
-                localStorage.setItem('CurrentUserToken', token);
+                localStorage.setItem('CurrentUserToken', JSON.stringify(token));
 
                 // Reset form after successful login
                 setFormData({

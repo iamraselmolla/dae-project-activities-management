@@ -6,6 +6,8 @@ import UserSingleGroupTable from "./UserSingleGroupTable";
 import NoContentFound from "../../../../shared/NoContentFound";
 import AddModuleButton from "../../../../shared/AddModuleButton";
 import { useSelector } from "react-redux";
+import SectionTitle from "../../../../shared/SectionTitle";
+import { toBengaliNumber } from "bengali-number";
 
 const UserDaeMeetings = () => {
   const {
@@ -43,6 +45,7 @@ const UserDaeMeetings = () => {
             link={"add-dae-group-meeting"}
             btnText={"কৃষক গ্রুপ সভা যুক্ত করুন"}
           />
+          <SectionTitle title={`কৃষক গ্রুপ সভা (${toBengaliNumber(allGroupsMeeting?.length || 0)})`} />
           <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead>

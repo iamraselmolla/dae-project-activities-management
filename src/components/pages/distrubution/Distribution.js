@@ -126,7 +126,7 @@ const Distribution = () => {
                 <option value="" label="প্রকল্প সিলেক্ট করুন" />
                 {allProject?.map((project) => (
                   <option
-                    key={project._id}
+                    key={project.name?.details}
                     value={project?.name?.details}
                     label={project?.name?.details}
                   />
