@@ -156,7 +156,6 @@ const UserDashboard = () => {
       kharip1: kharip1 || 0,
     }
   });
-
   return (
     <section className="py-5">
       <div className="grid  grid-cols-1 md:grid-cols-3 gap-5 justify-center items-center">
