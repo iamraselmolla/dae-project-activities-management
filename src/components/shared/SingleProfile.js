@@ -1,6 +1,8 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 function SingleProfile({ user }) {
+  const location = useLocation();
   return (
     <form>
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4">
@@ -62,19 +64,21 @@ function SingleProfile({ user }) {
             readOnly
           />
         </div>
-        <div>
-          <label htmlFor={`password`}> পাসওয়ার্ড</label>
-          <div className="flex items-center input input-bordered w-full">
-            <input
-              type="password"
-              id={`password`}
-              name={`password`}
-              className="w-full"
-              value={user?.password}
-              readOnly
-            />
+        {!location.pathname === '/dashboard/profile' &&
+          <div>
+            <label htmlFor={`password`}> পাসওয়ার্ড</label>
+            <div className="flex items-center input input-bordered w-full">
+              <input
+                type="password"
+                id={`password`}
+                name={`password`}
+                className="w-full"
+                value={user?.password}
+                readOnly
+              />
+            </div>
           </div>
-        </div>
+        }
         <div>
           <label htmlFor={`SAAO.name`}>উপসহকারী কৃষি অফিসারের নাম</label>
           <input

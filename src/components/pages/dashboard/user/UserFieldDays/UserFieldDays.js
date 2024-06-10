@@ -82,8 +82,7 @@ const UserFieldDays = () => {
   const handleFieldDayDelete = async (fieldDayData) => {
     if (
       window.confirm(
-        `আপনি কি ${fieldDayData?.projectInfo?.short} প্রকল্পের ${
-          fieldDayData?.subject
+        `আপনি কি ${fieldDayData?.projectInfo?.short} প্রকল্পের ${fieldDayData?.subject
         } বিষয়ক ${toBengaliNumber(
           new Date(fieldDayData?.date).toLocaleDateString()
         )} তারিখের মাঠ দিবসের তথ্যটি মুছে ফেলতে চান?`
@@ -161,21 +160,20 @@ const UserFieldDays = () => {
                 <Season />
               </select>
             </div>
-            <div>
-              <label className="font-extrabold mb-1 block">
-                লিখে খুজে বের করুন
-              </label>
-              <input
-                type="text"
-                className="input input-bordered w-full"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="খুজুন (প্রকল্পের নাম, গ্রাম, ব্লক, ইউনিয়ন, উপস্থিত কর্মকর্তার নাম, মন্তব্য)"
-              />
-            </div>
+
+          </div>
+          <div>
+
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="খুজুন (প্রকল্পের নাম, গ্রাম, ব্লক, ইউনিয়ন, উপস্থিত কর্মকর্তার নাম, মন্তব্য)"
+            />
           </div>
 
-          <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
+          <div className="border mt-6 rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead>
                 <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
@@ -283,7 +281,7 @@ const UserFieldDays = () => {
                             singleFieldDay?.farmers?.female
                           )}, \n মোটঃ ${toBengaliNumber(
                             singleFieldDay?.farmers.male +
-                              singleFieldDay?.farmers?.female
+                            singleFieldDay?.farmers?.female
                           )}`}
                         />
                         <FieldDayTD text={singleFieldDay?.address?.village} />

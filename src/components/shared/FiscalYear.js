@@ -30,7 +30,7 @@ const FiscalYear = () => {
   return (
     <>
       {/* <option value="" label="অর্থবছর সিলেক্ট করুন" /> */}
-      <option value={banglaFiscalYear} label={banglaFiscalYear} />
+      <option value={''} label={'সকল'} />
       <option
         value={toBengaliNumber(`${currentYear - 2}-${currentYear - 1}`)}
         label={toBengaliNumber(`${currentYear - 2}-${currentYear - 1}`)}

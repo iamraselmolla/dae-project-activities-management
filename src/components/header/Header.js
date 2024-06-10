@@ -4,6 +4,8 @@ import { AiOutlineLogin } from "react-icons/ai";
 import Login from "../shared/Login";
 import { AuthContext } from "../AuthContext/AuthProvider";
 import HeaderMenuItem from "../shared/HeaderMenuItem";
+import { FaRegCircleUser } from "react-icons/fa6";
+
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -18,7 +20,7 @@ const Header = () => {
 
   return (
     <nav className="bg-slate-400">
-      <div className="navbar mx-auto py-4 px-2 sm:px-6 lg:px-8">
+      <div className="navbar mx-auto px-2 sm:px-6 lg:px-8">
         <div className="navbar-start">
           <div className="dropdown">
             <div
@@ -43,9 +45,8 @@ const Header = () => {
             </div>
             <ul
               tabIndex={0}
-              className={`menu menu-sm flex flex-col gap-4 dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${
-                !showMenu ? "block" : "hidden"
-              }`}
+              className={`menu menu-sm flex flex-col gap-4 dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${!showMenu ? "block" : "hidden"
+                }`}
             >
               <HeaderMenuItem link="" text="হোম" />
               <HeaderMenuItem link="demos" text="প্রদর্শনী" />
@@ -61,10 +62,12 @@ const Header = () => {
                 text="উদ্বুদ্ধকরণ ভ্রমণ"
               />
               <HeaderMenuItem link="all-schools" text="স্কুল" />
+              <HeaderMenuItem link="all-projects" text="প্রকল্প" />
+              <HeaderMenuItem link="all-users" text="ব্যবহারকারী" />
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost text-white text-xl">
-            DAE
+            <img src="/images/logo.png" width={'60px'} alt="" srcSet="" />
           </Link>
         </div>
         <div className="navbar-center gap-2 hidden sm:hidden md:hidden lg:flex">
@@ -76,6 +79,8 @@ const Header = () => {
           <HeaderMenuItem link="dae-group-meeting" text="ডিএই কৃষক গ্রুপ সভা" />
           <HeaderMenuItem link="motivational-tour" text="উদ্বুদ্ধকরণ ভ্রমণ" />
           <HeaderMenuItem link="all-schools" text="স্কুল" />
+          <HeaderMenuItem link="all-projects" text="প্রকল্প" />
+          <HeaderMenuItem link="all-users" text="ব্যবহারকারী" />
         </div>
         <div className="navbar-end">
           <div className="absolute right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -92,34 +97,31 @@ const Header = () => {
                     >
                       <span className="absolute -inset-1.5"></span>
                       <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
+                      <FaRegCircleUser size={25} color="white" />
                     </button>
                   </div>
 
                   {showMenu && (
                     <>
                       <div
-                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
-                          showMenu ? "block" : "hidden"
-                        }`}
+                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${showMenu ? "block" : "hidden"
+                          }`}
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="user-menu-button"
                         tabIndex="-1"
                       >
-                        <HeaderMenuItem link="dashboard" text="Dashboard" />
+                        <HeaderMenuItem
+                          link="dashboard" text="Dashboard" />
                         <NavLink
+                          end
                           to={`/dashboard/profile`}
                           className={({ isActive, isPending }) =>
                             isPending
                               ? "pending"
                               : isActive
-                              ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                              : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                                : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
                           }
                         >
                           প্রফাইল

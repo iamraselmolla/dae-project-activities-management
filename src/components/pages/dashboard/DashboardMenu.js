@@ -8,14 +8,14 @@ import { GrDocumentNotes } from "react-icons/gr";
 import { CgDisplayGrid } from "react-icons/cg";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { AuthContext } from "../../AuthContext/AuthProvider";
-import { MdAgriculture } from "react-icons/md";
+import { MdAgriculture, MdCreditScore } from "react-icons/md";
 import { RiSchoolLine } from "react-icons/ri";
 
 
 const DashboardMenu = () => {
   const { user, role } = useContext(AuthContext);
   return (
-    <>
+    <div className="md:flex md:flex-wrap justify-center flex flex-wrap gap-3 md:gap-0">
       <DashboardMenuItem icon={<RxDashboard />} link="" text={"ড্যাশবোর্ড"} />
       {user && role === "admin" && (
         <DashboardMenuItem
@@ -55,8 +55,15 @@ const DashboardMenu = () => {
       {user && role === "user" && (
         <DashboardMenuItem
           icon={<CgDisplayGrid />}
-          link="/user-demos"
-          text={"প্রদর্শনী"}
+          link="/user-demos-primary"
+          text={"প্রাথমিক প্রদর্শনী"}
+        />
+      )}
+      {user && role === "user" && (
+        <DashboardMenuItem
+          icon={<MdCreditScore />}
+          link="/user-demos-final"
+          text={"চূড়ান্ত প্রদর্শনী"}
         />
       )}
       {user && role === "user" && (
@@ -86,7 +93,7 @@ const DashboardMenu = () => {
         link="/user-notes"
         text={"নোটস"}
       />
-    </>
+    </div>
   );
 };
 

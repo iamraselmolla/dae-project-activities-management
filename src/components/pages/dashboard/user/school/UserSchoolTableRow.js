@@ -34,7 +34,7 @@ const UserSchoolTableRow = ({ school, index, handleSchoolDeletion }) => {
             <TableDivision text={school?.comment} />
             <td className="px-3 py-2 whitespace-nowrap">
                 <MdOutlineDelete
-                    onClick={() => handleSchoolDeletion(school._id)}
+                    onClick={() => handleSchoolDeletion(school)}
                     size={40}
                     className="text-red-500 cursor-pointer"
                 />

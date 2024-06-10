@@ -21,14 +21,26 @@ const UserNotes = () => {
   const [modalData, setModalData] = useState(null);
   const [completedNotes, setCompletedNotes] = useState([]);
   const [incompletedNotes, setIncompletedNotes] = useState([]);
+  const [filteredIncompletedNotes, setFilteredIncompletedNotes] = useState([]);
+  const [selectedPurpose, setSelectedPurpose] = useState("");
   const dispatch = useDispatch();
 
   // Find User All Notes
-
   useEffect(() => {
     setCompletedNotes(allNotes?.filter((single) => single.completed));
     setIncompletedNotes(allNotes?.filter((single) => !single.completed));
   }, [allNotes]);
+
+  // Filter notes based on selected purpose
+  useEffect(() => {
+    if (selectedPurpose === "") {
+      setFilteredIncompletedNotes(incompletedNotes);
+    } else {
+      setFilteredIncompletedNotes(
+        incompletedNotes.filter((note) => note.purpose.target === selectedPurpose)
+      );
+    }
+  }, [selectedPurpose, incompletedNotes]);
 
   // Delete a Note of User
   const handleNoteDeletion = async (userNotetobeDeleted) => {
@@ -63,13 +75,29 @@ const UserNotes = () => {
     setModalData(noteData);
   };
 
+  // Handle purpose selection
+  const handlePurposeSelection = (event) => {
+    setSelectedPurpose(event.target.value);
+  };
+
   return (
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
           <AddModuleButton link={"add-note"} btnText={"নোট যুক্ত করুন"} />
-          <SectionTitle title={"অসম্পন্ন নোট"} />
-          <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900 mb-16">
+          <SectionTitle title={`অসম্পন্ন নোট (${toBengaliNumber(incompletedNotes?.length)})`} />
+          <div>
+            <select className="input input-bordered w-full" onChange={handlePurposeSelection}>
+              <option value="" label="উদ্দেশ্য নির্বাচন করুন" />
+              <option value="প্রদর্শনী দেওয়া">প্রদর্শনী দেওয়া</option>
+              <option value="প্রশিক্ষণে নাম দেয়া">প্রশিক্ষণে নাম দেয়া</option>
+              <option value="মাঠ দিবসে উপস্থিত থাকতে বলা">মাঠ দিবসে উপস্থিত থাকতে বলা</option>
+              <option value="উদ্বুদ্ধকরণভ্রমণে নেওয়া">উদ্বুদ্ধকরণভ্রমণে নেওয়া</option>
+              <option value="কৃষি পরামর্শ প্রদান">কৃষি পরামর্শ প্রদান</option>
+              <option value="উপকরণ বিতরণ">উপকরণ বিতরণ</option>
+            </select>
+          </div>
+          <div className="border mt-6 rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900 mb-16">
             <>
               <table className="min-w-full divide-y bg-white  divide-gray-200 dark:divide-gray-700">
                 {/* Table Header */}
@@ -90,8 +118,8 @@ const UserNotes = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {/* Table Body */}
-                  {incompletedNotes?.length > 0 &&
-                    incompletedNotes?.map((singleNote, index) => (
+                  {filteredIncompletedNotes?.length > 0 &&
+                    filteredIncompletedNotes?.map((singleNote, index) => (
                       <tr
                         key={singleNote?._id}
                         className="divide-x divide-gray-200 dark:divide-gray-700"
@@ -164,14 +192,14 @@ const UserNotes = () => {
                     ))}
                 </tbody>
               </table>
-              {incompletedNotes?.length < 1 && (
+              {filteredIncompletedNotes?.length < 1 && (
                 <NoContentFound text={" কোনো অসম্পন্ন নোট খুজে পাওয়া যায়নি!"} />
               )}
             </>
           </div>
 
           {/* Completed Notes Table */}
-          <SectionTitle title={"সম্পন্ন নোট"} />
+          <SectionTitle title={`সম্পন্ন নোট (${toBengaliNumber(completedNotes?.length)})`} />
           <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
             <>
               <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">

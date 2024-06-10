@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Field, Form, Formik } from "formik";
 import { BsEyeFill } from "react-icons/bs";
 import { RiEyeCloseLine } from "react-icons/ri";
@@ -10,10 +10,10 @@ const SingleUser = ({ index, user }) => {
   const [name, setName] = useState(user?.SAAO?.name);
   const [mobile, setMobile] = useState(user?.SAAO?.mobile);
   const [password, setPassword] = useState(user?.password);
-  const initialValues = { ...user };
   const [userValues, setUserValues] = useState({
     ...user,
   });
+
 
   const handleSubmit = async (values) => {
     try {
@@ -50,7 +50,6 @@ const SingleUser = ({ index, user }) => {
         </div>
         <div className="collapse-content">
           <div className="mt-3">
-            {/* <Formik initialValues={initialValues} onSubmit={handleSubmit}> */}
             <Formik
               initialValues={user}
               onSubmit={(values) => handleSubmit(values)} // Pass handleSubmit function here

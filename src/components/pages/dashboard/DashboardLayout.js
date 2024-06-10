@@ -112,17 +112,17 @@ const DashboardLayout = () => {
   return (
     <section className="grid grid-cols-1 md:grid-cols-12 gap-4">
       <div className="md:col-span-2">
-        <div className="sticky top-0 h-screen overflow-y-auto">
+        <div className="sticky top-0 lg:h-screen h-auto overflow-y-auto">
           <div className="py-5 px-2">
             <DashboardMenu />
           </div>
         </div>
       </div>
       <div className="md:col-span-10 px-6 bg-slate-50">
-        {loading && <Loader />}
-        {!loading && <Outlet />}
+        {loading ? <Loader /> : <Outlet />}
       </div>
     </section>
+
   );
 };
 

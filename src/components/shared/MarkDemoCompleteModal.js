@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { daeAction } from "../store/projectSlice";
 
 const MarkDemoCompleteModal = ({ data }) => {
+  console.log(data)
   const dispatch = useDispatch();
   useEffect(() => {
     formik.setValues({
@@ -142,8 +143,8 @@ const MarkDemoCompleteModal = ({ data }) => {
                 />
               </div>
               {formik.touched.korton &&
-              (formik.errors.korton?.startDate ||
-                formik.errors.korton?.endDate) ? (
+                (formik.errors.korton?.startDate ||
+                  formik.errors.korton?.endDate) ? (
                 <div className="text-red-500">
                   {formik.errors.korton?.startDate ||
                     formik.errors.korton?.endDate}
@@ -169,8 +170,8 @@ const MarkDemoCompleteModal = ({ data }) => {
               />
 
               {formik.touched.production &&
-              formik.touched.production.productionPerHector &&
-              formik.errors.production?.productionPerHector ? (
+                formik.touched.production.productionPerHector &&
+                formik.errors.production?.productionPerHector ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.productionPerHector}
                 </div>
@@ -197,8 +198,8 @@ const MarkDemoCompleteModal = ({ data }) => {
               />
 
               {formik.touched.production &&
-              formik.touched.production.totalProduction &&
-              formik.errors.production?.totalProduction ? (
+                formik.touched.production.totalProduction &&
+                formik.errors.production?.totalProduction ? (
                 <div className="text-red-600 font-bold">
                   {formik.errors.production.totalProduction}
                 </div>
