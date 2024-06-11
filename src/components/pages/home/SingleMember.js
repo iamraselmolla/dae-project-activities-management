@@ -7,7 +7,7 @@ import { TbWorldWww } from "react-icons/tb";
 const SingleMember = ({ data }) => {
   return (
     <div className="shadow-2xl">
-      <div className="team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
+      <div className="team md:text-center lg:text-center text-start p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
         <div className="rounded-md -mt-[10px] -ms-[10px] w-[98%] h-[98%] -z-1"></div>
         <img
           src={data?.img}

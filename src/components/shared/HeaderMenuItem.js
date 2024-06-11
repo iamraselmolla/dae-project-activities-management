@@ -9,8 +9,8 @@ const HeaderMenuItem = ({ link, text }) => {
                 isPending
                     ? "pending"
                     : isActive
-                        ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                        : "text-stone-950 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                        ? "active bg-white text-black rounded-md px-3 py-2 text-sm font-bold"
+                        : "text-white hover:bg-white hover:text-black rounded-md px-3 py-2 text-sm font-bold"
             }
         >
             {text}
