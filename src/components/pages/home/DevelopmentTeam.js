@@ -64,7 +64,7 @@ function DevelopmentTeam() {
     <section className={"mx-auto max-w-7xl px-2 sm:px-6 lg:px-8"}>
       <div className=" relative">
         <div className="text-center mb-8">
-          <h2 className="text-xl text-blue-500 font-extrabold mb-4">এই এপ্লিকেশন নির্মাণে পেছনে শ্রম ও মেধা যাদের!</h2>
+          <h2 className="text-xl theme-color font-extrabold mb-4">এই এপ্লিকেশন নির্মাণে পেছনে শ্রম ও মেধা যাদের!</h2>
           <h3 className="text-3xl font-semibold mb-8"> নির্মাণের পেছনের কারিগরসমূহ এবং এই সফটওয়্যার নির্মাণে তাদের অবদান</h3>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 items-center mt-3 gap-8">
