@@ -16,7 +16,7 @@ const WhyweUs = () => {
                     <figure className="m-0 p-0"><img className="w-auto" src="https://sandbox-tailwindcss.ibthemespro.com/assets/img/illustrations/3d8.png" srcSet="https://sandbox-tailwindcss.ibthemespro.com/assets/img/illustrations/3d8.png" alt="image" /></figure>
                 </div>
                 <div className="">
-                    <h2 className="text-xl text-blue-500 font-extrabold mb-4">কেন এই সফটওয়্যার?</h2>
+                    <h2 className="text-xl text-green-400 font-extrabold mb-4">কেন এই সফটওয়্যার?</h2>
                     <h3 className="text-3xl font-semibold mb-8">নিম্নোক্ত কিছু কারণে এই সফটওয়্যার আপনার দৈনন্দিন দায়িত্ব পালনে সহায়ক হবে।</h3>
                     <div className="flex flex-col gap-5">
 

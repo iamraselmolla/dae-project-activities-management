@@ -8,7 +8,7 @@ const Banner = () => {
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 items-center">
           <div className="">
-            <h3 className="px-3 mb-10 inline-block bg-blue-500 py-1 rounded-xl">
+            <h3 className="px-3 mb-10 inline-block bg-green-500 py-1 rounded-xl">
               প্রকল্প কার্যক্রম ম্যানেজমেন্ট
             </h3>
             <h1 className="text-4xl banner_heading font-extrabold mb-8">

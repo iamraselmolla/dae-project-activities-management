@@ -17,7 +17,7 @@ const WhyweUs2 = () => {
         <section className='pb-24 pt-8 bg-white'>
             <div className='mx-auto items-center max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-24'>
                 <div className="">
-                    <h2 className="text-xl text-blue-500 font-extrabold mb-4">কেন এই সফটওয়্যার?</h2>
+                    <h2 className="text-xl text-green-400 font-extrabold mb-4">কেন এই সফটওয়্যার?</h2>
                     <h3 className="text-3xl font-semibold mb-8">নিম্নোক্ত কিছু কারণে এই সফটওয়্যার আপনার দৈনন্দিন দায়িত্ব পালনে সহায়ক হবে।</h3>
                     <div className="flex flex-col gap-8">
 
