@@ -4,7 +4,7 @@ import FooterMenuItem from "../shared/FooterMenuItem";
 const Footer = () => {
   return (
     <footer className="theme-bg py-6">
-      <div className="mx-auto flex items-center justify-around text-center max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div className="mx-auto flex items-center justify-around max-w-7xl px-2 sm:px-6 lg:px-8">
         <div><img src="/images/logo.png" width={100} alt="" srcSet="" /></div>
 
         <div className="flex flex-col gap-4 justify-center">
