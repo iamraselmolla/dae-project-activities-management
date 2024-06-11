@@ -1,7 +1,8 @@
 /* src/custom.css */
 .banner_heading {
-  font-size: 1.25rem; /* Default font size (text-xl) */
+  font-size: 1.75rem;
   line-height: 1.5;
+  text-align: center;
 }
 
 @media (min-width: 640px) {
