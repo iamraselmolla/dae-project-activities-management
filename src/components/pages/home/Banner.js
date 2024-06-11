@@ -21,14 +21,14 @@ const Banner = () => {
               প্রকল্পের যাবতীয় কার্যক্রম যেমন  প্রদর্শনী, প্রশিক্ষণ, মাঠদিবস,
               উপকরণ বিতরণ সংরক্ষণ, পর্যবেক্ষণ ও প্রদান করা হবে।
             </p>
-            <div className="mt-8 flex">
+            <div className="mt-8 flex md:justify-start justify-center">
               <Link to="/all-projects">
-                <button className="btn text-xl font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-5 px-16">
+                <button className="btn lg:text-xl text-md font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-5 lg:px-16 md:px-10 px-6">
                   সকল প্রকল্প
                 </button>
               </Link>
               <Link to={'/all-users'}>
-                <button className="btn text-xl font-extrabold border-3 border-black bg-transparent hover:bg-black hover:text-white px-16">
+                <button className="btn lg:text-xl text-md font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-5 lg:px-16 md:px-10 px-6">
                   সকল ইউজার
                 </button>
               </Link>
