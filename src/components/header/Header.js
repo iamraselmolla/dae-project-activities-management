@@ -45,7 +45,7 @@ const Header = () => {
             </div>
             <ul
               tabIndex={0}
-              className={`menu menu-sm flex flex-col gap-4 dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${!showMenu ? "block" : "hidden"
+              className={`menu menu-sm theme-bg flex flex-col gap-4 dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ${!showMenu ? "block" : "hidden"
                 }`}
             >
               <HeaderMenuItem link="" text="হোম" />
