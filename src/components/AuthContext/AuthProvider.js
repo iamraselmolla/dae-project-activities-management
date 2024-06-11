@@ -31,7 +31,13 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchAllProjects = async () => {
       try {
-        const result = await getAllProjects();
+        let result;
+        if (user?.role === "admin") {
+          // Load data project based on role..
+          result = await getAllProjects();
+        } else {
+          result = await findAllProjectsData();
+        }
         if (result?.status === 200) {
           dispatch(daeAction.setAllProjects(result?.data?.data));
         }
