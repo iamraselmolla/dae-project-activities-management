@@ -1,15 +1,13 @@
 import React from 'react';
-import { MdOutlineHistory } from "react-icons/md";
-import { FaPersonCirclePlus } from "react-icons/fa6";
 import { PiGrains } from "react-icons/pi";
 import { FaRegSave } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
-import { IoCarSportSharp } from "react-icons/io5";
+import { TbBus } from "react-icons/tb";
 
 
 
 
-import WhyThisSoftwareIcon from '../../shared/WhyThisSofywareIcon';
+import WhyThisSoftwareIcon from '../../shared/WhyThisSoftwareIcon';
 
 
 const WhyweUs2 = () => {
@@ -23,7 +21,7 @@ const WhyweUs2 = () => {
 
 
                         <WhyThisSoftwareIcon heading={'মাঠদিবস সংরক্ষণ'} text={'সকল প্রকল্পের আয়োজিত মাঠদিবসের স্থান, প্রকল্পের তথ্য, উপস্থিত কর্মকর্তার নাম/পদবী, তারিখ এবং মন্তব্যসহ ছবি সংরক্ষণ'} Icon={GiSoccerField} />
-                        <WhyThisSoftwareIcon heading={'উদ্বুদ্ধকরণ ভ্রমণ'} text={'প্রকল্পের উদ্বুদ্ধকরণ ভ্রমণ, তারিখ ও স্থানসহ ছবি এবং মন্তব্য সংরক্ষণ'} Icon={FaRegSave} />
+                        <WhyThisSoftwareIcon heading={'উদ্বুদ্ধকরণ ভ্রমণ'} text={'প্রকল্পের উদ্বুদ্ধকরণ ভ্রমণ, তারিখ ও স্থানসহ ছবি এবং মন্তব্য সংরক্ষণ'} Icon={TbBus} />
                         <WhyThisSoftwareIcon heading={'সকল PFS/FBS অথবা মাঠ স্কুল'} text={'আয়োজিত সকল প্রকল্পের PFS/FBS অথবা মাঠ স্কুলের ছবি, তারিখ এবং উপস্থিত কর্মকর্তার তথ্য সম্বলিত ছবি এবং তারিখ সংরক্ষণ'} Icon={PiGrains} />
                         <WhyThisSoftwareIcon heading={'স্পেশাল কাজের নোটস'} text={'কোনো গুরুত্বপূর্ণ সভা, সেমিনার অথবা কৃষি ও কৃষক সেবা প্রদানের দিন, তারিখ ও উদ্দেশ্যসহ নোট যুক্তকরণ এবং সম্পন্ন করার সময় কার্যশেষে মন্তব্য যুক্তকরণ'} Icon={FaRegSave} />
 
