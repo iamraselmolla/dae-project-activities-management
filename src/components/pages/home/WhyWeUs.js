@@ -17,7 +17,7 @@ const WhyweUs = () => {
                 </div>
                 <div className="">
                     <h2 className="text-xl theme-color font-extrabold mb-4">কেন এই সফটওয়্যার?</h2>
-                    <h3 className="text-3xl font-semibold mb-8">নিম্নোক্ত কিছু কারণে এই সফটওয়্যার আপনার দৈনন্দিন দায়িত্ব পালনে সহায়ক হবে।</h3>
+                    <h3 className="md:text-3xl text-2xl font-semibold mb-8">নিম্নোক্ত কিছু কারণে এই সফটওয়্যার আপনার দৈনন্দিন দায়িত্ব পালনে সহায়ক হবে।</h3>
                     <div className="flex flex-col gap-5">
 
                         <WhyThisSoftwareIcon heading={'অতীতের ডাটাবেইজ'} text={'ইউজারের অতীতে যুক্ত করা সকল তথ্যের সহজ এক্সেস'} Icon={MdOutlineHistory} />

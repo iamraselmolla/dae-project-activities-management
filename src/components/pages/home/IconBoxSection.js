@@ -55,7 +55,7 @@ const IconBoxSection = () => {
     <section className="py-16 bg-white">
       <div className="text-center mb-8">
         <h2 className="text-xl text-green-600 font-extrabold mb-4">কি কি সেবা যুক্ত আছে?</h2>
-        <h3 className="text-3xl font-semibold mb-8">নিম্নোক্ত সেবাসমূহ ছাড়াও আরও রয়েছে</h3>
+        <h3 className="md:text-3xl text-2xl font-semibold mb-8">নিম্নোক্ত সেবাসমূহ ছাড়াও আরও রয়েছে</h3>
       </div>
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 

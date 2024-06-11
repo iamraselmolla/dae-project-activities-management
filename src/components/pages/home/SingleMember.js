@@ -24,7 +24,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.facebook && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md   hover:theme-bg hover:text-white"
                   href={`https://www.facebook.com/${data?.socialLinks?.facebook}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -36,7 +36,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.gmail && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md   hover:theme-bg hover:text-white"
                   href={`mailto:${data?.socialLinks?.gmail}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -48,7 +48,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.github && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md   hover:theme-bg hover:text-white"
                   href={`https://www.github.com/${data?.socialLinks?.github}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -60,7 +60,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.linkedin && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md   hover:theme-bg hover:text-white"
                   href={`https://www.linkedin.com/in/${data?.socialLinks?.linkedin}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -72,7 +72,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.whatsapp && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md  dark: hover:theme-bg hover:text-white"
                   href={`https://wa.me/${data?.socialLinks?.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -84,7 +84,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.portfolio && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md  dark: hover:theme-bg hover:text-white"
                   href={`${data?.socialLinks?.portfolio}`}
                   target="_blank"
                   rel="noopener noreferrer"
