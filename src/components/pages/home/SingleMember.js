@@ -85,7 +85,7 @@ const SingleMember = ({ data }) => {
               <li>
                 <a
                   className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
-                  href={`https://www.linkedin.com/in/${data?.socialLinks?.portfolio}`}
+                  href={`${data?.socialLinks?.portfolio}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
