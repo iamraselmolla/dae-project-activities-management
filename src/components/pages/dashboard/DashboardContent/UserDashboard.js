@@ -156,11 +156,10 @@ const UserDashboard = () => {
       kharip1: kharip1 || 0,
     }
   });
-
   return (
     <section className="py-5">
-      <div className="grid grid-cols-3 gap-5 justify-center items-center">
-        <div className="grid bg-white px-4 py-6 col-span-2 rounded-xl grid-cols-3 gap-3">
+      <div className="grid  grid-cols-1 md:grid-cols-3 gap-5 justify-center items-center">
+        <div className="grid bg-white px-4 py-6 col-span-2 rounded-xl md:grid-cols-2 grid-cols-2 lg:grid-cols-3 gap-3">
           {cards.map((card, index) => (
             <DashboardCard key={index} {...card} />
           ))}
