@@ -3,7 +3,7 @@ import FooterMenuItem from "../shared/FooterMenuItem";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 py-6">
+    <footer className="theme-bg py-6">
       <div className="mx-auto flex flex-col items-center text-center max-w-7xl px-2 sm:px-6 lg:px-8">
         <img src="/images/logo.png" width={100} alt="" srcSet="" />
         <div>

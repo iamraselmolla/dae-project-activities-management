@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   return (
-    <nav className="bg-green-600">
+    <nav className="theme-bg">
       <div className="navbar mx-auto px-2 sm:px-6 lg:px-8">
         <div className="navbar-start">
           <div className="dropdown">
@@ -104,7 +104,7 @@ const Header = () => {
                   {showMenu && (
                     <>
                       <div
-                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-green-600 border-2 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${showMenu ? "block" : "hidden"
+                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md theme-bg border-2 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${showMenu ? "block" : "hidden"
                           }`}
                         role="menu"
                         aria-orientation="vertical"
