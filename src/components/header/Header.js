@@ -104,7 +104,7 @@ const Header = () => {
                   {showMenu && (
                     <>
                       <div
-                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${showMenu ? "block" : "hidden"
+                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-green-600 border-2 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${showMenu ? "block" : "hidden"
                           }`}
                         role="menu"
                         aria-orientation="vertical"
@@ -120,8 +120,8 @@ const Header = () => {
                             isPending
                               ? "pending"
                               : isActive
-                                ? "active bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                                : "text-black hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold"
+                                ? "active bg-white text-black rounded-md px-3 py-2 text-sm font-medium"
+                                : "text-white hover:bg-white hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                           }
                         >
                           প্রফাইল
@@ -129,7 +129,7 @@ const Header = () => {
                         <Link
                           href="#"
                           onClick={handleToLogOut}
-                          className="block font-extrabold px-4 py-2 text-sm text-gray-700"
+                          className="block font-extrabold px-4 py-2 text-sm text-white hover:bg-black hover:text-white"
                           role="menuitem"
                           tabIndex="-1"
                           id="user-menu-item-2"
