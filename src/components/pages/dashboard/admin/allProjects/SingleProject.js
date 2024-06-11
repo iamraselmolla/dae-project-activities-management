@@ -127,38 +127,10 @@ const SingleProject = ({ data, index }) => {
         <Title end={data?.end} title={data?.name?.details} />
       </div>
       <div className="collapse-content bg-white flex flex-col gap-2">
-        <h2 className="text-xl flex gap-5  pt-8 pb-5 font-bold items-center">
-          <span>প্রকল্পের পুরো নামঃ {data?.name?.details}</span>
-
-          <span className="ml-3 flex gap-1">
-            {!data?.end &&
-              <Link
-                className="flex justify-center items-center"
-                to={`/dashboard/addproject?id=${data?._id}`}
-              >
-                <button className="btn btn-info text-white font-extrabold">
-                  <CiEdit size={20} cursor={"pointer"} /> এডিট করুন
-                </button>
-              </Link>
-            }
+        <h2 className="text-xl  pt-8 pb-5 font-bold items-center">
+          প্রকল্পের পুরো নামঃ {data?.name?.details}
 
 
-            <button
-              onClick={() => handleProjectDeleting(data?._id)}
-              className="btn bg-red-500  text-white font-extrabold"
-            >
-              <RiDeleteBin5Line size={20} cursor={"pointer"} /> প্রকল্প মুছে
-              দিন
-            </button>
-            {!data?.end &&
-              <button
-                onClick={() => handleProjectCompletion(data?._id)}
-                className="btn btn-success text-white font-extrabold "
-              >
-                <FiCheckCircle size={20} cursor={"pointer"} /> সমাপ্ত ঘোষণা করুন
-              </button>
-            }
-          </span>
 
         </h2>
         <h2 className="text-xl font-bold">
@@ -240,7 +212,7 @@ const SingleProject = ({ data, index }) => {
             <>
               <button
                 type="button"
-                className="btn mt-2 w-full font-extrabold text-white btn-info"
+                className="btn mt-2 w-full font-extrabold text-white theme-bg"
                 onClick={handleAddCrop}
               >
                 প্রদর্শনীর ধরণ বা প্রযুক্তি যুক্ত করুন
@@ -251,6 +223,36 @@ const SingleProject = ({ data, index }) => {
               <span className="loading bg-green-500 loading-bars loading-lg"></span>
             </div>
           )}
+        </div>
+        {/* Acion Buttons */}
+        <div className="mt-8 flex gap-1">
+          {!data?.end &&
+            <Link
+              className="flex justify-center items-center"
+              to={`/dashboard/addproject?id=${data?._id}`}
+            >
+              <button className="btn btn-info text-white font-extrabold">
+                <CiEdit size={20} cursor={"pointer"} /> এডিট করুন
+              </button>
+            </Link>
+          }
+
+
+          <button
+            onClick={() => handleProjectDeleting(data?._id)}
+            className="btn bg-red-500  text-white font-extrabold"
+          >
+            <RiDeleteBin5Line size={20} cursor={"pointer"} /> প্রকল্প মুছে
+            দিন
+          </button>
+          {!data?.end &&
+            <button
+              onClick={() => handleProjectCompletion(data?._id)}
+              className="btn btn-success text-white font-extrabold "
+            >
+              <FiCheckCircle size={20} cursor={"pointer"} /> সমাপ্ত ঘোষণা করুন
+            </button>
+          }
         </div>
       </div>
     </div>
