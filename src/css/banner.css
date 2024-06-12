@@ -1,4 +1,31 @@
-.banner_heading{
-    font-size: 60px;
-    line-height: 1.5;
+/* src/custom.css */
+.banner_heading {
+  font-size: 1.75rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+@media (min-width: 640px) {
+  /* sm */
+  .banner_heading {
+    font-size: 3rem;
+    text-align: center;
+  }
+}
+
+@media (min-width: 768px) {
+  /* md */
+  .banner_heading {
+    font-size: 3rem;
+    text-align: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* lg */
+  .banner_heading {
+    font-size: 3.5rem;
+
+    text-align: left; /* text-4xl */
+  }
 }

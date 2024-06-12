@@ -1,0 +1,13 @@
+/* custom.css */
+:root {
+  --theme_bg: #38a169; /* Tailwind equivalent: bg-green-500 */
+  --theme_color: #16a34a; /* Tailwind equivalent: bg-green-400 */
+}
+
+.theme-bg {
+  background-color: var(--theme_bg);
+}
+
+.theme-color {
+  color: var(--theme_color);
+}

@@ -3,7 +3,7 @@ import React from 'react';
 const WhyThisSoftwareIcon = ({ Icon, heading, text }) => {
     return (
         <div className="flex gap-3 items-center">
-            <Icon color='blue' size={50} />
+            <Icon color='green' size={60} />
             <div>
                 <h3 className="text-xl font-bold">
                     {heading}

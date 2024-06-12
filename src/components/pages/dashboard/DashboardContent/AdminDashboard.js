@@ -138,8 +138,8 @@ const AdminDashboard = () => {
 
   return (
     <section className="py-5">
-      <div className="grid grid-cols-3 gap-5">
-        <div className="grid bg-white p-4 col-span-2 rounded-xl grid-cols-3 gap-3">
+      <div className="grid lg:grid-cols-3 md:grid-cols-1 grid-cols-1 gap-5">
+        <div className="grid bg-white p-4 lg:col-span-2 rounded-xl lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
           {cards.map((card, index) => (
             <DashboardCard key={index} {...card} />
           ))}
