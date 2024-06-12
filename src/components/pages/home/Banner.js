@@ -8,7 +8,7 @@ const Banner = () => {
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 items-center">
           <div className="">
-            <h3 className="px-3 mb-10 inline-block bg-blue-500 py-1 rounded-xl">
+            <h3 className="px-6 mb-10 inline-block theme-bg text-white py-2 rounded-xl">
               প্রকল্প কার্যক্রম ম্যানেজমেন্ট
             </h3>
             <h1 className="text-4xl banner_heading font-extrabold mb-8">
@@ -18,17 +18,17 @@ const Banner = () => {
               সংশ্লিষ্ট উপসহকারী কৃষি কর্মকর্তা, উপসহকারী উদ্ভিদ সংরক্ষণ
               কর্মকর্তা, সহকারী কৃষি সম্প্রসারণ কর্মকর্তা, কৃষি সম্প্রসারণ
               কর্মকর্তা, অতিরিক্ত কৃষি কর্মকর্তা এবং উপজেলা কৃষি অফিসার কর্তৃক
-              প্রকল্পের যাবতীয় কার্যক্রম যেমন প্রদর্শনী, প্রশিক্ষণ, মাঠদিবস,
+              প্রকল্পের যাবতীয় কার্যক্রম যেমন  প্রদর্শনী, প্রশিক্ষণ, মাঠদিবস,
               উপকরণ বিতরণ সংরক্ষণ, পর্যবেক্ষণ ও প্রদান করা হবে।
             </p>
-            <div className="mt-8 flex">
+            <div className="mt-8 flex md:justify-start justify-center">
               <Link to="/all-projects">
-                <button className="btn text-xl font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-5 px-16">
+                <button className="btn lg:text-xl text-md font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-5 lg:px-16 md:px-10 px-6">
                   সকল প্রকল্প
                 </button>
               </Link>
               <Link to={'/all-users'}>
-                <button className="btn text-xl font-extrabold border-3 border-black bg-transparent hover:bg-black hover:text-white px-16">
+                <button className="btn lg:text-xl text-md font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-5 lg:px-16 md:px-10 px-6">
                   সকল ইউজার
                 </button>
               </Link>

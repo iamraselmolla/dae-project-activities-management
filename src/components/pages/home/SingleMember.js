@@ -7,7 +7,7 @@ import { TbWorldWww } from "react-icons/tb";
 const SingleMember = ({ data }) => {
   return (
     <div className="shadow-2xl">
-      <div className="team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
+      <div className="team md:text-center lg:text-center text-start p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
         <div className="rounded-md -mt-[10px] -ms-[10px] w-[98%] h-[98%] -z-1"></div>
         <img
           src={data?.img}
@@ -24,7 +24,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.facebook && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center theme-bg transition hover:text-white duration-500 hover:bg-black text-white ease-in-out text-base text-center theme-bg border border-gray-100 dark:border-gray-800 rounded-md"
                   href={`https://www.facebook.com/${data?.socialLinks?.facebook}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -36,7 +36,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.gmail && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center theme-bg transition hover:text-white duration-500 hover:bg-black text-white ease-in-out text-base text-center theme-bg border border-gray-100 dark:border-gray-800 rounded-md"
                   href={`mailto:${data?.socialLinks?.gmail}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -48,7 +48,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.github && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center theme-bg transition hover:text-white duration-500 hover:bg-black text-white ease-in-out text-base text-center theme-bg border border-gray-100 dark:border-gray-800 rounded-md"
                   href={`https://www.github.com/${data?.socialLinks?.github}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -60,7 +60,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.linkedin && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center theme-bg transition hover:text-white duration-500 hover:bg-black text-white ease-in-out text-base text-center theme-bg border border-gray-100 dark:border-gray-800 rounded-md"
                   href={`https://www.linkedin.com/in/${data?.socialLinks?.linkedin}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -72,7 +72,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.whatsapp && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center theme-bg transition hover:text-white duration-500 hover:bg-black text-white ease-in-out text-base text-center theme-bg border border-gray-100 dark:border-gray-800 rounded-md"
                   href={`https://wa.me/${data?.socialLinks?.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -84,7 +84,7 @@ const SingleMember = ({ data }) => {
             {data?.socialLinks?.portfolio && (
               <li>
                 <a
-                  className="w-8 h-8 inline-flex items-center justify-center transition duration-500 ease-in-out text-base text-center border border-gray-100 dark:border-gray-800 rounded-md hover:border-indigo-600 dark:hover:border-indigo-600 hover:bg-indigo-600 hover:text-white"
+                  className="w-8 h-8 inline-flex items-center justify-center theme-bg transition hover:text-white duration-500 hover:bg-black text-white ease-in-out text-base text-center theme-bg border border-gray-100 dark:border-gray-800 rounded-md"
                   href={`${data?.socialLinks?.portfolio}`}
                   target="_blank"
                   rel="noopener noreferrer"

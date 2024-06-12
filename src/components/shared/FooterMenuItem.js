@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const FooterMenuItem = ({ link, text }) => {
     return (
         <NavLink
-            to={`/${link}`} className={'text-blue-400 font-bold '}
+            to={`/${link}`} className={'text-white font-bold '}
         >
             {text}
         </NavLink>

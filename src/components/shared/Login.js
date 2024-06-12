@@ -15,7 +15,7 @@ const Login = () => {
     username: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   // Function to handle input changes
   const handleInputChange = (e) => {
@@ -33,14 +33,14 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/user/get-login-user",
+        "https://dae-server.vercel.app/api/v1/user/get-login-user",
         formData
       );
       if (response?.data?.success) {
         setLoading(false);
         toast.success(response?.data?.message);
         setUser(response?.data?.data);
-        setRole(response?.data?.data?.role)
+        setRole(response?.data?.data?.role);
 
         // Format the user data for local storage
         const userFormateForLocalStorage = {
