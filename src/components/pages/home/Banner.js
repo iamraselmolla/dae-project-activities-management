@@ -34,7 +34,7 @@ const Banner = () => {
               </Link>
             </div>
           </div>
-          <div className="flex md:pt-10 justify-center">
+          <div className="flex md:pt-10 lg:pt-0 pt-10 justify-center">
             <img src="images/banner.png" alt=" Banner Image" />
           </div>
         </div>
