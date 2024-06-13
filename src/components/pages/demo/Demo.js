@@ -1,3 +1,4 @@
+// src/Demo.js
 import React, { useContext, useEffect, useState } from "react";
 import SingleDemo from "./SingleDemo";
 import { Link } from "react-router-dom";
@@ -17,6 +18,8 @@ import SectionTitle from "../../shared/SectionTitle";
 import { useSelector } from "react-redux";
 import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
+import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
+import MyDocument from "../../shared/PDFDocument";
 
 const Demo = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -69,7 +72,6 @@ const Demo = () => {
     }
   }, []);
 
-  // make the function to search accordingly selected filed's each changes
   const filterProjects = () => {
     let filtered = demos;
 
@@ -103,10 +105,9 @@ const Demo = () => {
       );
     }
 
-    return filtered; // Return the filtered projects
+    return filtered;
   };
 
-  // Call filterProjects inside the useEffect hook to update filteredProjects state
   useEffect(() => {
     const filtered = filterProjects();
     setFilteredProjects(filtered);
@@ -116,11 +117,8 @@ const Demo = () => {
     setSelectedProject(e.target.value);
   };
 
-  // make the function to search accordingly all filed and call the function in each change
   useEffect(() => {
-    // Filter data whenever the search input changes
     const filtered = demos.filter((item) => {
-      // Check if any field matches the search input
       for (const key in item) {
         if (typeof item[key] === "string" && item[key].includes(search)) {
           return true;
@@ -138,24 +136,21 @@ const Demo = () => {
       }
       return false;
     });
-    setFilteredProjects(filtered); // Update filtered data
+    setFilteredProjects(filtered);
   }, [search]);
 
   const handleUnionAndBlockSelection = (e) => {
     const selectedUnion = e.target.value;
     setUnionName(selectedUnion);
 
-    // Find the blocks under the selected union
     const result = blockAndUnions?.filter(
       (single) => single?.unionB === selectedUnion
     );
-    const blocks = result?.map((single) => single?.blockB); // Assuming result contains an array of objects with 'blockB' property
+    const blocks = result?.map((single) => single?.blockB);
 
-    // Update the state with the blocks of the selected union
     setBlocksOfUnion(blocks);
   };
 
-  // Function to export filtered data to Excel
   const handleToExportInToExcel = () => {
     const data = filteredProjects.map((project) => {
       return [
@@ -175,8 +170,8 @@ const Demo = () => {
         project.demoDate.ropon,
         project.demoDate.korton.startDate
           ? project.demoDate.korton.startDate +
-          " - " +
-          project.demoDate.korton.endDate
+            " - " +
+            project.demoDate.korton.endDate
           : "এখনো কর্তন হয়নি।",
         project.demoInfo.tech,
         project.demoInfo.crop,
@@ -226,6 +221,42 @@ const Demo = () => {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
     saveAs(dataBlob, `${user?.block} ${getFiscalYear()}.xlsx`);
+  };
+
+  const handleToExportInToPDF = async () => {
+    const data = filteredProjects.map((project) => {
+      return [
+        project.projectInfo.full,
+        project.projectInfo.short,
+        project.demoTime.fiscalYear,
+        project.demoTime.season,
+        project.farmersInfo.name,
+        project.farmersInfo.fatherOrHusbandName,
+        project.numbersInfo.NID,
+        project.numbersInfo.BID,
+        project.numbersInfo.mobile,
+        project.address.village,
+        project.address.block,
+        project.address.union,
+        project.demoDate.bopon,
+        project.demoDate.ropon,
+        project.demoDate.korton.startDate
+          ? project.demoDate.korton.startDate +
+            " - " +
+            project.demoDate.korton.endDate
+          : "এখনো কর্তন হয়নি।",
+        project.demoInfo.tech,
+        project.demoInfo.crop,
+        project.demoInfo.variety,
+        project.production.productionPerHector,
+        project.production.totalProduction,
+        project.production.sidePlotProduction,
+        project?.SAAO?.name + " - " + project?.SAAO?.mobile,
+      ];
+    });
+
+    const pdfBlob = await pdf(<MyDocument data={data} />).toBlob();
+    saveAs(pdfBlob, `${user?.block} ${getFiscalYear()}.pdf`);
   };
 
   return (
@@ -332,6 +363,24 @@ const Demo = () => {
                 cursor={"pointer"}
                 onClick={handleToExportInToExcel}
               />
+            </div>
+            <div className="w-full">
+              <PDFDownloadLink
+                document={<MyDocument data={filteredProjects} />}
+                fileName={`${user?.block} ${getFiscalYear()}.pdf`}
+                style={{
+                  textDecoration: "none",
+                  padding: "10px",
+                  color: "#4CAF50",
+                  backgroundColor: "#f2f2f2",
+                  border: "1px solid #4CAF50",
+                  borderRadius: "4px",
+                }}
+              >
+                {({ blob, url, loading, error }) =>
+                  loading ? "Loading document..." : "Download PDF"
+                }
+              </PDFDownloadLink>
             </div>
           </div>
         </>
