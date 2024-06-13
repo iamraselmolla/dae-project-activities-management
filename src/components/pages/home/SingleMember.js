@@ -9,18 +9,20 @@ const SingleMember = ({ data }) => {
     <div className="shadow-2xl">
       <div className="team md:text-center lg:text-center text-start p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
         <div className="rounded-md -mt-[10px] -ms-[10px] w-[98%] h-[98%] -z-1"></div>
-        <img
-          src={data?.img}
-          className="w-24 h-24 rounded-full shadow-md dark:shadow-gray-800"
-          alt={data?.name}
-        />
+        <div className="flex justify-center">
+          <img
+            src={data?.img}
+            className="w-24 h-24 rounded-full shadow-md dark:shadow-gray-800"
+            alt={data?.name}
+          />
+        </div>
         <div className="content mt-4">
           <h2 className="text-xl font-extrabold">{data?.name}</h2>
           <span className="text-slate-400 block font-extrabold">
             {data?.title}
           </span>
           <span className="text-slate-400 block">Role: {data?.role}</span>
-          <ul className="list-none mt-4 space-x-2 flex">
+          <ul className="list-none mt-4 space-x-2 flex justify-center">
             {data?.socialLinks?.facebook && (
               <li>
                 <a

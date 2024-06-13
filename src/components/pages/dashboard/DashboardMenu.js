@@ -4,12 +4,13 @@ import { RxDashboard } from "react-icons/rx";
 import { GoProject } from "react-icons/go";
 import { PiUsersFourLight, PiMicrophoneStageFill } from "react-icons/pi";
 import { GiDiscussion } from "react-icons/gi";
-import { GrDocumentNotes } from "react-icons/gr";
 import { CgDisplayGrid } from "react-icons/cg";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { MdAgriculture, MdCreditScore } from "react-icons/md";
 import { RiSchoolLine } from "react-icons/ri";
+import { FcDocument } from "react-icons/fc";
+
 
 
 const DashboardMenu = () => {
@@ -89,7 +90,7 @@ const DashboardMenu = () => {
         />
       )}
       <DashboardMenuItem
-        icon={<GrDocumentNotes />}
+        icon={<FcDocument />}
         link="/user-notes"
         text={"নোটস"}
       />

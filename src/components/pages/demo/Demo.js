@@ -1,3 +1,4 @@
+// src/Demo.js
 import React, { useContext, useEffect, useState } from "react";
 import SingleDemo from "./SingleDemo";
 import { Link } from "react-router-dom";
@@ -17,6 +18,7 @@ import SectionTitle from "../../shared/SectionTitle";
 import { useSelector } from "react-redux";
 import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
+
 
 const Demo = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -69,7 +71,6 @@ const Demo = () => {
     }
   }, []);
 
-  // make the function to search accordingly selected filed's each changes
   const filterProjects = () => {
     let filtered = demos;
 
@@ -103,10 +104,9 @@ const Demo = () => {
       );
     }
 
-    return filtered; // Return the filtered projects
+    return filtered;
   };
 
-  // Call filterProjects inside the useEffect hook to update filteredProjects state
   useEffect(() => {
     const filtered = filterProjects();
     setFilteredProjects(filtered);
@@ -116,11 +116,8 @@ const Demo = () => {
     setSelectedProject(e.target.value);
   };
 
-  // make the function to search accordingly all filed and call the function in each change
   useEffect(() => {
-    // Filter data whenever the search input changes
     const filtered = demos.filter((item) => {
-      // Check if any field matches the search input
       for (const key in item) {
         if (typeof item[key] === "string" && item[key].includes(search)) {
           return true;
@@ -138,24 +135,21 @@ const Demo = () => {
       }
       return false;
     });
-    setFilteredProjects(filtered); // Update filtered data
+    setFilteredProjects(filtered);
   }, [search]);
 
   const handleUnionAndBlockSelection = (e) => {
     const selectedUnion = e.target.value;
     setUnionName(selectedUnion);
 
-    // Find the blocks under the selected union
     const result = blockAndUnions?.filter(
       (single) => single?.unionB === selectedUnion
     );
-    const blocks = result?.map((single) => single?.blockB); // Assuming result contains an array of objects with 'blockB' property
+    const blocks = result?.map((single) => single?.blockB);
 
-    // Update the state with the blocks of the selected union
     setBlocksOfUnion(blocks);
   };
 
-  // Function to export filtered data to Excel
   const handleToExportInToExcel = () => {
     const data = filteredProjects.map((project) => {
       return [
@@ -227,7 +221,6 @@ const Demo = () => {
     });
     saveAs(dataBlob, `${user?.block} ${getFiscalYear()}.xlsx`);
   };
-
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold col-span-1">
@@ -333,6 +326,7 @@ const Demo = () => {
                 onClick={handleToExportInToExcel}
               />
             </div>
+
           </div>
         </>
       )}

@@ -13,7 +13,7 @@ const SingleProject = ({ single }) => {
         }`}
     >
       <div
-        className="absolute bg-[#14b8a6] flex h-16 items-center justify-center rounded-full text-white w-16"
+        className="absolute theme-bg flex h-16 items-center justify-center rounded-full text-white w-16"
         style={{
           left: "50%",
           transform: "translateX(-50%)",
@@ -36,7 +36,7 @@ const SingleProject = ({ single }) => {
           className="flex w-full relative gap-2"
         >
           <div className="flex gap-2 items-center cursor-pointer">
-            <GiGrainBundle color="green" size={25} />
+            <GiGrainBundle className="theme-color" size={25} />
             <div className="text-xl font-bold">
               {toBengaliNumber(single?.crops?.length)}
             </div>
@@ -52,7 +52,7 @@ const SingleProject = ({ single }) => {
         </div>
         <div className="flex gap-1">
           <div className="flex gap-1 items-center">
-            <IoTimer size={25} color="green" />
+            <IoTimer size={25} className="theme-color" />
           </div>
           <div>
             {new Date(single?.time?.start).toLocaleDateString("bn-BD")} -{" "}
