@@ -66,7 +66,7 @@ const Header = () => {
               <HeaderMenuItem link="all-users" text="ব্যবহারকারী" />
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost text-white text-xl">
+          <Link to="/" className="hover:bg-transparent">
             <img src="/images/logo.png" width={'60px'} alt="" srcSet="" />
           </Link>
         </div>
