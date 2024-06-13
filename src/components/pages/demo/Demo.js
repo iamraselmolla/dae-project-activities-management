@@ -18,8 +18,7 @@ import SectionTitle from "../../shared/SectionTitle";
 import { useSelector } from "react-redux";
 import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
-import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
-import MyDocument from "../../shared/PDFDocument";
+
 
 const Demo = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -170,8 +169,8 @@ const Demo = () => {
         project.demoDate.ropon,
         project.demoDate.korton.startDate
           ? project.demoDate.korton.startDate +
-            " - " +
-            project.demoDate.korton.endDate
+          " - " +
+          project.demoDate.korton.endDate
           : "এখনো কর্তন হয়নি।",
         project.demoInfo.tech,
         project.demoInfo.crop,
@@ -222,43 +221,6 @@ const Demo = () => {
     });
     saveAs(dataBlob, `${user?.block} ${getFiscalYear()}.xlsx`);
   };
-
-  const handleToExportInToPDF = async () => {
-    const data = filteredProjects.map((project) => {
-      return [
-        project.projectInfo.full,
-        project.projectInfo.short,
-        project.demoTime.fiscalYear,
-        project.demoTime.season,
-        project.farmersInfo.name,
-        project.farmersInfo.fatherOrHusbandName,
-        project.numbersInfo.NID,
-        project.numbersInfo.BID,
-        project.numbersInfo.mobile,
-        project.address.village,
-        project.address.block,
-        project.address.union,
-        project.demoDate.bopon,
-        project.demoDate.ropon,
-        project.demoDate.korton.startDate
-          ? project.demoDate.korton.startDate +
-            " - " +
-            project.demoDate.korton.endDate
-          : "এখনো কর্তন হয়নি।",
-        project.demoInfo.tech,
-        project.demoInfo.crop,
-        project.demoInfo.variety,
-        project.production.productionPerHector,
-        project.production.totalProduction,
-        project.production.sidePlotProduction,
-        project?.SAAO?.name + " - " + project?.SAAO?.mobile,
-      ];
-    });
-
-    const pdfBlob = await pdf(<MyDocument data={data} />).toBlob();
-    saveAs(pdfBlob, `${user?.block} ${getFiscalYear()}.pdf`);
-  };
-
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold col-span-1">
@@ -364,24 +326,7 @@ const Demo = () => {
                 onClick={handleToExportInToExcel}
               />
             </div>
-            <div className="w-full">
-              <PDFDownloadLink
-                document={<MyDocument data={filteredProjects} />}
-                fileName={`${user?.block} ${getFiscalYear()}.pdf`}
-                style={{
-                  textDecoration: "none",
-                  padding: "10px",
-                  color: "#4CAF50",
-                  backgroundColor: "#f2f2f2",
-                  border: "1px solid #4CAF50",
-                  borderRadius: "4px",
-                }}
-              >
-                {({ blob, url, loading, error }) =>
-                  loading ? "Loading document..." : "Download PDF"
-                }
-              </PDFDownloadLink>
-            </div>
+
           </div>
         </>
       )}
