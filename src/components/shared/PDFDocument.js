@@ -37,14 +37,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   tableColHeader: {
-    width: "25%",
     borderStyle: "solid",
     borderWidth: 1,
     backgroundColor: "#d3d3d3",
     padding: 5,
   },
   tableCol: {
-    width: "25%",
     borderStyle: "solid",
     borderWidth: 1,
     padding: 5,
@@ -79,18 +77,42 @@ const MyDocument = ({ data }) => (
           <View style={styles.tableColHeader}>
             <Text style={styles.tableCellHeader}>Season</Text>
           </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Season</Text>
+          </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Season</Text>
+          </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Season</Text>
+          </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Season</Text>
+          </View>
         </View>
         {/* Table Content */}
         {data.map((project, index) => (
           <View style={styles.tableRow} key={index}>
             <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{project[0]}</Text>
+              <Text style={styles.tableCell}>{project?.project}</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>{project[1]}</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>{project[2]}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{project[3]}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{project[3]}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{project[3]}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{project[3]}</Text>
             </View>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>{project[3]}</Text>
