@@ -9,21 +9,23 @@ import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
 import NoContentFound from "../../../../shared/NoContentFound";
 import AddModuleButton from "../../../../shared/AddModuleButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SectionTitle from "../../../../shared/SectionTitle";
 import FiscalYear from "../../../../shared/FiscalYear";
 import Season from "../../../../shared/Season";
+import { daeAction } from "../../../../store/projectSlice";
 
 const UserFieldDays = () => {
   const {
     userData: { fieldDays: allFieldDays },
-    projects: allProject,
+    projects: allProject
   } = useSelector((state) => state.dae);
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
   const [filteredFieldDays, setFilteredFieldDays] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
+  const dispatch = useDispatch()
   const filterProjects = () => {
     let filtered = allFieldDays;
 
@@ -97,6 +99,8 @@ const UserFieldDays = () => {
           const result = await deleteAFieldDay(fieldDayData?._id);
           if (result.status === 200) {
             toast.success(result?.data?.message);
+            dispatch(daeAction.setRefetch())
+
           }
         } catch (err) {
           toast.error("মাঠ দিবসের তথ্য মুছে ফেলতে সমস্যা হচ্ছে।");
