@@ -16,7 +16,7 @@ import { FcDocument } from "react-icons/fc";
 const DashboardMenu = () => {
   const { user, role } = useContext(AuthContext);
   return (
-    <div className="md:flex md:flex-wrap justify-center flex flex-wrap gap-3 md:gap-0">
+    <div className="md:flex md:flex-wrap justify-center flex flex-wrap gap-3 md:gap-2">
       <DashboardMenuItem icon={<RxDashboard />} link="" text={"ড্যাশবোর্ড"} />
       {user && role === "admin" && (
         <DashboardMenuItem
