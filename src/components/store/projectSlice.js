@@ -15,7 +15,7 @@ const initialState = {
     demos: [],
     fieldDays: [],
     schools: [],
-    daeMeetins: [],
+    daeMeetings: [],
   },
 };
 
