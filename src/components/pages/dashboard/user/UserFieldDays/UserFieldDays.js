@@ -23,11 +23,11 @@ const UserFieldDays = () => {
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
-  const [filteredFieldDays, setFilteredFieldDays] = useState([]);
+  const [filteredFieldDays, setFilteredFieldDays] = useState(fieldDays);
   const [selectedProject, setSelectedProject] = useState("");
   const dispatch = useDispatch()
   const filterProjects = () => {
-    let filtered = fieldDays;
+    let filtered = filteredFieldDays;
 
     if (selectedProject !== "") {
       filtered = filtered.filter((project) =>
@@ -59,7 +59,7 @@ const UserFieldDays = () => {
 
   useEffect(() => {
     // Filter data whenever the search input changes
-    const filtered = fieldDays.filter((item) => {
+    const filtered = filteredFieldDays.filter((item) => {
       // Check if any field matches the search input
       for (const key in item) {
         if (typeof item[key] === "string" && item[key].includes(search)) {
@@ -117,7 +117,7 @@ const UserFieldDays = () => {
             btnText={"মাঠদিবস যুক্ত করুন"}
           />
           <SectionTitle
-            title={`সকল মাঠদিবস (${toBengaliNumber(fieldDays?.length)})`}
+            title={`সকল মাঠদিবস (${toBengaliNumber(filteredFieldDays?.length)})`}
           />
           <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-nowrap  justify-between items-center gap-3">
             <div>
