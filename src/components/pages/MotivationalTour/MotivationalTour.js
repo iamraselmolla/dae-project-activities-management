@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import AddModuleButton from "../../shared/AddModuleButton";
 import { getAllMotivationalTours } from "../../../services/userServices";
 import toast from "react-hot-toast";
-import Loader from "../../shared/Loader";
 import SingleTour from "./SingleTour";
 import SectionTitle from "../../shared/SectionTitle";
 import Season from "../../shared/Season";
 import FiscalYear from "../../shared/FiscalYear";
 import { useSelector } from "react-redux";
 import { toBengaliNumber } from "bengali-number";
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 
 function MotivationalTour() {
   const { projects: allProjects } = useSelector((state) => state.dae);
@@ -162,11 +162,7 @@ function MotivationalTour() {
               ))}
           </div>
         ) : (
-          <>
-            <div className="flex justify-center items-center">
-              <Loader />
-            </div>
-          </>
+          <LoaderWithOutDynamicMessage />
         )}
       </section>
     </>
