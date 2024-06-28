@@ -44,16 +44,7 @@ const UserSchools = () => {
       try {
         // Extract image public IDs from schoolData (assuming it has an images property)
         const imagePublicIds = schoolData.images.map((img) => img.split('/').pop().split('.')[0]);
-        console.log(imagePublicIds)
-        return;
 
-        // Delete images from Cloudinary
-        // const deleteImagePromises = imagePublicIds.map((public_id) =>
-        //   cloudinary.uploader.destroy(public_id)
-        // );
-        // await Promise.all(deleteImagePromises);
-
-        // Delete school from the database
         const result = await deleteASchool(schoolData); // Assuming you have a deleteSchool function
         if (result.status === 200) {
           toast.success(result.data.message);
