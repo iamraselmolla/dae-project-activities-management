@@ -17,13 +17,13 @@ import { daeAction } from "../../../../store/projectSlice";
 
 const UserFieldDays = () => {
   const {
-    fieldDays,
+    fieldDays: allFieldDays,
     projects: allProject
   } = useSelector((state) => state.dae);
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
-  const [filteredFieldDays, setFilteredFieldDays] = useState(fieldDays);
+  const [filteredFieldDays, setFilteredFieldDays] = useState(allFieldDays);
   const [selectedProject, setSelectedProject] = useState("");
   const dispatch = useDispatch()
   const filterProjects = () => {
@@ -253,87 +253,87 @@ const UserFieldDays = () => {
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {filteredFieldDays?.length > 0 &&
                   filteredFieldDays?.map((singleFieldDay, index) => (
-                    <>
-                      {" "}
-                      <tr className="divide-x divide-gray-200 dark:divide-gray-700">
-                        <FieldDayTD text={toBengaliNumber(index + 1)} />
-                        <FieldDayTD text={singleFieldDay?.projectInfo?.short} />
-                        <FieldDayTD text={singleFieldDay?.subject} />
-                        <FieldDayTD
-                          text={
-                            singleFieldDay?.season +
-                            `\n` +
-                            singleFieldDay?.fiscalYear
-                          }
-                        />
-                        <FieldDayTD
-                          text={toBengaliNumber(
-                            new Date(singleFieldDay?.date).toLocaleDateString(
-                              "bn-BD",
-                              {
-                                weekday: "long", // Specify to include the full day name
-                                day: "numeric",
-                                month: "long",
-                                year: "numeric",
-                              }
-                            )
-                          )}
-                        />
-                        <FieldDayTD
-                          text={`কৃষকঃ ${toBengaliNumber(
-                            singleFieldDay?.farmers?.male
-                          )}জন, \n কৃষাণীঃ ${toBengaliNumber(
-                            singleFieldDay?.farmers?.female
-                          )}, \n মোটঃ ${toBengaliNumber(
-                            singleFieldDay?.farmers.male +
-                            singleFieldDay?.farmers?.female
-                          )}`}
-                        />
-                        <FieldDayTD text={singleFieldDay?.address?.village} />
-                        <FieldDayTD text={singleFieldDay?.guests} />
-                        <td className="text-center dashboard-image-control text-balance text-sm font-medium text-gray-800 dark:text-gray-200">
-                          <ImageGallery
-                            showFullscreenButton={true}
-                            showPlayButton={false}
-                            showNav={false}
-                            showThumbnails={false}
-                            autoPlay={true}
-                            items={
-                              singleFieldDay?.images?.length > 0 &&
-                              singleFieldDay?.images?.map((singleImage) => ({
-                                original: singleImage,
-                                thumbnail: singleImage,
-                              }))
+
+
+                    <tr key={singleFieldDay?._id} className="divide-x divide-gray-200 dark:divide-gray-700">
+                      <FieldDayTD text={toBengaliNumber(index + 1)} />
+                      <FieldDayTD text={singleFieldDay?.projectInfo?.short} />
+                      <FieldDayTD text={singleFieldDay?.subject} />
+                      <FieldDayTD
+                        text={
+                          singleFieldDay?.season +
+                          `\n` +
+                          singleFieldDay?.fiscalYear
+                        }
+                      />
+                      <FieldDayTD
+                        text={toBengaliNumber(
+                          new Date(singleFieldDay?.date).toLocaleDateString(
+                            "bn-BD",
+                            {
+                              weekday: "long", // Specify to include the full day name
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
                             }
-                          />
-                        </td>
-
-                        <FieldDayTD
-                          text={
-                            singleFieldDay?.SAAO?.name +
-                            "\n" +
-                            toBengaliNumber(singleFieldDay?.SAAO?.mobile)
+                          )
+                        )}
+                      />
+                      <FieldDayTD
+                        text={`কৃষকঃ ${toBengaliNumber(
+                          singleFieldDay?.farmers?.male
+                        )}জন, \n কৃষাণীঃ ${toBengaliNumber(
+                          singleFieldDay?.farmers?.female
+                        )}, \n মোটঃ ${toBengaliNumber(
+                          singleFieldDay?.farmers.male +
+                          singleFieldDay?.farmers?.female
+                        )}`}
+                      />
+                      <FieldDayTD text={singleFieldDay?.address?.village} />
+                      <FieldDayTD text={singleFieldDay?.guests} />
+                      <td className="text-center dashboard-image-control text-balance text-sm font-medium text-gray-800 dark:text-gray-200">
+                        <ImageGallery
+                          showFullscreenButton={true}
+                          showPlayButton={false}
+                          showNav={false}
+                          showThumbnails={false}
+                          autoPlay={true}
+                          items={
+                            singleFieldDay?.images?.length > 0 &&
+                            singleFieldDay?.images?.map((singleImage) => ({
+                              original: singleImage,
+                              thumbnail: singleImage,
+                            }))
                           }
                         />
+                      </td>
 
-                        <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
-                          <div className="cursor-pointer">
-                            <Link to={`/addFieldDay?id=${singleFieldDay?._id}`}>
-                              <CiEdit size={35} color="black" />
-                            </Link>
-                          </div>
-                          <div className="cursor-pointer">
-                            <MdOutlineDelete
-                              onClick={() =>
-                                handleFieldDayDelete(singleFieldDay)
-                              }
-                              size={35}
-                              color="red"
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    </>
+                      <FieldDayTD
+                        text={
+                          singleFieldDay?.SAAO?.name +
+                          "\n" +
+                          toBengaliNumber(singleFieldDay?.SAAO?.mobile)
+                        }
+                      />
+
+                      <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
+                        <div className="cursor-pointer">
+                          <Link to={`/addFieldDay?id=${singleFieldDay?._id}`}>
+                            <CiEdit size={35} color="black" />
+                          </Link>
+                        </div>
+                        <div className="cursor-pointer">
+                          <MdOutlineDelete
+                            onClick={() =>
+                              handleFieldDayDelete(singleFieldDay)
+                            }
+                            size={35}
+                            color="red"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+
                   ))}
               </tbody>
             </table>

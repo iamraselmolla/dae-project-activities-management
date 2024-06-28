@@ -292,22 +292,6 @@ const UserPrimaryDemos = () => {
                 />
               )}
             </div>
-            <div>
-              <span>প্রতি পৃষ্ঠায়:</span>
-              <select className="ml-2 border rounded" value={entriesPerPage} onChange={handleEntriesChange}>
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={filteredDemos?.length}>সব</option>
-              </select>
-            </div>
-            <div className="mt-4 flex items-center justify-between">
-              <div>
-                <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md">&laquo; পূর্ববর্তী</button>
-                <span className="mx-2">পৃষ্ঠা {currentPage} / {totalPages}</span>
-                <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages} className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md">পরবর্তী &raquo;</button>
-              </div>
-            </div>
           </div>
         </div>
       </div >
