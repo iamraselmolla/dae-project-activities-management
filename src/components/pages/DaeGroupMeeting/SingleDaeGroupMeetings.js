@@ -30,7 +30,7 @@ const SingleDemo = ({ data }) => {
 
   // console.log(imagesArr)
   return (
-    <div className="rounded-lg border relative shadow-xl">
+    <div className="rounded-lg border bg-white relative shadow-xl">
       <div className="relative">
         <ImageGallery autoPlay={true} items={imagesArr} />
       </div>
