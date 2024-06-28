@@ -112,7 +112,7 @@ const Header = () => {
                         tabIndex="-1"
                       >
                         <HeaderMenuItem
-                          link="dashboard" text="Dashboard" />
+                          link="dashboard" text="ড্যাশবোর্ড" />
                         <NavLink
                           end
                           to={`/dashboard/profile`}
@@ -134,7 +134,7 @@ const Header = () => {
                           tabIndex="-1"
                           id="user-menu-item-2"
                         >
-                          Sign out
+                          সাইন আউট
                         </Link>
                       </div>
                     </>
