@@ -17,7 +17,7 @@ import { daeAction } from "../../../../store/projectSlice";
 
 const UserFieldDays = () => {
   const {
-    userData: { fieldDays: allFieldDays },
+    userData: { fieldDays },
     projects: allProject
   } = useSelector((state) => state.dae);
   const [fiscalYear, setFiscalYear] = useState("");
@@ -27,7 +27,7 @@ const UserFieldDays = () => {
   const [selectedProject, setSelectedProject] = useState("");
   const dispatch = useDispatch()
   const filterProjects = () => {
-    let filtered = allFieldDays;
+    let filtered = fieldDays;
 
     if (selectedProject !== "") {
       filtered = filtered.filter((project) =>
@@ -59,7 +59,7 @@ const UserFieldDays = () => {
 
   useEffect(() => {
     // Filter data whenever the search input changes
-    const filtered = allFieldDays.filter((item) => {
+    const filtered = fieldDays.filter((item) => {
       // Check if any field matches the search input
       for (const key in item) {
         if (typeof item[key] === "string" && item[key].includes(search)) {
@@ -117,7 +117,7 @@ const UserFieldDays = () => {
             btnText={"মাঠদিবস যুক্ত করুন"}
           />
           <SectionTitle
-            title={`সকল মাঠদিবস (${toBengaliNumber(allFieldDays?.length)})`}
+            title={`সকল মাঠদিবস (${toBengaliNumber(fieldDays?.length)})`}
           />
           <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-nowrap  justify-between items-center gap-3">
             <div>
