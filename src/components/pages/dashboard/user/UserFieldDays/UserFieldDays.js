@@ -9,23 +9,25 @@ import ImageGallery from "react-image-gallery";
 import { Link } from "react-router-dom";
 import NoContentFound from "../../../../shared/NoContentFound";
 import AddModuleButton from "../../../../shared/AddModuleButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SectionTitle from "../../../../shared/SectionTitle";
 import FiscalYear from "../../../../shared/FiscalYear";
 import Season from "../../../../shared/Season";
+import { daeAction } from "../../../../store/projectSlice";
 
 const UserFieldDays = () => {
   const {
-    userData: { fieldDays: allFieldDays },
-    projects: allProject,
+    userData: { fieldDays },
+    projects: allProject
   } = useSelector((state) => state.dae);
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
-  const [filteredFieldDays, setFilteredFieldDays] = useState([]);
+  const [filteredFieldDays, setFilteredFieldDays] = useState(fieldDays);
   const [selectedProject, setSelectedProject] = useState("");
+  const dispatch = useDispatch()
   const filterProjects = () => {
-    let filtered = allFieldDays;
+    let filtered = filteredFieldDays;
 
     if (selectedProject !== "") {
       filtered = filtered.filter((project) =>
@@ -57,7 +59,7 @@ const UserFieldDays = () => {
 
   useEffect(() => {
     // Filter data whenever the search input changes
-    const filtered = allFieldDays.filter((item) => {
+    const filtered = filteredFieldDays.filter((item) => {
       // Check if any field matches the search input
       for (const key in item) {
         if (typeof item[key] === "string" && item[key].includes(search)) {
@@ -97,6 +99,9 @@ const UserFieldDays = () => {
           const result = await deleteAFieldDay(fieldDayData?._id);
           if (result.status === 200) {
             toast.success(result?.data?.message);
+            dispatch(daeAction.setRefetch())
+
+
           }
         } catch (err) {
           toast.error("মাঠ দিবসের তথ্য মুছে ফেলতে সমস্যা হচ্ছে।");
@@ -113,7 +118,7 @@ const UserFieldDays = () => {
             btnText={"মাঠদিবস যুক্ত করুন"}
           />
           <SectionTitle
-            title={`সকল মাঠদিবস (${toBengaliNumber(allFieldDays?.length)})`}
+            title={`সকল মাঠদিবস (${toBengaliNumber(filteredFieldDays?.length)})`}
           />
           <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-nowrap  justify-between items-center gap-3">
             <div>
@@ -128,7 +133,7 @@ const UserFieldDays = () => {
                 <option value="" label="প্রকল্প সিলেক্ট করুন" />
                 {allProject?.map((project) => (
                   <option
-                    key={project._id}
+                    key={project.name?.details}
                     value={project?.name?.details}
                     label={project?.name?.details}
                   />

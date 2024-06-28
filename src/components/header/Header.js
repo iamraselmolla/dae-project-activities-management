@@ -104,7 +104,7 @@ const Header = () => {
                   {showMenu && (
                     <>
                       <div
-                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md theme-bg border-2 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${showMenu ? "block" : "hidden"
+                        className={`absolute flex flex-col text-black gap-2   right-0 z-10 mt-2 w-48 origin-top-right rounded-md theme-bg border-2 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${showMenu ? "block" : "hidden"
                           }`}
                         role="menu"
                         aria-orientation="vertical"
@@ -112,7 +112,7 @@ const Header = () => {
                         tabIndex="-1"
                       >
                         <HeaderMenuItem
-                          link="dashboard" text="Dashboard" />
+                          link="dashboard" text="ড্যাশবোর্ড" />
                         <NavLink
                           end
                           to={`/dashboard/profile`}
@@ -129,12 +129,12 @@ const Header = () => {
                         <Link
                           href="#"
                           onClick={handleToLogOut}
-                          className="block font-extrabold px-4 py-2 text-sm text-white hover:bg-black hover:text-white"
+                          className="block font-extrabold px-3 py-2 text-sm text-white hover:bg-black hover:text-white"
                           role="menuitem"
                           tabIndex="-1"
                           id="user-menu-item-2"
                         >
-                          Sign out
+                          সাইন আউট
                         </Link>
                       </div>
                     </>
