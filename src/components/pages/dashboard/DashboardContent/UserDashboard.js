@@ -29,7 +29,7 @@ import { seasonsArr } from '../../../shared/MessageConst';
 const UserDashboard = () => {
   const {
     notes,
-    demos, fieldDays, schools, daeMeetins,
+    demos, fieldDays, schools, daeMeetings,
   } = useSelector((state) => state.dae);
   const [noteTypes, setNoteTypes] = useState([]);
   const [Notedata, setData] = useState([]);
@@ -77,7 +77,7 @@ const UserDashboard = () => {
     },
     {
       icon: <GiFarmer />,
-      count: daeMeetins?.length,
+      count: daeMeetings?.length,
       text: "কৃষক সভা",
       backgroundColor: "#dcfce7", // Light green
     },

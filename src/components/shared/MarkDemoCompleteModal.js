@@ -88,7 +88,7 @@ const MarkDemoCompleteModal = ({ data }) => {
 
   return (
     <dialog id="my_modal_33" className="modal text-center">
-      <div className="modal-box w-6/12 max-w-5xl">
+      <div className="modal-box lg:w-6/12 md:w-10/12 max-w-5xl">
         <h3 className="font-bold text-xl mb-2">
           {data?.projectInfo?.short}-এর {data?.demoTime?.fiscalYear} অর্থবছরের{" "}
           {data?.demoTime?.season} মৌসুমের প্রযুক্তিঃ {data?.demoInfo?.tech} এর
