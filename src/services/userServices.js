@@ -273,7 +273,7 @@ export function createMotivationTour(data) {
   return http.post(BASE_URL.createMotivationTour, { data });
 }
 export function getAllMotivationalTours() {
-  return http.post(BASE_URL.getAllMotivationalTour);
+  return http.get(BASE_URL.getAllMotivationalTour);
 }
 
 export function deleteATour(id) {
