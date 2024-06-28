@@ -28,7 +28,7 @@ const UserSchools = () => {
   const { user } = useContext(AuthContext);
   const {
     refetch,
-    userData: { schools },
+    schools,
     projects: allProject,
   } = useSelector((state) => state.dae);
   const dispatch = useDispatch();

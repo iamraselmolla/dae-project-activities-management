@@ -29,7 +29,7 @@ import { seasonsArr } from '../../../shared/MessageConst';
 const UserDashboard = () => {
   const {
     notes,
-    userData: { demos, fieldDays, schools, daeMeetins },
+    demos, fieldDays, schools, daeMeetins,
   } = useSelector((state) => state.dae);
   const [noteTypes, setNoteTypes] = useState([]);
   const [Notedata, setData] = useState([]);

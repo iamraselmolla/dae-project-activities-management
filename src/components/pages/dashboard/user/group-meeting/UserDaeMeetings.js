@@ -11,7 +11,7 @@ import { toBengaliNumber } from "bengali-number";
 
 const UserDaeMeetings = () => {
   const {
-    userData: { daeMeetings: allGroupsMeeting },
+    daeMeetings: allGroupsMeeting,
   } = useSelector((state) => state.dae);
 
   const handleGroupDeleting = (id) => {

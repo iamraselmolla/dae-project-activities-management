@@ -17,7 +17,7 @@ import { daeAction } from "../../../../store/projectSlice";
 
 const UserFieldDays = () => {
   const {
-    userData: { fieldDays },
+    fieldDays,
     projects: allProject
   } = useSelector((state) => state.dae);
   const [fiscalYear, setFiscalYear] = useState("");

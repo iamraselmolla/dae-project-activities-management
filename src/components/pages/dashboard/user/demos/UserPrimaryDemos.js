@@ -14,8 +14,7 @@ import FiscalYear from "../../../../shared/FiscalYear";
 import UserSingleDemoTableRowPrimary from "./UserSingleDemoTableRowPrimary";
 
 const UserPrimaryDemos = () => {
-  const {
-    userData,
+  const { demos,
     endFetch,
     projects: allProjects,
   } = useSelector((state) => state.dae);
@@ -23,7 +22,7 @@ const UserPrimaryDemos = () => {
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
-  const [filteredDemos, setFilteredDemos] = useState(userData?.demos);
+  const [filteredDemos, setFilteredDemos] = useState(demos);
   const incompleteDemos = filteredDemos?.filter((demo) => !demo?.completed);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -79,7 +78,7 @@ const UserPrimaryDemos = () => {
   };
 
   const filterProjects = () => {
-    let filtered = userData?.demos;
+    let filtered = demos;
 
     if (selectedProject !== "") {
       filtered = filtered.filter((project) =>
@@ -115,7 +114,7 @@ const UserPrimaryDemos = () => {
   // make the function to search accordingly all filed and call the function in each change
   useEffect(() => {
     // Filter data whenever the search input changes
-    const filtered = userData?.demos.filter((item) => {
+    const filtered = demos.filter((item) => {
       // Check if any field matches the search input
       for (const key in item) {
         if (typeof item[key] === "string" && item[key].includes(search)) {

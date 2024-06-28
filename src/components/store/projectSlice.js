@@ -11,12 +11,11 @@ const initialState = {
   endFetch: false,
   blockAndUnions: [],
   distributions: [],
-  userData: {
-    demos: [],
-    fieldDays: [],
-    schools: [],
-    daeMeetings: [],
-  },
+  demos: [],
+  fieldDays: [],
+  schools: [],
+  daeMeetings: [],
+
 };
 
 const daeSlice = createSlice({
@@ -36,13 +35,13 @@ const daeSlice = createSlice({
       state.notes = action.payload;
     },
     setUserDemos: (state, action) => {
-      state.userData.demos = action.payload;
+      state.demos = action.payload;
     },
     setUserFieldDays: (state, action) => {
-      state.userData.fieldDays = action.payload;
+      state.fieldDays = action.payload;
     },
     setDaeMeeting: (state, action) => {
-      state.userData.daeMeetings = action.payload;
+      state.daeMeetings = action.payload;
     },
     setRefetch: (state, action) => {
       state.refetch++;
@@ -60,7 +59,7 @@ const daeSlice = createSlice({
       state.distributions = action.payload;
     },
     setUserSchools: (state, action) => {
-      state.userData.schools = action.payload;
+      state.schools = action.payload;
     },
   },
 });
