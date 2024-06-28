@@ -10,8 +10,8 @@ const DashboardMenuItem = ({ link, text, icon }) => {
                 isPending
                     ? "block px-3 md:px-4 lg:w-full md:w-full w-auto py-4 bg-slate-900"
                     : isActive
-                        ? "rounded-xl px-3 md:px-2 lg:w-full md:w-full w-auto py-2 md:py-4 flex items-center gap-2 md:gap-4 md:ps-0 lg:justify-start md:justify-start justify-center  lg:ps-6  font-bold  theme-bg text-white"
-                        : "rounded-xl px-1  lg:w-full md:w-full w-auto py-2 md:py-4  lg:py-4 flex items-center gap-2 md:gap-4 md:ps-0 lg:ps-6 font-bold "
+                        ? "rounded-xl px-3 md:px-2 lg:w-full md:w-auto sm:w-auto w-auto py-2 md:py-4 flex items-center gap-2 md:gap-4 md:ps-0 lg:justify-start md:justify-start justify-center  lg:ps-6  font-bold  theme-bg text-white"
+                        : "rounded-xl px-1  lg:w-full md:w-auto w-auto py-2 md:py-4  lg:py-4 flex items-center gap-2 md:gap-4 md:ps-0 lg:ps-6 font-bold "
             }
         >
             {icon} {text}

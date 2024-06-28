@@ -219,8 +219,8 @@ const UserDashboard = () => {
       </div>
 
       {/* Demos information Based on Fiscal Year */}
-      <div className="grid gap-5 grid-cols-5">
-        <div className='py-6 mt-10 pr-3 col-span-2 bg-white rounded-lg'>
+      <div className="grid gap-5 lg:grid-cols-5">
+        <div className='py-6 mt-10 pr-3 lg:col-span-2 bg-white rounded-lg'>
           <div className='w-full h-full'>
             <h2 className='text-md font-semibold text-center'>অর্থবছর অনুযায়ী প্রদর্শনীর তথ্য</h2>
 
@@ -245,7 +245,7 @@ const UserDashboard = () => {
             </ResponsiveContainer>
           </div>
         </div>
-        <div className='col-span-3 h-80 bg-white pb-10 rounded-xl py-2 mt-10'>
+        <div className='lg:col-span-3 h-80 bg-white pb-10 rounded-xl py-2 mt-10'>
           <h2 className='text-md font-semibold text-center'>অর্থবছর অনুযায়ী সকল মাঠদিবসের মৌসুম ভিত্তিক তথ্য</h2>
 
           <ResponsiveContainer width="100%" height="100%">
