@@ -28,8 +28,7 @@ import { seasonsArr } from '../../../shared/MessageConst';
 
 const UserDashboard = () => {
   const {
-    notes,
-    demos, fieldDays, schools, daeMeetings,
+    notes, demos, fieldDays, schools, daeMeetings,
   } = useSelector((state) => state.dae);
   const [noteTypes, setNoteTypes] = useState([]);
   const [Notedata, setData] = useState([]);
@@ -158,7 +157,7 @@ const UserDashboard = () => {
   });
   return (
     <section className="py-5">
-      <div className="grid  grid-cols-1 md:grid-cols-3 gap-5 justify-center items-center">
+      <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center items-center">
         <div className="grid bg-white px-4 py-6 col-span-2 rounded-xl md:grid-cols-2 grid-cols-2 lg:grid-cols-3 gap-3">
           {cards.map((card, index) => (
             <DashboardCard key={index} {...card} />
