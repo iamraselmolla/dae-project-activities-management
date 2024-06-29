@@ -142,6 +142,7 @@ const AddTraining = () => {
 
       const postTrainingData = async () => {
         try {
+          setLoading(true);
           if (!trainingId) {
             if (rawImages?.length < 1) {
               toast.error('অবশ্যই আপনাকে প্রশিক্ষণের ছবি সংযুক্ত করতে হবে।')
@@ -149,7 +150,6 @@ const AddTraining = () => {
             }
             if (rawImages?.length > 0) {
               setLoadingMessage("ছবি আপ্লোড হচ্ছে");
-              setLoading(true);
               const uploadedImageLinks = [];
               for (let i = 0; i < rawImages?.length; i++) {
                 setLoadingMessage(
@@ -215,6 +215,8 @@ const AddTraining = () => {
           }
         } catch (err) {
           console.log(err);
+          setLoading(false);
+        } finally {
           setLoading(false);
         }
       };
@@ -559,6 +561,17 @@ const AddTraining = () => {
               : "প্রশিক্ষণ যুক্ত করুন"}
           </button>
         )}
+        {
+          loading && (
+            <button
+              type="button"
+              className="btn mt-5 w-full font-extrabold text-white btn-success"
+              disabled
+            >
+              <Loader />
+            </button>
+          )
+        }
       </form>
       {loading && (
         <div className="fixed daeLoader">
