@@ -81,13 +81,18 @@ const AddProjects = () => {
       };
       try {
         // Post form data into DB by Api
-        const result = await addProjectByAdmin(formattedValues);
-        if (result?.status === 200) {
-          toast.success(result?.data?.message);
-          setCropValues([]);
-          setCrop([]);
+        if (!projectId) {
+
+          const result = await addProjectByAdmin(formattedValues);
+          if (result?.status === 200) {
+            toast.success(result?.data?.message);
+            setCropValues([]);
+            setCrop([]);
+          } else {
+            toast.error("প্রকল্প যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।");
+          }
         } else {
-          toast.error("Something Wrong");
+          toast.error("প্রজেক্ট আছে অলরেডি")
         }
       } catch (error) {
         console.error("Error:", error?.response?.data?.message);

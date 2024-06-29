@@ -20,6 +20,7 @@ import Loader from "../../shared/Loader";
 import { useLocation } from "react-router-dom";
 import { makeSureOnline } from "../../shared/MessageConst";
 import { useSelector } from "react-redux";
+import LoaderWithDynamicMessage from "../../shared/LoaderWithDynamicMessage";
 
 const AddTraining = () => {
   const location = useLocation();
@@ -105,7 +106,7 @@ const AddTraining = () => {
       endDate: Yup.date().required("প্রশিক্ষণ শেষ তারিখ প্রয়োজন"),
     }),
     // images: Yup.array().min(1, "কমপক্ষে একটি ছবি প্রয়োজন"),
-    comment: Yup.string().required("মন্তব্য প্রয়োজন"),
+    // comment: Yup.string().required("মন্তব্য প্রয়োজন"),
   });
   const resetForm = () => {
     formik.resetForm();
@@ -561,25 +562,9 @@ const AddTraining = () => {
               : "প্রশিক্ষণ যুক্ত করুন"}
           </button>
         )}
-        {
-          loading && (
-            <button
-              type="button"
-              className="btn mt-5 w-full font-extrabold text-white btn-success"
-              disabled
-            >
-              <Loader />
-            </button>
-          )
-        }
       </form>
       {loading && (
-        <div className="fixed daeLoader">
-          <Loader />
-          <h2 className="text-green-600 mt-3 text-4xl">
-            {loadingMessage && loadingMessage}
-          </h2>
-        </div>
+        <LoaderWithDynamicMessage message={loadingMessage} />
       )}
     </section>
   );
