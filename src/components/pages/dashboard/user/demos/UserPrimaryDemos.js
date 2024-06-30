@@ -65,7 +65,7 @@ const UserPrimaryDemos = () => {
           const result = await deleteUserDemo(id);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            dispatch(daeAction.setRefetch());
+            dispatch(daeAction.setRefetch('demos'));
           }
         } catch (err) {
           toast.error();

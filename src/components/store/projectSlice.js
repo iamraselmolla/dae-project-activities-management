@@ -7,7 +7,7 @@ const initialState = {
   trainings: [],
   notes: [],
   tours: [],
-  refetch: false,
+  refetch: 'all',
   endFetch: false,
   blockAndUnions: [],
   distributions: [],
@@ -44,7 +44,7 @@ const daeSlice = createSlice({
       state.daeMeetings = action.payload;
     },
     setRefetch: (state, action) => {
-      state.refetch = !state.refetch;
+      state.refetch = action.payload;
     },
     setEndFetch: (state, action) => {
       state.endFetch = action.payload;
