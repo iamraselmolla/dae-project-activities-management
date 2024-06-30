@@ -99,7 +99,7 @@ const UserFieldDays = () => {
           const result = await deleteAFieldDay(fieldDayData?._id);
           if (result.status === 200) {
             toast.success(result?.data?.message);
-            dispatch(daeAction.setRefetch())
+            dispatch(daeAction.setRefetch('fieldDays'))
 
 
           }
