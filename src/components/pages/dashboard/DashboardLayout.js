@@ -43,6 +43,8 @@ const DashboardLayout = () => {
           const demoResult = await getUserDemos();
           if (demoResult?.status === 200) {
             dispatch(daeAction.setUserDemos(demoResult?.data?.data));
+            dispatch(daeAction.setRefetch('all'))
+
           }
         }
         if (refetch === "all" || refetch === "fieldDays") {
@@ -106,7 +108,7 @@ const DashboardLayout = () => {
     };
 
     const fetchData = async () => {
-      setLoading(true);
+
       await fetchNotes();
 
       if (role === "user") {
@@ -115,7 +117,7 @@ const DashboardLayout = () => {
         await fetchAdminData();
       }
 
-      setLoading(false);
+
       dispatch(daeAction.setEndFetch(true));
     };
 

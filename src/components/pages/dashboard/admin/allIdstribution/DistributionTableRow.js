@@ -37,7 +37,7 @@ const DistributionTableRow = ({ distribution, index }) => {
             const result = await deleteADistribution(id)
             if (result.status === 200) {
                 toast.success(result?.data?.message)
-                dispatch(daeAction.setRefetch())
+                dispatch(daeAction.setRefetch('distributions'))
             }
         }
     }
