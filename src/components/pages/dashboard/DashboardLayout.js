@@ -43,8 +43,6 @@ const DashboardLayout = () => {
           const demoResult = await getUserDemos();
           if (demoResult?.status === 200) {
             dispatch(daeAction.setUserDemos(demoResult?.data?.data));
-            console.log('demo')
-
           }
         }
         if (refetch === "all" || refetch === "fieldDays") {
@@ -66,7 +64,7 @@ const DashboardLayout = () => {
           }
         }
       } catch (err) {
-        toast.error("Error fetching user data.");
+        toast.error("ইউজারের ডেটা পেতে সমস্যা হয়েছে");
       }
     };
 

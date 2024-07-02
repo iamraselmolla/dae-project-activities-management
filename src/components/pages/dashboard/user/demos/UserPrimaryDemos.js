@@ -68,8 +68,8 @@ const UserPrimaryDemos = () => {
             dispatch(daeAction.setRefetch('demos'));
           }
         } catch (err) {
-          toast.error('প্রদর্শনী যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।');
-          console.log(err);
+          toast.error('প্রদর্শনী মুছে ফেলতে সমস্যার সৃষ্টি হচ্ছে।');
+
         }
       }
     } else {
@@ -105,7 +105,7 @@ const UserPrimaryDemos = () => {
   useEffect(() => {
     const filtered = filterProjects();
     setFilteredDemos(filtered);
-  }, [selectedProject, fiscalYear, season]);
+  }, [selectedProject, fiscalYear, season, demos]);
 
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
@@ -134,7 +134,7 @@ const UserPrimaryDemos = () => {
       return false;
     });
     setFilteredDemos(filtered); // Update filtered data
-  }, [search]);
+  }, [search, demos]);
   return (
     <>
       <div className="py-10 ">
