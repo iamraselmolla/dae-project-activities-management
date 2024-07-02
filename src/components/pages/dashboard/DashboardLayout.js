@@ -43,7 +43,6 @@ const DashboardLayout = () => {
           const demoResult = await getUserDemos();
           if (demoResult?.status === 200) {
             dispatch(daeAction.setUserDemos(demoResult?.data?.data));
-            dispatch(daeAction.setRefetch('all'))
 
           }
         }
