@@ -177,8 +177,8 @@ const UserSchools = () => {
         </div>
       </div>
       <div className="overflow-x-auto">
-        <div className="p-1.5 min-w-full inline-block align-middle">
-          <table className="min-w-full divide-y bg-white divide-gray-200">
+        <div className="border mt-6 rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white">
             {/* Table Header */}
             <thead>
               <tr className="divide-x font-extrabold divide-gray-200">
@@ -198,7 +198,7 @@ const UserSchools = () => {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {/* Table Body */}
-              {filteredSchools.length > 0 ? (
+              {filteredSchools.length > 0 && (
                 filteredSchools.map((school, index) => (
                   <UserSchoolTableRow
                     handleSchoolDeletion={handleSchoolDeletion}
@@ -207,15 +207,13 @@ const UserSchools = () => {
                     key={school?._id}
                   />
                 ))
-              ) : (
-                <tr>
-                  <td colSpan="5">
-                    <NoContentFound text="কোনো স্কুল পাওয়া যায়নি" />
-                  </td>
-                </tr>
               )}
+
             </tbody>
           </table>
+          {filteredSchools?.length < 1 &&
+            <NoContentFound text="কোনো স্কুল পাওয়া যায়নি" />
+          }
         </div>
       </div>
     </div>
