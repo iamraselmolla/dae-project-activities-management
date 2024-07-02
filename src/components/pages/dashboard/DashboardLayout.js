@@ -45,7 +45,7 @@ const DashboardLayout = () => {
             dispatch(daeAction.setUserDemos(demoResult?.data?.data));
           }
         }
-        if (refetch === "all" || refetch === "fieldDays") {
+        if (refetch === "all" || refetch.includes('fieldDays')) {
           const fieldDayResult = await getUserAllFieldDay();
           if (fieldDayResult?.status === 200) {
             dispatch(daeAction.setUserFieldDays(fieldDayResult?.data?.data));

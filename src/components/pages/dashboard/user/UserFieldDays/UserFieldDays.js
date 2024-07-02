@@ -14,16 +14,17 @@ import SectionTitle from "../../../../shared/SectionTitle";
 import FiscalYear from "../../../../shared/FiscalYear";
 import Season from "../../../../shared/Season";
 import { daeAction } from "../../../../store/projectSlice";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
 
 const UserFieldDays = () => {
   const {
-    fieldDays: allFieldDays,
+    fieldDays,
     projects: allProject
   } = useSelector((state) => state.dae);
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
-  const [filteredFieldDays, setFilteredFieldDays] = useState(allFieldDays);
+  const [filteredFieldDays, setFilteredFieldDays] = useState(fieldDays);
   const [selectedProject, setSelectedProject] = useState("");
   const dispatch = useDispatch()
   const filterProjects = () => {
@@ -51,7 +52,7 @@ const UserFieldDays = () => {
   useEffect(() => {
     const filtered = filterProjects();
     setFilteredFieldDays(filtered);
-  }, [selectedProject, fiscalYear, season]);
+  }, [selectedProject, fiscalYear, season, fieldDays]);
 
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
@@ -79,7 +80,7 @@ const UserFieldDays = () => {
       return false;
     });
     setFilteredFieldDays(filtered); // Update filtered data
-  }, [search]);
+  }, [search, fieldDays]);
 
   const handleFieldDayDelete = async (fieldDayData) => {
     if (
@@ -99,7 +100,7 @@ const UserFieldDays = () => {
           const result = await deleteAFieldDay(fieldDayData?._id);
           if (result.status === 200) {
             toast.success(result?.data?.message);
-            dispatch(daeAction.setRefetch('fieldDays'))
+            dispatch(daeAction.setRefetch(`fieldDays${createRandomNumber()}`))
 
 
           }
@@ -179,7 +180,7 @@ const UserFieldDays = () => {
           </div>
 
           <div className="border mt-6 rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white">
               <thead>
                 <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
                   <th
