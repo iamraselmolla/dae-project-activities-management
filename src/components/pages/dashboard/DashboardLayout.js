@@ -39,7 +39,7 @@ const DashboardLayout = () => {
 
     const fetchUserData = async () => {
       try {
-        if (refetch === "all" || refetch === "demos") {
+        if (refetch === "all" || refetch.includes('demos')) {
           const demoResult = await getUserDemos();
           if (demoResult?.status === 200) {
             dispatch(daeAction.setUserDemos(demoResult?.data?.data));

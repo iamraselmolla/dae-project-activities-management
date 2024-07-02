@@ -109,7 +109,7 @@ const UserFinalDemos = () => {
   useEffect(() => {
     const filtered = filterProjects();
     setFilteredDemos(filtered);
-  }, [selectedProject, fiscalYear, season]);
+  }, [selectedProject, fiscalYear, season, demos]);
 
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
@@ -138,7 +138,7 @@ const UserFinalDemos = () => {
       return false;
     });
     setFilteredDemos(filtered); // Update filtered data
-  }, [search]);
+  }, [search, demos]);
   return (
     <>
       <div className="py-10 ">

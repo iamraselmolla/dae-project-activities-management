@@ -12,6 +12,7 @@ import { toBengaliNumber } from "bengali-number";
 import Season from "../../../../shared/Season";
 import FiscalYear from "../../../../shared/FiscalYear";
 import UserSingleDemoTableRowPrimary from "./UserSingleDemoTableRowPrimary";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
 
 const UserPrimaryDemos = () => {
   const { demos,
@@ -65,7 +66,7 @@ const UserPrimaryDemos = () => {
           const result = await deleteUserDemo(id);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            dispatch(daeAction.setRefetch('demos'));
+            dispatch(daeAction.setRefetch(`demos${createRandomNumber()}`));
           }
         } catch (err) {
           toast.error('প্রদর্শনী মুছে ফেলতে সমস্যার সৃষ্টি হচ্ছে।');

@@ -67,7 +67,7 @@ const MarkDemoCompleteModal = ({ data }) => {
         return;
       }
       if (!data?._id) {
-        toast.error("No Demo ID found");
+        toast.error("প্রদর্শনীর আইডি পাওয়া যায়নি। দয়া করে সংশ্লিষ্ট কর্তপক্ষকে জানান।");
         return;
       }
 
@@ -75,14 +75,11 @@ const MarkDemoCompleteModal = ({ data }) => {
         const result = await markDemoComplete(data?._id, values);
         if (result?.status === 200) {
           toast.success("প্রদর্শনীটি চুড়ান্ত হিসেবে চিহ্নিত করা হয়েছে।");
-          dispatch(daeAction.setRefetch());
+          dispatch(daeAction.setRefetch('demos'));
         }
       } catch (err) {
         toast.error("প্রদর্শনী চুড়ান্ত হিসেবে চিহ্নিত করতে সমস্যা হচ্ছে।");
       }
-
-      console.log("Form submitted with values:", values);
-      // You can add further logic here, like submitting data to the server
     },
   });
 
