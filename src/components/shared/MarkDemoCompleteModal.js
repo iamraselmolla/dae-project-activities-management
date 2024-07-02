@@ -6,9 +6,9 @@ import toast from "react-hot-toast";
 import { markDemoComplete } from "../../services/userServices";
 import { useDispatch } from "react-redux";
 import { daeAction } from "../store/projectSlice";
+import { createRandomNumber } from "../utilis/createRandomNumber";
 
 const MarkDemoCompleteModal = ({ data }) => {
-  console.log(data)
   const dispatch = useDispatch();
   useEffect(() => {
     formik.setValues({
@@ -75,7 +75,7 @@ const MarkDemoCompleteModal = ({ data }) => {
         const result = await markDemoComplete(data?._id, values);
         if (result?.status === 200) {
           toast.success("প্রদর্শনীটি চুড়ান্ত হিসেবে চিহ্নিত করা হয়েছে।");
-          dispatch(daeAction.setRefetch('demos'));
+          dispatch(daeAction.setRefetch(`demos${createRandomNumber()}`));
         }
       } catch (err) {
         toast.error("প্রদর্শনী চুড়ান্ত হিসেবে চিহ্নিত করতে সমস্যা হচ্ছে।");
