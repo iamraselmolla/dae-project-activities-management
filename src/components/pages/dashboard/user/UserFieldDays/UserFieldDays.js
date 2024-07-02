@@ -28,7 +28,7 @@ const UserFieldDays = () => {
   const [selectedProject, setSelectedProject] = useState("");
   const dispatch = useDispatch()
   const filterProjects = () => {
-    let filtered = filteredFieldDays;
+    let filtered = fieldDays;
 
     if (selectedProject !== "") {
       filtered = filtered.filter((project) =>
@@ -60,7 +60,7 @@ const UserFieldDays = () => {
 
   useEffect(() => {
     // Filter data whenever the search input changes
-    const filtered = filteredFieldDays.filter((item) => {
+    const filtered = fieldDays.filter((item) => {
       // Check if any field matches the search input
       for (const key in item) {
         if (typeof item[key] === "string" && item[key].includes(search)) {
@@ -101,7 +101,6 @@ const UserFieldDays = () => {
           if (result.status === 200) {
             toast.success(result?.data?.message);
             dispatch(daeAction.setRefetch(`fieldDays${createRandomNumber()}`))
-
 
           }
         } catch (err) {
