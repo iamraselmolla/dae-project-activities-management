@@ -21,7 +21,7 @@ import { Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
   const { user, role } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { refetch } = useSelector((state) => state.dae);
 
@@ -43,6 +43,7 @@ const DashboardLayout = () => {
           const demoResult = await getUserDemos();
           if (demoResult?.status === 200) {
             dispatch(daeAction.setUserDemos(demoResult?.data?.data));
+            console.log('demo')
 
           }
         }

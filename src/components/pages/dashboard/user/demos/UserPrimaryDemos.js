@@ -68,7 +68,7 @@ const UserPrimaryDemos = () => {
             dispatch(daeAction.setRefetch('demos'));
           }
         } catch (err) {
-          toast.error();
+          toast.error('প্রদর্শনী যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।');
           console.log(err);
         }
       }
