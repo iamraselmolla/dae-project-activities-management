@@ -83,13 +83,25 @@ const AddGroupMeeting = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
+      if (!user) {
+
+      }
       if (groupId) {
         if (!groupId) return;
-        const result = await updateGroupInfo(groupId, values);
-        if (result?.status === 200) {
-          toast.success("কৃষক গ্রুপ মিটিং এর তথ্য এডিট সম্পন্ন হয়েছে।");
+        try {
+          setLoading(true)
+          const result = await updateGroupInfo(groupId, values);
+          if (result?.status === 200) {
+            toast.success("কৃষক গ্রুপ মিটিং এর তথ্য এডিট সম্পন্ন হয়েছে।");
+          }
+        } catch (err) {
+          toast.error("গ্রুপ সভার তথ্য আপডেট করতে অসুবিধা হচ্ছে।")
+        } finally {
+          setLoading(false)
         }
-      } else {
+      }
+
+      else {
         try {
           if (!values.time.date || !values.time.day) {
             return toast.error("অবশ্যই আপনাকে তারিখ সিলেক্ট করতে হবে");
