@@ -64,6 +64,7 @@ const Header = () => {
               <HeaderMenuItem link="all-schools" text="স্কুল" />
               <HeaderMenuItem link="all-projects" text="প্রকল্প" />
               <HeaderMenuItem link="all-users" text="ব্যবহারকারী" />
+              <HeaderMenuItem link="draft-list" text="সংরক্ষনকৃত কৃষক তালিকা" />
             </ul>
           </div>
           <Link to="/" className="hover:bg-transparent">
@@ -81,6 +82,7 @@ const Header = () => {
           <HeaderMenuItem link="all-schools" text="স্কুল" />
           <HeaderMenuItem link="all-projects" text="প্রকল্প" />
           <HeaderMenuItem link="all-users" text="ব্যবহারকারী" />
+          <HeaderMenuItem link="draft-list" text="সংরক্ষনকৃত কৃষক তালিকা" />
         </div>
         <div className="navbar-end">
           <div className="absolute right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">

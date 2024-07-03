@@ -159,6 +159,10 @@ const router = createBrowserRouter([
         element: <MotivationalTour />,
       },
       {
+        path: "/draft-list",
+        element: <MotivationalTour />,
+      },
+      {
         path: "/add-motivational-tour",
         element: (
           <AdminRoute>
