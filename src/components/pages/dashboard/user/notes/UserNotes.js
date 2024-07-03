@@ -40,7 +40,7 @@ const UserNotes = () => {
         incompletedNotes.filter((note) => note.purpose.target === selectedPurpose)
       );
     }
-  }, [selectedPurpose, incompletedNotes]);
+  }, [selectedPurpose, incompletedNotes, allNotes]);
 
   // Delete a Note of User
   const handleNoteDeletion = async (userNotetobeDeleted) => {
