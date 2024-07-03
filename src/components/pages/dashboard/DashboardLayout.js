@@ -57,7 +57,7 @@ const DashboardLayout = () => {
             dispatch(daeAction.setDaeMeeting(meetingResult?.data?.data));
           }
         }
-        if (refetch === "all" || refetch === "schools") {
+        if (refetch === "all" || refetch.includes('schools')) {
           const schoolResults = await getUserAllSchools();
           if (schoolResults.status === 200) {
             dispatch(daeAction.setUserSchools(schoolResults?.data?.data));
