@@ -15,11 +15,11 @@ import {
   updateGroupInfo,
 } from "../../../services/userServices";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
-import Loader from "../../shared/Loader";
 import "./daegroupMeeting.css";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { useLocation } from "react-router-dom";
 import { makeSureOnline } from "../../shared/MessageConst";
+import LoaderWithDynamicMessage from "../../shared/LoaderWithDynamicMessage";
 
 const AddGroupMeeting = () => {
   const location = useLocation();
@@ -494,12 +494,7 @@ const AddGroupMeeting = () => {
           )}
         </form>
         {loading && (
-          <div className="fixed daeLoader">
-            <Loader />
-            <h2 className="text-green-600 mt-3 text-4xl">
-              {loadingMessage && loadingMessage}
-            </h2>
-          </div>
+          <LoaderWithDynamicMessage message={loadingMessage} />
         )}
       </div>
     </section>
