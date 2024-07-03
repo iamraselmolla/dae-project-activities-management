@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 
-const AddDraftItem = () => {
+const AddAFarmer = () => {
     const [nid, setNid] = useState('');
     const validationSchema = Yup.object().shape({
         farmerName: Yup.string().required('কৃষকের নাম দিন'),
@@ -249,4 +249,4 @@ const AddDraftItem = () => {
     );
 };
 
-export default AddDraftItem;
+export default AddAFarmer;
