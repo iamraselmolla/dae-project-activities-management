@@ -36,6 +36,9 @@ const DashboardLayout = () => {
         toast.error("Error fetching notes.");
       }
     };
+    if (refetch === "all" || refetch.includes('notes')) {
+      fetchNotes();
+    }
 
     const fetchUserData = async () => {
       try {
@@ -107,7 +110,7 @@ const DashboardLayout = () => {
 
     const fetchData = async () => {
 
-      await fetchNotes();
+
 
       if (role === "user") {
         await fetchUserData();

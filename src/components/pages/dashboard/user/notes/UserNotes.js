@@ -15,6 +15,7 @@ import NoContentFound from "../../../../shared/NoContentFound";
 import CompleteNoteModal from "./CompleteNoteModal";
 import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../../../../store/projectSlice";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
 
 const UserNotes = () => {
   const { notes: allNotes } = useSelector((state) => state.dae);
@@ -56,7 +57,7 @@ const UserNotes = () => {
               const result = await deleteAnote(userNotetobeDeleted?._id);
               if (result?.status === 200) {
                 toast.success(result?.data?.message);
-                dispatch(daeAction.setRefetch());
+                dispatch(daeAction.setRefetch(`notes${createRandomNumber()}`));
               }
             } catch (err) {
               toast.error("নোটটি মুছতে সাময়িক অসুবিধার সৃষ্টি হচ্ছে।");
