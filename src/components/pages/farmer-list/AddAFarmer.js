@@ -6,47 +6,63 @@ import toast from 'react-hot-toast';
 const AddAFarmer = () => {
     const [nid, setNid] = useState('');
     const validationSchema = Yup.object().shape({
-        farmerName: Yup.string().required('কৃষকের নাম দিন'),
-        fathersOrHusbandsName: Yup.string(),
-        mobile: Yup.string()
-            .required('মোবাইল নম্বর দিন')
-            .matches(/^[0-9]{11}$/, 'মোবাইল নম্বরটি সঠিক নয়'),
-        NID: Yup.string()
-            .nullable()
-            .when('NID', {
-                is: (value) => value?.trim() !== '',
-                then: Yup.string().matches(/^(10|13|17)$/, 'এনআইডি নম্বরটি সঠিক নয়'),
-            }),
-        BID: Yup.string(),
-        agriId: Yup.string(),
-        village: Yup.string().required('গ্রামের নাম দিন'),
-        block: Yup.string(),
-        union: Yup.string(),
-        saaoName: Yup.string(),
-        saaoMobile: Yup.string(),
+        farmersInfo: Yup.object().shape({
+            farmerName: Yup.string().required('কৃষকের নাম দিন'),
+            fathersOrHusbandsName: Yup.string(),
+        }),
+        numbersInfo: Yup.object().shape({
+            mobile: Yup.string()
+                .required('মোবাইল নম্বর দিন')
+                .matches(/^[0-9]{11}$/, 'মোবাইল নম্বরটি সঠিক নয়'),
+            NID: Yup.string()
+                .nullable()
+                .when('NID', {
+                    is: (value) => value?.trim() !== '',
+                    then: Yup.string().matches(/^(10|13|17)$/, 'এনআইডি নম্বরটি সঠিক নয়'),
+                }),
+            BID: Yup.string(),
+            agriId: Yup.string(),
+        }),
+        address: Yup.object().shape({
+            village: Yup.string().required('গ্রামের নাম দিন'),
+            block: Yup.string(),
+            union: Yup.string(),
+        }),
+        SAAO: Yup.object().shape({
+            saaoName: Yup.string(),
+            saaoMobile: Yup.string(),
+        }),
         comment: Yup.string(),
     });
 
     const formik = useFormik({
         initialValues: {
-            farmerName: '',
-            fathersOrHusbandsName: '',
-            mobile: '',
-            NID: '',
-            BID: '',
-            agriId: '',
-            village: '',
-            block: '',
-            union: '',
-            saaoName: '',
-            saaoMobile: '',
+            farmersInfo: {
+                farmerName: '',
+                fathersOrHusbandsName: '',
+            },
+            numbersInfo: {
+                mobile: '',
+                NID: '',
+                BID: '',
+                agriId: '',
+            },
+            address: {
+                village: '',
+                block: '',
+                union: '',
+            },
+            SAAO: {
+                saaoName: '',
+                saaoMobile: '',
+            },
             comment: '',
         },
         validationSchema,
         onSubmit: async (values, { resetForm }) => {
             try {
                 // Replace with your API call
-                const result = await yourApiFunction(values);
+                const result = null
                 if (result?.status === 200) {
                     toast.success('Draft item added successfully');
                 } else {
@@ -70,15 +86,15 @@ const AddAFarmer = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="farmerName"
-                            name="farmerName"
+                            id="farmersInfo.farmerName"
+                            name="farmersInfo.farmerName"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="কৃষকের নাম"
-                            value={formik.values.farmerName}
+                            value={formik.values.farmersInfo.farmerName}
                         />
-                        {formik.touched.farmerName && formik.errors.farmerName ? (
-                            <div className="text-red-600 font-bold">{formik.errors.farmerName}</div>
+                        {formik.touched.farmersInfo?.farmerName && formik.errors.farmersInfo?.farmerName ? (
+                            <div className="text-red-600 font-bold">{formik.errors.farmersInfo.farmerName}</div>
                         ) : null}
                     </div>
                     <div>
@@ -88,12 +104,12 @@ const AddAFarmer = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="fathersOrHusbandsName"
-                            name="fathersOrHusbandsName"
+                            id="farmersInfo.fathersOrHusbandsName"
+                            name="farmersInfo.fathersOrHusbandsName"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="পিতার বা স্বামীর নাম"
-                            value={formik.values.fathersOrHusbandsName}
+                            value={formik.values.farmersInfo.fathersOrHusbandsName}
                         />
                     </div>
                     <div>
@@ -101,15 +117,15 @@ const AddAFarmer = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="mobile"
-                            name="mobile"
+                            id="numbersInfo.mobile"
+                            name="numbersInfo.mobile"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="মোবাইল নম্বর"
-                            value={formik.values.mobile}
+                            value={formik.values.numbersInfo.mobile}
                         />
-                        {formik.touched.mobile && formik.errors.mobile ? (
-                            <div className="text-red-600 font-bold">{formik.errors.mobile}</div>
+                        {formik.touched.numbersInfo?.mobile && formik.errors.numbersInfo?.mobile ? (
+                            <div className="text-red-600 font-bold">{formik.errors.numbersInfo.mobile}</div>
                         ) : null}
                     </div>
                     <div>
@@ -117,18 +133,18 @@ const AddAFarmer = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="NID"
-                            name="NID"
+                            id="numbersInfo.NID"
+                            name="numbersInfo.NID"
                             onChange={(e) => {
                                 formik.handleChange(e);
                                 setNid(e.target.value);
                             }}
                             onBlur={formik.handleBlur}
                             placeholder="এনআইডি নম্বর"
-                            value={formik.values.NID}
+                            value={formik.values.numbersInfo.NID}
                         />
-                        {formik.touched.NID && formik.errors.NID ? (
-                            <div className="text-red-600 font-bold">{formik.errors.NID}</div>
+                        {formik.touched.numbersInfo?.NID && formik.errors.numbersInfo?.NID ? (
+                            <div className="text-red-600 font-bold">{formik.errors.numbersInfo.NID}</div>
                         ) : null}
                     </div>
                     <div>
@@ -136,12 +152,12 @@ const AddAFarmer = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="BID"
-                            name="BID"
+                            id="numbersInfo.BID"
+                            name="numbersInfo.BID"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="বিআইডি নম্বর"
-                            value={formik.values.BID}
+                            value={formik.values.numbersInfo.BID}
                         />
                     </div>
                     <div>
@@ -149,12 +165,12 @@ const AddAFarmer = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="agriId"
-                            name="agriId"
+                            id="numbersInfo.agriId"
+                            name="numbersInfo.agriId"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="কৃষি আইডি নম্বর"
-                            value={formik.values.agriId}
+                            value={formik.values.numbersInfo.agriId}
                         />
                     </div>
                     <div>
@@ -162,15 +178,15 @@ const AddAFarmer = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="village"
-                            name="village"
+                            id="address.village"
+                            name="address.village"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="গ্রামের নাম"
-                            value={formik.values.village}
+                            value={formik.values.address.village}
                         />
-                        {formik.touched.village && formik.errors.village ? (
-                            <div className="text-red-600 font-bold">{formik.errors.village}</div>
+                        {formik.touched.address?.village && formik.errors.address?.village ? (
+                            <div className="text-red-600 font-bold">{formik.errors.address.village}</div>
                         ) : null}
                     </div>
                     <div>
@@ -178,12 +194,12 @@ const AddAFarmer = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="block"
-                            name="block"
+                            id="address.block"
+                            name="address.block"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="ব্লক নাম"
-                            value={formik.values.block}
+                            value={formik.values.address.block}
                         />
                     </div>
                     <div>
@@ -191,12 +207,12 @@ const AddAFarmer = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="union"
-                            name="union"
+                            id="address.union"
+                            name="address.union"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="ইউনিয়নের নাম"
-                            value={formik.values.union}
+                            value={formik.values.address.union}
                         />
                     </div>
                     <div>
@@ -204,12 +220,12 @@ const AddAFarmer = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="saaoName"
-                            name="saaoName"
+                            id="SAAO.saaoName"
+                            name="SAAO.saaoName"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="সার্ভার নাম"
-                            value={formik.values.saaoName}
+                            value={formik.values.SAAO.saaoName}
                         />
                     </div>
                     <div>
@@ -217,12 +233,12 @@ const AddAFarmer = () => {
                         <input
                             type="text"
                             className="input input-bordered w-full"
-                            id="saaoMobile"
-                            name="saaoMobile"
+                            id="SAAO.saaoMobile"
+                            name="SAAO.saaoMobile"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="সার্ভার মোবাইল"
-                            value={formik.values.saaoMobile}
+                            value={formik.values.SAAO.saaoMobile}
                         />
                     </div>
                     <div>
