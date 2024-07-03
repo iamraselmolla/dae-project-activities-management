@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import SingleSchool from "./SingleSchool";
 import { makeSureOnline } from "../../shared/MessageConst";
 import toast from "react-hot-toast";
-import Loader from "../../shared/Loader";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import AddModuleButton from "../../shared/AddModuleButton";
 import NoContentFound from "../../shared/NoContentFound";
@@ -12,6 +11,7 @@ import { useSelector } from "react-redux";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import { toBengaliNumber } from "bengali-number";
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 
 const AllSchools = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -29,8 +29,6 @@ const AllSchools = () => {
   const [search, setSearch] = useState("");
   const [filteredSchools, setFilteredSchools] = useState(schools);
   const [blocksOfUnion, setBlocksOfUnion] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
 
 
@@ -267,14 +265,7 @@ const AllSchools = () => {
         <NoContentFound text={"কোনো স্কুলের তথ্য পাওয়া যায়নি!"} />
       )}
       {!fetchEnd && loading && (
-        <div className="py-20">
-          <div className="fixed daeLoader">
-            <Loader />
-            <h2 className="text-green-600 mt-3 text-4xl">
-              তথ্য আনা হচ্ছে। দয়া করে অপেক্ষা করুন
-            </h2>
-          </div>
-        </div>
+        <LoaderWithOutDynamicMessage />
       )}
     </section>
   );

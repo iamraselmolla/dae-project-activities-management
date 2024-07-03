@@ -12,10 +12,11 @@ import { daeAction } from "../../../../store/projectSlice";
 import { toBengaliNumber } from "bengali-number";
 import Season from "../../../../shared/Season";
 import FiscalYear from "../../../../shared/FiscalYear";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
 
 const UserFinalDemos = () => {
   const {
-    userData,
+    demos,
     endFetch,
     projects: allProjects,
   } = useSelector((state) => state.dae);
@@ -23,7 +24,7 @@ const UserFinalDemos = () => {
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
-  const [filteredDemos, setFilteredDemos] = useState(userData?.demos);
+  const [filteredDemos, setFilteredDemos] = useState(demos);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [entriesPerPage, setEntriesPerPage] = useState(5);
@@ -69,7 +70,7 @@ const UserFinalDemos = () => {
           const result = await deleteUserDemo(id);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            dispatch(daeAction.setRefetch());
+            dispatch(daeAction.setRefetch(`demos${createRandomNumber()}`));
           }
         } catch (err) {
           toast.error();
@@ -82,7 +83,7 @@ const UserFinalDemos = () => {
   };
 
   const filterProjects = () => {
-    let filtered = userData?.demos;
+    let filtered = demos;
 
     if (selectedProject !== "") {
       filtered = filtered.filter((project) =>
@@ -109,7 +110,7 @@ const UserFinalDemos = () => {
   useEffect(() => {
     const filtered = filterProjects();
     setFilteredDemos(filtered);
-  }, [selectedProject, fiscalYear, season]);
+  }, [selectedProject, fiscalYear, season, demos]);
 
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
@@ -118,7 +119,7 @@ const UserFinalDemos = () => {
   // make the function to search accordingly all filed and call the function in each change
   useEffect(() => {
     // Filter data whenever the search input changes
-    const filtered = userData?.demos.filter((item) => {
+    const filtered = demos.filter((item) => {
       // Check if any field matches the search input
       for (const key in item) {
         if (typeof item[key] === "string" && item[key].includes(search)) {
@@ -138,8 +139,7 @@ const UserFinalDemos = () => {
       return false;
     });
     setFilteredDemos(filtered); // Update filtered data
-  }, [search]);
-  console.log(userData?.demos)
+  }, [search, demos]);
   return (
     <>
       <div className="py-10 ">

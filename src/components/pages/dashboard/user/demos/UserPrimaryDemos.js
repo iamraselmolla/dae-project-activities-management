@@ -12,10 +12,10 @@ import { toBengaliNumber } from "bengali-number";
 import Season from "../../../../shared/Season";
 import FiscalYear from "../../../../shared/FiscalYear";
 import UserSingleDemoTableRowPrimary from "./UserSingleDemoTableRowPrimary";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
 
 const UserPrimaryDemos = () => {
-  const {
-    userData,
+  const { demos,
     endFetch,
     projects: allProjects,
   } = useSelector((state) => state.dae);
@@ -23,7 +23,7 @@ const UserPrimaryDemos = () => {
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
-  const [filteredDemos, setFilteredDemos] = useState(userData?.demos);
+  const [filteredDemos, setFilteredDemos] = useState(demos);
   const incompleteDemos = filteredDemos?.filter((demo) => !demo?.completed);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,11 +66,11 @@ const UserPrimaryDemos = () => {
           const result = await deleteUserDemo(id);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            dispatch(daeAction.setRefetch());
+            dispatch(daeAction.setRefetch(`demos${createRandomNumber()}`));
           }
         } catch (err) {
-          toast.error();
-          console.log(err);
+          toast.error('প্রদর্শনী মুছে ফেলতে সমস্যার সৃষ্টি হচ্ছে।');
+
         }
       }
     } else {
@@ -79,7 +79,7 @@ const UserPrimaryDemos = () => {
   };
 
   const filterProjects = () => {
-    let filtered = userData?.demos;
+    let filtered = demos;
 
     if (selectedProject !== "") {
       filtered = filtered.filter((project) =>
@@ -106,7 +106,7 @@ const UserPrimaryDemos = () => {
   useEffect(() => {
     const filtered = filterProjects();
     setFilteredDemos(filtered);
-  }, [selectedProject, fiscalYear, season]);
+  }, [selectedProject, fiscalYear, season, demos]);
 
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
@@ -115,7 +115,7 @@ const UserPrimaryDemos = () => {
   // make the function to search accordingly all filed and call the function in each change
   useEffect(() => {
     // Filter data whenever the search input changes
-    const filtered = userData?.demos.filter((item) => {
+    const filtered = demos.filter((item) => {
       // Check if any field matches the search input
       for (const key in item) {
         if (typeof item[key] === "string" && item[key].includes(search)) {
@@ -135,7 +135,7 @@ const UserPrimaryDemos = () => {
       return false;
     });
     setFilteredDemos(filtered); // Update filtered data
-  }, [search]);
+  }, [search, demos]);
   return (
     <>
       <div className="py-10 ">
@@ -292,22 +292,6 @@ const UserPrimaryDemos = () => {
                   text={"কোনো প্রাথমিক প্রদর্শনীর তথ্য পাওয়া যায়নি!!"}
                 />
               )}
-            </div>
-            <div>
-              <span>প্রতি পৃষ্ঠায়:</span>
-              <select className="ml-2 border rounded" value={entriesPerPage} onChange={handleEntriesChange}>
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={filteredDemos?.length}>সব</option>
-              </select>
-            </div>
-            <div className="mt-4 flex items-center justify-between">
-              <div>
-                <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md">&laquo; পূর্ববর্তী</button>
-                <span className="mx-2">পৃষ্ঠা {currentPage} / {totalPages}</span>
-                <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages} className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md">পরবর্তী &raquo;</button>
-              </div>
             </div>
           </div>
         </div>

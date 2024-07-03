@@ -28,8 +28,7 @@ import { seasonsArr } from '../../../shared/MessageConst';
 
 const UserDashboard = () => {
   const {
-    notes,
-    userData: { demos, fieldDays, schools, daeMeetins },
+    notes, demos, fieldDays, schools, daeMeetings,
   } = useSelector((state) => state.dae);
   const [noteTypes, setNoteTypes] = useState([]);
   const [Notedata, setData] = useState([]);
@@ -77,7 +76,7 @@ const UserDashboard = () => {
     },
     {
       icon: <GiFarmer />,
-      count: daeMeetins?.length,
+      count: daeMeetings?.length,
       text: "কৃষক সভা",
       backgroundColor: "#dcfce7", // Light green
     },
@@ -158,7 +157,7 @@ const UserDashboard = () => {
   });
   return (
     <section className="py-5">
-      <div className="grid  grid-cols-1 md:grid-cols-3 gap-5 justify-center items-center">
+      <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center items-center">
         <div className="grid bg-white px-4 py-6 col-span-2 rounded-xl md:grid-cols-2 grid-cols-2 lg:grid-cols-3 gap-3">
           {cards.map((card, index) => (
             <DashboardCard key={index} {...card} />
@@ -220,8 +219,8 @@ const UserDashboard = () => {
       </div>
 
       {/* Demos information Based on Fiscal Year */}
-      <div className="grid gap-5 grid-cols-5">
-        <div className='py-6 mt-10 pr-3 col-span-2 bg-white rounded-lg'>
+      <div className="grid gap-5 lg:grid-cols-5">
+        <div className='py-6 mt-10 pr-3 lg:col-span-2 bg-white rounded-lg'>
           <div className='w-full h-full'>
             <h2 className='text-md font-semibold text-center'>অর্থবছর অনুযায়ী প্রদর্শনীর তথ্য</h2>
 
@@ -246,7 +245,7 @@ const UserDashboard = () => {
             </ResponsiveContainer>
           </div>
         </div>
-        <div className='col-span-3 h-80 bg-white pb-10 rounded-xl py-2 mt-10'>
+        <div className='lg:col-span-3 h-80 bg-white pb-10 rounded-xl py-2 mt-10'>
           <h2 className='text-md font-semibold text-center'>অর্থবছর অনুযায়ী সকল মাঠদিবসের মৌসুম ভিত্তিক তথ্য</h2>
 
           <ResponsiveContainer width="100%" height="100%">

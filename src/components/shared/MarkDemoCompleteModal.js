@@ -6,9 +6,9 @@ import toast from "react-hot-toast";
 import { markDemoComplete } from "../../services/userServices";
 import { useDispatch } from "react-redux";
 import { daeAction } from "../store/projectSlice";
+import { createRandomNumber } from "../utilis/createRandomNumber";
 
 const MarkDemoCompleteModal = ({ data }) => {
-  console.log(data)
   const dispatch = useDispatch();
   useEffect(() => {
     formik.setValues({
@@ -67,7 +67,7 @@ const MarkDemoCompleteModal = ({ data }) => {
         return;
       }
       if (!data?._id) {
-        toast.error("No Demo ID found");
+        toast.error("প্রদর্শনীর আইডি পাওয়া যায়নি। দয়া করে সংশ্লিষ্ট কর্তপক্ষকে জানান।");
         return;
       }
 
@@ -75,20 +75,17 @@ const MarkDemoCompleteModal = ({ data }) => {
         const result = await markDemoComplete(data?._id, values);
         if (result?.status === 200) {
           toast.success("প্রদর্শনীটি চুড়ান্ত হিসেবে চিহ্নিত করা হয়েছে।");
-          dispatch(daeAction.setRefetch());
+          dispatch(daeAction.setRefetch(`demos${createRandomNumber()}`));
         }
       } catch (err) {
         toast.error("প্রদর্শনী চুড়ান্ত হিসেবে চিহ্নিত করতে সমস্যা হচ্ছে।");
       }
-
-      console.log("Form submitted with values:", values);
-      // You can add further logic here, like submitting data to the server
     },
   });
 
   return (
     <dialog id="my_modal_33" className="modal text-center">
-      <div className="modal-box w-6/12 max-w-5xl">
+      <div className="modal-box lg:w-6/12 md:w-10/12 max-w-5xl">
         <h3 className="font-bold text-xl mb-2">
           {data?.projectInfo?.short}-এর {data?.demoTime?.fiscalYear} অর্থবছরের{" "}
           {data?.demoTime?.season} মৌসুমের প্রযুক্তিঃ {data?.demoInfo?.tech} এর

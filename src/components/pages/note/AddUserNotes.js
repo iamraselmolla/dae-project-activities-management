@@ -80,10 +80,11 @@ const AddNotes = () => {
     farmersInfo: Yup.object().shape({
       name: Yup.string().required("অবশ্যই কৃষকের নাম দিন"),
       fathersOrHusbandName: Yup.string().required("পিতা/স্বামীর নাম দিন"),
-      mobile: Yup.string()
-        .required("মোবাইল নম্বর দিন")
-        .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
-    }),
+      // mobile: Yup.string()
+      //   .required("মোবাইল নম্বর দিন")
+      //   .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
+    }
+    ),
     address: Yup.object().shape({
       village: Yup.string().required("গ্রামের নাম দিন"),
     }),

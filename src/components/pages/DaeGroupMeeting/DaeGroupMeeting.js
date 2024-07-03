@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import SectionTitle from "../../shared/SectionTitle";
 import SingleDaeGroupMeetings from "./SingleDaeGroupMeetings";
 import { fetchAllGroups } from "../../../services/userServices";
-import Loader from "../../shared/Loader";
 import AddModuleButton from "../../shared/AddModuleButton";
 import { makeSureOnline } from "../../shared/MessageConst";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import NoContentFound from "../../shared/NoContentFound";
 import toast from "react-hot-toast";
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 
 const DaeGroupMeeting = () => {
   const { user } = useContext(AuthContext);
@@ -60,9 +60,7 @@ const DaeGroupMeeting = () => {
         <NoContentFound text={'কোনো গ্রুপের তথ্য পাওয়া যায়নি'} />
       )}
       {loading && (
-        <div className="flex justify-center items-center">
-          <Loader />
-        </div>
+        <LoaderWithOutDynamicMessage />
       )}
 
     </section>

@@ -20,6 +20,7 @@ import Loader from "../../shared/Loader";
 import { useLocation } from "react-router-dom";
 import { makeSureOnline } from "../../shared/MessageConst";
 import { useSelector } from "react-redux";
+import LoaderWithDynamicMessage from "../../shared/LoaderWithDynamicMessage";
 
 const AddTraining = () => {
   const location = useLocation();
@@ -105,7 +106,7 @@ const AddTraining = () => {
       endDate: Yup.date().required("প্রশিক্ষণ শেষ তারিখ প্রয়োজন"),
     }),
     // images: Yup.array().min(1, "কমপক্ষে একটি ছবি প্রয়োজন"),
-    comment: Yup.string().required("মন্তব্য প্রয়োজন"),
+    // comment: Yup.string().required("মন্তব্য প্রয়োজন"),
   });
   const resetForm = () => {
     formik.resetForm();
@@ -139,16 +140,17 @@ const AddTraining = () => {
           "প্রশিক্ষণের তথ্য যুক্ত কর‍তে হলে আপনাকে অবশ্যই লগিন করতে হবে।"
         );
       }
-      if (rawImages?.length < 1) {
-        toast.error('অবশ্যই আপনাকে প্রশিক্ষণের ছবি সংযুক্ত করতে হবে।')
-        return;
-      }
+
       const postTrainingData = async () => {
         try {
+          setLoading(true);
           if (!trainingId) {
+            if (rawImages?.length < 1) {
+              toast.error('অবশ্যই আপনাকে প্রশিক্ষণের ছবি সংযুক্ত করতে হবে।')
+              return;
+            }
             if (rawImages?.length > 0) {
               setLoadingMessage("ছবি আপ্লোড হচ্ছে");
-              setLoading(true);
               const uploadedImageLinks = [];
               for (let i = 0; i < rawImages?.length; i++) {
                 setLoadingMessage(
@@ -214,6 +216,8 @@ const AddTraining = () => {
           }
         } catch (err) {
           console.log(err);
+          setLoading(false);
+        } finally {
           setLoading(false);
         }
       };
@@ -560,12 +564,7 @@ const AddTraining = () => {
         )}
       </form>
       {loading && (
-        <div className="fixed daeLoader">
-          <Loader />
-          <h2 className="text-green-600 mt-3 text-4xl">
-            {loadingMessage && loadingMessage}
-          </h2>
-        </div>
+        <LoaderWithDynamicMessage message={loadingMessage} />
       )}
     </section>
   );

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SingleTraining from "./SingleTraining";
 import { getAllTraining } from "../../../services/userServices";
-import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import AddModuleButton from "../../shared/AddModuleButton";
 import { makeSureOnline } from "../../shared/MessageConst";
@@ -9,6 +8,7 @@ import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import { useSelector } from "react-redux";
 import { toBengaliNumber } from "bengali-number";
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 const Training = () => {
   const [allTrainings, setAllTrainings] = useState([]);
   const [filterAllTrainings, setFilterAllTrainings] = useState([]);
@@ -196,7 +196,7 @@ const Training = () => {
       </div>
       {loading && !error && (
         <div className="flex justify-center items-center">
-          <Loader />
+          <LoaderWithOutDynamicMessage />
         </div>
       )}
     </section>
