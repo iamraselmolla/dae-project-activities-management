@@ -13,13 +13,14 @@ const AddAFarmer = () => {
         numbersInfo: Yup.object().shape({
             mobile: Yup.string()
                 .required('মোবাইল নম্বর দিন')
-                .matches(/^[0-9]{11}$/, 'মোবাইল নম্বরটি সঠিক নয়'),
-            NID: Yup.string()
-                .nullable()
-                .when('NID', {
-                    is: (value) => value?.trim() !== '',
-                    then: Yup.string().matches(/^(10|13|17)$/, 'এনআইডি নম্বরটি সঠিক নয়'),
-                }),
+                .matches(/^[0-9]{11}$/, 'মোবাইল নম্বরটি সঠিক নয়'), NID: Yup.string().test(
+                    'nid-validation',
+                    'এনআইডি নম্বরটি সঠিক নয়',
+                    function (value) {
+                        if (value?.trim() === '') return true;
+                        return /^(10|13|17)$/.test(value);
+                    }
+                ),
             BID: Yup.string(),
             agriId: Yup.string(),
         }),
