@@ -36,6 +36,7 @@ import AllUsers from "./components/pages/allUsers/AllUsers";
 import AllProjectsForUser from "./components/pages/allprojects/AllProjects";
 import UserPrimaryDemos from "./components/pages/dashboard/user/demos/UserPrimaryDemos";
 import UserFinalDemos from "./components/pages/dashboard/user/demos/UserFinalDemos";
+import DraftList from "./components/pages/draft-list/DraftList";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -160,7 +161,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/draft-list",
-        element: <MotivationalTour />,
+        element: <DraftList />,
       },
       {
         path: "/add-motivational-tour",
