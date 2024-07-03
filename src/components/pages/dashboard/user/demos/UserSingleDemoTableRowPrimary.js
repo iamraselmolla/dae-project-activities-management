@@ -75,13 +75,13 @@ const UserSingleDemoTableRowPrimary = ({
         </td>
         <td className="dark:text-gray-200 font-medium p-2 text-center text-gray-800 text-sm whitespace-nowrap">
           রোপণঃ {new Date(demoDate?.bopon).toLocaleString('bn-BD', {
-            day: 'numeric',
-            month: 'numeric',
+            day: '2-digit',
+            month: '2-digit',
             year: 'numeric'
           })} <br />
           বপণঃ {new Date(demoDate?.ropon).toLocaleString('bn-BD', {
-            day: 'numeric',
-            month: 'numeric',
+            day: '2-digit',
+            month: '2-digit',
             year: 'numeric'
           })} <br />
         </td>
