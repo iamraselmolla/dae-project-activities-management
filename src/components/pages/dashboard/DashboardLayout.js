@@ -51,7 +51,7 @@ const DashboardLayout = () => {
             dispatch(daeAction.setUserFieldDays(fieldDayResult?.data?.data));
           }
         }
-        if (refetch === "all" || refetch === "meetings") {
+        if (refetch === "all" || refetch.includes("meetings")) {
           const meetingResult = await getUserAllGroupMeeting();
           if (meetingResult?.status === 200) {
             dispatch(daeAction.setDaeMeeting(meetingResult?.data?.data));
