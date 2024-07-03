@@ -84,7 +84,7 @@ const AddImageModal = ({ data }) => {
     <>
       {!loading && (
         <dialog id="my_modal_1" className="modal text-center">
-          <div className="modal-box w-6/12 max-w-5xl">
+          <div className="modal-box lg:w-6/12 md:w-10/12 max-w-5xl">
             <h3 className="font-bold text-xl mb-2">
               প্রদর্শনীর বর্তমান ছবি ও অবস্থার বর্ণনা যুক্ত করুন
             </h3>

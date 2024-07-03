@@ -17,10 +17,10 @@ import { format } from "date-fns";
 import { bn } from "date-fns/locale";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
-import Loader from "../../shared/Loader";
 import { makeSureOnline } from "../../shared/MessageConst";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import LoaderWithDynamicMessage from "../../shared/LoaderWithDynamicMessage"
 
 const AddFieldDay = () => {
   const location = useLocation();
@@ -632,12 +632,7 @@ const AddFieldDay = () => {
           )}
         </form>
         {loading && (
-          <div className="fixed daeLoader">
-            <Loader />
-            <h2 className="text-green-600 mt-3 text-4xl">
-              {loadingMessage && loadingMessage}
-            </h2>
-          </div>
+          <LoaderWithDynamicMessage message={loadingMessage} />
         )}
       </div>
     </section>

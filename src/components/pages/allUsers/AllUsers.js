@@ -9,7 +9,7 @@ const AllUsers = () => {
     <section className="py-20">
       <div className="container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <SectionTitle title={"সকল ব্লক, ইউনিয়ন এবং ইউজার তথ্য"} />
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4">
           {blockAndUnions?.map((single) => (
             <div
               key={single?.unionB}

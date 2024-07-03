@@ -4,8 +4,8 @@ import SectionTitle from "../../shared/SectionTitle";
 import SingleProject from "./SingleProject";
 import { findAllProjectsData } from "../../../services/userServices";
 import toast from "react-hot-toast";
-import Loader from "../../shared/Loader";
 import { toBengaliNumber } from "bengali-number";
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 
 const AllProjects = () => {
   const [projects, setAllProjects] = useState([]);
@@ -43,7 +43,7 @@ const AllProjects = () => {
           </>
         ) : (
           <>
-            <Loader />
+            <LoaderWithOutDynamicMessage />
           </>
         )}
       </div>

@@ -20,109 +20,121 @@ import DashboardMenu from "./DashboardMenu";
 import { Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
-  const { user, role, username } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
+  const { user, role } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { refetch } = useSelector((state) => state.dae);
 
   useEffect(() => {
-    const fetchGeneralData = async () => {
+    const fetchNotes = async () => {
       try {
-        // User all Notes
         const noteResult = await findUserAllNotes();
         if (noteResult?.status === 200) {
           dispatch(daeAction.setUserNotes(noteResult?.data?.data));
         }
       } catch (err) {
-        toast.error("তথ্য সেকশন-১ সার্ভার থেকে আনতে অসুবিধা হচ্ছে।");
+        toast.error("Error fetching notes.");
       }
     };
-    fetchGeneralData();
 
-    if (user && role === "user") {
-      const fetchUserAllData = async () => {
-        try {
-          // Demo
+    const fetchUserData = async () => {
+      try {
+        if (refetch === "all" || refetch.includes('demos')) {
           const demoResult = await getUserDemos();
           if (demoResult?.status === 200) {
             dispatch(daeAction.setUserDemos(demoResult?.data?.data));
           }
-          // Field Day
+        }
+        if (refetch === "all" || refetch.includes('fieldDays')) {
           const fieldDayResult = await getUserAllFieldDay();
           if (fieldDayResult?.status === 200) {
             dispatch(daeAction.setUserFieldDays(fieldDayResult?.data?.data));
           }
-
-          // Dae meeting
+        }
+        if (refetch === "all" || refetch === "meetings") {
           const meetingResult = await getUserAllGroupMeeting();
           if (meetingResult?.status === 200) {
             dispatch(daeAction.setDaeMeeting(meetingResult?.data?.data));
           }
-
-          // School
+        }
+        if (refetch === "all" || refetch === "schools") {
           const schoolResults = await getUserAllSchools();
           if (schoolResults.status === 200) {
             dispatch(daeAction.setUserSchools(schoolResults?.data?.data));
           }
-        } catch (err) {
-          toast.error("তথ্য সেকশন-২ সার্ভার থেকে আনতে অসুবিধা হচ্ছে।");
         }
-      };
-      fetchUserAllData();
-    }
+      } catch (err) {
+        toast.error("ইউজারের ডেটা পেতে সমস্যা হয়েছে");
+      }
+    };
 
-    if (user && role === "admin") {
-      const fetchAdminAllData = async () => {
-        try {
-          // All Users
+    const fetchAdminData = async () => {
+      try {
+        if (refetch === "all" || refetch === "users") {
           const userResult = await getAllUser();
           if (userResult?.status === 200) {
             dispatch(daeAction.setAllUsers(userResult?.data?.data));
           }
-
+        }
+        if (refetch === "all" || refetch === "distributions") {
           const distributionResult = await getAllDistributions();
           if (distributionResult?.status === 200) {
             dispatch(daeAction.setDistribution(distributionResult?.data?.data));
           }
-
-          // All Trainings
+        }
+        if (refetch === "all" || refetch === "trainings") {
           const trainingsResult = await getAllTraining();
           if (trainingsResult?.status === 200) {
             dispatch(daeAction.setAllTrainings(trainingsResult?.data?.data));
           }
-          // all projects
+        }
+        if (refetch === "all" || refetch === "projects") {
           const projectsResult = await getAllProjects(role);
           if (projectsResult?.status === 200) {
             dispatch(daeAction.setAllProjects(projectsResult?.data?.data));
           }
+        }
+        if (refetch === "all" || refetch === "tours") {
           const tourResult = await getAllMotivationalTours();
           if (tourResult?.status === 200) {
             dispatch(daeAction.setAllMotivationTours(tourResult?.data?.data));
           }
-        } catch (err) {
-          toast.error("তথ্য সেকশন-৩ সার্ভার থেকে আনতে অসুবিধা হচ্ছে।");
         }
-      };
-      fetchAdminAllData();
-    }
-    setLoading(false);
-    dispatch(daeAction.setEndFetch(true));
-  }, [user, role, username, refetch]);
+      } catch (err) {
+        toast.error("Error fetching admin data.");
+      }
+    };
+
+    const fetchData = async () => {
+
+      await fetchNotes();
+
+      if (role === "user") {
+        await fetchUserData();
+      } else if (role === "admin") {
+        await fetchAdminData();
+      }
+
+
+      dispatch(daeAction.setEndFetch(true));
+    };
+
+    fetchData();
+  }, [user, role, refetch]);
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-12 gap-4">
-      <div className="md:col-span-2">
+    <section className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <div className="lg:col-span-2">
         <div className="sticky top-0 lg:h-screen h-auto overflow-y-auto">
           <div className="py-5 px-2">
             <DashboardMenu />
           </div>
         </div>
       </div>
-      <div className="md:col-span-10 px-6 bg-slate-50">
+      <div className="lg:col-span-10 px-6 bg-slate-50">
         {loading ? <Loader /> : <Outlet />}
       </div>
     </section>
-
   );
 };
 

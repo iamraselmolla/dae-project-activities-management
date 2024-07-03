@@ -54,7 +54,9 @@ const AuthProvider = ({ children }) => {
         toast.error("প্রকল্পের তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে।");
       }
     };
-    fetchAllProjects();
+    if (refetch.includes('all')) {
+      fetchAllProjects();
+    }
   }, [refetch]);
 
   const authInfo = {

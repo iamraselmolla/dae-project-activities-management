@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import { toBengaliNumber } from "bengali-number";
-import Loader from "../../shared/Loader";
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 
 const Distribution = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -176,7 +176,7 @@ const Distribution = () => {
       {/* Display SingleDistribution components for each distribution */}
       {loading ?
         (<div className="flex justify-center items-center">
-          <Loader />
+          <LoaderWithOutDynamicMessage />
         </div>)
         : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">

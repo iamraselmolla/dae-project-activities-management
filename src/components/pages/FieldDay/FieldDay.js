@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import SingleFieldDay from "./SingleFieldDay";
 import { getAllFieldDays } from "../../../services/userServices";
-import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import AddModuleButton from "../../shared/AddModuleButton";
 import { makeSureOnline } from "../../shared/MessageConst";
@@ -11,6 +10,7 @@ import { useSelector } from "react-redux";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import { toBengaliNumber } from "bengali-number";
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 
 const FieldDay = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
@@ -262,9 +262,7 @@ const FieldDay = () => {
         <NoContentFound text={" কোনো মাঠ দিবসের তথ্য পাওয়া যায়নি!"} />
       )}
       {loading && !error && (
-        <div className="flex justify-center items-center">
-          <Loader />
-        </div>
+        <LoaderWithOutDynamicMessage />
       )}
       {!loading && error && <p className="text-red-500 font-bold">{error}</p>}
     </section>

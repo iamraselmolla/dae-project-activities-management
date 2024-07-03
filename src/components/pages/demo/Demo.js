@@ -18,6 +18,7 @@ import SectionTitle from "../../shared/SectionTitle";
 import { useSelector } from "react-redux";
 import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 
 
 const Demo = () => {
@@ -343,14 +344,7 @@ const Demo = () => {
         <NoContentFound text={"কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!"} />
       )}
       {!fetchEnd && loading && (
-        <div className="py-20">
-          <div className="fixed daeLoader">
-            <Loader />
-            <h2 className="text-green-600 mt-3 text-4xl">
-              তথ্য আনা হচ্ছে। দয়া করে অপেক্ষা করুন
-            </h2>
-          </div>
-        </div>
+        <LoaderWithOutDynamicMessage />
       )}
       <AddModuleButton link={"addDemo"} btnText={"প্রদর্শনী যুক্ত করুন"} />
     </section>

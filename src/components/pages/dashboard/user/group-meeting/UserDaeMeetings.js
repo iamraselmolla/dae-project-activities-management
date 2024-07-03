@@ -5,14 +5,16 @@ import toast from "react-hot-toast";
 import UserSingleGroupTable from "./UserSingleGroupTable";
 import NoContentFound from "../../../../shared/NoContentFound";
 import AddModuleButton from "../../../../shared/AddModuleButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SectionTitle from "../../../../shared/SectionTitle";
 import { toBengaliNumber } from "bengali-number";
+import { daeAction } from "../../../../store/projectSlice";
 
 const UserDaeMeetings = () => {
   const {
-    userData: { daeMeetings: allGroupsMeeting },
+    daeMeetings: allGroupsMeeting,
   } = useSelector((state) => state.dae);
+  const dispatch = useDispatch()
 
   const handleGroupDeleting = (id) => {
     if (!id) return;
@@ -22,6 +24,7 @@ const UserDaeMeetings = () => {
           const result = await deleteGroupInfoById(id);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
+            dispatch(daeAction.setRefetch('meetings'));
           }
         }
       } catch (err) {
