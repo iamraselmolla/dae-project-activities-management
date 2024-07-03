@@ -90,6 +90,7 @@ const AddGroupMeeting = () => {
         if (!groupId) return;
         try {
           setLoading(true)
+          setLoadingMessage('কৃষক গ্রুপ সভার তথ্য আপডেট হচ্ছে।')
           const result = await updateGroupInfo(groupId, values);
           if (result?.status === 200) {
             toast.success("কৃষক গ্রুপ মিটিং এর তথ্য এডিট সম্পন্ন হয়েছে।");
