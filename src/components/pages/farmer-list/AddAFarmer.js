@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
+import SectionTitle from '../../shared/SectionTitle';
 
 const AddAFarmer = () => {
     const [nid, setNid] = useState('');
@@ -79,9 +80,10 @@ const AddAFarmer = () => {
     });
 
     return (
-        <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="bg-white">
-                <form className="py-5 px-6 rounded-xl" onSubmit={formik.handleSubmit}>
+                <SectionTitle title={'কৃষক তথ্য যোগ করুন'} />
+                <form className="px-6 mt-6 rounded-xl" onSubmit={formik.handleSubmit}>
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                         <div>
                             <label className="font-extrabold mb-1 block">কৃষকের নাম</label>
@@ -138,6 +140,7 @@ const AddAFarmer = () => {
                                 className="input input-bordered w-full"
                                 id="numbersInfo.NID"
                                 name="numbersInfo.NID"
+                                maxLength={17}
                                 onChange={(e) => {
                                     formik.handleChange(e);
                                     setNid(e.target.value);
