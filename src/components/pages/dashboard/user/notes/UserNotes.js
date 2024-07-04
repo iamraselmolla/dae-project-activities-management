@@ -85,7 +85,7 @@ const UserNotes = () => {
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
-          <AddModuleButton link={"add-note"} btnText={"নোট যুক্ত করুন"} />
+          <AddModuleButton link={"dashboard/add-note"} btnText={"নোট যুক্ত করুন"} />
           <SectionTitle title={`অসম্পন্ন নোট (${toBengaliNumber(incompletedNotes?.length)})`} />
           <div>
             <select className="input input-bordered w-full" onChange={handlePurposeSelection}>
