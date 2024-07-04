@@ -33,7 +33,7 @@ const AddAFarmer = () => {
             union: Yup.string(),
         }),
         comment: Yup.string(),
-        username: user?.username
+
     });
 
     const formik = useFormik({
@@ -54,6 +54,7 @@ const AddAFarmer = () => {
                 union: user?.unionB,
             },
             comment: '',
+            username: user?.username
         },
         validationSchema,
         onSubmit: async (values, { resetForm }) => {
