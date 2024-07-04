@@ -33,7 +33,7 @@ const DashboardLayout = () => {
           dispatch(daeAction.setUserNotes(noteResult?.data?.data));
         }
       } catch (err) {
-        toast.error("Error fetching notes.");
+        toast.error("নোটসগুলো সার্ভার থেকে আনতে অসুবিধা হচ্ছে।");
       }
     };
     if (refetch === "all" || refetch.includes('notes')) {
