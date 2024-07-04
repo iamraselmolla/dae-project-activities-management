@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 import SectionTitle from '../../shared/SectionTitle';
+import { AuthContext } from '../../AuthContext/AuthProvider';
 
 const AddAFarmer = () => {
-    const [nid, setNid] = useState('');
+    const { user } = useContext(AuthContext)
     const validationSchema = Yup.object().shape({
         farmersInfo: Yup.object().shape({
             farmerName: Yup.string().required('কৃষকের নাম দিন'),
-            fathersOrHusbandsName: Yup.string(),
+            fathersOrHusbandsName: Yup.string().required('পিতা/স্বামীর নাম দিন'),
         }),
         numbersInfo: Yup.object().shape({
             mobile: Yup.string()
@@ -31,10 +32,6 @@ const AddAFarmer = () => {
             block: Yup.string(),
             union: Yup.string(),
         }),
-        SAAO: Yup.object().shape({
-            saaoName: Yup.string(),
-            saaoMobile: Yup.string(),
-        }),
         comment: Yup.string(),
     });
 
@@ -52,12 +49,8 @@ const AddAFarmer = () => {
             },
             address: {
                 village: '',
-                block: '',
-                union: '',
-            },
-            SAAO: {
-                saaoName: '',
-                saaoMobile: '',
+                block: user?.blockB,
+                union: user?.unionB,
             },
             comment: '',
         },
@@ -65,7 +58,7 @@ const AddAFarmer = () => {
         onSubmit: async (values, { resetForm }) => {
             try {
                 // Replace with your API call
-                const result = null
+                const result = null;
                 if (result?.status === 200) {
                     toast.success('Draft item added successfully');
                 } else {
@@ -102,9 +95,7 @@ const AddAFarmer = () => {
                             ) : null}
                         </div>
                         <div>
-                            <label className="font-extrabold mb-1 block">
-                                পিতার বা স্বামীর নাম
-                            </label>
+                            <label className="font-extrabold mb-1 block">পিতার বা স্বামীর নাম</label>
                             <input
                                 type="text"
                                 className="input input-bordered w-full"
@@ -115,7 +106,13 @@ const AddAFarmer = () => {
                                 placeholder="পিতার বা স্বামীর নাম"
                                 value={formik.values.farmersInfo.fathersOrHusbandsName}
                             />
+                            {formik.touched.farmersInfo?.fathersOrHusbandsName && formik.errors.farmersInfo?.fathersOrHusbandsName ? (
+                                <div className="text-red-600 font-bold">{formik.errors.farmersInfo.fathersOrHusbandsName}</div>
+                            ) : null}
                         </div>
+
+                    </div>
+                    <div className="grid my-3 gap-3 lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
                         <div>
                             <label className="font-extrabold mb-1 block">মোবাইল নম্বর</label>
                             <input
@@ -141,10 +138,7 @@ const AddAFarmer = () => {
                                 id="numbersInfo.NID"
                                 name="numbersInfo.NID"
                                 maxLength={17}
-                                onChange={(e) => {
-                                    formik.handleChange(e);
-                                    setNid(e.target.value);
-                                }}
+                                onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 placeholder="এনআইডি নম্বর"
                                 value={formik.values.numbersInfo.NID}
@@ -179,6 +173,8 @@ const AddAFarmer = () => {
                                 value={formik.values.numbersInfo.agriId}
                             />
                         </div>
+                    </div>
+                    <div className="grid gap-4 my-3 lg:grid-cols-3 md:grid-cols-3 grid-cols-1">
                         <div>
                             <label className="font-extrabold mb-1 block">গ্রামের নাম</label>
                             <input
@@ -205,7 +201,8 @@ const AddAFarmer = () => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 placeholder="ব্লক নাম"
-                                value={formik.values.address.block}
+                                value={user?.blockB}
+                                disabled={true}
                             />
                         </div>
                         <div>
@@ -218,47 +215,22 @@ const AddAFarmer = () => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 placeholder="ইউনিয়নের নাম"
-                                value={formik.values.address.union}
+                                value={user?.unionB}
+                                disabled={true}
                             />
                         </div>
-                        <div>
-                            <label className="font-extrabold mb-1 block">সার্ভার নাম</label>
-                            <input
-                                type="text"
-                                className="input input-bordered w-full"
-                                id="SAAO.saaoName"
-                                name="SAAO.saaoName"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                placeholder="সার্ভার নাম"
-                                value={formik.values.SAAO.saaoName}
-                            />
-                        </div>
-                        <div>
-                            <label className="font-extrabold mb-1 block">সার্ভার মোবাইল</label>
-                            <input
-                                type="text"
-                                className="input input-bordered w-full"
-                                id="SAAO.saaoMobile"
-                                name="SAAO.saaoMobile"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                placeholder="সার্ভার মোবাইল"
-                                value={formik.values.SAAO.saaoMobile}
-                            />
-                        </div>
-                        <div>
-                            <label className="font-extrabold mb-1 block">মন্তব্য</label>
-                            <textarea
-                                className="textarea textarea-bordered w-full"
-                                id="comment"
-                                name="comment"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                placeholder="মন্তব্য"
-                                value={formik.values.comment}
-                            ></textarea>
-                        </div>
+                    </div>
+                    <div>
+                        <label className="font-extrabold mb-1 block">মন্তব্য</label>
+                        <textarea
+                            className="textarea textarea-bordered w-full"
+                            id="comment"
+                            name="comment"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            placeholder="মন্তব্য"
+                            value={formik.values.comment}
+                        ></textarea>
                     </div>
                     <button
                         type="submit"
