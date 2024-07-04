@@ -149,14 +149,6 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: "/add-note",
-        element: (
-          <PrivateRoute>
-            <AddNotes />
-          </PrivateRoute>
-        ),
-      },
-      {
         path: "/motivational-tour",
         element: <MotivationalTour />,
       },
@@ -286,6 +278,14 @@ const router = createBrowserRouter([
               <AdminRoute>
                 <AdminTrainings />
               </AdminRoute>
+            ),
+          },
+          {
+            path: "/dashboard/add-note",
+            element: (
+              <UserRoute>
+                <AddNotes />
+              </UserRoute>
             ),
           },
         ],

@@ -33,6 +33,7 @@ const AddAFarmer = () => {
             union: Yup.string(),
         }),
         comment: Yup.string(),
+        username: user?.username
     });
 
     const formik = useFormik({
@@ -57,6 +58,8 @@ const AddAFarmer = () => {
         validationSchema,
         onSubmit: async (values, { resetForm }) => {
             try {
+                console.log(values)
+                return
                 // Replace with your API call
                 const result = null;
                 if (result?.status === 200) {
