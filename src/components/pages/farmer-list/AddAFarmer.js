@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import SectionTitle from '../../shared/SectionTitle';
 import { AuthContext } from '../../AuthContext/AuthProvider';
 import { createAFarmer } from '../../../services/userServices';
-import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage"
+import LoaderWithDynamicMessage from "../../shared/LoaderWithDynamicMessage"
 
 const AddAFarmer = () => {
     const { user } = useContext(AuthContext);
@@ -69,14 +69,17 @@ const AddAFarmer = () => {
                 const result = await createAFarmer(values);
                 if (result?.status === 200) {
                     toast.success(result?.data?.message);
+                    resetForm();
                 } else {
                     toast.error('কৃষকের তথ্য যুক্ত করতে সমস্যা হচ্ছে।');
                 }
             } catch (error) {
-                toast.error("সার্ভারজনিত সমস্যা হচ্ছে । দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।")
-                console.error('Error:', error);
+                if (error.response?.status === 409) {
+                    toast.error(error?.response?.data?.message)
+                } else {
+                    toast.error('সার্ভারজনিত সমস্যা হচ্ছে। দয়াকরে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।')
+                }
             } finally {
-                resetForm();
                 setLoading(false)
             }
         },
@@ -250,7 +253,7 @@ const AddAFarmer = () => {
                     </button>}
                 </form>
                 {
-                    loading && <LoaderWithOutDynamicMessage />
+                    loading && <LoaderWithDynamicMessage message={'কৃষকের তথ্য যুক্ত করা হচ্ছে।'} />
                 }
             </div>
         </section>
