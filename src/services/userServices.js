@@ -78,6 +78,7 @@ const BASE_URL = {
 
   // Farmer Data
   createAFarmer: "/farmer/create-farmer",
+  getFarmers: "/farmer/get-farmers-data",
 };
 
 
@@ -309,5 +310,9 @@ export function deleteASchool(id) {
 
 export function createAFarmer(data) {
   return http.post(BASE_URL.createAFarmer, data)
+}
+
+export function getAllFarmers() {
+  return http.get(BASE_URL.getFarmers)
 }
 

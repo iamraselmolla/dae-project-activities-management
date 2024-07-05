@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SectionTitle from '../../shared/SectionTitle';
 import AddModuleButton from '../../shared/AddModuleButton';
+import { getAllFarmers } from '../../../services/userServices';
+import { useAsyncError } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const FarmerList = () => {
+    const { user } = useContext(AuthContext);
+    const [allFarmers, setAllFarmers] = useState([]);
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        const getFarmersData = async () => {
+            try {
+                const result = await getAllFarmers();
+                if (result?.status === 200) {
+                    setAllFarmers(result?.data?.data)
+                }
+            } catch (err) {
+                toast.error('কৃষকের তথ্য সার্ভার থেকে আনতে অসুবিধা হচ্ছে।')
+            } finally {
+                setLoading(false)
+            }
+
+        }
+        getFarmersData()
+    }, [user])
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="mt-3">
