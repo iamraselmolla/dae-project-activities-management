@@ -33,9 +33,12 @@ const DashboardLayout = () => {
           dispatch(daeAction.setUserNotes(noteResult?.data?.data));
         }
       } catch (err) {
-        toast.error("Error fetching notes.");
+        toast.error("নোটসগুলো সার্ভার থেকে আনতে অসুবিধা হচ্ছে।");
       }
     };
+    if (refetch === "all" || refetch.includes('notes')) {
+      fetchNotes();
+    }
 
     const fetchUserData = async () => {
       try {
@@ -51,13 +54,13 @@ const DashboardLayout = () => {
             dispatch(daeAction.setUserFieldDays(fieldDayResult?.data?.data));
           }
         }
-        if (refetch === "all" || refetch === "meetings") {
+        if (refetch === "all" || refetch.includes("meetings")) {
           const meetingResult = await getUserAllGroupMeeting();
           if (meetingResult?.status === 200) {
             dispatch(daeAction.setDaeMeeting(meetingResult?.data?.data));
           }
         }
-        if (refetch === "all" || refetch === "schools") {
+        if (refetch === "all" || refetch.includes('schools')) {
           const schoolResults = await getUserAllSchools();
           if (schoolResults.status === 200) {
             dispatch(daeAction.setUserSchools(schoolResults?.data?.data));
@@ -107,7 +110,7 @@ const DashboardLayout = () => {
 
     const fetchData = async () => {
 
-      await fetchNotes();
+
 
       if (role === "user") {
         await fetchUserData();

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SectionTitle from "../../../../shared/SectionTitle";
 import { toBengaliNumber } from "bengali-number";
 import { daeAction } from "../../../../store/projectSlice";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
 
 const UserDaeMeetings = () => {
   const {
@@ -24,7 +25,7 @@ const UserDaeMeetings = () => {
           const result = await deleteGroupInfoById(id);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            dispatch(daeAction.setRefetch('meetings'));
+            dispatch(daeAction.setRefetch(`meetings${createRandomNumber()}`));
           }
         }
       } catch (err) {

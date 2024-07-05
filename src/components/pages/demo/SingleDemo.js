@@ -74,8 +74,8 @@ const SingleDemo = ({ data }) => {
             <CiCalendarDate />
             <p>
               {new Date(demoDate?.ropon).toLocaleString("bn-BD", {
-                day: "numeric",
-                month: "numeric",
+                day: "2-digit",
+                month: "2-digit",
                 year: "numeric",
               })}
             </p>

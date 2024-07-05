@@ -36,6 +36,8 @@ import AllUsers from "./components/pages/allUsers/AllUsers";
 import AllProjectsForUser from "./components/pages/allprojects/AllProjects";
 import UserPrimaryDemos from "./components/pages/dashboard/user/demos/UserPrimaryDemos";
 import UserFinalDemos from "./components/pages/dashboard/user/demos/UserFinalDemos";
+import FarmerList from "./components/pages/farmer-list/FarmerList";
+import AddAFarmer from "./components/pages/farmer-list/AddAFarmer";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -147,16 +149,16 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: "/add-note",
-        element: (
-          <PrivateRoute>
-            <AddNotes />
-          </PrivateRoute>
-        ),
-      },
-      {
         path: "/motivational-tour",
         element: <MotivationalTour />,
+      },
+      {
+        path: "/farmers-list",
+        element: <FarmerList />,
+      },
+      {
+        path: "/add-farmer",
+        element: <AddAFarmer />,
       },
       {
         path: "/add-motivational-tour",
@@ -276,6 +278,14 @@ const router = createBrowserRouter([
               <AdminRoute>
                 <AdminTrainings />
               </AdminRoute>
+            ),
+          },
+          {
+            path: "/dashboard/add-note",
+            element: (
+              <UserRoute>
+                <AddNotes />
+              </UserRoute>
             ),
           },
         ],

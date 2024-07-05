@@ -4,6 +4,7 @@ import { makeSureOnline } from "../../../../shared/MessageConst";
 import { markNoteAsComplete } from "../../../../../services/userServices";
 import { useDispatch } from "react-redux";
 import { daeAction } from "../../../../store/projectSlice";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
 
 const CompleteNoteModal = ({ data }) => {
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ const CompleteNoteModal = ({ data }) => {
           const result = await markNoteAsComplete(id, commentData);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            dispatch(daeAction.setRefetch())
+            dispatch(daeAction.setRefetch(`notes${createRandomNumber()}`));
 
 
           }

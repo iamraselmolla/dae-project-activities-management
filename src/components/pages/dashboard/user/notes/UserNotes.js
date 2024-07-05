@@ -15,6 +15,7 @@ import NoContentFound from "../../../../shared/NoContentFound";
 import CompleteNoteModal from "./CompleteNoteModal";
 import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../../../../store/projectSlice";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
 
 const UserNotes = () => {
   const { notes: allNotes } = useSelector((state) => state.dae);
@@ -40,7 +41,7 @@ const UserNotes = () => {
         incompletedNotes.filter((note) => note.purpose.target === selectedPurpose)
       );
     }
-  }, [selectedPurpose, incompletedNotes]);
+  }, [selectedPurpose, incompletedNotes, allNotes]);
 
   // Delete a Note of User
   const handleNoteDeletion = async (userNotetobeDeleted) => {
@@ -56,7 +57,7 @@ const UserNotes = () => {
               const result = await deleteAnote(userNotetobeDeleted?._id);
               if (result?.status === 200) {
                 toast.success(result?.data?.message);
-                dispatch(daeAction.setRefetch());
+                dispatch(daeAction.setRefetch(`notes${createRandomNumber()}`));
               }
             } catch (err) {
               toast.error("নোটটি মুছতে সাময়িক অসুবিধার সৃষ্টি হচ্ছে।");
@@ -84,7 +85,7 @@ const UserNotes = () => {
     <div className="flex flex-col">
       <div className="mt-10 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
-          <AddModuleButton link={"add-note"} btnText={"নোট যুক্ত করুন"} />
+          <AddModuleButton link={"dashboard/add-note"} btnText={"নোট যুক্ত করুন"} />
           <SectionTitle title={`অসম্পন্ন নোট (${toBengaliNumber(incompletedNotes?.length)})`} />
           <div>
             <select className="input input-bordered w-full" onChange={handlePurposeSelection}>

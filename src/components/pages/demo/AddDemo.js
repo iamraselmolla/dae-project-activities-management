@@ -6,9 +6,11 @@ import Season from "../../shared/Season";
 import FiscalYear from "../../shared/FiscalYear";
 import Datepicker from "react-tailwindcss-datepicker";
 import {
+  createAFarmer,
   createDemo,
   editDemobyId,
   findDemoById,
+  findFarmerByNID,
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import getFiscalYear from "../../shared/commonDataStores";
@@ -30,9 +32,6 @@ const AddDemo = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const { projects: allProject } = useSelector((state) => state.dae);
-
-  // const [fethedImgLink, setimgLink] = useState();
-  // const [imageRawLink, setImageRawLink] = useState([]);
   const [datePickers, setDatePickers] = useState({
     bopon: {
       startDate: null,
@@ -47,14 +46,10 @@ const AddDemo = () => {
       endDate: null,
     },
   });
+
   const handleDatePickerValue = (picker, selectedDate) => {
-    // Use a copy of the state to avoid modifying the state directly
     const updatedDatePickers = { ...datePickers };
-
-    // Update the selected date picker with the new value
     updatedDatePickers[picker] = selectedDate;
-
-    // Update the state with the new date pickers object
     setDatePickers(updatedDatePickers);
   };
 
@@ -76,7 +71,6 @@ const AddDemo = () => {
       fiscalYear: "",
       season: "",
     },
-
     farmersInfo: {
       name: "",
       fatherOrHusbandName: "",
@@ -107,7 +101,6 @@ const AddDemo = () => {
       totalProduction: "",
       sidePlotProduction: "",
     },
-
     demoDate: {
       bopon: "",
       ropon: "",
@@ -124,6 +117,7 @@ const AddDemo = () => {
     demoImages: [],
     username: user?.username,
   };
+
   const validationSchema = Yup.object({
     demoTime: Yup.object().shape({
       fiscalYear: Yup.string().required("অর্থবছর সিলেক্ট করুন"),
@@ -153,76 +147,128 @@ const AddDemo = () => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       setLoading(true);
+
       values.demoDate.bopon = datePickers.bopon.startDate;
       values.demoDate.ropon = datePickers.ropon.startDate;
       values.demoDate.korton = datePickers.korton;
+
       if (!demoId) {
         values.address.block = user?.blockB;
         values.address.union = user?.unionB;
-        values.demoTime.season = formik.values.demoTime.season;
+        values.demoTime.season = values.demoTime.season;
         values.projectInfo.full = selectedProject.name.details;
         values.projectInfo.short = selectedProject.name.short;
         values.username = user?.username;
         values.SAAO = user?.SAAO;
+
         if (!values.projectInfo.full || !values.projectInfo.short) {
           setLoading(false);
           return toast.error("আপনাকে অবশ্যই প্রকল্প সিলেক্ট করতে হবে।");
         }
+
         if (!values.username) {
           setLoading(false);
-          toast.error(
-            "লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
-          );
+          return toast.error("লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন");
         }
+      }
 
-        // Handle form submission logic here
-
-        if (navigator.onLine) {
-          try {
-            const result = await createDemo(values);
-            if (result?.status === 200) {
-              toast.success(result?.data?.message);
-              resetForm();
-              setDatePickers({
-                bopon: {
-                  startDate: null,
-                  endDate: null,
-                },
-                ropon: {
-                  startDate: null,
-                  endDate: null,
-                },
-                korton: {
-                  startDate: null,
-                  endDate: null,
-                },
-              });
-              setLoading(false);
-            }
-          } catch (err) {
-            toast.error("প্রদর্শনীর তথ্য যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।");
+      try {
+        let result;
+        if (!demoId) {
+          if (!navigator.onLine) {
+            makeSureOnline();
             setLoading(false);
+            return;
           }
-        } else {
-          makeSureOnline();
-          setLoading(false);
-        }
-      } else {
-        try {
-          const result = await editDemobyId(demoId, values);
+
+          result = await createDemo(values);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            setLoading(false);
+            resetForm();
+            resetDatePickers();
+            await checkFarmerExistence(values);
+
+          } else {
+            throw new Error('প্রদর্শনী সংরক্ষণ করতে সমস্যা হচ্ছে।');
           }
-        } catch (err) {
-          toast.error(
-            "প্রদর্শনীর তথ্য আপডেট করতে সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
-          );
-          setLoading(false);
+        } else {
+          result = await editDemobyId(demoId, values);
+          if (result?.status === 200) {
+            toast.success(result?.data?.message);
+          } else {
+            throw new Error('প্রদর্শনী এডিট করতে সমস্যা হচ্ছে।');
+          }
         }
+      } catch (err) {
+        toast.error("সার্ভারজনিত সমস্যা হচ্ছে। দয়াকরে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।");
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     },
   });
+
+  const resetDatePickers = () => {
+    setDatePickers({
+      bopon: { startDate: null, endDate: null },
+      ropon: { startDate: null, endDate: null },
+      korton: { startDate: null, endDate: null },
+    });
+  };
+
+  const checkFarmerExistence = async (demoValues) => {
+    try {
+      const result = await findFarmerByNID(
+
+        demoValues.numbersInfo.NID,
+        demoValues.address.block,
+        demoValues.address.union
+      );
+
+      if (result?.data?.success === false) {
+        if (
+          window.confirm(
+            `${demoValues.farmersInfo.name} নামের কৃষক কৃষক ডাটাবেজে সংরক্ষণ করুন`
+          )
+        ) {
+          const farmerData = {
+            farmersInfo: {
+              farmerName: demoValues.farmersInfo.name,
+              fathersOrHusbandsName: demoValues.farmersInfo.fatherOrHusbandName,
+            },
+            numbersInfo: {
+              mobile: demoValues.numbersInfo.mobile,
+              NID: demoValues.numbersInfo.NID,
+              BID: demoValues.numbersInfo.BID,
+              agriCard: demoValues.numbersInfo.agriCard,
+            },
+            address: {
+              village: demoValues.address.village,
+              block: demoValues.address.block,
+              union: demoValues.address.union,
+            },
+            comment: "প্রদর্শনীপ্রাপ্ত কৃষক",
+            username: demoValues.username,
+          };
+
+          const creationResult = await createAFarmer(farmerData);
+          if (creationResult?.status === 200) {
+            toast.success(creationResult?.data?.message);
+          } else {
+            toast.error(
+              "প্রদর্শনীর তথ্য হতে কৃষক ডাটা সংরক্ষণ করতে সমস্যার সৃষ্টি হচ্ছে ।..."
+            );
+          }
+        }
+      } else {
+        setLoading(false)
+      }
+
+    } catch (err) {
+      toast.error("কৃষক সংরক্ষণ করতে সমস্যা হচ্ছে।");
+      setLoading(false)
+    }
+  };
 
   useEffect(() => {
     const fetchDemoId = async () => {
@@ -268,10 +314,9 @@ const AddDemo = () => {
             setSelectedProject(foundProject);
           }
         }
-        // setimgLink(result?.data?.data?.demoImages);
       } catch (err) {
         toast.error(
-          "প্রদর্শনীর তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিতে অবহিত করুন।"
+          "প্রদর্শনীর তথ্য সার্ভার থেকে আনতে সমস্যার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন।"
         );
       }
     };
@@ -282,16 +327,6 @@ const AddDemo = () => {
       makeSureOnline();
     }
   }, [demoId, allProject]);
-
-  // useEffect(() => {
-  //   if (fethedImgLink?.length > 0) {
-  //     for (const image of fethedImgLink) {
-  //       image.image?.map((single) =>
-  //         setImageRawLink([...imageRawLink, single])
-  //       );
-  //     }
-  //   }
-  // }, [demoId, fethedImgLink]);
 
   return (
     <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">

@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../AuthContext/AuthProvider";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteASchool,
-  getUserAllSchools,
+  deleteASchool
 } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
 import SectionTitle from "../../../../shared/SectionTitle";
@@ -15,6 +14,7 @@ import FiscalYear from "../../../../shared/FiscalYear";
 import Season from "../../../../shared/Season";
 import { toBengaliNumber } from "bengali-number";
 import AddModuleButton from "../../../../shared/AddModuleButton";
+import { createRandomNumber } from '../../../../utilis/createRandomNumber'
 // import { Cloudinary } from 'cloudinary-core';
 
 
@@ -48,7 +48,7 @@ const UserSchools = () => {
         const result = await deleteASchool(schoolData); // Assuming you have a deleteSchool function
         if (result.status === 200) {
           toast.success(result.data.message);
-          dispatch(daeAction.setRefetch());
+          dispatch(daeAction.setRefetch(`schools${createRandomNumber()}`));
         }
       } catch (err) {
         toast.error("স্কুলটি মুছতে সাময়িক অসুবিধা হচ্ছে।");
@@ -83,7 +83,7 @@ const UserSchools = () => {
   useEffect(() => {
     const filtered = filterProjects();
     setFilteredSchools(filtered);
-  }, [selectedProject, fiscalYear, season]);
+  }, [selectedProject, fiscalYear, season, schools]);
 
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
@@ -112,7 +112,7 @@ const UserSchools = () => {
       return false;
     });
     setFilteredSchools(filtered); // Update filtered data
-  }, [search]);
+  }, [search, schools]);
 
   return (
     <div className="flex flex-col">
