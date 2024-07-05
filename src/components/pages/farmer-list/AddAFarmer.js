@@ -16,23 +16,25 @@ const AddAFarmer = () => {
             mobile: Yup.string()
                 .required('মোবাইল নম্বর দিন')
                 .matches(/^[0-9]{11}$/, 'মোবাইল নম্বরটি সঠিক নয়'),
-            NID: Yup.string().test(
-                'nid-validation',
-                'এনআইডি নম্বরটি সঠিক নয়',
-                function (value) {
-                    if (value?.trim() === '') return true;
-                    return /^(10|13|17)$/.test(value);
-                }
-            ),
-            BID: Yup.string(),
-            agriId: Yup.string(),
+            NID:
+                Yup.string()
+                    .test(
+                        'nid-validation',
+                        'এনআইডি নম্বরটি সঠিক নয়',
+                        function (value) {
+                            if (value?.trim() === '') return true;
+                            return /^(?:\d{10}|\d{13}|\d{17})$/.test(value);
+                        }
+                    )
+            // BID: Yup.string(),
+            // agriId: Yup.string(),
         }),
         address: Yup.object().shape({
             village: Yup.string().required('গ্রামের নাম দিন'),
             block: Yup.string(),
             union: Yup.string(),
         }),
-        comment: Yup.string(),
+        // comment: Yup.string(),
 
     });
 
