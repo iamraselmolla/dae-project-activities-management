@@ -1,81 +1,108 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import SectionTitle from '../../shared/SectionTitle';
 import AddModuleButton from '../../shared/AddModuleButton';
-import { getAllFarmers } from '../../../services/userServices';
+import { deleteAFarmer, getAllFarmers } from '../../../services/userServices';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../AuthContext/AuthProvider';
 import LoaderWithDynamicMessage from '../../shared/LoaderWithDynamicMessage';
 import { toBengaliNumber } from "bengali-number";
+import { MdOutlineDelete } from "react-icons/md";
+import { makeSureOnline } from '../../shared/MessageConst';
 
 const FarmerList = () => {
     const { user } = useContext(AuthContext);
     const [allFarmers, setAllFarmers] = useState([]);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+
+    const fetchFarmers = useCallback(async () => {
+        setLoading(true);
+        try {
+            const result = await getAllFarmers();
+            if (result?.status === 200) {
+                setAllFarmers(result?.data?.data);
+            }
+        } catch (err) {
+            toast.error('কৃষকের তথ্য সার্ভার থেকে আনতে অসুবিধা হচ্ছে।');
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
     useEffect(() => {
-        const getFarmersData = async () => {
+        fetchFarmers();
+    }, [user, fetchFarmers]);
+
+    const handleDelete = async (id) => {
+        const confirmed = window.confirm('আপনি কি নিশ্চিত যে এই কৃষকের তথ্য মুছতে চান?');
+        if (confirmed) {
             try {
-                const result = await getAllFarmers();
-                if (result?.status === 200) {
-                    setAllFarmers(result?.data?.data)
+                if (navigator.onLine) {
+                    const result = await deleteAFarmer(id);
+                    if (result?.status === 200) {
+                        toast.success(result?.data?.message);
+                        fetchFarmers();  // Refetch farmers after deletion
+                    }
+                } else {
+                    makeSureOnline();
                 }
             } catch (err) {
-                toast.error('কৃষকের তথ্য সার্ভার থেকে আনতে অসুবিধা হচ্ছে।')
-            } finally {
-                setLoading(false)
+                toast.error("কৃষক মুছে ফেলতে সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে জানান।");
             }
-
         }
-        getFarmersData()
-    }, [user])
+    };
+
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="mt-3">
                 <SectionTitle title={'সংরক্ষণকৃত কৃষকের তথ্য'} />
             </div>
-            {!loading && allFarmers?.length > 0 &&
+            {!loading && allFarmers?.length > 0 && (
                 <div className="overflow-x-auto">
-                    <table className="table table-xs">
+                    <table className="table table-xs border border-gray-300">
                         <thead className="font-bold text-black text-xl">
                             <tr>
-                                <th></th>
-                                <th>কৃষকের নাম</th>
-                                <th> পিতার নাম</th>
-                                <th>মোবাইল, NID</th>
-                                <th>BID, কৃষি কার্ড</th>
-                                <th>ঠিকানা</th>
-                                <th>মন্তব্য</th>
+                                <th className="border border-gray-300">ক্রঃ নং</th>
+                                <th className="border border-gray-300">কৃষকের নাম</th>
+                                <th className="border border-gray-300"> পিতার নাম</th>
+                                <th className="border border-gray-300">মোবাইল, NID</th>
+                                <th className="border border-gray-300">BID, কৃষি কার্ড</th>
+                                <th className="border border-gray-300">ঠিকানা</th>
+                                <th className="border border-gray-300">মন্তব্য</th>
+                                <th className="border border-gray-300">একশন</th>
                             </tr>
                         </thead>
                         <tbody>
                             {allFarmers?.map((farmer, index) => (
                                 <tr key={farmer?._id}>
-                                    <th>{toBengaliNumber(index + 1)}</th>
-                                    <td>{farmer?.farmersInfo?.farmersName}</td>
-                                    <td>{farmer?.farmersInfo?.fathersOrHusbandsName}</td>
-                                    <td>{farmer?.numbersInfo?.mobile}<br /> {farmer?.numbersInfo?.NID}</td>
-                                    <td>{farmer?.numbersInfo?.BID}<br /> {farmer?.numbersInfo?.agriId}</td>
-                                    <td>{farmer?.address?.village}, {farmer?.address?.block}, {farmer?.address?.union}</td>
-                                    <td>{farmer?.comment}</td>
+                                    <th className="border border-gray-300">{toBengaliNumber(index + 1)}</th>
+                                    <td className="border border-gray-300">{farmer?.farmersInfo?.farmersName}</td>
+                                    <td className="border border-gray-300">{farmer?.farmersInfo?.fathersOrHusbandsName}</td>
+                                    <td className="border border-gray-300">{farmer?.numbersInfo?.mobile}<br /> {farmer?.numbersInfo?.NID}</td>
+                                    <td className="border border-gray-300">{farmer?.numbersInfo?.BID}<br /> {farmer?.numbersInfo?.agriId}</td>
+                                    <td className="border border-gray-300">{farmer?.address?.village}, {farmer?.address?.block}, {farmer?.address?.union}</td>
+                                    <td className="border border-gray-300">{farmer?.comment}</td>
+                                    <td className="border border-gray-300">
+                                        <MdOutlineDelete onClick={() => handleDelete(farmer?._id)} size={30} color='red' cursor="pointer" />
+                                    </td>
                                 </tr>
                             ))}
-
                         </tbody>
                         <tfoot className="font-bold text-black text-xl">
                             <tr>
-                                <th></th>
-                                <th>কৃষকের নাম</th>
-                                <th> পিতার নাম</th>
-                                <th>মোবাইল, NID</th>
-                                <th>BID, কৃষি কার্ড</th>
-                                <th>ঠিকানা</th>
-                                <th>মন্তব্য</th>
+                                <th className="border border-gray-300">ক্রঃ নং</th>
+                                <th className="border border-gray-300">কৃষকের নাম</th>
+                                <th className="border border-gray-300"> পিতার নাম</th>
+                                <th className="border border-gray-300">মোবাইল, NID</th>
+                                <th className="border border-gray-300">BID, কৃষি কার্ড</th>
+                                <th className="border border-gray-300">ঠিকানা</th>
+                                <th className="border border-gray-300">মন্তব্য</th>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
-            }
+            )}
             <AddModuleButton link={"add-farmer"} btnText={"নতুন কৃষকের তথ্য সংরক্ষণ করুন।"} />
-            {loading && <LoaderWithDynamicMessage />}
+            {loading && <LoaderWithDynamicMessage message={'তথ্য আনা হচ্ছে। দয়া করে অপেক্ষা করেন।'} />}
         </section>
     );
 };
