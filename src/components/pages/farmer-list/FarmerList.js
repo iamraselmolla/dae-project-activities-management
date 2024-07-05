@@ -8,6 +8,7 @@ import LoaderWithDynamicMessage from '../../shared/LoaderWithDynamicMessage';
 import { toBengaliNumber } from "bengali-number";
 import { MdOutlineDelete } from "react-icons/md";
 import { makeSureOnline } from '../../shared/MessageConst';
+import NoContentFound from '../../shared/NoContentFound';
 
 const FarmerList = () => {
     const { user } = useContext(AuthContext);
@@ -45,7 +46,7 @@ const FarmerList = () => {
                     makeSureOnline();
                 }
             } catch (err) {
-                toast.error("কৃষক মুছে ফেলতে সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে জানান।");
+                toast.error("কৃষক মুছে ফেলতে সমস্যা হচ্ছে । দয়া করে সংশ্লিষ্ট ব্যক্তিকে জানান ।");
             }
         }
     };
@@ -103,6 +104,7 @@ const FarmerList = () => {
             )}
             <AddModuleButton link={"add-farmer"} btnText={"নতুন কৃষকের তথ্য সংরক্ষণ করুন।"} />
             {loading && <LoaderWithDynamicMessage message={'তথ্য আনা হচ্ছে। দয়া করে অপেক্ষা করেন।'} />}
+            {!loading && allFarmers?.length === 0 && <NoContentFound text={"কোনো কৃষক তথ্য পাওয়া যায়নি!"} />}
         </section>
     );
 };

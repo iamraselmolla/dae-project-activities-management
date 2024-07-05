@@ -257,6 +257,8 @@ const AddDemo = () => {
           const result = await createAFarmer(farmerData);
           if (result?.status === 200) {
             toast.success(result?.data?.message)
+          } else {
+            toast.error('প্রদর্শনীর তথ্য হতে কৃষক ডাটা সংরক্ষণ করতে সমস্যার সৃষ্টি হচ্ছে ।')
           }
 
         }
