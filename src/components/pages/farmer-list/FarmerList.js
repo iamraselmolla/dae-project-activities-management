@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SectionTitle from '../../shared/SectionTitle';
 import AddModuleButton from '../../shared/AddModuleButton';
 import { getAllFarmers } from '../../../services/userServices';
-import { useAsyncError } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { AuthContext } from '../../AuthContext/AuthProvider';
+import LoaderWithDynamicMessage from '../../shared/LoaderWithDynamicMessage';
 
 const FarmerList = () => {
     const { user } = useContext(AuthContext);
@@ -69,6 +70,7 @@ const FarmerList = () => {
                 </table>
             </div>
             <AddModuleButton link={"add-farmer"} btnText={"নতুন কৃষকের তথ্য সংরক্ষণ করুন।"} />
+            {loading && <LoaderWithDynamicMessage />}
         </section>
     );
 };
