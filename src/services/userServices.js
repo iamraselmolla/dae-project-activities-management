@@ -308,7 +308,6 @@ export function deleteASchool(id) {
 
 
 // Farmer
-
 export function createAFarmer(data) {
   return http.post(BASE_URL.createAFarmer, data)
 }

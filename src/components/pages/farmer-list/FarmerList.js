@@ -75,7 +75,7 @@ const FarmerList = () => {
                             {allFarmers?.map((farmer, index) => (
                                 <tr key={farmer?._id}>
                                     <th className="border border-gray-300">{toBengaliNumber(index + 1)}</th>
-                                    <td className="border border-gray-300">{farmer?.farmersInfo?.farmersName}</td>
+                                    <td className="border border-gray-300">{farmer?.farmersInfo?.farmerName}</td>
                                     <td className="border border-gray-300">{farmer?.farmersInfo?.fathersOrHusbandsName}</td>
                                     <td className="border border-gray-300">{farmer?.numbersInfo?.mobile}<br /> {farmer?.numbersInfo?.NID}</td>
                                     <td className="border border-gray-300">{farmer?.numbersInfo?.BID}<br /> {farmer?.numbersInfo?.agriId}</td>
@@ -96,6 +96,7 @@ const FarmerList = () => {
                                 <th className="border border-gray-300">BID, কৃষি কার্ড</th>
                                 <th className="border border-gray-300">ঠিকানা</th>
                                 <th className="border border-gray-300">মন্তব্য</th>
+                                <th className="">একশন</th>
                             </tr>
                         </tfoot>
                     </table>
