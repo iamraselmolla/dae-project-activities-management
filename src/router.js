@@ -153,7 +153,7 @@ const router = createBrowserRouter([
         element: <MotivationalTour />,
       },
       {
-        path: "/farmer-list",
+        path: "/farmers-list",
         element: <FarmerList />,
       },
       {

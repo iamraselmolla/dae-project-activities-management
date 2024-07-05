@@ -63,6 +63,9 @@ const AddAFarmer = () => {
         },
         validationSchema,
         onSubmit: async (values, { resetForm }) => {
+            if (!values.username) {
+                toast.error("ইউজার নেইম পাওয়া যাচ্ছে না। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।")
+            }
             try {
                 // Replace with your API call
                 setLoading(true)
