@@ -5,9 +5,11 @@ import toast from 'react-hot-toast';
 import SectionTitle from '../../shared/SectionTitle';
 import { AuthContext } from '../../AuthContext/AuthProvider';
 import { createAFarmer } from '../../../services/userServices';
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage"
 
 const AddAFarmer = () => {
-    const { user } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
+    const [loading, setLoading] = useState(false)
     const validationSchema = Yup.object().shape({
         farmersInfo: Yup.object().shape({
             farmerName: Yup.string().required('কৃষকের নাম দিন'),
@@ -63,6 +65,7 @@ const AddAFarmer = () => {
         onSubmit: async (values, { resetForm }) => {
             try {
                 // Replace with your API call
+                setLoading(true)
                 const result = await createAFarmer(values);
                 if (result?.status === 200) {
                     toast.success(result?.data?.message);
@@ -74,6 +77,7 @@ const AddAFarmer = () => {
                 console.error('Error:', error);
             } finally {
                 resetForm();
+                setLoading(false)
             }
         },
     });
@@ -238,13 +242,16 @@ const AddAFarmer = () => {
                             value={formik.values.comment}
                         ></textarea>
                     </div>
-                    <button
+                    {!loading && <button
                         type="submit"
                         className="btn mt-5 w-full font-extrabold text-white btn-success"
                     >
                         খসড়া আইটেম যুক্ত করুন
-                    </button>
+                    </button>}
                 </form>
+                {
+                    loading && <LoaderWithOutDynamicMessage />
+                }
             </div>
         </section>
     );
