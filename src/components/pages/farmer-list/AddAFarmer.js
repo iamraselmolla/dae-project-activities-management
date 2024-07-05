@@ -31,8 +31,8 @@ const AddAFarmer = () => {
         }),
         address: Yup.object().shape({
             village: Yup.string().required('গ্রামের নাম দিন'),
-            block: Yup.string(),
-            union: Yup.string(),
+            block: Yup.string('ব্লকের নাম দিন'),
+            union: Yup.string('ইউনিয়নের নাম দিন'),
         }),
         // comment: Yup.string(),
 
