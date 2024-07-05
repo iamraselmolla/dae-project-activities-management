@@ -9,6 +9,7 @@ import {
   createDemo,
   editDemobyId,
   findDemoById,
+  findFarmerByNIDAndMobile,
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
 import getFiscalYear from "../../shared/commonDataStores";
@@ -153,76 +154,93 @@ const AddDemo = () => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       setLoading(true);
+
+      // Update date values
       values.demoDate.bopon = datePickers.bopon.startDate;
       values.demoDate.ropon = datePickers.ropon.startDate;
       values.demoDate.korton = datePickers.korton;
+
+      // Set user-related values if demoId is not provided
       if (!demoId) {
         values.address.block = user?.blockB;
         values.address.union = user?.unionB;
-        values.demoTime.season = formik.values.demoTime.season;
+        values.demoTime.season = values.demoTime.season;
         values.projectInfo.full = selectedProject.name.details;
         values.projectInfo.short = selectedProject.name.short;
         values.username = user?.username;
         values.SAAO = user?.SAAO;
+
+        // Validate project selection
         if (!values.projectInfo.full || !values.projectInfo.short) {
           setLoading(false);
           return toast.error("আপনাকে অবশ্যই প্রকল্প সিলেক্ট করতে হবে।");
         }
+
+        // Validate user authentication
         if (!values.username) {
           setLoading(false);
-          toast.error(
-            "লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
-          );
+          return toast.error("লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন");
         }
+      }
 
-        // Handle form submission logic here
-
-        if (navigator.onLine) {
-          try {
-            const result = await createDemo(values);
-            if (result?.status === 200) {
-              toast.success(result?.data?.message);
-              resetForm();
-              setDatePickers({
-                bopon: {
-                  startDate: null,
-                  endDate: null,
-                },
-                ropon: {
-                  startDate: null,
-                  endDate: null,
-                },
-                korton: {
-                  startDate: null,
-                  endDate: null,
-                },
-              });
-              setLoading(false);
-            }
-          } catch (err) {
-            toast.error("প্রদর্শনীর তথ্য যুক্ত করতে সমস্যার সৃষ্টি হচ্ছে।");
+      // Handle form submission logic
+      try {
+        if (!demoId) {
+          if (!navigator.onLine) {
+            makeSureOnline();
             setLoading(false);
+            return;
+          }
+
+          // Create new demo
+          const result = await createDemo(values);
+          if (result?.status === 200) {
+            toast.success(result?.data?.message);
+            resetForm();
+            resetDatePickers();
+            await checkFarmerExistence();
+          } else {
+            throw new Error('Failed to create demo');
           }
         } else {
-          makeSureOnline();
-          setLoading(false);
-        }
-      } else {
-        try {
+          // Edit existing demo
           const result = await editDemobyId(demoId, values);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            setLoading(false);
+          } else {
+            throw new Error('Failed to edit demo');
           }
-        } catch (err) {
-          toast.error(
-            "প্রদর্শনীর তথ্য আপডেট করতে সমস্যা হচ্ছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
-          );
-          setLoading(false);
         }
+      } catch (err) {
+        toast.error("প্রদর্শনীর তথ্য সংরক্ষণ করতে সমস্যা হচ্ছে।");
+      } finally {
+        setLoading(false);
       }
     },
   });
+
+  // Helper function to reset date pickers
+  const resetDatePickers = () => {
+    setDatePickers({
+      bopon: { startDate: null, endDate: null },
+      ropon: { startDate: null, endDate: null },
+      korton: { startDate: null, endDate: null },
+    });
+  };
+
+  // Helper function to check farmer existence
+  const checkFarmerExistence = async () => {
+    try {
+      const result = await findFarmerByNIDAndMobile(formik.values?.numbersInfo.mobile, formik.values?.numbersInfo.NID, user?.blockB, user?.unionB);
+      if (result?.status === 200 && result.data.success) {
+        if (window.confirm(`${formik.values.farmersInfo.name} নামের কৃষক কৃষক ডাটাবেজে সংরক্ষণ করুন`)) {
+          toast.success("Farmer successfully saved");
+        }
+      }
+    } catch (err) {
+      toast.error("কৃষক সংরক্ষণ করতে সমস্যা হচ্ছে।");
+    }
+  };
 
   useEffect(() => {
     const fetchDemoId = async () => {

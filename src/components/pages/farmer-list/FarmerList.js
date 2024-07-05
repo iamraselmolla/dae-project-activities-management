@@ -15,7 +15,6 @@ const FarmerList = () => {
     const [loading, setLoading] = useState(true);
 
     const fetchFarmers = useCallback(async () => {
-        setLoading(true);
         try {
             const result = await getAllFarmers();
             if (result?.status === 200) {
