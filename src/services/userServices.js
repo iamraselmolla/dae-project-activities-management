@@ -80,7 +80,7 @@ const BASE_URL = {
   createAFarmer: "/farmer/create-farmer",
   getFarmers: "/farmer/get-farmers-data",
   deleteFarmer: "/farmer/delete-farmer-data",
-  findFarmerByNumberNID: "/farmer/find-farmer-by-nid-or-number"
+  findFarmerByNumberNID: "/farmer/find-farmer-by-nid"
 };
 
 
@@ -320,6 +320,6 @@ export function getAllFarmers() {
 export function deleteAFarmer(id) {
   return http.delete(BASE_URL.deleteFarmer, { data: { id } })
 }
-export function findFarmerByNIDAndMobile(nid, mobile, block, union) {
-  return http.post(BASE_URL.findFarmerByNumberNID, { nid, mobile, block, union })
+export function findFarmerByNID(nid, block, union) {
+  return http.post(BASE_URL.findFarmerByNumberNID, { nid, block, union })
 }
