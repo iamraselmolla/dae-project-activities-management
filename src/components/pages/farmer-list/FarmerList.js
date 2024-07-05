@@ -77,7 +77,7 @@ const FarmerList = () => {
                                     <td className="border border-gray-300">{farmer?.farmersInfo?.farmerName}</td>
                                     <td className="border border-gray-300">{farmer?.farmersInfo?.fathersOrHusbandsName}</td>
                                     <td className="border border-gray-300">{farmer?.numbersInfo?.mobile}<br /> {farmer?.numbersInfo?.NID}</td>
-                                    <td className="border border-gray-300">{farmer?.numbersInfo?.BID}<br /> {farmer?.numbersInfo?.agriId}</td>
+                                    <td className="border border-gray-300">{farmer?.numbersInfo?.BID}<br /> {farmer?.numbersInfo?.agriCard}</td>
                                     <td className="border border-gray-300">{farmer?.address?.village}, {farmer?.address?.block}, {farmer?.address?.union}</td>
                                     <td className="border border-gray-300">{farmer?.comment}</td>
                                     <td className="border border-gray-300">

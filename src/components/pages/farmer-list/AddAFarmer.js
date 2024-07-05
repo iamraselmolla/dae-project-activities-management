@@ -30,7 +30,7 @@ const AddAFarmer = () => {
                         }
                     )
             // BID: Yup.string(),
-            // agriId: Yup.string(),
+            // agriCard: Yup.string(),
         }),
         address: Yup.object().shape({
             village: Yup.string().required('গ্রামের নাম দিন'),
@@ -51,7 +51,7 @@ const AddAFarmer = () => {
                 mobile: '',
                 NID: '',
                 BID: '',
-                agriId: '',
+                agriCard: '',
             },
             address: {
                 village: '',
@@ -181,12 +181,12 @@ const AddAFarmer = () => {
                             <input
                                 type="text"
                                 className="input input-bordered w-full"
-                                id="numbersInfo.agriId"
-                                name="numbersInfo.agriId"
+                                id="numbersInfo.agriCard"
+                                name="numbersInfo.agriCard"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 placeholder="কৃষি আইডি নম্বর"
-                                value={formik.values.numbersInfo.agriId}
+                                value={formik.values.numbersInfo.agriCard}
                             />
                         </div>
                     </div>

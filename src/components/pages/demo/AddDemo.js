@@ -6,6 +6,7 @@ import Season from "../../shared/Season";
 import FiscalYear from "../../shared/FiscalYear";
 import Datepicker from "react-tailwindcss-datepicker";
 import {
+  createAFarmer,
   createDemo,
   editDemobyId,
   findDemoById,
@@ -198,7 +199,7 @@ const AddDemo = () => {
             toast.success(result?.data?.message);
             resetForm();
             resetDatePickers();
-            await checkFarmerExistence();
+            await checkFarmerExistence(result);
           } else {
             throw new Error('Failed to create demo');
           }
@@ -229,12 +230,35 @@ const AddDemo = () => {
   };
 
   // Helper function to check farmer existence
-  const checkFarmerExistence = async () => {
+  const checkFarmerExistence = async (demoValues) => {
     try {
       const result = await findFarmerByNIDAndMobile(formik.values?.numbersInfo.mobile, formik.values?.numbersInfo.NID, user?.blockB, user?.unionB);
       if (result?.status === 200 && result.data.success) {
         if (window.confirm(`${formik.values.farmersInfo.name} নামের কৃষক কৃষক ডাটাবেজে সংরক্ষণ করুন`)) {
-          toast.success("Farmer successfully saved");
+          const farmerData = {
+            farmersInfo: {
+              farmerName: demoValues.farmersInfo.name,
+              fathersOrHusbandsName: demoValues.farmersInfo.fatherOrHusbandName,
+            },
+            numbersInfo: {
+              mobile: demoValues.numbersInfo.mobile,
+              NID: demoValues.numbersInfo.NID,
+              BID: demoValues.numbersInfo.BID,
+              agriCard: demoValues.numbersInfo.agriCard,
+            },
+            address: {
+              village: demoValues.address.village,
+              block: demoValues.address.block,
+              union: demoValues.address.union,
+            },
+            comment: 'প্রদর্শনীপ্রাপ্ত কৃষক',
+            username: demoValues.username,
+          };
+          const result = await createAFarmer(farmerData);
+          if (result?.status === 200) {
+            toast.success(result?.data?.message)
+          }
+
         }
       }
     } catch (err) {
