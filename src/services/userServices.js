@@ -72,8 +72,14 @@ const BASE_URL = {
   creatPFSFBS: "/school/create-a-school",
   getSchools: "/school/get-all-schools",
   userSchools: "/school/get-user-schools",
-  deleteSchool: '/school/delete-a-school'
+  deleteSchool: '/school/delete-a-school',
+
+
+
+  // Farmer Data
+  createAFarmer: "/farmer/create-farmer",
 };
+
 
 
 
@@ -296,5 +302,12 @@ export function getUserAllSchools() {
 
 export function deleteASchool(id) {
   return http.delete(BASE_URL.deleteSchool, { data: { id } })
+}
+
+
+// Farmer
+
+export function createAFarmer(data) {
+  return http.post(BASE_URL.createAFarmer, data)
 }
 

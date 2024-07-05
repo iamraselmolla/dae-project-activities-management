@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 import SectionTitle from '../../shared/SectionTitle';
 import { AuthContext } from '../../AuthContext/AuthProvider';
+import { createAFarmer } from '../../../services/userServices';
 
 const AddAFarmer = () => {
     const { user } = useContext(AuthContext)
@@ -61,16 +62,15 @@ const AddAFarmer = () => {
         validationSchema,
         onSubmit: async (values, { resetForm }) => {
             try {
-                console.log(values)
-                return
                 // Replace with your API call
-                const result = null;
+                const result = await createAFarmer(values);
                 if (result?.status === 200) {
-                    toast.success('Draft item added successfully');
+                    toast.success(result?.data?.message);
                 } else {
-                    toast.error('Failed to add draft item');
+                    toast.error('কৃষকের তথ্য যুক্ত করতে সমস্যা হচ্ছে।');
                 }
             } catch (error) {
+                toast.error("সার্ভারজনিত সমস্যা হচ্ছে । দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।")
                 console.error('Error:', error);
             } finally {
                 resetForm();
