@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { FaTimes } from "react-icons/fa";
-import Loader from "../../shared/Loader";
+import LoaderWithDynamicMessage from "../../shared/LoaderWithDynamicMessage";
 import { useSelector } from "react-redux";
 import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
@@ -539,12 +539,7 @@ const AddSchool = () => {
         </button>}
       </form>
       {loading && <>
-        <div className="fixed daeLoader">
-          <Loader />
-          <h2 className="text-green-600 mt-3 text-4xl">
-            {loadingMessage && loadingMessage}
-          </h2>
-        </div>
+        <LoaderWithDynamicMessage message={loadingMessage} />
       </>}
     </section>
   );

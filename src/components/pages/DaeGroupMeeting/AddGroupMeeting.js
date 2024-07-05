@@ -15,11 +15,11 @@ import {
   updateGroupInfo,
 } from "../../../services/userServices";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
-import Loader from "../../shared/Loader";
 import "./daegroupMeeting.css";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { useLocation } from "react-router-dom";
 import { makeSureOnline } from "../../shared/MessageConst";
+import LoaderWithDynamicMessage from "../../shared/LoaderWithDynamicMessage";
 
 const AddGroupMeeting = () => {
   const location = useLocation();
@@ -83,13 +83,26 @@ const AddGroupMeeting = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
+      if (!user) {
+
+      }
       if (groupId) {
         if (!groupId) return;
-        const result = await updateGroupInfo(groupId, values);
-        if (result?.status === 200) {
-          toast.success("কৃষক গ্রুপ মিটিং এর তথ্য এডিট সম্পন্ন হয়েছে।");
+        try {
+          setLoading(true)
+          setLoadingMessage('কৃষক গ্রুপ সভার তথ্য আপডেট হচ্ছে।')
+          const result = await updateGroupInfo(groupId, values);
+          if (result?.status === 200) {
+            toast.success("কৃষক গ্রুপ মিটিং এর তথ্য এডিট সম্পন্ন হয়েছে।");
+          }
+        } catch (err) {
+          toast.error("গ্রুপ সভার তথ্য আপডেট করতে অসুবিধা হচ্ছে।")
+        } finally {
+          setLoading(false)
         }
-      } else {
+      }
+
+      else {
         try {
           if (!values.time.date || !values.time.day) {
             return toast.error("অবশ্যই আপনাকে তারিখ সিলেক্ট করতে হবে");
@@ -494,12 +507,7 @@ const AddGroupMeeting = () => {
           )}
         </form>
         {loading && (
-          <div className="fixed daeLoader">
-            <Loader />
-            <h2 className="text-green-600 mt-3 text-4xl">
-              {loadingMessage && loadingMessage}
-            </h2>
-          </div>
+          <LoaderWithDynamicMessage message={loadingMessage} />
         )}
       </div>
     </section>
