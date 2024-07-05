@@ -4,8 +4,8 @@ import AddModuleButton from '../../shared/AddModuleButton';
 import { getAllFarmers } from '../../../services/userServices';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../AuthContext/AuthProvider';
-import { tobengableNumber } from "bengali-number"
 import LoaderWithDynamicMessage from '../../shared/LoaderWithDynamicMessage';
+import { toBengaliNumber } from "bengali-number";
 
 const FarmerList = () => {
     const { user } = useContext(AuthContext);
@@ -49,13 +49,13 @@ const FarmerList = () => {
                         <tbody>
                             {allFarmers?.map((farmer, index) => (
                                 <tr key={farmer?._id}>
-                                    <th>{tobengableNumber(index + 1)}</th>
-                                    <td>{farmer?.name}</td>
-                                    <td>{farmer?.fathersOrHusbandsName}</td>
-                                    <td>{farmer?.numer.mobile}</td>
-                                    {/* <td>{farmer?.bid}</td>
-                                    <td>{farmer?.address}</td>
-                                    <td>{farmer?.note}</td> */}
+                                    <th>{toBengaliNumber(index + 1)}</th>
+                                    <td>{farmer?.farmersInfo?.farmersName}</td>
+                                    <td>{farmer?.farmersInfo?.fathersOrHusbandsName}</td>
+                                    <td>{farmer?.numbersInfo?.mobile}<br /> {farmer?.numbersInfo?.NID}</td>
+                                    <td>{farmer?.numbersInfo?.BID}<br /> {farmer?.numbersInfo?.agriId}</td>
+                                    <td>{farmer?.address?.village}, {farmer?.address?.block}, {farmer?.address?.union}</td>
+                                    <td>{farmer?.comment}</td>
                                 </tr>
                             ))}
 
