@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getSingleDemoById } from "../../../services/userServices";
 import toast from "react-hot-toast";
@@ -11,13 +11,21 @@ import { FaBowlRice } from "react-icons/fa6";
 import { toBengaliNumber } from "bengali-number";
 import { MdOutlinePlace } from "react-icons/md";
 import { notGivenFinalReportMessage } from "../../shared/MessageConst";
+import { AuthContext } from "../../AuthContext/AuthProvider";
+import { FaPlus } from "react-icons/fa";
 
 
 function DemoDetails() {
+  const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [demoData, setDemoData] = useState(null);
   const [fetchEnd, setFetchEnd] = useState(false);
+  const [modalData, setModalData] = useState(null)
+  const handleOpenModal = (data) => {
+    setModalData(data);
+    document.getElementById("my_modal_33")?.showModal();
+  };
   useEffect(() => {
     if (id) {
       const fetchDemoData = async () => {
@@ -305,8 +313,16 @@ function DemoDetails() {
                         {single?.image?.map(singleImage => <img width={100} src={singleImage} />)}
                       </td>
                     </tr>)}
+
                 </tbody>
               </table>
+              {
+                user?.username === demoData?.username && <div className="flex mt-4 items-center justify-center ">
+                  <div className="rounded-full cursor-pointer text-white theme-bg w-20 h-20 flex items-center justify-center">
+                    <FaPlus size={30} />
+                  </div>
+                </div>
+              }
             </div>
           </div>
         </div>

@@ -37,7 +37,7 @@ const UserSingleDemoTableRowPrimary = ({
         );
       }
     }
-  }, [data]);
+  }, [data, demoImages]);
 
   const handleModaOpen = (dataValues) => {
     document.getElementById("my_modal_1")?.showModal();
