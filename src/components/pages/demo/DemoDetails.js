@@ -14,6 +14,7 @@ import { notGivenFinalReportMessage } from "../../shared/MessageConst";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { FaPlus } from "react-icons/fa";
 import AddImageModal from "../../shared/AddImageModal";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 
 function DemoDetails() {
@@ -68,7 +69,7 @@ function DemoDetails() {
             <div className="col-span-1 bg-white  rounded-xl overflow-hidden">
               <img
                 src={demoData?.demoImages[1]?.image[0] || '/images/pi/pi2.jpg'}
-                className="h-[100%] m-auto"
+                className="h-[100%] m-auto max-h-64"
                 alt="User Image"
               />
             </div>
@@ -309,8 +310,16 @@ function DemoDetails() {
                       })}</td>
                       <td className="px-6 py-4">{single?.presentCondition}</td>
                       <td className="px-6 py-4">{single?.presentOfficer}</td>
-                      <td className="px-6 py-4 flex gap-1 ">
-                        {single?.image?.map(singleImage => <img width={100} src={singleImage} />)}
+                      <td className="px-6 py-4">
+                        <PhotoProvider>
+                          <div className="foo justify-center flex gap-3">
+                            {single?.image?.map((item, index) => (
+                              <PhotoView key={index} src={item}>
+                                <img width={100} src={item} alt="" />
+                              </PhotoView>
+                            ))}
+                          </div>
+                        </PhotoProvider>
                       </td>
                     </tr>)}
 
