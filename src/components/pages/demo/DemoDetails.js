@@ -13,6 +13,7 @@ import { MdOutlinePlace } from "react-icons/md";
 import { notGivenFinalReportMessage } from "../../shared/MessageConst";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { FaPlus } from "react-icons/fa";
+import AddImageModal from "../../shared/AddImageModal";
 
 
 function DemoDetails() {
@@ -22,9 +23,8 @@ function DemoDetails() {
   const [demoData, setDemoData] = useState(null);
   const [fetchEnd, setFetchEnd] = useState(false);
   const [modalData, setModalData] = useState(null)
-  const handleOpenModal = (data) => {
-    setModalData(data);
-    document.getElementById("my_modal_33")?.showModal();
+  const handleModaOpen = (dataValues) => {
+    document.getElementById("my_modal_1")?.showModal();
   };
   useEffect(() => {
     if (id) {
@@ -317,7 +317,7 @@ function DemoDetails() {
                 </tbody>
               </table>
               {
-                user?.username === demoData?.username && <div className="flex mt-4 items-center justify-center ">
+                user?.username === demoData?.username && <div onClick={(demoData) => handleModaOpen(demoData)} className="flex mt-4 items-center justify-center ">
                   <div className="rounded-full cursor-pointer text-white theme-bg w-20 h-20 flex items-center justify-center">
                     <FaPlus size={30} />
                   </div>
@@ -335,6 +335,7 @@ function DemoDetails() {
       {!loading && fetchEnd && !demoData && (
         <NoContentFound text={"প্রদর্শনী খুজে পাওয়া যায়নি।"} />
       )}
+      {demoData && <AddImageModal data={demoData} />}
     </div>
   );
 }
