@@ -9,6 +9,7 @@ import Loader from "./Loader";
 import { toBengaliNumber } from "bengali-number";
 import { daeAction } from "../store/projectSlice";
 import { useDispatch } from "react-redux";
+import { createRandomNumber } from "../utilis/createRandomNumber";
 
 const AddImageModal = ({ data }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -71,7 +72,7 @@ const AddImageModal = ({ data }) => {
         toast.success(result2?.data?.message);
         setLoading(false);
         setLoadingMessage(null);
-        dispatch(daeAction.setRefetch());
+        dispatch(daeAction.setRefetch(`demos${createRandomNumber()}`));
       }
     } catch (err) {
       toast.error(
