@@ -13,6 +13,7 @@ import Season from "../../../../shared/Season";
 import FiscalYear from "../../../../shared/FiscalYear";
 import UserSingleDemoTableRowPrimary from "./UserSingleDemoTableRowPrimary";
 import { createRandomNumber } from "../../../../utilis/createRandomNumber";
+import Loader from "../../../../shared/Loader";
 
 const UserPrimaryDemos = () => {
   const { demos,
@@ -31,6 +32,7 @@ const UserPrimaryDemos = () => {
   const indexOfLastEntry = currentPage * entriesPerPage;
   const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
   const currentEntries = incompleteDemos?.slice(indexOfFirstEntry, indexOfLastEntry);
+  const [loading, setLoading] = useState(false)
   // Handle pagination controls
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const handleEntriesChange = (e) => {
@@ -63,6 +65,8 @@ const UserPrimaryDemos = () => {
         )
       ) {
         try {
+          setLoading(true)
+
           const result = await deleteUserDemo(id);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
@@ -71,6 +75,8 @@ const UserPrimaryDemos = () => {
         } catch (err) {
           toast.error('প্রদর্শনী মুছে ফেলতে সমস্যার সৃষ্টি হচ্ছে।');
 
+        } finally {
+          setLoading(false)
         }
       }
     } else {
@@ -138,7 +144,7 @@ const UserPrimaryDemos = () => {
   }, [search, demos]);
   return (
     <>
-      <div className="py-10 ">
+      <div className="py-10 relative">
         <div className="mt-4 overflow-x-scroll">
           <div className="p-1.5 min-w-full inline-block align-middle">
             <AddModuleButton
@@ -296,6 +302,9 @@ const UserPrimaryDemos = () => {
           </div>
         </div>
       </div >
+      {loading && <div className="w-screen absolute top-0 left-0 h-screen flex justify-center items-center bg-slate-400 opacity-25">
+        <Loader />
+      </div>}
 
 
       {modalData && <MarkDemoCompleteModal data={modalData} />
