@@ -7,8 +7,6 @@ import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
-import Loader from "../../shared/Loader";
-import { makeSureOnline } from "../../shared/MessageConst";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import FiscalYear from "../../shared/FiscalYear";
 import getFiscalYear from "../../shared/commonDataStores";
@@ -44,17 +42,17 @@ const AddDistribution = () => {
     };
 
     const validationSchema = Yup.object().shape({
-        // projectInfo: Yup.object().shape({
-        //     details: Yup.string().required("প্রকল্পের নাম প্রয়োজন"),
-        //     short: Yup.string().required("প্রকল্পের সংক্ষেপ নাম প্রয়োজন"),
-        // }),
-        // time: Yup.object().shape({
-        //     fiscalYear: Yup.string().required("অর্থবছর প্রয়োজন"),
-        //     season: Yup.string().required("মৌসুম প্রয়োজন"),
-        //     date: Yup.date().required("তারিখ প্রয়োজন"),
-        // }),
-        // materialName: Yup.string().required("বিতরণকৃত উপকরণের বিবরণ প্রয়োজন"),
-        // images: Yup.array().required("ছবিসমূহ প্রয়োজন").min(1, "কমপক্ষে ১টি ছবি যুক্ত করুন"),
+        projectInfo: Yup.object().shape({
+            details: Yup.string().required("প্রকল্পের নাম প্রয়োজন"),
+            short: Yup.string().required("প্রকল্পের সংক্ষেপ নাম প্রয়োজন"),
+        }),
+        time: Yup.object().shape({
+            fiscalYear: Yup.string().required("অর্থবছর প্রয়োজন"),
+            season: Yup.string().required("মৌসুম প্রয়োজন"),
+            // date: Yup.date().required("তারিখ প্রয়োজন").nullable(),
+        }),
+        materialName: Yup.string().required("বিতরণকৃত উপকরণের বিবরণ প্রয়োজন"),
+        // images: Yup.array().min(1, "কমপক্ষে ১টি ছবি যুক্ত করুন").required("ছবিসমূহ প্রয়োজন"),
         // presentGuests: Yup.string().required("উপস্থিত অতিথিদের নাম প্রয়োজন"),
         // comment: Yup.string().required("মন্তব্য প্রয়োজন"),
     });
@@ -195,6 +193,11 @@ const AddDistribution = () => {
                         >
                             <FiscalYear />
                         </select>
+                        {formik.touched.time?.fiscalYear && formik.errors.time?.fiscalYear && (
+                            <div className="text-red-600 font-bold">
+                                {formik.errors.time?.fiscalYear}
+                            </div>
+                        )}
                     </div>
                     <div>
                         <label className="font-extrabold mb-1 block">মৌসুম</label>
@@ -242,9 +245,9 @@ const AddDistribution = () => {
                             onChange={(newValue) => formik.setFieldValue("time.date", newValue) && console.log(newValue)}
                             showShortcuts={true}
                         />
-                        {formik.touched.time?.date && formik.errors?.time?.date && (
+                        {/* {formik.touched.time?.date && formik.errors?.time?.date && (
                             <div className="text-red-600 font-bold">{formik.errors?.time?.date}</div>
-                        )}
+                        )} */}
                     </div>
                     <div>
                         <label className="font-extrabold mb-1 block">

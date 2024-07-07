@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { deleteADistribution } from '../../../../../services/userServices';
 import { daeAction } from '../../../../store/projectSlice';
 import { useDispatch } from 'react-redux';
+import { createRandomNumber } from "../../../../utilis/createRandomNumber"
 
 const DistributionTableRow = ({ distribution, index }) => {
     const { projectInfo, time, materialName, presentGuests, images, comment, _id: id } = distribution;
@@ -37,7 +38,7 @@ const DistributionTableRow = ({ distribution, index }) => {
             const result = await deleteADistribution(id)
             if (result.status === 200) {
                 toast.success(result?.data?.message)
-                dispatch(daeAction.setRefetch('distributions'))
+                dispatch(daeAction.setRefetch(`distributions${createRandomNumber()}`))
             }
         }
     }
