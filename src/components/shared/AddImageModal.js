@@ -18,7 +18,8 @@ const AddImageModal = ({ data }) => {
   const [presentCondition, setPresentCondition] = useState("");
   const [presentOfficers, setPresentOfficers] = useState("");
   const [loadingMessage, setLoadingMessage] = useState(null);
-  const [loading, setLoading] = useState(false); const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false); const dispatch = useDispatch();
+
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
@@ -73,6 +74,9 @@ const AddImageModal = ({ data }) => {
         setLoading(false);
         setLoadingMessage(null);
         dispatch(daeAction.setRefetch(`demos${createRandomNumber()}`));
+        dispatch(daeAction.setDemoDetailsReFetch());
+        setSelectedFiles([]);
+        setPreviewURLs([]);
       }
     } catch (err) {
       toast.error(
@@ -104,7 +108,7 @@ const AddImageModal = ({ data }) => {
                     <img
                       width={100}
                       src={image}
-                      alt={`Selected Image ${index + 1}`}
+                      alt={`Selected Image ${index + 1} `}
                       className="mt-2 max-w-64 h-auto"
                     />
 

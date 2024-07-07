@@ -15,6 +15,7 @@ import FiscalYear from "../../../../shared/FiscalYear";
 import Season from "../../../../shared/Season";
 import { daeAction } from "../../../../store/projectSlice";
 import { createRandomNumber } from "../../../../utilis/createRandomNumber";
+import DeletingLoader from "../../../../shared/DeletingLoader";
 
 const UserFieldDays = () => {
   const {
@@ -26,6 +27,8 @@ const UserFieldDays = () => {
   const [search, setSearch] = useState("");
   const [filteredFieldDays, setFilteredFieldDays] = useState(fieldDays);
   const [selectedProject, setSelectedProject] = useState("");
+  const [loading, setLoading] = useState(false)
+
   const dispatch = useDispatch()
   const filterProjects = () => {
     let filtered = fieldDays;
@@ -97,6 +100,8 @@ const UserFieldDays = () => {
         );
       } else {
         try {
+          setLoading(true)
+
           const result = await deleteAFieldDay(fieldDayData?._id);
           if (result.status === 200) {
             toast.success(result?.data?.message);
@@ -105,6 +110,8 @@ const UserFieldDays = () => {
           }
         } catch (err) {
           toast.error("মাঠ দিবসের তথ্য মুছে ফেলতে সমস্যা হচ্ছে।");
+        } finally {
+          setLoading(false)
         }
       }
     }
@@ -347,6 +354,7 @@ const UserFieldDays = () => {
           </div>
         </div>
       </div>
+      {loading && <DeletingLoader />}
     </div>
   );
 };
