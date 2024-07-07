@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getSingleDemoById } from "../../../services/userServices";
 import toast from "react-hot-toast";
@@ -11,13 +11,22 @@ import { FaBowlRice } from "react-icons/fa6";
 import { toBengaliNumber } from "bengali-number";
 import { MdOutlinePlace } from "react-icons/md";
 import { notGivenFinalReportMessage } from "../../shared/MessageConst";
+import { AuthContext } from "../../AuthContext/AuthProvider";
+import { FaPlus } from "react-icons/fa";
+import AddImageModal from "../../shared/AddImageModal";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 
 function DemoDetails() {
+  const { user } = useContext(AuthContext)
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [demoData, setDemoData] = useState(null);
   const [fetchEnd, setFetchEnd] = useState(false);
+  const [modalData, setModalData] = useState(null)
+  const handleModaOpen = (dataValues) => {
+    document.getElementById("my_modal_1")?.showModal();
+  };
   useEffect(() => {
     if (id) {
       const fetchDemoData = async () => {
@@ -60,7 +69,7 @@ function DemoDetails() {
             <div className="col-span-1 bg-white  rounded-xl overflow-hidden">
               <img
                 src={demoData?.demoImages[1]?.image[0] || '/images/pi/pi2.jpg'}
-                className="h-[100%] m-auto"
+                className="h-[100%] m-auto max-h-64"
                 alt="User Image"
               />
             </div>
@@ -301,12 +310,28 @@ function DemoDetails() {
                       })}</td>
                       <td className="px-6 py-4">{single?.presentCondition}</td>
                       <td className="px-6 py-4">{single?.presentOfficer}</td>
-                      <td className="px-6 py-4 flex gap-1 ">
-                        {single?.image?.map(singleImage => <img width={100} src={singleImage} />)}
+                      <td className="px-6 py-4">
+                        <PhotoProvider>
+                          <div className="foo justify-center flex gap-3">
+                            {single?.image?.map((item, index) => (
+                              <PhotoView key={index} src={item}>
+                                <img width={100} src={item} alt="" />
+                              </PhotoView>
+                            ))}
+                          </div>
+                        </PhotoProvider>
                       </td>
                     </tr>)}
+
                 </tbody>
               </table>
+              {
+                user?.username === demoData?.username && <div onClick={(demoData) => handleModaOpen(demoData)} className="flex mt-4 items-center justify-center ">
+                  <div className="rounded-full cursor-pointer text-white theme-bg w-20 h-20 flex items-center justify-center">
+                    <FaPlus size={30} />
+                  </div>
+                </div>
+              }
             </div>
           </div>
         </div>
@@ -319,6 +344,7 @@ function DemoDetails() {
       {!loading && fetchEnd && !demoData && (
         <NoContentFound text={"প্রদর্শনী খুজে পাওয়া যায়নি।"} />
       )}
+      {demoData && <AddImageModal data={demoData} />}
     </div>
   );
 }
