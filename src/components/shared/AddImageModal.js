@@ -75,6 +75,8 @@ const AddImageModal = ({ data }) => {
         setLoadingMessage(null);
         dispatch(daeAction.setRefetch(`demos${createRandomNumber()}`));
         dispatch(daeAction.setDemoDetailsReFetch());
+        setSelectedFiles([]);
+        setPreviewURLs([]);
       }
     } catch (err) {
       toast.error(
