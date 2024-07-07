@@ -16,6 +16,7 @@ import { toBengaliNumber } from "bengali-number";
 import Season from "../../shared/Season";
 import { useSelector } from "react-redux";
 import { createDistribution } from "../../../services/userServices";
+import LoaderWithDynamicMessage from "../../shared/LoaderWithDynamicMessage"
 
 const AddDistribution = () => {
     const [loading, setLoading] = useState(false);
@@ -89,6 +90,15 @@ const AddDistribution = () => {
                     "বিতরণের তথ্য যুক্ত করতে হলে আপনাকে অবশ্যই লগিন করতে হবে।"
                 );
             }
+            values.time.date = formik.values.time.date?.startDate
+            if (!values.time.date) {
+                return toast.error("অবশ্যই তারিখ দিতে হবে।")
+            }
+            if (!images?.length) {
+                toast.error("অন্তত একটা ছবি দিতে হবে।")
+                return;
+            }
+
             try {
                 setLoading(true);
                 setLoadingMessage("ছবি আপ্লোড হচ্ছে");
@@ -96,7 +106,7 @@ const AddDistribution = () => {
                 const uploadedImageLinks = [];
                 for (let i = 0; i < images?.length; i++) {
                     setLoadingMessage(
-                        `${i + 1} নং ছবি কম্প্রেসড এবং আপ্লোড হচ্ছে`
+                        `${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড এবং আপ্লোড হচ্ছে`
                     );
 
                     const compressedImage = await compressAndUploadImage(rawImages[i]);
@@ -105,7 +115,7 @@ const AddDistribution = () => {
                 }
                 setLoadingMessage("বিতরণের তথ্য আপ্লোড হচ্ছে");
                 values.images = uploadedImageLinks;
-                values.time.date = formik.values.time.date?.startDate
+
 
                 const result = await createDistribution(values);
                 if (result?.status === 200) {
@@ -312,12 +322,7 @@ const AddDistribution = () => {
                 )}
             </form>
             {loading && (
-                <div className="fixed daeLoader">
-                    <Loader />
-                    <h2 className="text-green-600 mt-3 text-4xl">
-                        {loadingMessage && loadingMessage}
-                    </h2>
-                </div>
+                <LoaderWithDynamicMessage message={loadingMessage} />
             )}
         </section>
     );
