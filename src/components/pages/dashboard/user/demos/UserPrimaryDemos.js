@@ -13,7 +13,7 @@ import Season from "../../../../shared/Season";
 import FiscalYear from "../../../../shared/FiscalYear";
 import UserSingleDemoTableRowPrimary from "./UserSingleDemoTableRowPrimary";
 import { createRandomNumber } from "../../../../utilis/createRandomNumber";
-import Loader from "../../../../shared/Loader";
+import DeletingLoader from "../../../../shared/DeletingLoader";
 
 const UserPrimaryDemos = () => {
   const { demos,
@@ -302,9 +302,7 @@ const UserPrimaryDemos = () => {
           </div>
         </div>
       </div >
-      {loading && <div className="w-screen absolute top-0 left-0 h-screen flex justify-center items-center bg-slate-400 opacity-25">
-        <Loader />
-      </div>}
+      {loading && <DeletingLoader />}
 
 
       {modalData && <MarkDemoCompleteModal data={modalData} />

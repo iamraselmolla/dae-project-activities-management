@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ImageGallery from "react-image-gallery";
 import TableDivision from '../../../../shared/TableDivision';
 import { tableDivsionClass } from '../../../../shared/MessageConst';
@@ -9,8 +9,10 @@ import { deleteADistribution } from '../../../../../services/userServices';
 import { daeAction } from '../../../../store/projectSlice';
 import { useDispatch } from 'react-redux';
 import { createRandomNumber } from "../../../../utilis/createRandomNumber"
+import DeletingLoader from "../../../../shared/DeletingLoader";
 
 const DistributionTableRow = ({ distribution, index }) => {
+    const [loading, setLoading] = useState(false)
     const { projectInfo, time, materialName, presentGuests, images, comment, _id: id } = distribution;
     const imagesArr = [];
     const options = {
@@ -35,10 +37,18 @@ const DistributionTableRow = ({ distribution, index }) => {
             return;
         }
         if (window.confirm(`আপনি কি ${projectInfo?.short} প্রকল্পের ${time?.season}/${time?.fiscalYear} মৌসুমের ${new Date(time?.date).toLocaleString('bn-BD', options)} দিনের উপকরণ বিতরণের তথ্য মুছে ফেলতে চান?`)) {
-            const result = await deleteADistribution(id)
-            if (result.status === 200) {
-                toast.success(result?.data?.message)
-                dispatch(daeAction.setRefetch(`distributions${createRandomNumber()}`))
+            setLoading(true)
+            try {
+                const result = await deleteADistribution(id)
+                if (result.status === 200) {
+                    toast.success(result?.data?.message)
+                    dispatch(daeAction.setRefetch(`distributions${createRandomNumber()}`))
+                }
+            }
+            catch (err) {
+                toast.error("উপকরণ বিতরণ তথ্য মুছে ফেলতে অসুবিধা হচ্ছে।")
+            } finally {
+                setLoading(false)
             }
         }
     }
@@ -70,6 +80,9 @@ const DistributionTableRow = ({ distribution, index }) => {
             <td className={tableDivsionClass}>
                 <BsTrashFill onClick={() => handleDeleteDistribution(id)} cursor='pointer' size={30} color='red' />
             </td>
+            {
+                loading && <DeletingLoader />
+            }
         </tr>
     );
 };
