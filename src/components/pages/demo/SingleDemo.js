@@ -8,7 +8,6 @@ import "./demo.css";
 import { GrTechnology } from "react-icons/gr";
 import { CiCalendarDate } from "react-icons/ci";
 const SingleDemo = ({ data }) => {
-  const [allImages, setImages] = useState([]);
   const {
     projectInfo,
     demoTime,

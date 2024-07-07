@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import AuthProvider from "./components/AuthContext/AuthProvider";
 import { Provider } from 'react-redux'
 import store from "./components/store/store";
+import 'react-photo-view/dist/react-photo-view.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
