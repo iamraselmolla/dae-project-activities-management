@@ -73,31 +73,31 @@ const DashboardLayout = () => {
 
     const fetchAdminData = async () => {
       try {
-        if (refetch === "all" || refetch === "users") {
+        if (refetch === "all" || refetch.includes("users")) {
           const userResult = await getAllUser();
           if (userResult?.status === 200) {
             dispatch(daeAction.setAllUsers(userResult?.data?.data));
           }
         }
-        if (refetch === "all" || refetch === "distributions") {
+        if (refetch === "all" || refetch.includes("distributions")) {
           const distributionResult = await getAllDistributions();
           if (distributionResult?.status === 200) {
             dispatch(daeAction.setDistribution(distributionResult?.data?.data));
           }
         }
-        if (refetch === "all" || refetch === "trainings") {
+        if (refetch === "all" || refetch.includes("trainings")) {
           const trainingsResult = await getAllTraining();
           if (trainingsResult?.status === 200) {
             dispatch(daeAction.setAllTrainings(trainingsResult?.data?.data));
           }
         }
-        if (refetch === "all" || refetch === "projects") {
+        if (refetch === "all" || refetch.includes("projects")) {
           const projectsResult = await getAllProjects(role);
           if (projectsResult?.status === 200) {
             dispatch(daeAction.setAllProjects(projectsResult?.data?.data));
           }
         }
-        if (refetch === "all" || refetch === "tours") {
+        if (refetch === "all" || refetch.includes("tours")) {
           const tourResult = await getAllMotivationalTours();
           if (tourResult?.status === 200) {
             dispatch(daeAction.setAllMotivationTours(tourResult?.data?.data));
@@ -109,8 +109,7 @@ const DashboardLayout = () => {
     };
 
     const fetchData = async () => {
-
-
+      setLoading(true);
 
       if (role === "user") {
         await fetchUserData();
@@ -118,12 +117,12 @@ const DashboardLayout = () => {
         await fetchAdminData();
       }
 
-
+      setLoading(false);
       dispatch(daeAction.setEndFetch(true));
     };
 
     fetchData();
-  }, [user, role, refetch]);
+  }, [user, role, refetch, dispatch]);
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-12 gap-4">

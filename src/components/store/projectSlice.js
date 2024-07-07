@@ -15,6 +15,7 @@ const initialState = {
   fieldDays: [],
   schools: [],
   daeMeetings: [],
+  refetchDemoDetails: 0
 
 };
 
@@ -61,6 +62,9 @@ const daeSlice = createSlice({
     setUserSchools: (state, action) => {
       state.schools = action.payload;
     },
+    setDemoDetailsReFetch: (state, action) => {
+      state.refetchDemoDetails++
+    }
   },
 });
 
