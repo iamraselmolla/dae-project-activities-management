@@ -68,7 +68,7 @@ function DemoDetails() {
       {!loading && fetchEnd && demoData && (
         <div className="py-20">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="col-span-1 bg-white  rounded-xl overflow-hidden">
+            <div className="col-span-1 bg-white flex justify-center items-center  rounded-xl overflow-hidden">
               <img
                 src={demoData?.demoImages[1]?.image[0] || '/images/pi/pi2.jpg'}
                 className="h-[100%] m-auto max-h-64"
