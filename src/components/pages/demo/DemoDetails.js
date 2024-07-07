@@ -15,10 +15,12 @@ import { AuthContext } from "../../AuthContext/AuthProvider";
 import { FaPlus } from "react-icons/fa";
 import AddImageModal from "../../shared/AddImageModal";
 import { PhotoProvider, PhotoView } from "react-photo-view";
+import { useSelector } from "react-redux";
 
 
 function DemoDetails() {
   const { user } = useContext(AuthContext)
+  const { refetchDemoDetails } = useSelector(state => state.dae)
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [demoData, setDemoData] = useState(null);
@@ -46,7 +48,7 @@ function DemoDetails() {
       };
       fetchDemoData();
     }
-  }, [id]);
+  }, [id, refetchDemoDetails]);
 
   const CardWrapper = ({ children, title }) => {
     return (
