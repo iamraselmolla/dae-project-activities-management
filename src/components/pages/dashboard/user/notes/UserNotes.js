@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../../../AuthContext/AuthProvider";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { deleteAnote } from "../../../../../services/userServices";
 import { AiOutlineFileDone } from "react-icons/ai";
@@ -8,7 +7,6 @@ import UserNoteTH from "./UserNoteTH";
 import UserNoteTD from "./UserNoteTD";
 import { toBengaliNumber } from "bengali-number";
 import { makeSureOnline } from "../../../../shared/MessageConst";
-
 import SectionTitle from "../../../../shared/SectionTitle";
 import AddModuleButton from "../../../../shared/AddModuleButton";
 import NoContentFound from "../../../../shared/NoContentFound";
@@ -58,6 +56,7 @@ const UserNotes = () => {
               if (result?.status === 200) {
                 toast.success(result?.data?.message);
                 dispatch(daeAction.setRefetch(`notes${createRandomNumber()}`));
+
               }
             } catch (err) {
               toast.error("নোটটি মুছতে সাময়িক অসুবিধার সৃষ্টি হচ্ছে।");
