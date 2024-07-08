@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { toBengaliNumber } from "bengali-number";
 import ImageGallery from "react-image-gallery";
 import { deleteATour } from "../../../../../services/userServices";
@@ -6,13 +6,16 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { daeAction } from "../../../../store/projectSlice";
 import { BsTrashFill } from "react-icons/bs";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
+import DeletingLoader from "../../../../shared/DeletingLoader";
 
 
 const MotivationalTourTableRow = ({ data, index }) => {
-  const { projectInfo, place, time, farmers, officers, comment, images } = data;
+  const { projectInfo, place, time, farmers, comment, images } = data;
   const { startDate, endDate } = time.date;
   const { fiscalYear, season } = time;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const imagesArr = images?.map((url) => ({
     original: url,
@@ -21,10 +24,18 @@ const MotivationalTourTableRow = ({ data, index }) => {
 
   const handleDeleteTour = async () => {
     if (window.confirm(`আপনি কি ${projectInfo?.short} প্রকল্পের ${season}/${fiscalYear} মৌসুমের ${place} নামক জায়গার উদ্বুদ্ধকরণ ভ্রমণটির তথ্য মুছে ফেলতে চান?`)) {
-      const result = await deleteATour(data?._id);
-      if (result.status === 200) {
-        toast.success(result.data?.message)
-        dispatch(daeAction.setRefetch())
+      try {
+        setLoading(true)
+        const result = await deleteATour(data?._id);
+        if (result.status === 200) {
+          toast.success(result.data?.message)
+          dispatch(daeAction.setRefetch(`tours${createRandomNumber()}`))
+        }
+      }
+      catch (err) {
+        toast.error(err.message)
+      } finally {
+        setLoading(false)
       }
     }
   };
@@ -60,6 +71,7 @@ const MotivationalTourTableRow = ({ data, index }) => {
         <BsTrashFill cursor={"pointer"} onClick={handleDeleteTour} size={40} color="red" />
 
       </td>
+      {loading && <DeletingLoader />}
     </tr>
   );
 };

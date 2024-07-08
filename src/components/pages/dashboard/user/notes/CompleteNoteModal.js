@@ -22,8 +22,8 @@ const CompleteNoteModal = ({ data }) => {
           if (result?.status === 200) {
             toast.success(result?.data?.message);
             dispatch(daeAction.setRefetch(`notes${createRandomNumber()}`));
-
-
+            document.getElementById("my_modal_3")?.close();
+            setCommentData(() => "");
           }
         }
       } catch (err) {
@@ -50,6 +50,7 @@ const CompleteNoteModal = ({ data }) => {
                 placeholder="সম্পাদন মন্তব্য যুক্ত করুন"
                 className="input px3 py-2 h-20 input-bordered w-full"
                 rows={10}
+                value={commentData}
                 onChange={(e) => setCommentData(e.target.value)}
               ></textarea>
             </div>

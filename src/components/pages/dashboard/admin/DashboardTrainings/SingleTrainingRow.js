@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -9,8 +9,11 @@ import TableDivision from "../../../../shared/TableDivision";
 import ImageGallery from "react-image-gallery";
 import { daeAction } from "../../../../store/projectSlice";
 import { useDispatch } from "react-redux";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
+import DeletingLoader from "../../../../shared/DeletingLoader";
 
 const SingleTrainingRow = ({ index, data }) => {
+  const [loading, setLoading] = useState(false);
   const {
     projectInfo,
     fiscalYear,
@@ -47,12 +50,18 @@ const SingleTrainingRow = ({ index, data }) => {
         )} তারিখের ${subject} শিরোনামের প্রশিক্ষণ ডিলিট করতে চান?`
       )
     ) {
-      const result = await deleteATraining(_id);
-      if (result.status === 200) {
-        toast.success("প্রশিক্ষণ সফলভাবে মুছে দেয়া হয়েছে");
-        dispatch(daeAction.setRefetch());
-      } else {
-        toast.error("প্রশিক্ষণের তথ্য মুছতে গিয়ে সমস্যা হচ্ছে।");
+      try {
+        setLoading(true);
+        const result = await deleteATraining(_id);
+        if (result.status === 200) {
+          toast.success("প্রশিক্ষণ সফলভাবে মুছে দেয়া হয়েছে");
+          dispatch(daeAction.setRefetch(`trainings${createRandomNumber()}`));
+        }
+      }
+      catch (err) {
+        toast.error("প্রশিক্ষণ মুছতে সমস্যা হচ্ছে।");
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -108,7 +117,7 @@ const SingleTrainingRow = ({ index, data }) => {
 
         <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
           <div className="cursor-pointer">
-            <Link to={`/addTraining?id=${_id}`}>
+            <Link to={`addTraining?id=${_id}`}>
               <CiEdit size={35} color="red" />
             </Link>
           </div>
@@ -121,6 +130,9 @@ const SingleTrainingRow = ({ index, data }) => {
           </div>
         </td>
       </tr>
+      {
+        loading && <DeletingLoader />
+      }
     </tbody>
   );
 };
