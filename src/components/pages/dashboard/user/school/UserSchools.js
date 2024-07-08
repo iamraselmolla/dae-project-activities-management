@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../../../AuthContext/AuthProvider";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteASchool
@@ -14,20 +13,11 @@ import FiscalYear from "../../../../shared/FiscalYear";
 import Season from "../../../../shared/Season";
 import { toBengaliNumber } from "bengali-number";
 import AddModuleButton from "../../../../shared/AddModuleButton";
-import { createRandomNumber } from '../../../../utilis/createRandomNumber'
-// import { Cloudinary } from 'cloudinary-core';
-
-
-// const cloudinary = new Cloudinary({
-//   cloud_name: 'your-cloud-name',
-//   api_key: 'your-api-key',
-//   api_secret: 'your-api-secret'
-// });
+import { createRandomNumber } from '../../../../utilis/createRandomNumber';
+import DeletingLoader from "../../../../shared/DeletingLoader";
 
 const UserSchools = () => {
-  const { user } = useContext(AuthContext);
   const {
-    refetch,
     schools,
     projects: allProject,
   } = useSelector((state) => state.dae);
@@ -37,14 +27,13 @@ const UserSchools = () => {
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
   const [filteredSchools, setFilteredSchools] = useState(schools);
+  const [loading, setLoading] = useState(false);
 
   // Delete a school
   const handleSchoolDeletion = async (schoolData) => {
     if (window.confirm(`আপনি কি এই স্কুলটি মুছে ফেলতে চান?`)) {
       try {
-        // Extract image public IDs from schoolData (assuming it has an images property)
-        const imagePublicIds = schoolData.images.map((img) => img.split('/').pop().split('.')[0]);
-
+        setLoading(true);
         const result = await deleteASchool(schoolData); // Assuming you have a deleteSchool function
         if (result.status === 200) {
           toast.success(result.data.message);
@@ -52,6 +41,9 @@ const UserSchools = () => {
         }
       } catch (err) {
         toast.error("স্কুলটি মুছতে সাময়িক অসুবিধা হচ্ছে।");
+      }
+      finally {
+        setLoading(false);
       }
     }
   };
@@ -213,6 +205,9 @@ const UserSchools = () => {
           </table>
           {filteredSchools?.length < 1 &&
             <NoContentFound text="কোনো স্কুল পাওয়া যায়নি" />
+          }
+          {
+            loading && <DeletingLoader />
           }
         </div>
       </div>
