@@ -1,0 +1,43 @@
+.menu-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  position: absolute;
+  bottom: 80px; /* Adjust based on your design */
+  right: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none; /* Prevent clicks when closed */
+}
+
+.menu-drawer.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto; /* Allow clicks when open */
+}
+
+.menu-icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.menu-icon:hover {
+  transform: scale(1.1);
+}
+
+.menu-item {
+  background-color: #10b981; /* Example color, adjust as needed */
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 0.5rem;
+  text-align: center;
+  width: 100px; /* Adjust based on your design */
+  transition: background-color 0.3s ease-in-out;
+  text-decoration: none;
+}
+
+.menu-item:hover {
+  background-color: #059669; /* Example hover color, adjust as needed */
+}
