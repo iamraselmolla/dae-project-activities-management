@@ -148,7 +148,7 @@ const Header = () => {
               <>
                 <AiOutlineLogin
                   onClick={() =>
-                    document.getElementById("my_modal_3").showModal()
+                    document.getElementById("my_modal_300").showModal()
                   }
                   size={35}
                   cursor="pointer"

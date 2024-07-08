@@ -79,7 +79,7 @@ const Login = () => {
   };
 
   return (
-    <dialog id="my_modal_3" className="modal text-center">
+    <dialog id="my_modal_300" className="modal text-center">
       <div className="modal-box py-16">
         <h3 className="font-bold text-xl mb-10">লগিন করুন</h3>
 
