@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -10,8 +10,10 @@ import ImageGallery from "react-image-gallery";
 import { daeAction } from "../../../../store/projectSlice";
 import { useDispatch } from "react-redux";
 import { createRandomNumber } from "../../../../utilis/createRandomNumber";
+import DeletingLoader from "../../../../shared/DeletingLoader";
 
 const SingleTrainingRow = ({ index, data }) => {
+  const [loading, setLoading] = useState(false);
   const {
     projectInfo,
     fiscalYear,
@@ -48,12 +50,18 @@ const SingleTrainingRow = ({ index, data }) => {
         )} তারিখের ${subject} শিরোনামের প্রশিক্ষণ ডিলিট করতে চান?`
       )
     ) {
-      const result = await deleteATraining(_id);
-      if (result.status === 200) {
-        toast.success("প্রশিক্ষণ সফলভাবে মুছে দেয়া হয়েছে");
-        dispatch(daeAction.setRefetch(`trainings${createRandomNumber()}`));
-      } else {
-        toast.error("প্রশিক্ষণের তথ্য মুছতে গিয়ে সমস্যা হচ্ছে।");
+      try {
+        setLoading(true);
+        const result = await deleteATraining(_id);
+        if (result.status === 200) {
+          toast.success("প্রশিক্ষণ সফলভাবে মুছে দেয়া হয়েছে");
+          dispatch(daeAction.setRefetch(`trainings${createRandomNumber()}`));
+        }
+      }
+      catch (err) {
+        toast.error("প্রশিক্ষণ মুছতে সমস্যা হচ্ছে।");
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -122,6 +130,9 @@ const SingleTrainingRow = ({ index, data }) => {
           </div>
         </td>
       </tr>
+      {
+        loading && <DeletingLoader />
+      }
     </tbody>
   );
 };
