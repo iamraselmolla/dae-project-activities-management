@@ -9,6 +9,7 @@ import TableDivision from "../../../../shared/TableDivision";
 import ImageGallery from "react-image-gallery";
 import { daeAction } from "../../../../store/projectSlice";
 import { useDispatch } from "react-redux";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
 
 const SingleTrainingRow = ({ index, data }) => {
   const {
@@ -50,7 +51,7 @@ const SingleTrainingRow = ({ index, data }) => {
       const result = await deleteATraining(_id);
       if (result.status === 200) {
         toast.success("প্রশিক্ষণ সফলভাবে মুছে দেয়া হয়েছে");
-        dispatch(daeAction.setRefetch());
+        dispatch(daeAction.setRefetch(`trainings${createRandomNumber()}`));
       } else {
         toast.error("প্রশিক্ষণের তথ্য মুছতে গিয়ে সমস্যা হচ্ছে।");
       }
@@ -108,7 +109,7 @@ const SingleTrainingRow = ({ index, data }) => {
 
         <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
           <div className="cursor-pointer">
-            <Link to={`/addTraining?id=${_id}`}>
+            <Link to={`addTraining?id=${_id}`}>
               <CiEdit size={35} color="red" />
             </Link>
           </div>
