@@ -278,7 +278,7 @@ const AddTraining = () => {
   }, [trainingId]);
 
   return (
-    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
       <SectionTitle title={"নতুন প্রশিক্ষণ তথ্য যুক্ত করুন"} />
       <form onSubmit={formik.handleSubmit}>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">

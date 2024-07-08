@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
@@ -9,16 +9,12 @@ import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import Datepicker from "react-tailwindcss-datepicker";
 import { AuthContext } from "../../AuthContext/AuthProvider";
-import { FaTimes } from "react-icons/fa";
-import compressAndUploadImage from "../../utilis/compressImages";
-import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
 import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import { useSelector } from "react-redux";
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 
 const AddNotes = () => {
-  const [images, setImages] = useState([]);
-  const [rawImages, setRawImages] = useState([]);
   const { user } = useContext(AuthContext);
   const [loadingMessage, setLoadingMessage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -56,25 +52,13 @@ const AddNotes = () => {
       name: user?.SAAO.name || "", // Set default value
       mobile: toBengaliNumber(user?.SAAO.mobile) || "", // Set default value
     },
-    attachment: "",
     comment: {
       noteComment: "",
       completedComment: "",
     },
     username: user?.username,
   };
-  const handleImageChange = (event) => {
-    const files = Array.from(event.target.files);
 
-    setRawImages([...rawImages, ...files]);
-    const imagesArray = files.map((file) => URL.createObjectURL(file));
-    setImages((prevImages) => prevImages.concat(imagesArray));
-  };
-  const handleRemoveImage = (index) => {
-    const updatedImages = [...images];
-    updatedImages.splice(index, 1);
-    setImages(updatedImages);
-  };
 
   const validationSchema = Yup.object().shape({
     farmersInfo: Yup.object().shape({
@@ -121,8 +105,7 @@ const AddNotes = () => {
   const handleSubmit = async (values, formikBag) => {
     try {
       setLoading(true);
-      // Prepare data for submission
-      const uploadingImg = [];
+
       const data = {
         projectInfo: values.projectInfo,
         timeFrame: values.timeFrame,
@@ -138,31 +121,18 @@ const AddNotes = () => {
         done: false,
         comment: values.comment,
       };
-
-      if (rawImages?.length > 0) {
-        setLoadingMessage("ছবি আপ্লোড হচ্ছে");
-        for (let i = 0; i < rawImages?.length; i++) {
-          setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি কম্প্রেসড চলছে`);
-          const compressedImage = await compressAndUploadImage(rawImages[i]);
-          setLoadingMessage(`${toBengaliNumber(i + 1)} নং ছবি আপ্লোড চলছে`);
-          const result = await uploadToCloudinary(compressedImage, "notenote");
-          uploadingImg.push(result);
-        }
-
-        data.attachment = uploadingImg;
-      }
-
       const result = await createANote(data);
       if (result.status === 200) {
         toast.success(result?.data?.message);
         formikBag.resetForm();
-        setImages([]);
-        setLoading(false);
-        setRawImages([]);
+
       }
     } catch (error) {
       console.error("Submission Error:", error);
       toast.error("তথ্য সাবমিট করা যায়নি। দয়া করে পুনরায় চেষ্টা করুন।");
+      setLoading(false);
+    }
+    finally {
       setLoading(false);
     }
   };
@@ -529,49 +499,6 @@ const AddNotes = () => {
                 ) : null}
               </div>
             </div>
-            <div>
-              <label className="font-extrabold mb-1 block">সংযুক্তি</label>
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleImageChange}
-                className="file-input w-100 input-bordered w-full"
-              />
-              {formik.touched.images && formik.errors.images ? (
-                <div className="text-red-600">{formik.errors.images}</div>
-              ) : null}
-              <div className="mt-4 flex-wrap flex gap-2">
-                {images.map((image, index) => (
-                  <div key={index} className="relative">
-                    <img
-                      src={image}
-                      alt={`Image ${index + 1}`}
-                      className="w-24 h-24 object-cover rounded-md mr-2 mb-2"
-                    />
-                    <button
-                      type="button"
-                      className="absolute flex justify-center items-center w-6 h-6 rounded-full bg-red-700 top-0 right-0 text-white hover:text-green-300"
-                      onClick={() => handleRemoveImage(index)}
-                    >
-                      <FaTimes />
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-5">
-                <label className="font-extrabold mb-1 block"> মন্তব্য</label>
-                <textarea
-                  name="comment.noteComment"
-                  id="comment.noteComment"
-                  className="input h-20 input-bordered w-full"
-                  rows={10}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={formik.values.comment.noteComment}
-                ></textarea>
-              </div>
-            </div>
             {!loading && (
               <button
                 disabled={formik.isSubmitting}
@@ -585,12 +512,7 @@ const AddNotes = () => {
         )}
       </Formik>
       {loading && (
-        <div className="fixed daeLoader">
-          <Loader />
-          <h2 className="text-green-600 mt-3 text-4xl">
-            {loadingMessage && loadingMessage}
-          </h2>
-        </div>
+        <LoaderWithOutDynamicMessage />
       )}
     </div>
   );

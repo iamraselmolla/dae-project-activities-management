@@ -1,16 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './header/Header';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import Footer from './footer/Footer';
+import { GoPlusCircle } from 'react-icons/go';
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import '../css/Layout.css'; // Import your CSS file
 
 const Layout = () => {
+    const [open, setOpen] = useState(false);
+
     return (
         <main>
-            <Header></Header>
+            <Header />
             <div className="bg-slate-100">
-                <Outlet></Outlet>
+                <Outlet />
+                <div className="fixed flex justify-center flex-col bottom-5 right-5 items-center">
+                    <div className={`menu-drawer ${open ? 'open' : ''}`}>
+                        <Link className='menu-item' to="/addDemo">প্রদর্শনী</Link>
+                        <Link className='menu-item' to="/addTraining">প্রশিক্ষণ</Link>
+                        <Link className='menu-item' to="/addFieldDay">মাঠদিবস</Link>
+                        <Link className='menu-item' to="/addDistribution">বিতরণ</Link>
+                        <Link className='menu-item' to="/add-dae-group-meeting">গ্রুপ সভা</Link>
+                        <Link className='menu-item' to="/add-motivational-tour">ভ্রমণ</Link>
+                        <Link className='menu-item' to="/add-school">স্কুল</Link>
+                    </div>
+                    <div className='mt-5 flex justify-center items-center flex-col'>
+                        {!open ? (
+                            <GoPlusCircle onClick={() => setOpen(true)} cursor={'pointer'} color="green" size={60} className="menu-icon" />
+                        ) : (
+                            <IoIosCloseCircleOutline onClick={() => setOpen(false)} cursor={'pointer'} color="green" size={60} className="menu-icon" />
+                        )}
+                    </div>
+                </div>
             </div>
-            <Footer></Footer>
+            <Footer />
         </main>
     );
 };
