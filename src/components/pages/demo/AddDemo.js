@@ -228,7 +228,7 @@ const AddDemo = () => {
       if (result?.data?.success === false) {
         if (
           window.confirm(
-            `${demoValues.farmersInfo.name} নামের কৃষক কৃষক ডাটাবেজে সংরক্ষণ করুন`
+            ` ${demoValues.farmersInfo.name} নামের কৃষক ইতিপূর্বে ডাটাবেইজে সংরক্ষিত নেই। আপনি কি কৃষক ডাটাবেজে সংরক্ষণ করতে চান?`
           )
         ) {
           const farmerData = {
