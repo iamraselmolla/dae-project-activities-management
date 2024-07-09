@@ -283,9 +283,9 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/add-note",
             element: (
-              <UserRoute>
+              <PrivateRoute>
                 <AddNotes />
-              </UserRoute>
+              </PrivateRoute>
             ),
           },
         ],

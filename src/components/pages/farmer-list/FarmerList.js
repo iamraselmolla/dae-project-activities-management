@@ -4,11 +4,11 @@ import AddModuleButton from '../../shared/AddModuleButton';
 import { deleteAFarmer, getAllFarmers } from '../../../services/userServices';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../AuthContext/AuthProvider';
-import LoaderWithDynamicMessage from '../../shared/LoaderWithDynamicMessage';
 import { toBengaliNumber } from "bengali-number";
 import { MdOutlineDelete } from "react-icons/md";
 import { makeSureOnline } from '../../shared/MessageConst';
 import NoContentFound from '../../shared/NoContentFound';
+import Loader from '../../shared/Loader';
 
 const FarmerList = () => {
     const { user } = useContext(AuthContext);
@@ -105,7 +105,7 @@ const FarmerList = () => {
                 </div>
             )}
             <AddModuleButton link={"add-farmer"} btnText={"নতুন কৃষকের তথ্য সংরক্ষণ করুন।"} />
-            {loading && <LoaderWithDynamicMessage message={'তথ্য আনা হচ্ছে। দয়া করে অপেক্ষা করেন।'} />}
+            {loading && <Loader />}
             {!loading && allFarmers?.length === 0 && <NoContentFound text={"কোনো কৃষক তথ্য পাওয়া যায়নি!"} />}
         </section>
     );

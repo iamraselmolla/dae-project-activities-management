@@ -20,6 +20,7 @@ import { makeSureOnline } from "../../shared/MessageConst";
 import Loader from "../../shared/Loader";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import AddFarmerModal from "../../shared/AddFarmerModal";
 
 const AddDemo = () => {
   const location = useLocation();
@@ -32,6 +33,10 @@ const AddDemo = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const { projects: allProject } = useSelector((state) => state.dae);
+  const [showModal, setShowModal] = useState(false);
+  const [farmerData, setFarmerData] = useState(null)
+
+
   const [datePickers, setDatePickers] = useState({
     bopon: {
       startDate: null,
@@ -51,6 +56,13 @@ const AddDemo = () => {
     const updatedDatePickers = { ...datePickers };
     updatedDatePickers[picker] = selectedDate;
     setDatePickers(updatedDatePickers);
+  };
+  const handleAddFarmerClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   const handleSelectChange = (e) => {
@@ -186,8 +198,10 @@ const AddDemo = () => {
             toast.success(result?.data?.message);
             resetForm();
             resetDatePickers();
-            await checkFarmerExistence(values);
-
+            setLoading(false);
+            setSelectedProject({});
+            if (formik.values.numbersInfo.NID)
+              await checkFarmerExistence(values);
           } else {
             throw new Error('প্রদর্শনী সংরক্ষণ করতে সমস্যা হচ্ছে।');
           }
@@ -226,40 +240,29 @@ const AddDemo = () => {
       );
 
       if (result?.data?.success === false) {
-        if (
-          window.confirm(
-            `${demoValues.farmersInfo.name} নামের কৃষক কৃষক ডাটাবেজে সংরক্ষণ করুন`
-          )
-        ) {
-          const farmerData = {
-            farmersInfo: {
-              farmerName: demoValues.farmersInfo.name,
-              fathersOrHusbandsName: demoValues.farmersInfo.fatherOrHusbandName,
-            },
-            numbersInfo: {
-              mobile: demoValues.numbersInfo.mobile,
-              NID: demoValues.numbersInfo.NID,
-              BID: demoValues.numbersInfo.BID,
-              agriCard: demoValues.numbersInfo.agriCard,
-            },
-            address: {
-              village: demoValues.address.village,
-              block: demoValues.address.block,
-              union: demoValues.address.union,
-            },
-            comment: "প্রদর্শনীপ্রাপ্ত কৃষক",
-            username: demoValues.username,
-          };
 
-          const creationResult = await createAFarmer(farmerData);
-          if (creationResult?.status === 200) {
-            toast.success(creationResult?.data?.message);
-          } else {
-            toast.error(
-              "প্রদর্শনীর তথ্য হতে কৃষক ডাটা সংরক্ষণ করতে সমস্যার সৃষ্টি হচ্ছে ।..."
-            );
-          }
-        }
+        const modalFarmerData = {
+          farmersInfo: {
+            farmerName: demoValues.farmersInfo.name,
+            fathersOrHusbandsName: demoValues.farmersInfo.fatherOrHusbandName,
+          },
+          numbersInfo: {
+            mobile: demoValues.numbersInfo.mobile,
+            NID: demoValues.numbersInfo.NID,
+            BID: demoValues.numbersInfo.BID,
+            agriCard: demoValues.numbersInfo.agriCard,
+          },
+          address: {
+            village: demoValues.address.village,
+            block: demoValues.address.block,
+            union: demoValues.address.union,
+          },
+          comment: "প্রদর্শনীপ্রাপ্ত কৃষক",
+          username: demoValues.username,
+        };
+        setFarmerData(modalFarmerData);
+        handleAddFarmerClick();
+
       } else {
         setLoading(false)
       }
@@ -986,6 +989,11 @@ const AddDemo = () => {
           )}
         </form>
       </div>
+      {farmerData && <AddFarmerModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        farmerData={farmerData}
+      />}
     </section>
   );
 };
