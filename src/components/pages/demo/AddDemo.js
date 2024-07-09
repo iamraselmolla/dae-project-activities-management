@@ -199,8 +199,8 @@ const AddDemo = () => {
             resetForm();
             resetDatePickers();
             setLoading(false);
-            await checkFarmerExistence(values);
-
+            if (formik.values.numbersInfo.NID)
+              await checkFarmerExistence(values);
           } else {
             throw new Error('প্রদর্শনী সংরক্ষণ করতে সমস্যা হচ্ছে।');
           }
