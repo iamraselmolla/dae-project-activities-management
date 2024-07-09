@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { createAFarmer } from '../../services/userServices';
 
 const AddFarmerModal = ({ show, handleClose, farmerData }) => {
+    const [loading, setLoading] = useState(false)
     const handleConfirm = async () => {
         try {
+            setLoading(true)
             if (!farmerData?.farmersInfo?.farmerName) {
                 return toast.error("কৃষকের নাম লিখো।");
             }
@@ -22,6 +24,8 @@ const AddFarmerModal = ({ show, handleClose, farmerData }) => {
                 "প্রদর্শনীর তথ্য হতে কৃষক ডাটা সংরক্ষণ করতে সমস্যার সৃষ্টি হচ্ছে ।..."
             );
             console.error("Error creating farmer:", error);
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -42,7 +46,7 @@ const AddFarmerModal = ({ show, handleClose, farmerData }) => {
                         className="btn theme-bg hover:bg-green-500 text-white"
                         onClick={handleConfirm}
                     >
-                        যুক্ত করুন
+                        {!loading ? '  যুক্ত করুন ' : <span className="loading loading-spinner loading-xs"></span>}
                     </button>
                 </div>
             </div>
