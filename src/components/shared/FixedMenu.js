@@ -35,7 +35,7 @@ const FixedMenu = () => {
                             cursor={'pointer'}
                             color="green"
                             size={60}
-                            className={`menu-icon ${open ? 'open' : ''}`}
+                            className={`menu-icon mr-5 ${open ? 'open' : ''}`}
                         />
                     </div>
                 </div>

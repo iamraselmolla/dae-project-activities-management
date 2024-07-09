@@ -16,7 +16,6 @@ import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessag
 
 const AddNotes = () => {
   const { user } = useContext(AuthContext);
-  const [loadingMessage, setLoadingMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [notesDate, setNotesDate] = useState({
     startDate: "",
