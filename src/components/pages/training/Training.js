@@ -9,6 +9,7 @@ import Season from "../../shared/Season";
 import { useSelector } from "react-redux";
 import { toBengaliNumber } from "bengali-number";
 import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
+import NoContentFound from "../../shared/NoContentFound";
 const Training = () => {
   const [allTrainings, setAllTrainings] = useState([]);
   const [filterAllTrainings, setFilterAllTrainings] = useState([]);
@@ -21,6 +22,7 @@ const Training = () => {
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
   const { projects: allProjects } = useSelector((state) => state.dae);
+
   const fetchAllTraining = async () => {
     setLoading(true);
     try {
@@ -186,18 +188,15 @@ const Training = () => {
               data={singleTraining}
             />
           ))}
-        {!loading && allTrainings?.length < 1 && fetchEnd && (
-          <div className="flex justify-center items-center">
-            <h2 className="text-red-600 text-2xl  font-extrabold">
-              কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।
-            </h2>
-          </div>
-        )}
+
       </div>
       {loading && !error && (
         <div className="flex justify-center items-center">
           <LoaderWithOutDynamicMessage />
         </div>
+      )}
+      {!loading && allTrainings?.length < 1 && fetchEnd && (
+        <NoContentFound text={'কোনো কৃষক প্রশিক্ষণের তথ্য পাওয়া যায়নি।'} />
       )}
     </section>
   );
