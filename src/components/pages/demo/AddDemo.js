@@ -199,6 +199,7 @@ const AddDemo = () => {
             resetForm();
             resetDatePickers();
             setLoading(false);
+            setSelectedProject({});
             if (formik.values.numbersInfo.NID)
               await checkFarmerExistence(values);
           } else {
