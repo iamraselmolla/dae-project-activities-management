@@ -22,7 +22,11 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.menu-icon:hover {
+.menu-icon.open {
+  transform: rotate(45deg);
+}
+
+.menu-icon:focus {
   transform: scale(1.1);
 }
 
