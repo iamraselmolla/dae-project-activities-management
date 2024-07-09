@@ -3,7 +3,6 @@ import Header from './header/Header';
 import { Link, Outlet } from 'react-router-dom';
 import Footer from './footer/Footer';
 import { GoPlusCircle } from 'react-icons/go';
-import { IoIosCloseCircleOutline } from "react-icons/io";
 import '../css/Layout.css'; // Import your CSS file
 
 const Layout = () => {
@@ -25,11 +24,13 @@ const Layout = () => {
                         <Link className='menu-item' to="/add-school">স্কুল</Link>
                     </div>
                     <div className='mt-5 flex justify-center items-center flex-col'>
-                        {!open ? (
-                            <GoPlusCircle onClick={() => setOpen(true)} cursor={'pointer'} color="green" size={60} className="menu-icon" />
-                        ) : (
-                            <IoIosCloseCircleOutline onClick={() => setOpen(false)} cursor={'pointer'} color="green" size={60} className="menu-icon" />
-                        )}
+                        <GoPlusCircle
+                            onClick={() => setOpen(!open)}
+                            cursor={'pointer'}
+                            color="green"
+                            size={60}
+                            className={`menu-icon ${open ? 'open' : ''}`}
+                        />
                     </div>
                 </div>
             </div>
