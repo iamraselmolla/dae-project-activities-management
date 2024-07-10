@@ -22,15 +22,11 @@ const DashboardMenu = () => {
     trainings,
     notes,
     tours,
-    refetch,
-    endFetch,
-    blockAndUnions,
     distributions,
     demos,
     fieldDays,
     schools,
     daeMeetings,
-    refetchDemoDetails
   } = useSelector((state) => state.dae); // Ensure "dae" matches your slice name in Redux
 
   return (
@@ -75,14 +71,14 @@ const DashboardMenu = () => {
         <DashboardMenuItem
           icon={<CgDisplayGrid />}
           link="/user-demos-primary"
-          text={`প্রাথমিক প্রদর্শনী (${toBengaliNumber(demos.length)})`}
+          text={`প্রাথমিক প্রদর্শনী (${toBengaliNumber(demos.filter(single => !single?.completed)?.length)})`}
         />
       )}
       {user && role === "user" && (
         <DashboardMenuItem
           icon={<MdCreditScore />}
           link="/user-demos-final"
-          text={`চূড়ান্ত প্রদর্শনী (${toBengaliNumber(demos.length)})`}
+          text={`চূড়ান্ত প্রদর্শনী (${toBengaliNumber(demos.filter(single => single?.completed)?.length)})`}
         />
       )}
       {user && role === "user" && (
