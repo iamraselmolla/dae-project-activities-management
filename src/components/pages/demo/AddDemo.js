@@ -5,8 +5,8 @@ import * as Yup from "yup";
 import Season from "../../shared/Season";
 import FiscalYear from "../../shared/FiscalYear";
 import Datepicker from "react-tailwindcss-datepicker";
+import RequiredMark from "../../shared/RequiredMark"
 import {
-  createAFarmer,
   createDemo,
   editDemobyId,
   findDemoById,
@@ -339,7 +339,7 @@ const AddDemo = () => {
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div>
               <label className="font-extrabold mb-1 block">
-                প্রকল্পের পুরো নাম
+                প্রকল্পের পুরো নাম <RequiredMark />
               </label>
               <select
                 disabled={demoId ? true : false}
@@ -373,7 +373,7 @@ const AddDemo = () => {
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
-                প্রকল্পের সংক্ষেপ নাম
+                প্রকল্পের সংক্ষেপ নাম <RequiredMark />
               </label>
               <input
                 type="text"
@@ -400,7 +400,7 @@ const AddDemo = () => {
               ) : null}
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">অর্থবছর</label>
+              <label className="font-extrabold mb-1 block">অর্থবছর <RequiredMark /></label>
               <select
                 disabled={demoId ? true : false}
                 className="input input-bordered w-full"
@@ -414,7 +414,7 @@ const AddDemo = () => {
               </select>
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">মৌসুম</label>
+              <label className="font-extrabold mb-1 block">মৌসুম <RequiredMark /></label>
               <select
                 disabled={demoId ? true : false}
                 className="input input-bordered w-full"
@@ -435,7 +435,7 @@ const AddDemo = () => {
               ) : null}
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">কৃষকের নাম</label>
+              <label className="font-extrabold mb-1 block">কৃষকের নাম <RequiredMark /></label>
               <input
                 type="text"
                 className="input input-bordered w-full"
@@ -459,7 +459,7 @@ const AddDemo = () => {
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
-                পিতা/স্বামীর নাম নাম
+                পিতা/স্বামীর নাম নাম <RequiredMark />
               </label>
               <input
                 type="text"
@@ -487,7 +487,7 @@ const AddDemo = () => {
           </div>
           <div className="grid mt-3 gap-4 mb-3 grid-cols-1 lg:grid-cols-3">
             <div>
-              <label className="font-extrabold mb-1 block">গ্রামের নাম</label>
+              <label className="font-extrabold mb-1 block">গ্রামের নাম <RequiredMark /></label>
               <input
                 type="text"
                 className="input input-bordered w-full"
@@ -502,7 +502,7 @@ const AddDemo = () => {
               />
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">ব্লকের নাম</label>
+              <label className="font-extrabold mb-1 block">ব্লকের নাম </label>
               <input
                 type="text"
                 className="input input-bordered w-full"
@@ -699,7 +699,7 @@ const AddDemo = () => {
 
           <div className="grid mt-3 lg:grid-cols-4 gap-4  grid-cols-1">
             <div>
-              <label className="font-extrabold mb-1 block">প্রযুক্তি</label>
+              <label className="font-extrabold mb-1 block">প্রযুক্তি <RequiredMark /></label>
               <select
                 className="input input-bordered w-full"
                 id="demoInfo.tech"
@@ -734,7 +734,7 @@ const AddDemo = () => {
               ) : null}
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">ফসল</label>
+              <label className="font-extrabold mb-1 block">ফসল <RequiredMark /></label>
               <input
                 type="text"
                 className="input input-bordered w-full"
