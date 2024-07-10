@@ -7,7 +7,7 @@ import { makeSureOnline } from "../../shared/MessageConst";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import NoContentFound from "../../shared/NoContentFound";
 import toast from "react-hot-toast";
-import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
+import Loader from "../../shared/Loader";
 
 const DaeGroupMeeting = () => {
   const { user } = useContext(AuthContext);
@@ -17,10 +17,10 @@ const DaeGroupMeeting = () => {
   const fetchGroups = async () => {
     setLoading(true);
     try {
+      setLoading(true);
       const result = await fetchAllGroups();
       if (result?.status === 200) {
         setAllGroups(result?.data?.data);
-        setLoading(false);
         setFetchEnd(true);
       } else {
         toast.error("তথ্য ডাটাবেইজ থেকে আনতে অসুবিধা হয়েছে।");
@@ -60,7 +60,7 @@ const DaeGroupMeeting = () => {
         <NoContentFound text={'কোনো গ্রুপের তথ্য পাওয়া যায়নি'} />
       )}
       {loading && (
-        <LoaderWithOutDynamicMessage />
+        <Loader />
       )}
 
     </section>
