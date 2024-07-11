@@ -34,7 +34,8 @@ const AddDemo = () => {
   const [loading, setLoading] = useState(false);
   const { projects: allProject } = useSelector((state) => state.dae);
   const [showModal, setShowModal] = useState(false);
-  const [farmerData, setFarmerData] = useState(null)
+  const [farmerData, setFarmerData] = useState(null);
+  const [NIDInfo, setNIDInfo] = useState('')
 
 
   const [datePickers, setDatePickers] = useState({
@@ -329,6 +330,24 @@ const AddDemo = () => {
       makeSureOnline();
     }
   }, [demoId, allProject]);
+  const handleNIDInput = async () => {
+    if(NIDInfo?.length === 10 || NIDInfo?.length === 13 || NIDInfo?.length === 17){
+     try{
+      const result = await findFarmerByNID(
+
+        NIDInfo,
+        formik.values.address.block,
+        formik.values.address.union
+      );
+      console.log(result)
+     }
+     catch(err){
+      toast.error('তথ্য পেতে সমস্যা হচ্ছে । ')
+     }
+    }
+   
+   
+  }
 
   return (
     <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -625,14 +644,11 @@ const AddDemo = () => {
                 className="input input-bordered w-full"
                 id="numbersInfo.NID"
                 name="numbersInfo.NID"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+                onBlur={handleNIDInput}
+                onChange={(e) => setNIDInfo(e.target.value)}
                 placeholder="এন আই ডি"
                 value={
-                  formik.values.numbersInfo
-                    ? formik.values.numbersInfo?.NID
-                    : ""
-                }
+                  NIDInfo                }
               />
 
               {formik.touched.numbersInfo &&
