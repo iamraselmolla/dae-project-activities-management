@@ -331,22 +331,22 @@ const AddDemo = () => {
     }
   }, [demoId, allProject]);
   const handleNIDInput = async () => {
-    if(NIDInfo?.length === 10 || NIDInfo?.length === 13 || NIDInfo?.length === 17){
-     try{
-      const result = await findFarmerByNID(
+    if (NIDInfo?.length === 10 || NIDInfo?.length === 13 || NIDInfo?.length === 17) {
+      try {
+        const result = await findFarmerByNID(
 
-        NIDInfo,
-        formik.values.address.block,
-        formik.values.address.union
-      );
-      console.log(result)
-     }
-     catch(err){
-      toast.error('তথ্য পেতে সমস্যা হচ্ছে । ')
-     }
+          NIDInfo,
+          user.blockB,
+          user.unionB
+        );
+        console.log(result)
+      }
+      catch (err) {
+        toast.error('তথ্য পেতে সমস্যা হচ্ছে । ')
+      }
     }
-   
-   
+
+
   }
 
   return (
@@ -648,7 +648,7 @@ const AddDemo = () => {
                 onChange={(e) => setNIDInfo(e.target.value)}
                 placeholder="এন আই ডি"
                 value={
-                  NIDInfo                }
+                  NIDInfo}
               />
 
               {formik.touched.numbersInfo &&
