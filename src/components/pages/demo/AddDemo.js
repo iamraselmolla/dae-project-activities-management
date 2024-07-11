@@ -339,7 +339,30 @@ const AddDemo = () => {
           user.blockB,
           user.unionB
         );
-        console.log(result)
+        if (result?.status === 200) {
+          const { data } = result?.data || {};
+          if (data) {
+            formik.setValues({
+              ...formik.values,
+              farmersInfo: {
+                name: data.farmersInfo.farmerName,
+                fatherOrHusbandName: data.farmersInfo.fathersOrHusbandsName,
+              },
+              address: {
+                village: data.address.village,
+                block: data.address.block,
+                union: data.address.union,
+              },
+              numbersInfo: {
+                NID: data.numbersInfo.NID,
+                BID: data.numbersInfo.BID,
+                mobile: data.numbersInfo.mobile,
+                agriCard: data.numbersInfo.agriCard,
+              },
+              // ... Set other relevant fields as needed
+            });
+          }
+        }
       }
       catch (err) {
         toast.error('তথ্য পেতে সমস্যা হচ্ছে । ')
