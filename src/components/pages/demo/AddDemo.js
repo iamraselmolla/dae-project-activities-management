@@ -5,8 +5,8 @@ import * as Yup from "yup";
 import Season from "../../shared/Season";
 import FiscalYear from "../../shared/FiscalYear";
 import Datepicker from "react-tailwindcss-datepicker";
+import RequiredMark from "../../shared/RequiredMark"
 import {
-  createAFarmer,
   createDemo,
   editDemobyId,
   findDemoById,
@@ -34,7 +34,8 @@ const AddDemo = () => {
   const [loading, setLoading] = useState(false);
   const { projects: allProject } = useSelector((state) => state.dae);
   const [showModal, setShowModal] = useState(false);
-  const [farmerData, setFarmerData] = useState(null)
+  const [farmerData, setFarmerData] = useState(null);
+  const [NIDInfo, setNIDInfo] = useState('')
 
 
   const [datePickers, setDatePickers] = useState({
@@ -167,7 +168,6 @@ const AddDemo = () => {
       if (!demoId) {
         values.address.block = user?.blockB;
         values.address.union = user?.unionB;
-        values.demoTime.season = values.demoTime.season;
         values.projectInfo.full = selectedProject.name.details;
         values.projectInfo.short = selectedProject.name.short;
         values.username = user?.username;
@@ -330,6 +330,24 @@ const AddDemo = () => {
       makeSureOnline();
     }
   }, [demoId, allProject]);
+  const handleNIDInput = async () => {
+    if (NIDInfo?.length === 10 || NIDInfo?.length === 13 || NIDInfo?.length === 17) {
+      try {
+        const result = await findFarmerByNID(
+
+          NIDInfo,
+          user.blockB,
+          user.unionB
+        );
+        console.log(result)
+      }
+      catch (err) {
+        toast.error('তথ্য পেতে সমস্যা হচ্ছে । ')
+      }
+    }
+
+
+  }
 
   return (
     <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -339,7 +357,7 @@ const AddDemo = () => {
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div>
               <label className="font-extrabold mb-1 block">
-                প্রকল্পের পুরো নাম
+                প্রকল্পের পুরো নাম <RequiredMark />
               </label>
               <select
                 disabled={demoId ? true : false}
@@ -373,7 +391,7 @@ const AddDemo = () => {
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
-                প্রকল্পের সংক্ষেপ নাম
+                প্রকল্পের সংক্ষেপ নাম <RequiredMark />
               </label>
               <input
                 type="text"
@@ -400,7 +418,7 @@ const AddDemo = () => {
               ) : null}
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">অর্থবছর</label>
+              <label className="font-extrabold mb-1 block">অর্থবছর <RequiredMark /></label>
               <select
                 disabled={demoId ? true : false}
                 className="input input-bordered w-full"
@@ -414,7 +432,7 @@ const AddDemo = () => {
               </select>
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">মৌসুম</label>
+              <label className="font-extrabold mb-1 block">মৌসুম <RequiredMark /></label>
               <select
                 disabled={demoId ? true : false}
                 className="input input-bordered w-full"
@@ -435,7 +453,7 @@ const AddDemo = () => {
               ) : null}
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">কৃষকের নাম</label>
+              <label className="font-extrabold mb-1 block">কৃষকের নাম <RequiredMark /></label>
               <input
                 type="text"
                 className="input input-bordered w-full"
@@ -459,7 +477,7 @@ const AddDemo = () => {
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
-                পিতা/স্বামীর নাম নাম
+                পিতা/স্বামীর নাম নাম <RequiredMark />
               </label>
               <input
                 type="text"
@@ -487,7 +505,7 @@ const AddDemo = () => {
           </div>
           <div className="grid mt-3 gap-4 mb-3 grid-cols-1 lg:grid-cols-3">
             <div>
-              <label className="font-extrabold mb-1 block">গ্রামের নাম</label>
+              <label className="font-extrabold mb-1 block">গ্রামের নাম <RequiredMark /></label>
               <input
                 type="text"
                 className="input input-bordered w-full"
@@ -502,7 +520,7 @@ const AddDemo = () => {
               />
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">ব্লকের নাম</label>
+              <label className="font-extrabold mb-1 block">ব্লকের নাম </label>
               <input
                 type="text"
                 className="input input-bordered w-full"
@@ -626,14 +644,11 @@ const AddDemo = () => {
                 className="input input-bordered w-full"
                 id="numbersInfo.NID"
                 name="numbersInfo.NID"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
+                onBlur={handleNIDInput}
+                onChange={(e) => setNIDInfo(e.target.value)}
                 placeholder="এন আই ডি"
                 value={
-                  formik.values.numbersInfo
-                    ? formik.values.numbersInfo?.NID
-                    : ""
-                }
+                  NIDInfo}
               />
 
               {formik.touched.numbersInfo &&
@@ -699,7 +714,7 @@ const AddDemo = () => {
 
           <div className="grid mt-3 lg:grid-cols-4 gap-4  grid-cols-1">
             <div>
-              <label className="font-extrabold mb-1 block">প্রযুক্তি</label>
+              <label className="font-extrabold mb-1 block">প্রযুক্তি <RequiredMark /></label>
               <select
                 className="input input-bordered w-full"
                 id="demoInfo.tech"
@@ -734,7 +749,7 @@ const AddDemo = () => {
               ) : null}
             </div>
             <div>
-              <label className="font-extrabold mb-1 block">ফসল</label>
+              <label className="font-extrabold mb-1 block">ফসল <RequiredMark /></label>
               <input
                 type="text"
                 className="input input-bordered w-full"

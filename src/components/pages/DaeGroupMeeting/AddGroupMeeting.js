@@ -371,6 +371,7 @@ const AddGroupMeeting = () => {
                 readOnly
                 placeholder="ব্লক"
                 value={user?.blockB}
+                disabled
               />
               {formik.touched.address?.block && formik.errors.address?.block ? (
                 <div className="text-red-600">
@@ -387,6 +388,8 @@ const AddGroupMeeting = () => {
                 name="address.union"
                 placeholder="ইউনিয়ন"
                 value={user?.unionB}
+                readOnly
+                disabled
               />
               {formik.touched.address?.union && formik.errors.address?.union ? (
                 <div className="text-red-600">
@@ -447,6 +450,7 @@ const AddGroupMeeting = () => {
                 id="SAAO.name"
                 name="SAAO.name"
                 readOnly
+                disabled
                 placeholder="এসএএও নাম"
                 value={user?.SAAO?.name}
               />
@@ -465,6 +469,7 @@ const AddGroupMeeting = () => {
                 name="SAAO.mobile"
                 placeholder="এসএএও মোবাইল"
                 readOnly
+                disabled
                 value={toBengaliNumber(user?.SAAO?.mobile)}
               />
               {formik.touched.SAAO?.mobile && formik.errors.SAAO?.mobile ? (
