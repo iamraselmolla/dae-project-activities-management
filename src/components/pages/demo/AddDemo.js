@@ -167,7 +167,6 @@ const AddDemo = () => {
       if (!demoId) {
         values.address.block = user?.blockB;
         values.address.union = user?.unionB;
-        values.demoTime.season = values.demoTime.season;
         values.projectInfo.full = selectedProject.name.details;
         values.projectInfo.short = selectedProject.name.short;
         values.username = user?.username;
