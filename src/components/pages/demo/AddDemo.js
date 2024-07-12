@@ -221,7 +221,7 @@ const AddDemo = () => {
       }
     },
   });
-
+// Reset date pickers
   const resetDatePickers = () => {
     setDatePickers({
       bopon: { startDate: null, endDate: null },
@@ -351,7 +351,7 @@ const AddDemo = () => {
 
   return (
     <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
-      <SectionTitle title={"প্রকল্পের প্রদর্শনীর তথ্য যুক্ত করুন"} />
+      <SectionTitle title={"প্রদর্শনীর তথ্য যুক্ত করুন"} />
       <div className="mt-2">
         <form onSubmit={formik.handleSubmit}>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
