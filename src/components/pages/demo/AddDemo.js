@@ -221,7 +221,7 @@ const AddDemo = () => {
       }
     },
   });
-
+// Reset date pickers
   const resetDatePickers = () => {
     setDatePickers({
       bopon: { startDate: null, endDate: null },
