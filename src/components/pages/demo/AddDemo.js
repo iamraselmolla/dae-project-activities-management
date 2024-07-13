@@ -123,12 +123,11 @@ const AddDemo = () => {
       farmersReview: "",
       overallComment: "",
     },
-    SAAO: {
-      name: "",
-      mobile: "",
-    },
     demoImages: [],
-    username: user?.username,
+    user: {
+      id: user?._id,
+      username: user?.username
+    },
   };
 
   const validationSchema = Yup.object({
@@ -170,7 +169,7 @@ const AddDemo = () => {
         values.address.union = user?.unionB;
         values.projectInfo.full = selectedProject.name.details;
         values.projectInfo.short = selectedProject.name.short;
-        values.username = user?.username;
+
         values.SAAO = user?.SAAO;
 
         if (!values.projectInfo.full || !values.projectInfo.short) {
@@ -178,7 +177,7 @@ const AddDemo = () => {
           return toast.error("আপনাকে অবশ্যই প্রকল্প সিলেক্ট করতে হবে।");
         }
 
-        if (!values.username) {
+        if (!values.user.id || !values.user.username) {
           setLoading(false);
           return toast.error("লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন");
         }
@@ -196,12 +195,16 @@ const AddDemo = () => {
           result = await createDemo(values);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            resetForm();
+
             resetDatePickers();
-            setLoading(false);
+
             setSelectedProject({});
-            if (formik.values.numbersInfo.NID)
-              await checkFarmerExistence(values);
+
+            await checkFarmerExistence(values);
+
+            resetForm();
+            setLoading(false);
+
           } else {
             throw new Error('প্রদর্শনী সংরক্ষণ করতে সমস্যা হচ্ছে।');
           }
@@ -221,7 +224,7 @@ const AddDemo = () => {
       }
     },
   });
-// Reset date pickers
+  // Reset date pickers
   const resetDatePickers = () => {
     setDatePickers({
       bopon: { startDate: null, endDate: null },
@@ -234,7 +237,7 @@ const AddDemo = () => {
     try {
       const result = await findFarmerByNID(
 
-        demoValues.numbersInfo.NID,
+        NIDInfo,
         demoValues.address.block,
         demoValues.address.union
       );
@@ -248,7 +251,7 @@ const AddDemo = () => {
           },
           numbersInfo: {
             mobile: demoValues.numbersInfo.mobile,
-            NID: demoValues.numbersInfo.NID,
+            NID: NIDInfo,
             BID: demoValues.numbersInfo.BID,
             agriCard: demoValues.numbersInfo.agriCard,
           },
@@ -258,7 +261,11 @@ const AddDemo = () => {
             union: demoValues.address.union,
           },
           comment: "প্রদর্শনীপ্রাপ্ত কৃষক",
-          username: demoValues.username,
+          user: {
+            id: user?._id,
+            username: user?.username
+
+          }
         };
         setFarmerData(modalFarmerData);
         handleAddFarmerClick();
@@ -339,7 +346,30 @@ const AddDemo = () => {
           user.blockB,
           user.unionB
         );
-        console.log(result)
+        if (result?.status === 200) {
+          const { data } = result?.data || {};
+          if (data) {
+            formik.setValues({
+              ...formik.values,
+              farmersInfo: {
+                name: data.farmersInfo.farmerName,
+                fatherOrHusbandName: data.farmersInfo.fathersOrHusbandsName,
+              },
+              address: {
+                village: data.address.village,
+                block: data.address.block,
+                union: data.address.union,
+              },
+              numbersInfo: {
+                NID: data.numbersInfo.NID,
+                BID: data.numbersInfo.BID,
+                mobile: data.numbersInfo.mobile,
+                agriCard: data.numbersInfo.agriCard,
+              },
+              // ... Set other relevant fields as needed
+            });
+          }
+        }
       }
       catch (err) {
         toast.error('তথ্য পেতে সমস্যা হচ্ছে । ')
