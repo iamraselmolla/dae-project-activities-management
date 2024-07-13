@@ -82,7 +82,10 @@ const AddFieldDay = () => {
       name: "",
       mobile: "",
     },
-    username: user?.username,
+    user: {
+      id: user?._id,
+      username: user?.username
+    }
   };
 
   const validationSchema = Yup.object().shape({
@@ -124,7 +127,7 @@ const AddFieldDay = () => {
               address,
               comment,
               SAAO,
-              username,
+              user,
             } = data;
 
             // Set values into Formik using setValues
@@ -140,7 +143,7 @@ const AddFieldDay = () => {
               address,
               comment,
               SAAO,
-              username: username || user?.username || "", // Ensure username is set properly
+              user
             });
             setSelectedImages(images);
             setValue({
@@ -183,7 +186,8 @@ const AddFieldDay = () => {
             setLoading(false)
             return;
           }
-          values.username = user?.username;
+          values.user.id = user?._id;
+          values.user.username = user?.username;
           if (rawImages?.length > 0) {
             setLoadingMessage("ছবি আপ্লোড হচ্ছে");
             const uploadedImageLinks = [];
