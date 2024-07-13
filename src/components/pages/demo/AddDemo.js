@@ -128,7 +128,10 @@ const AddDemo = () => {
       mobile: "",
     },
     demoImages: [],
-    username: user?.username,
+    user: {
+      id: user?._id,
+      username: user?.username
+    },
   };
 
   const validationSchema = Yup.object({
@@ -170,7 +173,7 @@ const AddDemo = () => {
         values.address.union = user?.unionB;
         values.projectInfo.full = selectedProject.name.details;
         values.projectInfo.short = selectedProject.name.short;
-        values.username = user?.username;
+
         values.SAAO = user?.SAAO;
 
         if (!values.projectInfo.full || !values.projectInfo.short) {
@@ -178,7 +181,7 @@ const AddDemo = () => {
           return toast.error("আপনাকে অবশ্যই প্রকল্প সিলেক্ট করতে হবে।");
         }
 
-        if (!values.username) {
+        if (!values.user.id || !values.user.username) {
           setLoading(false);
           return toast.error("লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন");
         }
