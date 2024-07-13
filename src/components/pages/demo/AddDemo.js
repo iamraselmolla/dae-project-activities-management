@@ -261,7 +261,11 @@ const AddDemo = () => {
             union: demoValues.address.union,
           },
           comment: "প্রদর্শনীপ্রাপ্ত কৃষক",
-          username: demoValues.username,
+          user: {
+            id: user?._id,
+            username: user?.username
+
+          }
         };
         setFarmerData(modalFarmerData);
         handleAddFarmerClick();
