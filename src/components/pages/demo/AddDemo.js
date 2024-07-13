@@ -196,12 +196,16 @@ const AddDemo = () => {
           result = await createDemo(values);
           if (result?.status === 200) {
             toast.success(result?.data?.message);
-            resetForm();
+
             resetDatePickers();
-            setLoading(false);
+
             setSelectedProject({});
-            if (formik.values.numbersInfo.NID)
-              await checkFarmerExistence(values);
+
+            await checkFarmerExistence(values);
+
+            resetForm();
+            setLoading(false);
+
           } else {
             throw new Error('প্রদর্শনী সংরক্ষণ করতে সমস্যা হচ্ছে।');
           }
@@ -221,7 +225,7 @@ const AddDemo = () => {
       }
     },
   });
-// Reset date pickers
+  // Reset date pickers
   const resetDatePickers = () => {
     setDatePickers({
       bopon: { startDate: null, endDate: null },
@@ -234,7 +238,7 @@ const AddDemo = () => {
     try {
       const result = await findFarmerByNID(
 
-        demoValues.numbersInfo.NID,
+        NIDInfo,
         demoValues.address.block,
         demoValues.address.union
       );
@@ -248,7 +252,7 @@ const AddDemo = () => {
           },
           numbersInfo: {
             mobile: demoValues.numbersInfo.mobile,
-            NID: demoValues.numbersInfo.NID,
+            NID: NIDInfo,
             BID: demoValues.numbersInfo.BID,
             agriCard: demoValues.numbersInfo.agriCard,
           },
