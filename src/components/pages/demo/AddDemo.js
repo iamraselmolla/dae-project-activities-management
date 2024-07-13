@@ -123,10 +123,6 @@ const AddDemo = () => {
       farmersReview: "",
       overallComment: "",
     },
-    SAAO: {
-      name: "",
-      mobile: "",
-    },
     demoImages: [],
     user: {
       id: user?._id,
