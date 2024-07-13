@@ -2,7 +2,7 @@
 
 The DAE Project Management Activities Application is a comprehensive web-based solution designed specifically for the Department of Agriculture Extension (DAE). This application aims to streamline and enhance the management and tracking of various agricultural activities, ensuring efficient operation and better resource management.
 
-### Key Features
+### Key Features of THIS application 
 
 1. **Activity Management**: Easily create, update, and manage various DAE activities such as demos, trainings, field days, group meetings, distributions, and motivational tours.
 2. **User Authentication**: Secure user authentication using JSON Web Tokens (JWT) to ensure that only authorized personnel have access to sensitive data.
