@@ -82,7 +82,7 @@ const FarmerList = () => {
                                     <td className="border border-gray-300">{farmer?.address?.village}, {farmer?.address?.block}, {farmer?.address?.union}</td>
                                     <td className="border border-gray-300">{farmer?.comment}</td>
                                     <td className="border border-gray-300">
-                                        {farmer?.username === user?.username && (
+                                        {farmer?.user?.id === user?._id && (
                                             <MdOutlineDelete onClick={() => handleDelete(farmer?._id)} size={30} color='red' cursor="pointer" />
                                         )}
                                     </td>
