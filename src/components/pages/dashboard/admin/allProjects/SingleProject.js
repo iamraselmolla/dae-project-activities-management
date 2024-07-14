@@ -7,6 +7,7 @@ import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { CiCirclePlus } from "react-icons/ci";
 import toast from "react-hot-toast";
 import { FiCheckCircle } from "react-icons/fi";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
 
 import {
   deleteAProject,
@@ -46,7 +47,7 @@ const SingleProject = ({ data, index }) => {
         if (result?.status === 200) {
           toast.success(result?.data?.message);
           setLoading(false);
-          dispatch(daeAction.setRefetch())
+          dispatch(daeAction.setRefetch(`adminFetch${createRandomNumber()}`))
         }
       } catch (err) {
         setLoading(false);
@@ -79,7 +80,7 @@ const SingleProject = ({ data, index }) => {
           const result = await deleteAProject(projectId); // Assuming deleteProject is a function that handles the deletion
           if (result?.status === 200) {
             toast.success("প্রকল্পটি মুছে দেয়া হয়েছে");
-            dispatch(daeAction.setRefetch())
+            dispatch(daeAction.setRefetch(`adminFetch${createRandomNumber()}`))
           }
         } else {
           toast.error("প্রকল্প মুছে ফেলা সম্ভব হয়নি। আবার চেষ্টা করুন");
@@ -111,7 +112,7 @@ const SingleProject = ({ data, index }) => {
         const result = await markProjectComplete(id);
         if (result?.status === 200) {
           toast.success(result?.data?.message);
-          dispatch(daeAction.setRefetch())
+          dispatch(daeAction.setRefetch(`adminFetch${createRandomNumber}`))
         }
       }
     } catch (err) {
