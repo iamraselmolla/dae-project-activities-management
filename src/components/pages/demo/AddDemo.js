@@ -182,6 +182,7 @@ const AddDemo = () => {
           return toast.error("লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন");
         }
       }
+      values.numbersInfo.NID = NIDInfo
 
       try {
         let result;
@@ -206,6 +207,7 @@ const AddDemo = () => {
 
             resetForm();
             setLoading(false);
+            setNIDInfo('')
 
           } else {
             throw new Error('প্রদর্শনী সংরক্ষণ করতে সমস্যা হচ্ছে।');
@@ -303,6 +305,7 @@ const AddDemo = () => {
         formik.setValues({
           ...data,
         });
+        setNIDInfo(data?.numbersInfo?.NID);
 
         const { demoDate } = data || {};
         setDatePickers({
@@ -343,6 +346,7 @@ const AddDemo = () => {
     }
   }, [demoId, allProject]);
   const handleNIDInput = async () => {
+
     if (NIDInfo?.length === 10 || NIDInfo?.length === 13 || NIDInfo?.length === 17) {
       try {
         const result = await findFarmerByNID(
@@ -690,8 +694,7 @@ const AddDemo = () => {
                 onBlur={handleNIDInput}
                 onChange={(e) => setNIDInfo(e.target.value)}
                 placeholder="এন আই ডি"
-                value={
-                  NIDInfo}
+                value={NIDInfo}
               />
 
               {formik.touched.numbersInfo &&
