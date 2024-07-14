@@ -68,7 +68,10 @@ const AddSchool = () => {
     higherPerson: "",
     comment: "",
     images: [],
-    username: user?.username
+    user: {
+      id: user?._id,
+      username: user?.username
+    }
   };
   const validationSchema = Yup.object().shape({
     projectInfo: Yup.object().shape({
@@ -119,7 +122,7 @@ const AddSchool = () => {
         toast.error("আপনাকে অবশ্যই স্কুলের ছবিসমূহ দিতে হবে।");
         return;
       }
-      if (!values.username) {
+      if (!values.user?.id || !values.user?.username) {
         return toast.error("ইউজার নাম যুক্ত হয়নি। দয়া করে আবার লগিন করে রিলোড দিন অথবা সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন।")
       }
       try {

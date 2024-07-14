@@ -55,7 +55,10 @@ const AddNotes = () => {
       noteComment: "",
       completedComment: "",
     },
-    username: user?.username,
+    user: {
+      id: user?._id,
+      username: user?.username,
+    }
   };
 
 
@@ -116,7 +119,10 @@ const AddNotes = () => {
           union: user?.unionB,
         },
         SAAO: user?.SAAO,
-        username: user?.username,
+        user: {
+          id: user?._id,
+          username: user?.username,
+        },
         done: false,
         comment: values.comment,
       };
