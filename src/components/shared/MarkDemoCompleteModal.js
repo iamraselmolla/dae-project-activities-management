@@ -48,14 +48,20 @@ const MarkDemoCompleteModal = ({ data }) => {
         startDate: Yup.date().required("কর্তন শুরুর তারিখ দিতে হবে।"),
         endDate: Yup.date().required("কর্তন শেষের তারিখ দিতে হবে।"),
       }),
-      farmersReview: Yup.string().required("কৃষকের মন্তব্য প্রয়োজন"),
-      overallComment: Yup.string().required("মন্তব্য প্রয়োজন"),
-      production: Yup.object().shape({
-        productionPerHector: Yup.number().required("ফলন প্রয়োজন"),
-        totalProduction: Yup.number().required("প্রদর্শনীতে উৎপাদন প্রয়োজন"),
-      }),
+      // farmersReview: Yup.string().required("কৃষকের মন্তব্য প্রয়োজন"),
+      // overallComment: Yup.string().required("মন্তব্য প্রয়োজন"),
+      // production: Yup.object().shape({
+      //   productionPerHector: Yup.number().required("ফলন প্রয়োজন"),
+      //   totalProduction: Yup.number().required("প্রদর্শনীতে উৎপাদন প্রয়োজন"),
+      // }),
     }),
     onSubmit: async (values) => {
+      console.log(data)
+      if (!data?.numbersInfo?.NID) {
+        toast.error("অবশ্যই কৃষকের NID নম্বর দিতে হবে । ")
+        document.getElementById("my_modal_33")?.close();
+        return;
+      }
       if (!data?.demoDate?.bopon || !data?.demoDate?.ropon) {
         toast.error(
           "প্রদর্শনীকে চুড়ান্ত হিসেবে গণ্য করার জন্য অবশ্যই রোপন/বপন তারিখ দিতে হবে।"
