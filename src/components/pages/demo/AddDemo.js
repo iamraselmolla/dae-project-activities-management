@@ -182,6 +182,7 @@ const AddDemo = () => {
           return toast.error("লগিনজনিত সমস্যা পাওয়া গিয়েছে। দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন");
         }
       }
+      values.numbersInfo.NID = NIDInfo
 
       try {
         let result;
@@ -200,10 +201,13 @@ const AddDemo = () => {
 
             setSelectedProject({});
 
-            await checkFarmerExistence(values);
+            if (NIDInfo) {
+              await checkFarmerExistence(values);
+            }
 
             resetForm();
             setLoading(false);
+            setNIDInfo('')
 
           } else {
             throw new Error('প্রদর্শনী সংরক্ষণ করতে সমস্যা হচ্ছে।');
@@ -235,12 +239,15 @@ const AddDemo = () => {
 
   const checkFarmerExistence = async (demoValues) => {
     try {
-      const result = await findFarmerByNID(
+      let result;
+      if (NIDInfo?.length === 10 || NIDInfo?.length === 13 || NIDInfo?.length === 17) {
+        result = await findFarmerByNID(
 
-        NIDInfo,
-        demoValues.address.block,
-        demoValues.address.union
-      );
+          NIDInfo,
+          demoValues.address.block,
+          demoValues.address.union
+        );
+      }
 
       if (result?.data?.success === false) {
 
@@ -298,6 +305,7 @@ const AddDemo = () => {
         formik.setValues({
           ...data,
         });
+        setNIDInfo(data?.numbersInfo?.NID);
 
         const { demoDate } = data || {};
         setDatePickers({
@@ -338,6 +346,7 @@ const AddDemo = () => {
     }
   }, [demoId, allProject]);
   const handleNIDInput = async () => {
+
     if (NIDInfo?.length === 10 || NIDInfo?.length === 13 || NIDInfo?.length === 17) {
       try {
         const result = await findFarmerByNID(
@@ -455,10 +464,18 @@ const AddDemo = () => {
                 id="demoTime.fiscalYear"
                 name="demoTime.fiscalYear"
                 value={formik.values.demoTime.fiscalYear}
+                onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                defaultValue={toBengaliNumber(getFiscalYear())}
+              // defaultValue={toBengaliNumber(getFiscalYear())}
               >
                 <FiscalYear />
+                {formik.touched.demoTime &&
+                  formik.touched.demoTime.fiscalYear &&
+                  formik.errors.demoTime?.fiscalYear ? (
+                  <div className="text-red-600 font-bold">
+                    {formik.errors.demoTime.fiscalYear}
+                  </div>
+                ) : null}
               </select>
             </div>
             <div>
@@ -677,8 +694,7 @@ const AddDemo = () => {
                 onBlur={handleNIDInput}
                 onChange={(e) => setNIDInfo(e.target.value)}
                 placeholder="এন আই ডি"
-                value={
-                  NIDInfo}
+                value={NIDInfo}
               />
 
               {formik.touched.numbersInfo &&
