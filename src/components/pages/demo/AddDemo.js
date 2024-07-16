@@ -40,7 +40,7 @@ const AddDemo = () => {
 
   const [datePickers, setDatePickers] = useState({
     bopon: {
-      startDate: null,
+      startDate: new Date(),
       endDate: null,
     },
     ropon: {
@@ -115,7 +115,7 @@ const AddDemo = () => {
       sidePlotProduction: "",
     },
     demoDate: {
-      bopon: "",
+      bopon: new Date(),
       ropon: "",
       korton: "",
     },
@@ -147,11 +147,11 @@ const AddDemo = () => {
       mobile: Yup.string()
         .required("মোবাইল নম্বর দিন")
         .matches(/^0[0-9]{10}$/, "মোবাইল নম্বর ০ দিয়ে শুরু হতে হবে এবং ১১ টি সংখ্যার হতে হবে"),
-      NID: Yup.string()
-        .required("এনআইডি নম্বর দিন")
-        .matches(/^[0-9]{10}$/, "এনআইডি নম্বর ১০ টি সংখ্যার হতে হবে")
-        .matches(/^[0-9]{13}$/, "এনআইডি নম্বর ১৩ টি সংখ্যার হতে হবে")
-        .matches(/^[0-9]{17}$/, "এনআইডি নম্বর ১৭ টি সংখ্যার হতে হবে"),
+      // NID: Yup.string()
+      //   .required("এনআইডি নম্বর দিন")
+      //   .matches(/^[0-9]{10}$/, "এনআইডি নম্বর ১০ টি সংখ্যার হতে হবে")
+      //   .matches(/^[0-9]{13}$/, "এনআইডি নম্বর ১৩ টি সংখ্যার হতে হবে")
+      //   .matches(/^[0-9]{17}$/, "এনআইডি নম্বর ১৭ টি সংখ্যার হতে হবে"),
     }),
     address: Yup.object().shape({
       village: Yup.string().required("গ্রামের নাম দিন"),
