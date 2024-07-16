@@ -44,7 +44,7 @@ const AddDemo = () => {
       endDate: null,
     },
     ropon: {
-      startDate: null,
+      startDate: new Date(),
       endDate: null,
     },
     korton: {
@@ -116,7 +116,7 @@ const AddDemo = () => {
     },
     demoDate: {
       bopon: "",
-      ropon: "",
+      ropon: new Date(),
       korton: "",
     },
     comment: {
@@ -129,7 +129,6 @@ const AddDemo = () => {
       username: user?.username
     },
   };
-
   const validationSchema = Yup.object({
     demoTime: Yup.object().shape({
       fiscalYear: Yup.string().required("অর্থবছর সিলেক্ট করুন"),
@@ -147,19 +146,31 @@ const AddDemo = () => {
     numbersInfo: Yup.object().shape({
       mobile: Yup.string()
         .required("মোবাইল নম্বর দিন")
-        .matches(/^[0-9]{11}$/, "মোবাইল নম্বর ১১ টি সংখ্যার হতে হবে"),
+        .matches(/^0[0-9]{10}$/, "মোবাইল নম্বর ০ দিয়ে শুরু হতে হবে এবং ১১ টি সংখ্যার হতে হবে"),
+      // NID: Yup.string()
+      //   .required("এনআইডি নম্বর দিন")
+      //   .matches(/^[0-9]{10}$/, "এনআইডি নম্বর ১০ টি সংখ্যার হতে হবে")
+      //   .matches(/^[0-9]{13}$/, "এনআইডি নম্বর ১৩ টি সংখ্যার হতে হবে")
+      //   .matches(/^[0-9]{17}$/, "এনআইডি নম্বর ১৭ টি সংখ্যার হতে হবে"),
     }),
     address: Yup.object().shape({
       village: Yup.string().required("গ্রামের নাম দিন"),
     }),
   });
 
+
+
+
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
-      setLoading(true);
+      if (!(NIDInfo?.length === 10 || NIDInfo?.length === 13 || NIDInfo?.length === 17)) {
 
+        toast.error("১০/১৩/১৭ সংখ্যার এনআইডি নম্বর দিন ।");
+        return;
+      }
+      setLoading(true);
       values.demoDate.bopon = datePickers.bopon.startDate;
       values.demoDate.ropon = datePickers.ropon.startDate;
       values.demoDate.korton = datePickers.korton;
@@ -399,7 +410,6 @@ const AddDemo = () => {
                 প্রকল্পের পুরো নাম <RequiredMark />
               </label>
               <select
-                disabled={demoId ? true : false}
                 className="input input-bordered w-full"
                 id="projectInfo.full"
                 name="projectInfo.full"
@@ -459,7 +469,7 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">অর্থবছর <RequiredMark /></label>
               <select
-                disabled={demoId ? true : false}
+
                 className="input input-bordered w-full"
                 id="demoTime.fiscalYear"
                 name="demoTime.fiscalYear"
@@ -481,7 +491,6 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">মৌসুম <RequiredMark /></label>
               <select
-                disabled={demoId ? true : false}
                 className="input input-bordered w-full"
                 id="demoTime.season"
                 name="demoTime.season"
@@ -684,7 +693,7 @@ const AddDemo = () => {
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
-                ভোটার আইডি (NID) কার্ড নং
+                ভোটার আইডি (NID) কার্ড নং <RequiredMark />
               </label>
               <input
                 type="number"

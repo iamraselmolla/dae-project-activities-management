@@ -1,11 +1,9 @@
 // src/Demo.js
 import React, { useContext, useEffect, useState } from "react";
 import SingleDemo from "./SingleDemo";
-import { Link } from "react-router-dom";
 import { makeSureOnline } from "../../shared/MessageConst";
 import toast from "react-hot-toast";
 import { getAllDemos } from "../../../services/userServices";
-import Loader from "../../shared/Loader";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import AddModuleButton from "../../shared/AddModuleButton";
 import NoContentFound from "../../shared/NoContentFound";
@@ -162,12 +160,12 @@ const Demo = () => {
         project.farmersInfo.fatherOrHusbandName,
         project.numbersInfo.NID,
         project.numbersInfo.BID,
-        project.numbersInfo.mobile,
+        toBengaliNumber(project.numbersInfo.mobile),
         project.address.village,
         project.address.block,
         project.address.union,
-        project.demoDate.bopon,
-        project.demoDate.ropon,
+        project?.demoDate?.bopon ? new Date(project.demoDate.bopon).toLocaleDateString("bn-BD") : "",
+        new Date(project.demoDate.ropon).toLocaleDateString("bn-BD"),
         project.demoDate.korton.startDate
           ? project.demoDate.korton.startDate +
           " - " +
@@ -176,10 +174,10 @@ const Demo = () => {
         project.demoInfo.tech,
         project.demoInfo.crop,
         project.demoInfo.variety,
-        project.production.productionPerHector,
-        project.production.totalProduction,
+        toBengaliNumber(project.production.productionPerHector),
+        toBengaliNumber(project.production.totalProduction),
         project.production.sidePlotProduction,
-        project?.SAAO?.name + " - " + project?.SAAO?.mobile,
+        project?.SAAO?.name + " - " + toBengaliNumber(project?.SAAO?.mobile),
       ];
     });
 
