@@ -160,12 +160,12 @@ const Demo = () => {
         project.farmersInfo.fatherOrHusbandName,
         project.numbersInfo.NID,
         project.numbersInfo.BID,
-        project.numbersInfo.mobile,
+        toBengaliNumber(project.numbersInfo.mobile),
         project.address.village,
         project.address.block,
         project.address.union,
-        project.demoDate.bopon,
-        project.demoDate.ropon,
+        project?.demoDate?.bopon ? new Date(project.demoDate.bopon).toLocaleDateString("bn-BD") : "",
+        new Date(project.demoDate.ropon).toLocaleDateString("bn-BD"),
         project.demoDate.korton.startDate
           ? project.demoDate.korton.startDate +
           " - " +

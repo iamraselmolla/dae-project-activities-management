@@ -40,11 +40,11 @@ const AddDemo = () => {
 
   const [datePickers, setDatePickers] = useState({
     bopon: {
-      startDate: new Date(),
+      startDate: null,
       endDate: null,
     },
     ropon: {
-      startDate: null,
+      startDate: new Date(),
       endDate: null,
     },
     korton: {
@@ -115,8 +115,8 @@ const AddDemo = () => {
       sidePlotProduction: "",
     },
     demoDate: {
-      bopon: new Date(),
-      ropon: "",
+      bopon: "",
+      ropon: new Date(),
       korton: "",
     },
     comment: {
