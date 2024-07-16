@@ -174,10 +174,10 @@ const Demo = () => {
         project.demoInfo.tech,
         project.demoInfo.crop,
         project.demoInfo.variety,
-        project.production.productionPerHector,
-        project.production.totalProduction,
+        toBengaliNumber(project.production.productionPerHector),
+        toBengaliNumber(project.production.totalProduction),
         project.production.sidePlotProduction,
-        project?.SAAO?.name + " - " + project?.SAAO?.mobile,
+        project?.SAAO?.name + " - " + toBengaliNumber(project?.SAAO?.mobile),
       ];
     });
 
