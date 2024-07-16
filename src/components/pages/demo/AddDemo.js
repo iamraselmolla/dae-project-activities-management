@@ -165,6 +165,11 @@ const AddDemo = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
+      if (!NIDInfo?.length === 10 || !NIDInfo?.length === 13 || !NIDInfo?.length === 17) {
+        alert("১০/১৩/১৭ সংখ্যার এনআইডি নম্বর দিন ।");
+        toast.error("১০/১৩/১৭ সংখ্যার এনআইডি নম্বর দিন ।");
+        return;
+      }
       setLoading(true);
       values.demoDate.bopon = datePickers.bopon.startDate;
       values.demoDate.ropon = datePickers.ropon.startDate;
@@ -405,7 +410,6 @@ const AddDemo = () => {
                 প্রকল্পের পুরো নাম <RequiredMark />
               </label>
               <select
-                disabled={demoId ? true : false}
                 className="input input-bordered w-full"
                 id="projectInfo.full"
                 name="projectInfo.full"
@@ -465,7 +469,7 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">অর্থবছর <RequiredMark /></label>
               <select
-                disabled={demoId ? true : false}
+
                 className="input input-bordered w-full"
                 id="demoTime.fiscalYear"
                 name="demoTime.fiscalYear"
@@ -487,7 +491,6 @@ const AddDemo = () => {
             <div>
               <label className="font-extrabold mb-1 block">মৌসুম <RequiredMark /></label>
               <select
-                disabled={demoId ? true : false}
                 className="input input-bordered w-full"
                 id="demoTime.season"
                 name="demoTime.season"
@@ -690,7 +693,7 @@ const AddDemo = () => {
             </div>
             <div>
               <label className="font-extrabold mb-1 block">
-                ভোটার আইডি (NID) কার্ড নং
+                ভোটার আইডি (NID) কার্ড নং <RequiredMark />
               </label>
               <input
                 type="number"
