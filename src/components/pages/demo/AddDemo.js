@@ -165,8 +165,8 @@ const AddDemo = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
-      if (!NIDInfo?.length === 10 || !NIDInfo?.length === 13 || !NIDInfo?.length === 17) {
-        alert("১০/১৩/১৭ সংখ্যার এনআইডি নম্বর দিন ।");
+      if (!(NIDInfo?.length === 10 || NIDInfo?.length === 13 || NIDInfo?.length === 17)) {
+
         toast.error("১০/১৩/১৭ সংখ্যার এনআইডি নম্বর দিন ।");
         return;
       }
