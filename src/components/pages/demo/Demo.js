@@ -1,11 +1,9 @@
 // src/Demo.js
 import React, { useContext, useEffect, useState } from "react";
 import SingleDemo from "./SingleDemo";
-import { Link } from "react-router-dom";
 import { makeSureOnline } from "../../shared/MessageConst";
 import toast from "react-hot-toast";
 import { getAllDemos } from "../../../services/userServices";
-import Loader from "../../shared/Loader";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import AddModuleButton from "../../shared/AddModuleButton";
 import NoContentFound from "../../shared/NoContentFound";
