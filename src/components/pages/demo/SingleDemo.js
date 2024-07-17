@@ -17,6 +17,7 @@ const SingleDemo = ({ data }) => {
     demoInfo,
     demoDate,
     demoImages,
+    completed
   } = data;
 
   const imagesArr = []
@@ -35,8 +36,10 @@ const SingleDemo = ({ data }) => {
 
 
   return (
-    <div className="rounded-lg bg-white shadow-blue relative shadow-xl">
+    <div className={`rounded-lg bg-white shadow-blue relative shadow-xl ${!completed ? "border-8 border-green-500" : ""}`}>
+
       <div className="relative">
+
         <ImageGallery autoPlay={true} items={imagesArr} />
         <div className="flex items-center absolute top-3">
           <p className="px-2 py-1 bg-black text-white rounded-r-md ">
