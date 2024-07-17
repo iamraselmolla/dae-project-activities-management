@@ -35,6 +35,7 @@ const Demo = () => {
   const [search, setSearch] = useState("");
   const [filteredProjects, setFilteredProjects] = useState(demos);
   const [blocksOfUnion, setBlocksOfUnion] = useState([]);
+  const [demoType, setDemoType] = useState('all')
 
   useEffect(() => {
     const checkUnion = [];
@@ -325,7 +326,11 @@ const Demo = () => {
                 onClick={handleToExportInToExcel}
               />
             </div>
-
+            <div role="tablist" className="tabs tabs-boxed">
+              <a role="tab" onClick={() => setDemoType("all")} className={`tab ${demoType === "all" && "tab-active"}`}>সকল</a>
+              <a role="tab" onClick={() => setDemoType("primary")} className={`tab ${demoType === "primary" && "tab-active"}`}>প্রাথমিক</a>
+              <a role="tab" onClick={() => setDemoType("final")} className={`tab ${demoType === "final" && "tab-active"}`}>চুড়ান্ত</a>
+            </div>
           </div>
         </>
       )}
