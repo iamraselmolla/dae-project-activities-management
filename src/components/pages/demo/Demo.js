@@ -18,7 +18,6 @@ import getFiscalYear from "../../shared/commonDataStores";
 import { toBengaliNumber } from "bengali-number";
 import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 
-
 const Demo = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
   const [demos, setDemos] = useState([]);
@@ -35,7 +34,7 @@ const Demo = () => {
   const [search, setSearch] = useState("");
   const [filteredProjects, setFilteredProjects] = useState(demos);
   const [blocksOfUnion, setBlocksOfUnion] = useState([]);
-  const [demoType, setDemoType] = useState('all')
+  const [demoType, setDemoType] = useState("all");
 
   useEffect(() => {
     const checkUnion = [];
@@ -104,13 +103,19 @@ const Demo = () => {
       );
     }
 
+    if (demoType === "primary") {
+      filtered = filtered.filter((project) => !project.completed);
+    } else if (demoType === "final") {
+      filtered = filtered.filter((project) => project.completed);
+    }
+
     return filtered;
   };
 
   useEffect(() => {
     const filtered = filterProjects();
     setFilteredProjects(filtered);
-  }, [selectedProject, fiscalYear, season, unionName, blockName]);
+  }, [selectedProject, fiscalYear, season, unionName, blockName, demoType]);
 
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
@@ -165,7 +170,9 @@ const Demo = () => {
         project.address.village,
         project.address.block,
         project.address.union,
-        project?.demoDate?.bopon ? new Date(project.demoDate.bopon).toLocaleDateString("bn-BD") : "",
+        project?.demoDate?.bopon
+          ? new Date(project.demoDate.bopon).toLocaleDateString("bn-BD")
+          : "",
         new Date(project.demoDate.ropon).toLocaleDateString("bn-BD"),
         project.demoDate.korton.startDate
           ? project.demoDate.korton.startDate +
@@ -178,7 +185,9 @@ const Demo = () => {
         toBengaliNumber(project.production.productionPerHector),
         toBengaliNumber(project.production.totalProduction),
         project.production.sidePlotProduction,
-        project?.SAAO?.name + " - " + toBengaliNumber(project?.SAAO?.mobile),
+        project?.SAAO?.name +
+        " - " +
+        toBengaliNumber(project?.SAAO?.mobile),
       ];
     });
 
@@ -221,6 +230,7 @@ const Demo = () => {
     });
     saveAs(dataBlob, `${user?.block} ${getFiscalYear()}.xlsx`);
   };
+
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold col-span-1">
@@ -230,7 +240,7 @@ const Demo = () => {
       </div>
       {user && (
         <>
-          <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-nowrap  justify-between items-center gap-3">
+          <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-nowrap justify-between items-center gap-3">
             <div>
               <label className="font-extrabold mb-1 block">
                 প্রকল্পের পুরো নাম
@@ -327,9 +337,27 @@ const Demo = () => {
               />
             </div>
             <div role="tablist" className="tabs tabs-boxed">
-              <a role="tab" onClick={() => setDemoType("all")} className={`tab ${demoType === "all" && "tab-active"}`}>সকল</a>
-              <a role="tab" onClick={() => setDemoType("primary")} className={`tab ${demoType === "primary" && "tab-active"}`}>প্রাথমিক</a>
-              <a role="tab" onClick={() => setDemoType("final")} className={`tab ${demoType === "final" && "tab-active"}`}>চুড়ান্ত</a>
+              <a
+                role="tab"
+                onClick={() => setDemoType("all")}
+                className={`tab ${demoType === "all" && "tab-active"}`}
+              >
+                সকল
+              </a>
+              <a
+                role="tab"
+                onClick={() => setDemoType("primary")}
+                className={`tab ${demoType === "primary" && "tab-active"}`}
+              >
+                প্রাথমিক
+              </a>
+              <a
+                role="tab"
+                onClick={() => setDemoType("final")}
+                className={`tab ${demoType === "final" && "tab-active"}`}
+              >
+                চুড়ান্ত
+              </a>
             </div>
           </div>
         </>
@@ -346,9 +374,7 @@ const Demo = () => {
       {!loading && fetchEnd && filteredProjects?.length < 1 && (
         <NoContentFound text={"কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!"} />
       )}
-      {!fetchEnd && loading && (
-        <LoaderWithOutDynamicMessage />
-      )}
+      {!fetchEnd && loading && <LoaderWithOutDynamicMessage />}
       <AddModuleButton link={"addDemo"} btnText={"প্রদর্শনী যুক্ত করুন"} />
     </section>
   );
