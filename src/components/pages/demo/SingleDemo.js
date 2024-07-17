@@ -91,7 +91,7 @@ const SingleDemo = ({ data }) => {
 
           <div className="mt-3 mb-4">
             <Link
-              className="px-3 py-2 rounded-md transition-colors block border-2 theme-border hover:bg-black hover:text-white text-black font-bold w-100 text-center"
+              className="px-3 py-2 rounded-md transition-colors block border-2 theme-border text-black font-bold w-100 text-center"
               to={`/demo/${data?._id}`}
             >
               বিস্তারিত দেখুন
