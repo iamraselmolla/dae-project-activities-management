@@ -17,6 +17,7 @@ const SingleDemo = ({ data }) => {
     demoInfo,
     demoDate,
     demoImages,
+    completed
   } = data;
 
   const imagesArr = []
@@ -35,16 +36,18 @@ const SingleDemo = ({ data }) => {
 
 
   return (
-    <div className="rounded-lg bg-white shadow-blue relative shadow-xl">
+    <div className={`rounded-lg bg-white shadow-blue relative shadow-xl ${completed ? "border-8 border-green-500" : ""}`}>
+
       <div className="relative">
+
         <ImageGallery autoPlay={true} items={imagesArr} />
         <div className="flex items-center absolute top-3">
-          <p className="px-2 py-1 bg-black text-white rounded-r-md ">
+          <p className="px-2 py-1 theme-bg text-white rounded-r-md ">
             {projectInfo?.short}
           </p>
         </div>
         <div className="flex items-center absolute top-3 right-0">
-          <p className="px-2 py-1 bg-black text-white rounded-l-md ">
+          <p className="px-2 py-1 theme-bg text-white rounded-l-md ">
             {demoInfo?.crop}
           </p>
         </div>
@@ -88,7 +91,7 @@ const SingleDemo = ({ data }) => {
 
           <div className="mt-3 mb-4">
             <Link
-              className="px-3 py-2 rounded-md transition-colors block border-2 border-black hover:bg-black hover:text-white text-black font-bold w-100 text-center"
+              className="px-3 py-2 rounded-md transition-colors block border-2 theme-border text-black font-bold w-100 text-center"
               to={`/demo/${data?._id}`}
             >
               বিস্তারিত দেখুন

@@ -11,3 +11,7 @@
 .theme-color {
   color: var(--theme_color);
 }
+
+.theme-border {
+  border-color: var(--theme_color);
+}
