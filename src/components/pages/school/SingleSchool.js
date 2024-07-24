@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
@@ -7,7 +7,6 @@ import { toBengaliNumber } from "bengali-number";
 import { FaPeopleGroup } from "react-icons/fa6";
 
 const SingleSchool = ({ data }) => {
-  const [allImages, setAllImages] = useState([])
   const {
     projectInfo,
     location,

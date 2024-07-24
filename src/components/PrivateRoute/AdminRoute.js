@@ -5,11 +5,11 @@ import Loader from '../shared/Loader';
 import toast from 'react-hot-toast';
 
 const AdminRoute = ({ children }) => {
-    const { user, loading, role } = useContext(AuthContext);
+    const { loading, role } = useContext(AuthContext);
     const location = useLocation();
 
     if (loading) {
-        return <><Loader /></>
+        return <Loader />;
     }
 
     if (role !== 'admin') {

@@ -14,8 +14,6 @@ const SingleDemo = ({ data }) => {
     groupInfo,
     images,
     time,
-    updatedAt,
-    username,
     SAAO,
   } = data;
 

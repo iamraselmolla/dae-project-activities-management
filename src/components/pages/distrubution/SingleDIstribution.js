@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FaMobileAlt } from "react-icons/fa";
 import { BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { CiCalendarDate } from "react-icons/ci";

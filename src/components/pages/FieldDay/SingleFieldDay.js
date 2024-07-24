@@ -20,8 +20,7 @@ const SingleFieldDay = ({ data }) => {
     guests,
     date,
     images,
-    subject,
-    comment,
+    subject
   } = data;
   const imagesArr = [];
   useEffect(() => {

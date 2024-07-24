@@ -3,7 +3,6 @@ import { MdOutlineHistory } from "react-icons/md";
 import { FaPersonCirclePlus } from "react-icons/fa6";
 import { PiGrains } from "react-icons/pi";
 import { LiaHandsHelpingSolid } from "react-icons/lia";
-
 import WhyThisSoftwareIcon from '../../shared/WhyThisSoftwareIcon';
 
 

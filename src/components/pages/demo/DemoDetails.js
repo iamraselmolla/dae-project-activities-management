@@ -25,7 +25,6 @@ function DemoDetails() {
   const { id } = useParams();
   const [demoData, setDemoData] = useState(null);
   const [fetchEnd, setFetchEnd] = useState(false);
-  const [modalData, setModalData] = useState(null)
   const handleModaOpen = (dataValues) => {
     document.getElementById("my_modal_1")?.showModal();
   };
