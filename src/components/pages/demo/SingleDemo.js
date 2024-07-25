@@ -36,7 +36,7 @@ const SingleDemo = ({ data }) => {
 
 
   return (
-    <div className={`rounded-lg bg-white shadow-blue relative shadow-xl ${completed ? "border-8 border-green-500" : ""}`}>
+    <div className={`rounded-lg bg-white shadow-blue relative shadow-xl ${completed ? "border-8 border-green-500 scale-90" : ""}`}>
 
       <div className="relative">
 
