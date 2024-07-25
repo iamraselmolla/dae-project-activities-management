@@ -340,21 +340,21 @@ const Demo = () => {
               <a
                 role="tab"
                 onClick={() => setDemoType("all")}
-                className={`tab ${demoType === "all" && "tab-active"}`}
+                className={`tab ${demoType === "all" && "text-white theme-bg"}`}
               >
                 সকল
               </a>
               <a
                 role="tab"
                 onClick={() => setDemoType("primary")}
-                className={`tab ${demoType === "primary" && "tab-active"}`}
+                className={`tab ${demoType === "primary" && "text-white theme-bg"}`}
               >
                 প্রাথমিক
               </a>
               <a
                 role="tab"
                 onClick={() => setDemoType("final")}
-                className={`tab ${demoType === "final" && "tab-active"}`}
+                className={`tab ${demoType === "final" && "text-white theme-bg"}`}
               >
                 চুড়ান্ত
               </a>
