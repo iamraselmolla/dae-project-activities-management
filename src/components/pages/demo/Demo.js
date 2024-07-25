@@ -175,9 +175,9 @@ const Demo = () => {
           : "",
         new Date(project.demoDate.ropon).toLocaleDateString("bn-BD"),
         project.demoDate.korton.startDate
-          ? project.demoDate.korton.startDate +
+          ? new Date(project.demoDate?.korton.startDate).toLocaleDateString("bn-BD") +
           " - " +
-          project.demoDate.korton.endDate
+          new Date(project.demoDate?.korton.endDate).toLocaleDateString("bn-BD")
           : "এখনো কর্তন হয়নি।",
         project.demoInfo.tech,
         project.demoInfo.crop,
@@ -328,14 +328,6 @@ const Demo = () => {
                 placeholder="খুজুন (নাম, পিতার নাম, মোবাইল নং, NID, BID, কৃষিকার্ড, প্রকল্পের নাম, প্রযুক্তি, ফসল)"
               />
             </div>
-            <div>
-              <SiMicrosoftexcel
-                color="green"
-                size={50}
-                cursor={"pointer"}
-                onClick={handleToExportInToExcel}
-              />
-            </div>
             <div role="tablist" className="tabs tabs-boxed">
               <a
                 role="tab"
@@ -359,6 +351,15 @@ const Demo = () => {
                 চুড়ান্ত
               </a>
             </div>
+            <div>
+              <SiMicrosoftexcel
+                color="green"
+                size={50}
+                cursor={"pointer"}
+                onClick={handleToExportInToExcel}
+              />
+            </div>
+
           </div>
         </>
       )}
