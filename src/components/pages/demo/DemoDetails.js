@@ -327,7 +327,7 @@ function DemoDetails() {
                 </tbody>
               </table>
               {
-                user?.username === demoData?.username && <div onClick={(demoData) => handleModaOpen(demoData)} className="flex mt-4 items-center justify-center ">
+                user?.username === demoData?.user.username && <div onClick={(demoData) => handleModaOpen(demoData)} className="flex mt-4 items-center justify-center ">
                   <div className="rounded-full cursor-pointer text-white theme-bg w-20 h-20 flex items-center justify-center">
                     <FaPlus size={30} />
                   </div>
