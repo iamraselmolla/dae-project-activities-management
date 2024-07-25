@@ -86,9 +86,7 @@ const AddGroupMeeting = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
-      if (!user) {
 
-      }
       if (groupId) {
         if (!groupId) return;
         try {
