@@ -61,7 +61,10 @@ const AddGroupMeeting = () => {
     },
     discussion: "",
     images: [],
-    username: user?.username || "",
+    user: {
+      id: user?._id,
+      username: user?.username
+    },
   };
 
   const validationSchema = Yup.object({
