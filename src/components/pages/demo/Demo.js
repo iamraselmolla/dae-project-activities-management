@@ -32,7 +32,7 @@ const Demo = () => {
   const [unionName, setUnionName] = useState("");
   const [blockName, setBlockName] = useState("");
   const [search, setSearch] = useState("");
-  const [filteredProjects, setFilteredProjects] = useState(demos);
+  const [filteredDemos, setFilteredDemos] = useState(demos);
   const [blocksOfUnion, setBlocksOfUnion] = useState([]);
   const [demoType, setDemoType] = useState("all");
 
@@ -51,7 +51,7 @@ const Demo = () => {
         const result = await getAllDemos();
         if (result?.status === 200) {
           setDemos(result.data?.data);
-          setFilteredProjects(result.data?.data);
+          setFilteredDemos(result.data?.data);
           setLoading(false);
           setFetchEnd(true);
         }
@@ -114,7 +114,7 @@ const Demo = () => {
 
   useEffect(() => {
     const filtered = filterProjects();
-    setFilteredProjects(filtered);
+    setFilteredDemos(filtered);
   }, [selectedProject, fiscalYear, season, unionName, blockName, demoType, demoType]);
 
   const handleSelectChange = (e) => {
@@ -140,7 +140,7 @@ const Demo = () => {
       }
       return false;
     });
-    setFilteredProjects(filtered);
+    setFilteredDemos(filtered);
   }, [search]);
 
   const handleUnionAndBlockSelection = (e) => {
@@ -156,7 +156,7 @@ const Demo = () => {
   };
 
   const handleToExportInToExcel = () => {
-    const data = filteredProjects.map((project) => {
+    const data = filteredDemos.map((project) => {
       return [
         project.projectInfo.full,
         project.projectInfo.short,
@@ -235,7 +235,7 @@ const Demo = () => {
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="text-right font-extrabold col-span-1">
         <SectionTitle
-          title={`সকল প্রদর্শনী (${toBengaliNumber(filteredProjects?.length)})`}
+          title={`সকল প্রদর্শনী (${toBengaliNumber(filteredDemos?.length)})`}
         />
       </div>
       {user && (
@@ -367,12 +367,12 @@ const Demo = () => {
       <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
         {!loading &&
           fetchEnd &&
-          filteredProjects?.length > 0 &&
-          filteredProjects?.map((demo) => (
+          filteredDemos?.length > 0 &&
+          filteredDemos?.map((demo) => (
             <SingleDemo key={demo?._id} data={demo} />
           ))}
       </div>
-      {!loading && fetchEnd && filteredProjects?.length < 1 && (
+      {!loading && fetchEnd && filteredDemos?.length < 1 && (
         <NoContentFound text={"কোনো প্রদর্শনীর তথ্য পাওয়া যায়নি!"} />
       )}
       {!fetchEnd && loading && <LoaderWithOutDynamicMessage />}
