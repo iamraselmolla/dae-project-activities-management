@@ -3,10 +3,6 @@ import { PiGrains } from "react-icons/pi";
 import { FaRegSave } from "react-icons/fa";
 import { GiSoccerField } from "react-icons/gi";
 import { TbBus } from "react-icons/tb";
-
-
-
-
 import WhyThisSoftwareIcon from '../../shared/WhyThisSoftwareIcon';
 
 

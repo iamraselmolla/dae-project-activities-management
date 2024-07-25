@@ -30,9 +30,6 @@ const AllSchools = () => {
   const [filteredSchools, setFilteredSchools] = useState(schools);
   const [blocksOfUnion, setBlocksOfUnion] = useState([]);
 
-
-
-
   useEffect(() => {
     const fetchAllSchools = async () => {
       setLoading(true);

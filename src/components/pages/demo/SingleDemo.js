@@ -36,7 +36,7 @@ const SingleDemo = ({ data }) => {
 
 
   return (
-    <div className={`rounded-lg bg-white shadow-blue relative shadow-xl ${completed ? "border-8 border-green-500" : ""}`}>
+    <div className={`rounded-lg bg-white shadow-blue relative shadow-xl ${completed ? "border-8 border-green-500 scale-90" : ""}`}>
 
       <div className="relative">
 
@@ -91,7 +91,7 @@ const SingleDemo = ({ data }) => {
 
           <div className="mt-3 mb-4">
             <Link
-              className="px-3 py-2 rounded-md transition-colors block border-2 theme-border text-black font-bold w-100 text-center"
+              className="px-3 py-2 rounded-md transition-colors block border-2 hover:text-black theme-bg text-white hover:bg-transparent  font-bold w-100 text-center"
               to={`/demo/${data?._id}`}
             >
               বিস্তারিত দেখুন

@@ -294,15 +294,12 @@ export function deleteATour(id) {
 export function createASchool(data) {
   return http.post(BASE_URL.creatPFSFBS, { data });
 }
-
 export function getAllSchools() {
   return http.get(BASE_URL.getSchools);
 }
-
 export function getUserAllSchools() {
   return http.get(BASE_URL.userSchools)
 }
-
 export function deleteASchool(id) {
   return http.delete(BASE_URL.deleteSchool, { data: { id } })
 }

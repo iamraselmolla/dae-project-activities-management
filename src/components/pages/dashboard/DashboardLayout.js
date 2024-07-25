@@ -14,10 +14,11 @@ import {
 } from "../../../services/userServices";
 import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../../store/projectSlice";
-import toast from "react-hot-toast";
-import Loader from "../../shared/Loader";
 import DashboardMenu from "./DashboardMenu";
 import { Outlet } from "react-router-dom";
+import LoaderWithDynamicMessage from "../../shared/LoaderWithDynamicMessage";
+import DeletingLoader from "../../shared/DeletingLoader";
+import toast from "react-hot-toast";
 
 const DashboardLayout = () => {
   const { user, role } = useContext(AuthContext);
@@ -104,7 +105,7 @@ const DashboardLayout = () => {
           }
         }
       } catch (err) {
-        toast.error("Error fetching admin data.");
+        toast.error("এডমিনের সকল তথ্য সার্ভার থেকে আনতে অসুবিধা সৃষ্টি হচ্ছে । দয়া করে সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন । ");
       }
     };
 
@@ -134,7 +135,7 @@ const DashboardLayout = () => {
         </div>
       </div>
       <div className="lg:col-span-10 px-6 bg-slate-50">
-        {loading ? <Loader /> : <Outlet />}
+        {loading ? <DeletingLoader /> : <Outlet />}
       </div>
     </section>
   );

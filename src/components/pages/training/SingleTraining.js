@@ -19,8 +19,7 @@ const SingleTraining = ({ data }) => {
     guests,
     farmers,
     date,
-    images,
-    _id,
+    images
   } = data;
 
   const imagesArr = [];
@@ -34,9 +33,8 @@ const SingleTraining = ({ data }) => {
 
   return (
     <div
-      className={`rounded-lg border bg-white ${
-        role === "admin" ? "pb-12" : ""
-      } relative shadow-xl`}
+      className={`rounded-lg border bg-white ${role === "admin" ? "pb-12" : ""
+        } relative shadow-xl`}
     >
       <div className="relative">
         <ImageGallery autoPlay={true} items={imagesArr} />

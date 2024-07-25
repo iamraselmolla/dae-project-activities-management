@@ -16,7 +16,6 @@ import { FaTimes } from "react-icons/fa";
 import { toBengaliNumber } from "bengali-number";
 import compressAndUploadImage from "../../utilis/compressImages";
 import { uploadToCloudinary } from "../../utilis/uploadToCloudinary";
-import Loader from "../../shared/Loader";
 import { useLocation } from "react-router-dom";
 import { makeSureOnline } from "../../shared/MessageConst";
 import { useSelector } from "react-redux";
@@ -27,7 +26,6 @@ const AddTraining = () => {
   const queryParams = new URLSearchParams(location.search);
   const trainingIdFromUrl = queryParams.get("id");
   const [trainingId, setTrainingProjectId] = useState(trainingIdFromUrl);
-
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
   const [rawImages, setRawImages] = useState([]);
@@ -37,7 +35,6 @@ const AddTraining = () => {
     endDate: new Date(),
   });
   const [imageLinks, setImageLinks] = useState([]);
-  const [selectedImages, setSelectedImages] = useState([]); // Initialize as an empty array
   const { user } = useContext(AuthContext);
   const { projects: allProject } = useSelector((state) => state.dae);
   const handleSelectChange = (e) => {

@@ -7,6 +7,7 @@ import {
 } from "../../services/userServices";
 import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../store/projectSlice";
+import Loader from "../../components/shared/Loader"
 
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
@@ -69,7 +70,7 @@ const AuthProvider = ({ children }) => {
     username,
   };
   if (initialLoading) {
-    return <>......</>;
+    return <Loader />;
   }
   return (
     <>
