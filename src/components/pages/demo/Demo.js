@@ -115,7 +115,7 @@ const Demo = () => {
   useEffect(() => {
     const filtered = filterProjects();
     setFilteredProjects(filtered);
-  }, [selectedProject, fiscalYear, season, unionName, blockName, demoType]);
+  }, [selectedProject, fiscalYear, season, unionName, blockName, demoType, demoType]);
 
   const handleSelectChange = (e) => {
     setSelectedProject(e.target.value);
