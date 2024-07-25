@@ -25,7 +25,6 @@ function DemoDetails() {
   const { id } = useParams();
   const [demoData, setDemoData] = useState(null);
   const [fetchEnd, setFetchEnd] = useState(false);
-  const [modalData, setModalData] = useState(null)
   const handleModaOpen = (dataValues) => {
     document.getElementById("my_modal_1")?.showModal();
   };
@@ -328,7 +327,7 @@ function DemoDetails() {
                 </tbody>
               </table>
               {
-                user?.username === demoData?.username && <div onClick={(demoData) => handleModaOpen(demoData)} className="flex mt-4 items-center justify-center ">
+                user?.username === demoData?.user.username && <div onClick={(demoData) => handleModaOpen(demoData)} className="flex mt-4 items-center justify-center ">
                   <div className="rounded-full cursor-pointer text-white theme-bg w-20 h-20 flex items-center justify-center">
                     <FaPlus size={30} />
                   </div>

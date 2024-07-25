@@ -9,7 +9,6 @@ import FiscalYear from "../../shared/FiscalYear";
 import Season from "../../shared/Season";
 import Datepicker from "react-tailwindcss-datepicker";
 import { AuthContext } from "../../AuthContext/AuthProvider";
-import Loader from "../../shared/Loader";
 import SectionTitle from "../../shared/SectionTitle";
 import { useSelector } from "react-redux";
 import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";

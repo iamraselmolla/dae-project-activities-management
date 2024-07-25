@@ -13,8 +13,6 @@ import {
   findFarmerByNID,
 } from "../../../services/userServices";
 import toast from "react-hot-toast";
-import getFiscalYear from "../../shared/commonDataStores";
-import { toBengaliNumber } from "bengali-number";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import { makeSureOnline } from "../../shared/MessageConst";
 import Loader from "../../shared/Loader";

@@ -23,12 +23,12 @@ const Banner = () => {
             </p>
             <div className="mt-8 flex md:justify-start justify-center">
               <Link to="/all-projects">
-                <button className="btn lg:text-xl text-md font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-5 lg:px-16 md:px-10 px-6">
+                <button className="btn lg:text-xl text-md font-extrabold text-white  theme-bg hover:bg-black hover:text-white mr-5 lg:px-16 md:px-10 px-6">
                   সকল প্রকল্প
                 </button>
               </Link>
               <Link to={'/all-users'}>
-                <button className="btn lg:text-xl text-md font-extrabold border-black bg-transparent hover:bg-black hover:text-white mr-5 lg:px-16 md:px-10 px-6">
+                <button className="btn lg:text-xl text-md font-extrabold text-white  theme-bg hover:bg-black hover:text-white mr-5 lg:px-16 md:px-10 px-6">
                   সকল ইউজার
                 </button>
               </Link>

@@ -61,7 +61,10 @@ const AddGroupMeeting = () => {
     },
     discussion: "",
     images: [],
-    username: user?.username || "",
+    user: {
+      id: user?._id,
+      username: user?.username
+    },
   };
 
   const validationSchema = Yup.object({
@@ -83,9 +86,7 @@ const AddGroupMeeting = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
-      if (!user) {
 
-      }
       if (groupId) {
         if (!groupId) return;
         try {
@@ -113,12 +114,14 @@ const AddGroupMeeting = () => {
           setLoading(true);
           values.SAAO.name = user?.SAAO.name;
           values.SAAO.mobile = user?.SAAO.mobile;
-          values.username = user?.username;
+          values.user.id = user?._id;
+          values.user.username = user?.username;
           values.address.block = user?.blockB;
           values.address.union = user?.unionB;
 
           if (
-            !values.username ||
+            !values.user?.id ||
+            !values.user?.username ||
             !values.SAAO?.name ||
             !values?.SAAO?.mobile ||
             !values?.address?.block ||
