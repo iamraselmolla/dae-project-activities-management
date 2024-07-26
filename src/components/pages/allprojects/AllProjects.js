@@ -39,26 +39,26 @@ const AllProjects = () => {
               <a
                 role="tab"
                 onClick={() => setDemoType("all")}
-                className={`tab ${demoType === "all" && "text-white theme-bg"}`}
+                className={`tab py-4 h-auto md:text-2xl text-lg font-bold  ${demoType === "all" && "text-white theme-bg"}`}
               >
                 সকল
               </a>
               <a
                 role="tab"
                 onClick={() => setDemoType("primary")}
-                className={`tab ${demoType === "primary" && "text-white theme-bg"}`}
+                className={`tab py-4 h-auto md:text-2xl text-lg font-bold  ${demoType === "primary" && "text-white theme-bg"}`}
               >
                 প্রাথমিক
               </a>
               <a
                 role="tab"
                 onClick={() => setDemoType("final")}
-                className={`tab ${demoType === "final" && "text-white theme-bg"}`}
+                className={`tab py-4 h-auto md:text-2xl text-lg font-bold  ${demoType === "final" && "text-white theme-bg"}`}
               >
                 চুড়ান্ত
               </a>
             </div>
-            <div className="grid grid-cols-1 mt-10 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 mt-16 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {projects?.map((single, index) => (
                 <SingleProject key={single?.name?.details} single={single} />
               ))}
