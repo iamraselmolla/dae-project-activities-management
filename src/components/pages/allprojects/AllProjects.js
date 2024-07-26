@@ -9,7 +9,7 @@ import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessag
 const AllProjects = () => {
   const [projects, setAllProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [demoType, setDemoType] = useState("all");
+  const [projectType, setProjectType] = useState("all");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,24 +38,24 @@ const AllProjects = () => {
             <div role="tablist" className="tabs tabs-boxed">
               <a
                 role="tab"
-                onClick={() => setDemoType("all")}
-                className={`tab py-4 h-auto md:text-2xl text-lg font-bold  ${demoType === "all" && "text-white theme-bg"}`}
+                onClick={() => setProjectType("all")}
+                className={`tab py-4 h-auto md:text-2xl text-lg font-bold  ${projectType === "all" && "text-white theme-bg"}`}
               >
                 সকল
               </a>
               <a
                 role="tab"
-                onClick={() => setDemoType("primary")}
-                className={`tab py-4 h-auto md:text-2xl text-lg font-bold  ${demoType === "primary" && "text-white theme-bg"}`}
+                onClick={() => setProjectType("running")}
+                className={`tab py-4 h-auto md:text-2xl text-lg font-bold  ${projectType === "primary" && "text-white theme-bg"}`}
               >
-                প্রাথমিক
+                চলমান
               </a>
               <a
                 role="tab"
-                onClick={() => setDemoType("final")}
-                className={`tab py-4 h-auto md:text-2xl text-lg font-bold  ${demoType === "final" && "text-white theme-bg"}`}
+                onClick={() => setProjectType("completed")}
+                className={`tab py-4 h-auto md:text-2xl text-lg font-bold  ${projectType === "final" && "text-white theme-bg"}`}
               >
-                চুড়ান্ত
+                সম্পন্ন
               </a>
             </div>
             <div className="grid grid-cols-1 mt-16 md:grid-cols-2 lg:grid-cols-3 gap-5">
