@@ -27,7 +27,7 @@ const AllProjects = () => {
     fetchData();
   }, []);
   const filterProjects = () => {
-    let filtered = demos;
+    let filtered = projects;
     if (demoType === "primary") {
       filtered = filtered.filter((project) => !project.completed);
     } else if (demoType === "final") {
