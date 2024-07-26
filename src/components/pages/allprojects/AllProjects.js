@@ -26,6 +26,21 @@ const AllProjects = () => {
     };
     fetchData();
   }, []);
+  const filterProjects = () => {
+    let filtered = demos;
+    if (demoType === "primary") {
+      filtered = filtered.filter((project) => !project.completed);
+    } else if (demoType === "final") {
+      filtered = filtered.filter((project) => project.completed);
+    }
+
+    return filtered;
+  };
+  useEffect(() => {
+    const filtered = filterProjects();
+    setProjectType(filtered);
+  }, [projectType]);
+
 
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
