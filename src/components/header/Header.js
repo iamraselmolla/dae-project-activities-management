@@ -113,7 +113,7 @@ const Header = () => {
                         aria-labelledby="user-menu-button"
                         tabIndex="-1"
                       >
-                        <button className="text-white text-left hover:bg-white hover:text-black rounded-md px-3 py-2 text-sm font-bold">Hi, {user?.SAAO?.name}</button>
+                        <button className="text-white text-left  rounded-md px-3 py-2 text-sm font-bold">Hi, {user?.SAAO?.name}</button>
                         <HeaderMenuItem
                           link="dashboard" text="ড্যাশবোর্ড" />
                         <NavLink
