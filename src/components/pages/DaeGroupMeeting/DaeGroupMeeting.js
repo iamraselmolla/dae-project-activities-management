@@ -115,61 +115,61 @@ const DaeGroupMeeting = () => {
         link={"add-dae-group-meeting"}
       />
       <SectionTitle title={"সকল কৃষক গ্রুপ সভা"} />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 py-6">
-        <div>
-          <label className="font-extrabold mb-1 block">ইউনিয়ন</label>
-          <select
-            className="input input-bordered w-full"
-            value={unionName}
-            onChange={handleUnionAndBlockSelection}
-          >
-            <option value="" label="ইউনিয়ন" />
-            {allUnion?.map((single) => (
-              <option key={single} value={single}>{single}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="font-extrabold mb-1 block">ব্লক</label>
-          <select
-            className="input input-bordered w-full"
-            value={blockName}
-            onChange={(e) => setBlockName(e.target.value)}
-          >
-            <option value="" label="সিলেক্ট করুন" />
-            {blocksOfUnion?.map((single, index) => (
-              <option key={index} value={single}>
-                {single}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 py-6">
-        <div>
-          <label className="font-extrabold mb-1 block">মৌসুম</label>
-          <select
-            className="input input-bordered w-full"
-            value={season}
-            onChange={(e) => setSeason(e.target.value)}
-          >
-            <option value="" label="সিলেক্ট করুন" />
-            <option value="rabi" label="রবি" />
-            <option value="kharif" label="খরিফ" />
-          </select>
-        </div>
-        <div>
-          <label className="font-extrabold mb-1 block">অর্থবছর</label>
-          <select
-            className="input input-bordered w-full"
-            value={fiscalYear}
-            onChange={(e) => setFiscalYear(e.target.value)}
-          >
-            <option value="" label="সিলেক্ট করুন" />
-            <option value="2021-22" label="২০২১-২২" />
-            <option value="2022-23" label="২০২২-২৩" />
-            <option value="2023-24" label="২০২৩-২৪" />
-          </select>
+      <div className="grid grid-cols-1 gap-6 py-6">
+        <div className="flex flex-wrap md:flex-nowrap gap-3 w-full">
+          <div className="w-full md:w-1/4">
+            <label className="font-extrabold mb-1 block">ইউনিয়ন</label>
+            <select
+              className="input input-bordered w-full"
+              value={unionName}
+              onChange={handleUnionAndBlockSelection}
+            >
+              <option value="" label="ইউনিয়ন" />
+              {allUnion?.map((single) => (
+                <option key={single} value={single}>{single}</option>
+              ))}
+            </select>
+          </div>
+          <div className="w-full md:w-1/4">
+            <label className="font-extrabold mb-1 block">ব্লক</label>
+            <select
+              className="input input-bordered w-full"
+              value={blockName}
+              onChange={(e) => setBlockName(e.target.value)}
+            >
+              <option value="" label="সিলেক্ট করুন" />
+              {blocksOfUnion?.map((single, index) => (
+                <option key={index} value={single}>
+                  {single}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="w-full md:w-1/4">
+            <label className="font-extrabold mb-1 block">মৌসুম</label>
+            <select
+              className="input input-bordered w-full"
+              value={season}
+              onChange={(e) => setSeason(e.target.value)}
+            >
+              <option value="" label="সিলেক্ট করুন" />
+              <option value="rabi" label="রবি" />
+              <option value="kharif" label="খরিফ" />
+            </select>
+          </div>
+          <div className="w-full md:w-1/4">
+            <label className="font-extrabold mb-1 block">অর্থবছর</label>
+            <select
+              className="input input-bordered w-full"
+              value={fiscalYear}
+              onChange={(e) => setFiscalYear(e.target.value)}
+            >
+              <option value="" label="সিলেক্ট করুন" />
+              <option value="2021-22" label="২০২১-২২" />
+              <option value="2022-23" label="২০২২-২৩" />
+              <option value="2023-24" label="২০২৩-২৪" />
+            </select>
+          </div>
         </div>
       </div>
       <div className="w-full mb-12">
