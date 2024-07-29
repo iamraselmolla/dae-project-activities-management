@@ -15,13 +15,13 @@ import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessag
 
 const AllSchools = () => {
   const { projects: allProject } = useSelector((state) => state.dae);
+  const { blockAndUnions } = useSelector((state) => state.dae);
+  const [allUnion, setAllUnion] = useState([]);
+  const [selectedProject, setSelectedProject] = useState("");
   const [schools, setSchools] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fetchEnd, setFetchEnd] = useState(false);
   const { user } = useContext(AuthContext);
-  const { blockAndUnions } = useSelector((state) => state.dae);
-  const [allUnion, setAllUnion] = useState([]);
-  const [selectedProject, setSelectedProject] = useState("");
   const [fiscalYear, setFiscalYear] = useState("");
   const [season, setSeason] = useState("");
   const [unionName, setUnionName] = useState("");
