@@ -9,6 +9,7 @@ import NoContentFound from "../../shared/NoContentFound";
 import toast from "react-hot-toast";
 import Loader from "../../shared/Loader";
 import { useSelector } from "react-redux";
+import { toBengaliNumber } from "bengali-number";
 
 const DaeGroupMeeting = () => {
   const { user } = useContext(AuthContext);
@@ -114,7 +115,7 @@ const DaeGroupMeeting = () => {
         btnText={"কৃষক গ্রুপ সভা যুক্ত করুন"}
         link={"add-dae-group-meeting"}
       />
-      <SectionTitle title={"সকল কৃষক গ্রুপ সভা"} />
+      <SectionTitle title={`সকল কৃষক গ্রুপ সভা  ${!loading ? `(${toBengaliNumber(filteredGroups?.length)})` : ''}`} />
       <div className="grid grid-cols-1 gap-6 py-6">
         <div className="flex flex-wrap md:flex-nowrap gap-3 w-full">
           <div className="w-full md:w-1/4">
