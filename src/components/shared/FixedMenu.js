@@ -27,6 +27,7 @@ const FixedMenu = () => {
                         <Link className='menu-item' to="/addTraining">প্রশিক্ষণ</Link>
                         <Link className='menu-item' to="/addDistribution">বিতরণ</Link>
                         <Link className='menu-item' to="/add-motivational-tour">ভ্রমণ</Link>
+                        <Link className='menu-item' to="/add-notice">নোটিশ</Link>
                     </>
                     }
 
