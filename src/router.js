@@ -39,6 +39,7 @@ import UserPrimaryDemos from "./components/pages/dashboard/user/demos/UserPrimar
 import UserFinalDemos from "./components/pages/dashboard/user/demos/UserFinalDemos";
 import FarmerList from "./components/pages/farmer-list/FarmerList";
 import AddAFarmer from "./components/pages/farmer-list/AddAFarmer";
+import AddNotice from "./components/pages/demo/AddNotice";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
@@ -104,6 +105,10 @@ const router = createBrowserRouter([
       {
         path: "/notices",
         element: <Notices />,
+      },
+      {
+        path: "/add-notice",
+        element: <AddNotice />,
       },
       {
         path: "/addDemo",
