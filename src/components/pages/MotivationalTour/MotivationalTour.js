@@ -103,9 +103,7 @@ function MotivationalTour() {
           btnText={"উদ্বদ্ধরণ ভ্রমণ যুক্ত করুন"}
         />
         <SectionTitle
-          title={`সকল উদ্বুদ্ধকরণ ভ্রমণ (${toBengaliNumber(
-            filteredTours?.length
-          )})`}
+          title={`সকল উদ্বুদ্ধকরণ ভ্রমণ ${!loading ? `(${toBengaliNumber(filteredTours?.length)})` : ''}`}
         />
         <div className="flex flex-wrap justify-between items-center gap-3">
           <div>
