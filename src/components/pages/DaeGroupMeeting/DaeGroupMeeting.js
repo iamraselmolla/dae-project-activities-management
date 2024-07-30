@@ -115,7 +115,10 @@ const DaeGroupMeeting = () => {
         btnText={"কৃষক গ্রুপ সভা যুক্ত করুন"}
         link={"add-dae-group-meeting"}
       />
-      <SectionTitle title={`সকল কৃষক গ্রুপ সভা  ${!loading ? `(${toBengaliNumber(filteredGroups?.length)})` : ''}`} />
+      <SectionTitle title={`সকল কৃষক গ্রুপ সভা  
+        ${!loading ? `(${toBengaliNumber(filteredGroups?.length)})` : ''}`} 
+        
+        />
       <div className="grid grid-cols-1 gap-6 py-6">
         <div className="flex flex-wrap md:flex-nowrap gap-3 w-full">
           <div className="w-full md:w-1/4">
