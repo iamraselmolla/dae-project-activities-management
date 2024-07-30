@@ -154,7 +154,7 @@ const AllSchools = () => {
         <AddModuleButton link={"add-school"} btnText={"স্কুল যুক্ত করুন"} />
 
         <SectionTitle
-          title={`সকল স্কুল (${toBengaliNumber(schools?.length)})`}
+          title={`সকল স্কুল ${!loading ? `(${toBengaliNumber(schools?.length)})` : ''}`}
         />
       </div>
       {user && (
