@@ -23,6 +23,7 @@ import AddNotes from "./components/pages/note/AddUserNotes";
 import DemoDetails from "./components/pages/demo/DemoDetails";
 import AddDistribution from "./components/pages/distrubution/AddDistribution";
 import AdminRoute from "./components/PrivateRoute/AdminRoute";
+import Notices from './components/pages/notices/Notices'
 import UserRoute from "./components/PrivateRoute/UserRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import MotivationalTour from "./components/pages/MotivationalTour/MotivationalTour";
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
       {
         path: "/all-projects",
         element: <AllProjectsForUser />,
+      },
+      {
+        path: "/notices",
+        element: <Notices />,
       },
       {
         path: "/addDemo",
