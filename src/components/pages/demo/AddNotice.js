@@ -12,16 +12,20 @@ const AddNotice = () => {
             content: '',
             linkText: '',
             link: '',
-            date: null,
             expirationDate: null,
             attachment: null,
             priority: 'Medium',
             notification: false,
         },
         validationSchema: Yup.object().shape({
-            subject: Yup.string().required('বিষয় আবশ্যক').min(3, 'বিষয় ৩ অক্ষরের চেয়ে বড় হতে হবে').max(100, 'বিষয় ১০০ অক্ষরের চেয়ে ছোট হতে হবে'),
-            content: Yup.string().required('বিবরণ আবশ্যক').min(10, 'বিবরণ ১০ অক্ষরের চেয়ে বড় হতে হবে'),
-            date: Yup.date().required('তারিখ আবশ্যক'),
+            subject: Yup.string()
+                .required('বিষয় আবশ্যক')
+                .min(3, 'বিষয় ৩ অক্ষরের চেয়ে বড় হতে হবে')
+                .max(100, 'বিষয় ১০০ অক্ষরের চেয়ে ছোট হতে হবে'),
+            content: Yup.string()
+                .required('বিবরণ আবশ্যক')
+                .min(10, 'বিবরণ ১০ অক্ষরের চেয়ে বড় হতে হবে'),
+            expirationDate: Yup.date().required('মেয়াদ শেষ হওয়ার তারিখ আবশ্যক'),
             attachment: Yup.mixed()
                 .nullable()
                 .test('fileSize', 'ফাইল খুব বড়', value => !value || (value && value.size <= 1048576))
@@ -52,7 +56,9 @@ const AddNotice = () => {
                             value={formik.values.subject}
                             placeholder="নোটিশের বিষয় লিখুন"
                         />
-                        {formik.touched.subject && formik.errors.subject ? <div className="text-red-600">{formik.errors.subject}</div> : null}
+                        {formik.touched.subject && formik.errors.subject ? (
+                            <div className="text-red-600">{formik.errors.subject}</div>
+                        ) : null}
                     </div>
 
                     <div className="col-span-2">
@@ -66,7 +72,9 @@ const AddNotice = () => {
                             value={formik.values.content}
                             placeholder="নোটিশের বিবরণ লিখুন"
                         />
-                        {formik.touched.content && formik.errors.content ? <div className="text-red-600">{formik.errors.content}</div> : null}
+                        {formik.touched.content && formik.errors.content ? (
+                            <div className="text-red-600">{formik.errors.content}</div>
+                        ) : null}
                     </div>
 
                     <div>
@@ -98,19 +106,6 @@ const AddNotice = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="date">তারিখ</label>
-                        <Datepicker
-                            id="date"
-                            name="date"
-                            value={formik.values.date}
-                            onChange={val => formik.setFieldValue('date', val)}
-                            showShortcuts={true}
-                            asSingle={true}
-                        />
-                        {formik.touched.date && formik.errors.date ? <div className="text-red-600">{formik.errors.date}</div> : null}
-                    </div>
-
-                    <div>
                         <label htmlFor="expirationDate">মেয়াদ শেষ হওয়ার তারিখ</label>
                         <Datepicker
                             id="expirationDate"
@@ -120,6 +115,24 @@ const AddNotice = () => {
                             showShortcuts={true}
                             asSingle={true}
                         />
+                        {formik.touched.expirationDate && formik.errors.expirationDate ? (
+                            <div className="text-red-600">{formik.errors.expirationDate}</div>
+                        ) : null}
+                    </div>
+
+                    <div>
+                        <label htmlFor="attachment">সংযুক্তি</label>
+                        <input
+                            type="file"
+                            id="attachment"
+                            name="attachment"
+                            className="file-input file-input-bordered w-full"
+                            onChange={(event) => formik.setFieldValue('attachment', event.currentTarget.files[0])}
+                            onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.attachment && formik.errors.attachment ? (
+                            <div className="text-red-600">{formik.errors.attachment}</div>
+                        ) : null}
                     </div>
 
                     <div>
@@ -138,20 +151,7 @@ const AddNotice = () => {
                         </select>
                     </div>
 
-                    <div className="col-span-2">
-                        <label htmlFor="attachment">সংযুক্তি</label>
-                        <input
-                            type="file"
-                            id="attachment"
-                            name="attachment"
-                            className="file-input file-input-bordered w-full"
-                            onChange={(event) => formik.setFieldValue('attachment', event.currentTarget.files[0])}
-                            onBlur={formik.handleBlur}
-                        />
-                        {formik.touched.attachment && formik.errors.attachment ? <div className="text-red-600">{formik.errors.attachment}</div> : null}
-                    </div>
-
-                    <div className="col-span-2">
+                    <div className="col-span-2 flex items-center">
                         <label>
                             <input
                                 type="checkbox"
@@ -165,8 +165,8 @@ const AddNotice = () => {
                     </div>
                 </div>
 
-                <button type="submit" className="btn btn-primary w-full">
-                    নোটিশ জমা দিন
+                <button type="submit" className="btn theme-bg text-white w-full">
+                    নোটিশ যুক্ত করুন
                 </button>
             </form>
         </section>
