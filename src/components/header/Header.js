@@ -65,6 +65,7 @@ const Header = () => {
               <HeaderMenuItem link="all-projects" text="প্রকল্প" />
               <HeaderMenuItem link="all-users" text="ব্যবহারকারী" />
               <HeaderMenuItem link="farmers-list" text="সংরক্ষনকৃত কৃষক তালিকা" />
+              <HeaderMenuItem link="notices" text="নোটিশ" />
             </ul>
           </div>
           <Link to="/" className="hover:bg-transparent">
