@@ -199,7 +199,7 @@ const AddNotice = () => {
                             <label>নোটিশ পাঠানঃ </label>
                             <div className="flex gap-2 mt-3 flex-wrap">
                                 {users.map(user => (
-                                    <label key={user._id} className="flex py-3 border-2 theme-border px-2 rounded-lg items-center mr-4 mb-2">
+                                    <label key={user._id} className="flex py-3 cursor-pointer border-2 theme-border px-2 rounded-lg items-center mr-4 mb-2">
                                         <input
                                             type="checkbox"
                                             value={user._id}
