@@ -4,21 +4,21 @@ import { toBengaliNumber } from "bengali-number";
 import { IoTimer } from "react-icons/io5";
 import { BsPersonWorkspace } from "react-icons/bs";
 import { LiaCheckSquareSolid } from "react-icons/lia";
-import CropsModal from "../../shared/CropsModal";
 
 const SingleProject = ({ single }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [crops, setCrops] = useState([]);
+  const modalId = `modal_${single?.name?.details.replace(/\s+/g, '_')}`;
 
   const openModal = () => {
     setCrops(single?.crops);
     setModalIsOpen(true);
-    document.getElementById('my_modal_3').showModal();
+    document.getElementById(modalId).showModal();
   };
 
   const closeModal = () => {
     setModalIsOpen(false);
-    document.getElementById('my_modal_3').close();
+    document.getElementById(modalId).close();
   };
 
   return (
@@ -60,13 +60,26 @@ const SingleProject = ({ single }) => {
             <IoTimer size={25} className="theme-color" />
           </div>
           <div>
-            {new Date(single?.time?.start).toLocaleDateString("bn-BD")}
+            {new Date(single?.time?.start).toLocaleDateString("bn-BD")} -{" "}
             {new Date(single?.time?.end).toLocaleDateString("bn-BD")}
           </div>
         </div>
       </div>
 
-      <CropsModal isOpen={modalIsOpen} closeModal={closeModal} crops={crops} />
+      <dialog id={modalId} className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            <button onClick={closeModal} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <div className="py-4">
+            {crops?.map((crop, index) => (
+              <div key={index} className="py-1 flex gap-1">
+                {toBengaliNumber(index + 1)}. {crop}
+              </div>
+            ))}
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };
