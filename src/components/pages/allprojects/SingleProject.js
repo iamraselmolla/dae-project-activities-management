@@ -41,7 +41,7 @@ const SingleProject = ({ single }) => {
               {toBengaliNumber(single?.crops?.length)}
             </div>
           </div>
-          <div className="bg-white transition-all border-2 border-black absolute top-3 mt-8 flex flex-col gap-1 px-5 rounded-sm">
+          <div className="bg-white transition-all border-2 theme-border absolute top-3 mt-8 flex flex-col gap-1 px-5 rounded-sm">
             {show &&
               single?.crops?.map((singleItem, index) => (
                 <div className="py-1 flex gap-1 bg-white">
