@@ -25,11 +25,11 @@ const AddNotice = () => {
             content: Yup.string()
                 .required('বিবরণ আবশ্যক')
                 .min(10, 'বিবরণ ১০ অক্ষরের চেয়ে বড় হতে হবে'),
-            expirationDate: Yup.date().required('মেয়াদ শেষ হওয়ার তারিখ আবশ্যক'),
-            attachment: Yup.mixed()
-                .nullable()
-                .test('fileSize', 'ফাইল খুব বড়', value => !value || (value && value.size <= 1048576))
-                .test('fileType', 'অসমর্থিত ফাইল ফরম্যাট', value => !value || (value && ['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(value.type))),
+            // expirationDate: Yup.date().required('মেয়াদ শেষ হওয়ার তারিখ আবশ্যক'),
+            // attachment: Yup.mixed()
+            //     .nullable()
+            //     .test('fileSize', 'ফাইল খুব বড়', value => !value || (value && value.size <= 1048576))
+            //     .test('fileType', 'অসমর্থিত ফাইল ফরম্যাট', value => !value || (value && ['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(value.type))),
         }),
         onSubmit: async (values, { resetForm }) => {
             // Handle form submission

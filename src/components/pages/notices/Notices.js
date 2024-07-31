@@ -1,5 +1,6 @@
 import React from 'react';
 import SectionTitle from '../../shared/SectionTitle';
+import AddModuleButton from '../../shared/AddModuleButton';
 
 const Notices = () => {
     return (
@@ -9,6 +10,8 @@ const Notices = () => {
                     title={`সকল নোটিশ`}
                 />
             </div>
+
+            <AddModuleButton link={"add-notice"} btnText={"নোটিশ যুক্ত করুন"} />
         </section>
     );
 };
