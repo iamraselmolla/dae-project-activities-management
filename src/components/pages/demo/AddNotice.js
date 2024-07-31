@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import Datepicker from 'react-tailwindcss-datepicker';
 import toast from 'react-hot-toast';
 import SectionTitle from '../../shared/SectionTitle';
+import axios from 'axios';
 import { getAllUser } from '../../../services/userServices';
 
 const AddNotice = () => {
@@ -54,18 +55,24 @@ const AddNotice = () => {
                 ...values,
                 recipients: sendToAll ? 'all' : selectedUsers,
             };
-            console.log('Form values:', noticeData);
-            toast.success('নোটিশ সফলভাবে জমা দেওয়া হয়েছে');
-            resetForm();
+            try {
+                await axios.post('/api/notices', noticeData);
+                toast.success('নোটিশ সফলভাবে জমা দেওয়া হয়েছে');
+                resetForm();
+            } catch (error) {
+                toast.error('নোটিশ জমা দেওয়া যায়নি');
+                console.error('Error submitting notice', error);
+            }
         },
     });
 
     const handleUserSelection = (e) => {
         const userId = e.target.value;
+        const username = e.target.dataset.username;
         if (e.target.checked) {
-            setSelectedUsers([...selectedUsers, userId]);
+            setSelectedUsers([...selectedUsers, { userId, username }]);
         } else {
-            setSelectedUsers(selectedUsers.filter(id => id !== userId));
+            setSelectedUsers(selectedUsers.filter(user => user.userId !== userId));
         }
     };
 
@@ -196,13 +203,14 @@ const AddNotice = () => {
 
                     {!sendToAll && (
                         <div className="col-span-2">
-                            <label>নোটিশ পাঠানঃ </label>
-                            <div className="flex gap-2 mt-3 flex-wrap">
+                            <label>ব্যবহারকারী নির্বাচন করুন</label>
+                            <div className="flex flex-wrap">
                                 {users.map(user => (
-                                    <label key={user._id} className="flex py-3 cursor-pointer border-2 theme-border px-2 rounded-lg items-center mr-4 mb-2">
+                                    <label key={user._id} className="flex items-center mr-4 mb-2">
                                         <input
                                             type="checkbox"
                                             value={user._id}
+                                            data-username={user.username}
                                             onChange={handleUserSelection}
                                             className="checkbox mr-2"
                                         />
