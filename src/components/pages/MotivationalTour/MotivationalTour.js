@@ -9,6 +9,7 @@ import FiscalYear from "../../shared/FiscalYear";
 import { useSelector } from "react-redux";
 import { toBengaliNumber } from "bengali-number";
 import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
+import NoContentFound from "../../shared/NoContentFound"
 
 function MotivationalTour() {
   const { projects: allProjects } = useSelector((state) => state.dae);
@@ -161,6 +162,9 @@ function MotivationalTour() {
           </div>
         ) : (
           <LoaderWithOutDynamicMessage />
+        )}
+        {!loading && !filteredTours?.length && (
+          <NoContentFound text={'কোনো কৃষক গ্রুপ সভার তথ্য পাওয়া যায়নি । '} />
         )}
       </section>
     </>
