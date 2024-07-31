@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Datepicker from 'react-tailwindcss-datepicker';
 import toast from 'react-hot-toast';
 import SectionTitle from '../../shared/SectionTitle';
+import { getAllUser } from '../../../services/userServices';
 
 const AddNotice = () => {
+    const [users, setUsers] = useState([]);
+    const [sendToAll, setSendToAll] = useState(true);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+
+    useEffect(() => {
+        if (!sendToAll) {
+            const fetchUsers = async () => {
+                try {
+                    const userResult = await getAllUser();
+                    setUsers(userResult?.data?.data);
+                } catch (error) {
+                    console.error('Error fetching users', error);
+                }
+            };
+            fetchUsers();
+        }
+    }, [sendToAll]);
+
     const formik = useFormik({
         initialValues: {
             subject: '',
@@ -25,19 +44,30 @@ const AddNotice = () => {
             content: Yup.string()
                 .required('বিবরণ আবশ্যক')
                 .min(10, 'বিবরণ ১০ অক্ষরের চেয়ে বড় হতে হবে'),
-            // expirationDate: Yup.date().required('মেয়াদ শেষ হওয়ার তারিখ আবশ্যক'),
-            // attachment: Yup.mixed()
-            //     .nullable()
-            //     .test('fileSize', 'ফাইল খুব বড়', value => !value || (value && value.size <= 1048576))
-            //     .test('fileType', 'অসমর্থিত ফাইল ফরম্যাট', value => !value || (value && ['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(value.type))),
         }),
         onSubmit: async (values, { resetForm }) => {
-            // Handle form submission
-            console.log('Form values:', values);
+            if (!sendToAll && selectedUsers.length === 0) {
+                toast.error('অনুগ্রহ করে কমপক্ষে একজন ব্যবহারকারী নির্বাচন করুন');
+                return;
+            }
+            const noticeData = {
+                ...values,
+                recipients: sendToAll ? 'all' : selectedUsers,
+            };
+            console.log('Form values:', noticeData);
             toast.success('নোটিশ সফলভাবে জমা দেওয়া হয়েছে');
             resetForm();
         },
     });
+
+    const handleUserSelection = (e) => {
+        const userId = e.target.value;
+        if (e.target.checked) {
+            setSelectedUsers([...selectedUsers, userId]);
+        } else {
+            setSelectedUsers(selectedUsers.filter(id => id !== userId));
+        }
+    };
 
     return (
         <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -151,18 +181,37 @@ const AddNotice = () => {
                         </select>
                     </div>
 
-                    <div className="col-span-2 flex items-center">
+                    {sendToAll && <div className="col-span-2">
                         <label>
                             <input
                                 type="checkbox"
-                                name="notification"
+                                name="sendToAll"
                                 className="checkbox"
-                                onChange={formik.handleChange}
-                                checked={formik.values.notification}
+                                checked={sendToAll}
+                                onChange={() => setSendToAll(!sendToAll)}
                             />
-                            সকল ব্যবহারকারীদের নোটিফিকেশন পাঠান
+                            সকল ব্যবহারকারীদের নোটিশ পাঠান
                         </label>
-                    </div>
+                    </div>}
+
+                    {!sendToAll && (
+                        <div className="col-span-2">
+                            <label>নোটিশ পাঠানঃ </label>
+                            <div className="flex gap-2 mt-3 flex-wrap">
+                                {users.map(user => (
+                                    <label key={user._id} className="flex py-3 border-2 theme-border px-2 rounded-lg items-center mr-4 mb-2">
+                                        <input
+                                            type="checkbox"
+                                            value={user._id}
+                                            onChange={handleUserSelection}
+                                            className="checkbox mr-2"
+                                        />
+                                        {`${user.blockB}, ${user.unionB}, ${user.SAAO.name}`}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <button type="submit" className="btn theme-bg text-white w-full">
