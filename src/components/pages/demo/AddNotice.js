@@ -7,19 +7,25 @@ import SectionTitle from '../../shared/SectionTitle';
 import axios from 'axios';
 import { getAllUser } from '../../../services/userServices';
 
+
 const AddNotice = () => {
     const [users, setUsers] = useState([]);
     const [sendToAll, setSendToAll] = useState(true);
     const [selectedUsers, setSelectedUsers] = useState([]);
+    const [userFetching, setUserFetching] = useState(false);
 
     useEffect(() => {
         if (!sendToAll) {
             const fetchUsers = async () => {
                 try {
+                    setUserFetching(true)
                     const userResult = await getAllUser();
                     setUsers(userResult?.data?.data);
                 } catch (error) {
                     console.error('Error fetching users', error);
+                }
+                finally {
+                    setUserFetching(false)
                 }
             };
             fetchUsers();
@@ -206,7 +212,7 @@ const AddNotice = () => {
                             <label>ব্যবহারকারী নির্বাচন করুন</label>
                             <div className="flex flex-wrap">
                                 {users.map(user => (
-                                    <label key={user._id} className="flex items-center mr-4 mb-2">
+                                    <label key={user._id} className="flex cursor-pointer items-center mr-4 mb-2">
                                         <input
                                             type="checkbox"
                                             value={user._id}
@@ -218,6 +224,7 @@ const AddNotice = () => {
                                     </label>
                                 ))}
                             </div>
+                            {userFetching && <span className="loading loading-spinner text-success"></span>}
                         </div>
                     )}
                 </div>
