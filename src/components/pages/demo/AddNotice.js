@@ -7,25 +7,25 @@ import SectionTitle from '../../shared/SectionTitle';
 import axios from 'axios';
 import { getAllUser } from '../../../services/userServices';
 
-
 const AddNotice = () => {
     const [users, setUsers] = useState([]);
     const [sendToAll, setSendToAll] = useState(true);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [userFetching, setUserFetching] = useState(false);
+    const [userActions, setUserActions] = useState([]);
+    const [acknowledgmentOnly, setAcknowledgmentOnly] = useState(false);
 
     useEffect(() => {
         if (!sendToAll) {
             const fetchUsers = async () => {
                 try {
-                    setUserFetching(true)
+                    setUserFetching(true);
                     const userResult = await getAllUser();
                     setUsers(userResult?.data?.data);
                 } catch (error) {
                     console.error('Error fetching users', error);
-                }
-                finally {
-                    setUserFetching(false)
+                } finally {
+                    setUserFetching(false);
                 }
             };
             fetchUsers();
@@ -41,7 +41,6 @@ const AddNotice = () => {
             expirationDate: null,
             attachment: null,
             priority: 'Medium',
-            notification: false,
         },
         validationSchema: Yup.object().shape({
             subject: Yup.string()
@@ -59,7 +58,10 @@ const AddNotice = () => {
             }
             const noticeData = {
                 ...values,
-                recipients: sendToAll ? 'all' : selectedUsers,
+                sendToAll,
+                recipients: sendToAll ? [] : selectedUsers,
+                userActions,
+                acknowledgmentOnly
             };
             try {
                 await axios.post('/api/notices', noticeData);
@@ -80,6 +82,37 @@ const AddNotice = () => {
         } else {
             setSelectedUsers(selectedUsers.filter(user => user.userId !== userId));
         }
+    };
+
+    const handleCommentChange = (userId, comment) => {
+        if (acknowledgmentOnly) return; // Do nothing if acknowledgment only
+        setUserActions(prevActions => {
+            const updatedActions = prevActions.map(action => {
+                if (action.userId === userId) {
+                    return {
+                        ...action,
+                        comments: [...action.comments, { text: comment }]
+                    };
+                }
+                return action;
+            });
+            return updatedActions;
+        });
+    };
+
+    const handleCompletionChange = (userId, completed) => {
+        setUserActions(prevActions => {
+            const updatedActions = prevActions.map(action => {
+                if (action.userId === userId) {
+                    return {
+                        ...action,
+                        completed
+                    };
+                }
+                return action;
+            });
+            return updatedActions;
+        });
     };
 
     return (
@@ -189,44 +222,63 @@ const AddNotice = () => {
                             value={formik.values.priority}
                         >
                             <option value="High">উচ্চ</option>
-                            <option value="Medium">মাঝারি</option>
+                            <option value="Medium">মধ্যম</option>
                             <option value="Low">নিম্ন</option>
                         </select>
+                        {formik.touched.priority && formik.errors.priority ? (
+                            <div className="text-red-600">{formik.errors.priority}</div>
+                        ) : null}
                     </div>
 
-                    {sendToAll && <div className="col-span-2">
-                        <label>
-                            <input
-                                type="checkbox"
-                                name="sendToAll"
-                                className="checkbox"
-                                checked={sendToAll}
-                                onChange={() => setSendToAll(!sendToAll)}
-                            />
-                            সকল ব্যবহারকারীদের নোটিশ পাঠান
-                        </label>
-                    </div>}
+                    <div className="col-span-2 flex items-center">
+                        <label htmlFor="sendToAll" className="mr-2">সকলকে পাঠান</label>
+                        <input
+                            type="checkbox"
+                            id="sendToAll"
+                            name="sendToAll"
+                            className="toggle toggle-primary"
+                            onChange={(e) => {
+                                formik.handleChange(e);
+                                setSendToAll(e.target.checked);
+                            }}
+                            onBlur={formik.handleBlur}
+                            checked={sendToAll}
+                        />
+                    </div>
 
                     {!sendToAll && (
                         <div className="col-span-2">
-                            <label>ব্যবহারকারী নির্বাচন করুন</label>
-                            <div className="flex flex-wrap">
-                                {users.map(user => (
-                                    <label key={user._id} className="flex cursor-pointer items-center mr-4 mb-2">
+                            <label className='text-2xl font-bold mb-4'>নোটিশ পাঠানঃ</label>
+                            {userFetching ? (
+                                <p><span className="loading loading-spinner text-success"></span></p>
+                            ) : (
+                                users.map(user => (
+                                    <label key={user._id} className="flex cursor-pointer mb-3 items-center">
                                         <input
                                             type="checkbox"
                                             value={user._id}
                                             data-username={user.username}
                                             onChange={handleUserSelection}
-                                            className="checkbox mr-2"
+                                            className="checkbox checkbox-primary"
                                         />
-                                        {`${user.blockB}, ${user.unionB}, ${user.SAAO.name}`}
+                                        <span className="ml-2">{user.SAAO?.name + ', ' + user?.blockB}</span>
                                     </label>
-                                ))}
-                            </div>
-                            {userFetching && <span className="loading loading-spinner text-success"></span>}
+                                ))
+                            )}
                         </div>
                     )}
+
+                    <div className="col-span-2 flex items-center">
+                        <label htmlFor="acknowledgmentOnly" className="mr-2">শুধুমাত্র স্বীকৃতির জন্য</label>
+                        <input
+                            type="checkbox"
+                            id="acknowledgmentOnly"
+                            name="acknowledgmentOnly"
+                            className="toggle toggle-primary"
+                            onChange={(e) => setAcknowledgmentOnly(e.target.checked)}
+                            checked={acknowledgmentOnly}
+                        />
+                    </div>
                 </div>
 
                 <button type="submit" className="btn theme-bg text-white w-full">
