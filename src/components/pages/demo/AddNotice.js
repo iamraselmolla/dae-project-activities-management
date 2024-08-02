@@ -230,20 +230,33 @@ const AddNotice = () => {
                         ) : null}
                     </div>
 
-                    <div className="col-span-2 flex items-center">
-                        <label htmlFor="sendToAll" className="mr-2">সকলকে পাঠান</label>
-                        <input
-                            type="checkbox"
-                            id="sendToAll"
-                            name="sendToAll"
-                            className="toggle toggle-primary"
-                            onChange={(e) => {
-                                formik.handleChange(e);
-                                setSendToAll(e.target.checked);
-                            }}
-                            onBlur={formik.handleBlur}
-                            checked={sendToAll}
-                        />
+                    <div className="col-span-2 flex items-center justify-between space-x-4">
+                        <div className="flex items-center">
+                            <label htmlFor="sendToAll" className="mr-2">সকলকে পাঠান</label>
+                            <input
+                                type="checkbox"
+                                id="sendToAll"
+                                name="sendToAll"
+                                className="toggle toggle-primary"
+                                onChange={(e) => {
+                                    formik.handleChange(e);
+                                    setSendToAll(e.target.checked);
+                                }}
+                                onBlur={formik.handleBlur}
+                                checked={sendToAll}
+                            />
+                        </div>
+                        <div className="flex items-center">
+                            <label htmlFor="acknowledgmentOnly" className="mr-2">অগ্রগতির মন্তব্য বন্ধ রাখুন</label>
+                            <input
+                                type="checkbox"
+                                id="acknowledgmentOnly"
+                                name="acknowledgmentOnly"
+                                className="toggle toggle-primary"
+                                onChange={(e) => setAcknowledgmentOnly(e.target.checked)}
+                                checked={acknowledgmentOnly}
+                            />
+                        </div>
                     </div>
 
                     {!sendToAll && (
@@ -267,18 +280,6 @@ const AddNotice = () => {
                             )}
                         </div>
                     )}
-
-                    <div className="col-span-2 flex items-center">
-                        <label htmlFor="acknowledgmentOnly" className="mr-2">শুধুমাত্র স্বীকৃতির জন্য</label>
-                        <input
-                            type="checkbox"
-                            id="acknowledgmentOnly"
-                            name="acknowledgmentOnly"
-                            className="toggle toggle-primary"
-                            onChange={(e) => setAcknowledgmentOnly(e.target.checked)}
-                            checked={acknowledgmentOnly}
-                        />
-                    </div>
                 </div>
 
                 <button type="submit" className="btn theme-bg text-white w-full">
