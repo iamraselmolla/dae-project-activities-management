@@ -22,7 +22,6 @@ const Notices = () => {
     useEffect(() => {
         const fetchNotices = async () => {
             try {
-                setLoading(true);
                 const result = await getAllNotices();
                 if (result?.status === 200) {
                     setNotices(result?.data.data);
