@@ -58,13 +58,13 @@ const Notice = ({ notice, handleShowRecipients }) => {
             <UserListModal
                 showModal={showCompletedModal}
                 handleCloseModal={handleCloseCompletedModal}
-                title="Completed Users"
+                title="সম্পন্ন"
                 users={completedUsers}
             />
             <UserListModal
                 showModal={showNotCompletedModal}
                 handleCloseModal={handleCloseNotCompletedModal}
-                title="Not Completed Users"
+                title="অসম্পন্ন"
                 users={notCompletedUsers}
             />
         </div>
