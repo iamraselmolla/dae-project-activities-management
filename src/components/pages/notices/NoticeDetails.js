@@ -1,116 +1,153 @@
-import React, { useState, useEffect, useContext } from 'react';
+// src/NoticeDetails.js
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { findASingleNotice } from '../../../services/userServices';
-import axios from 'axios';
-import { AuthContext } from '../../AuthContext/AuthProvider';
+import {
+    findASingleNotice
+    , addCommentToNotice, markNoticeAsCompleted
+} from '../../../services/userServices';
 import LoaderWithOutDynamicMessage from '../../shared/LoaderWithOutDynamicMessage';
+import NoContentFound from '../../shared/NoContentFound';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import UserListModal from '../../shared/UserListModal';
+import { AuthContext } from '../../AuthContext/AuthProvider';
 
 const NoticeDetails = () => {
     const { id } = useParams();
     const [notice, setNotice] = useState(null);
-    const [comment, setComment] = useState('');
-    const [comments, setComments] = useState([]);
-    const [isCompleted, setIsCompleted] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const { user } = useContext(AuthContext);
+    const [showCompletedModal, setShowCompletedModal] = useState(false);
+    const [showNotCompletedModal, setShowNotCompletedModal] = useState(false);
+    const [comment, setComment] = useState('');
+    const { user } = useContext(AuthContext)
 
     useEffect(() => {
-        const fetchNoticeDetails = async () => {
+        const fetchNotice = async () => {
             try {
-                setLoading(true);
-                const response = await findASingleNotice(id);
-                if (response?.status === 200) {
-                    setNotice(response?.data?.data);
-                    setComments(response.data?.data?.userActions);
-                    setIsCompleted(response.data?.data?.userActions?.some(action => action.userId === user._id && action.completed));
+                const result = await findASingleNotice(id);
+                if (result?.status === 200) {
+                    setNotice(result.data?.data);
+                    setLoading(false);
                 }
-            } catch (error) {
-                console.error('Error fetching notice details:', error);
-                setError('Error fetching notice details.');
-            } finally {
+            } catch (err) {
                 setLoading(false);
             }
         };
+        fetchNotice();
+    }, [id]);
 
-        fetchNoticeDetails();
-    }, [id, user]);
+    const handleCommentChange = (e) => {
+        setComment(e.target.value);
+    };
 
-    const handleCommentSubmit = async () => {
+    const handleSubmitComment = async () => {
         try {
-            const response = await axios.post(`/api/notices/${id}/comments`, { text: comment });
-            setComments([...comments, response.data]);
-            setComment('');
-        } catch (error) {
-            console.error('Error adding comment:', error);
-            setError('Error adding comment.');
+            const result = await addCommentToNotice(id, comment);
+            if (result?.status === 200) {
+                setNotice(result.data?.data);
+                setComment('');
+            }
+        } catch (err) {
+            console.error(err);
         }
     };
 
-    const handleMarkAsComplete = async () => {
+    const handleMarkAsCompleted = async () => {
         try {
-            await axios.post(`/api/notices/${id}/complete`);
-            setIsCompleted(true);
-        } catch (error) {
-            console.error('Error marking notice as complete:', error);
-            setError('Error marking notice as complete.');
+            const result = await markNoticeAsCompleted(id);
+            if (result?.status === 200) {
+                setNotice(result.data?.data);
+            }
+        } catch (err) {
+            console.error(err);
         }
     };
 
-    const canComment = notice?.sendToAll || notice?.recipients?.some(recipient => recipient.userId === user?._id);
+    if (loading) {
+        return <LoaderWithOutDynamicMessage />;
+    }
 
-    if (loading) return <LoaderWithOutDynamicMessage />;
-    if (error) return <div>{error}</div>;
+    if (!loading && !notice) {
+        return <NoContentFound text={"নোটিশ পাওয়া যায়নি"} />;
+    }
+
+    const completedUsers = notice?.userActions?.filter(action => action.completed);
+    const notCompletedUsers = notice?.userActions?.filter(action => !action.completed);
+
+    const handleShowCompletedModal = () => setShowCompletedModal(true);
+    const handleCloseCompletedModal = () => setShowCompletedModal(false);
+
+    const handleShowNotCompletedModal = () => setShowNotCompletedModal(true);
+    const handleCloseNotCompletedModal = () => setShowNotCompletedModal(false);
 
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-            <div className="bg-white p-6 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <h1 className="text-2xl font-bold mb-4">{notice?.subject}</h1>
-                    <p className="mb-4">{notice?.content}</p>
-                    {notice?.link && (
-                        <a href={notice?.link} className="underline mb-4 block">{notice?.linkText}</a>
-                    )}
-                    <p className="text-sm mb-6">Expires on: {new Date(notice?.expirationDate).toLocaleDateString()}</p>
-                    {canComment && !isCompleted && (
-                        <button
-                            onClick={handleMarkAsComplete}
-                            className="mt-4 bg-green-500 text-white px-4 py-2 rounded flex items-center hover:bg-green-600"
-                        >
-                            Mark as Complete
-                        </button>
-                    )}
-                    {isCompleted && (
-                        <p className="mt-4 text-green-500 font-bold">This notice is marked as complete.</p>
-                    )}
-                </div>
-                <div>
-                    <h2 className="text-xl font-bold mb-2">Comments</h2>
-                    <div className="mb-4 max-h-60 overflow-y-auto">
-                        {comments.map((action, index) => (
-                            <div key={index} className="mb-2 p-2 border rounded">
-                                <p><strong>{action.username}</strong>: {action.comments.map(comment => comment.text).join(', ')}</p>
-                            </div>
-                        ))}
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold mb-4">{notice.subject}</h2>
+                <p className="mb-4">{notice.content}</p>
+                {notice.link && (
+                    <a href={notice.link} className="underline">{notice.linkText}</a>
+                )}
+                <p className="mt-4 text-sm">Expires on: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}</p>
+                <div className="mt-4 flex space-x-2">
+                    <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowCompletedModal}>
+                        <FaCheckCircle className="text-green-500" />
+                        <span>Completed: {completedUsers.length}</span>
                     </div>
-                    {canComment && (
+                    <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowNotCompletedModal}>
+                        <FaTimesCircle className="text-red-500" />
+                        <span>Not Completed: {notCompletedUsers.length}</span>
+                    </div>
+                </div>
+                <div className="mt-6">
+                    <h3 className="text-lg font-semibold mb-2">User Actions</h3>
+                    <ul>
+                        {notice.userActions.map((action, index) => (
+                            <li key={index} className="mb-2">
+                                <p>{action.username} - {action.completed ? 'Completed' : 'Not Completed'}</p>
+                                {action.comments.map((comment, idx) => (
+                                    <p key={idx} className="ml-4 text-sm">{comment.text}</p>
+                                ))}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div className="mt-6">
+                    {(notice.sendToAll || notice.recipients.some(recipient => recipient.userId === user?._id)) && (
                         <>
                             <textarea
+                                className="w-full border rounded p-2 mb-4"
+                                placeholder="Add your comment or update"
                                 value={comment}
-                                onChange={e => setComment(e.target.value)}
-                                className="w-full p-2 border rounded mb-4"
-                                placeholder="Add a comment..."
-                            />
+                                onChange={handleCommentChange}
+                            ></textarea>
                             <button
-                                onClick={handleCommentSubmit}
-                                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+                                onClick={handleSubmitComment}
                             >
-                                Submit
+                                Submit Comment
                             </button>
                         </>
                     )}
+                    <button
+                        className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 mt-4"
+                        onClick={handleMarkAsCompleted}
+                    >
+                        Mark as Complete
+                    </button>
                 </div>
             </div>
+            <UserListModal
+                showModal={showCompletedModal}
+                handleCloseModal={handleCloseCompletedModal}
+                title="Completed Users"
+                users={completedUsers}
+            />
+            <UserListModal
+                showModal={showNotCompletedModal}
+                handleCloseModal={handleCloseNotCompletedModal}
+                title="Not Completed Users"
+                users={notCompletedUsers}
+            />
         </section>
     );
 };

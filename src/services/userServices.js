@@ -338,3 +338,9 @@ export function getAllNotices() {
 export function findASingleNotice(id) {
   return http.get(BASE_URL.findSingleNotice + `?id=${id}`)
 }
+export function addCommentToNotice(values) {
+  return;
+}
+export function markNoticeAsCompleted(values) {
+  return;
+}
