@@ -13,7 +13,7 @@ const AddNotice = () => {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [userFetching, setUserFetching] = useState(false);
     const [userActions, setUserActions] = useState([]);
-    const [acknowledgmentOnly, setAcknowledgmentOnly] = useState(false);
+    const [actionThread, setActionThread] = useState(false);
 
     useEffect(() => {
         if (!sendToAll) {
@@ -61,7 +61,7 @@ const AddNotice = () => {
                 sendToAll,
                 recipients: sendToAll ? [] : selectedUsers,
                 userActions,
-                acknowledgmentOnly
+                actionThread
             };
             try {
                 await axios.post('/api/notices', noticeData);
@@ -85,7 +85,7 @@ const AddNotice = () => {
     };
 
     const handleCommentChange = (userId, comment) => {
-        if (acknowledgmentOnly) return; // Do nothing if acknowledgment only
+        if (actionThread) return; // Do nothing if acknowledgment only
         setUserActions(prevActions => {
             const updatedActions = prevActions.map(action => {
                 if (action.userId === userId) {
@@ -187,7 +187,7 @@ const AddNotice = () => {
                             id="expirationDate"
                             name="expirationDate"
                             value={formik.values.expirationDate}
-                            onChange={val => formik.setFieldValue('expirationDate', val)}
+                            onChange={val => formik.setFieldValue('expirationDate', val?.startDate)}
                             showShortcuts={true}
                             asSingle={true}
                         />
@@ -247,14 +247,14 @@ const AddNotice = () => {
                             />
                         </div>
                         <div className="flex items-center">
-                            <label htmlFor="acknowledgmentOnly" className="mr-2">অগ্রগতির মন্তব্য বন্ধ রাখুন</label>
+                            <label htmlFor="actionThread" className="mr-2">কর্ম অগ্রগতির আপডেট চালু রাখুন</label>
                             <input
                                 type="checkbox"
-                                id="acknowledgmentOnly"
-                                name="acknowledgmentOnly"
+                                id="actionThread"
+                                name="actionThread"
                                 className="toggle toggle-primary"
-                                onChange={(e) => setAcknowledgmentOnly(e.target.checked)}
-                                checked={acknowledgmentOnly}
+                                onChange={(e) => setActionThread(e.target.checked)}
+                                checked={actionThread}
                             />
                         </div>
                     </div>
