@@ -7,6 +7,8 @@ import NoContentFound from "../../shared/NoContentFound";
 import SectionTitle from "../../shared/SectionTitle";
 import Notice from "./Notice";
 import { getAllNotices } from "../../../services/userServices";
+import { toBengaliNumber } from "bengali-number";
+import AssignedRecipientsModal from "../../shared/AssignedRecipientsModal"
 
 const Notices = () => {
     const [notices, setNotices] = useState([]);
@@ -16,6 +18,8 @@ const Notices = () => {
     const [search, setSearch] = useState("");
     const [filteredNotices, setFilteredNotices] = useState(notices);
     const { user } = useContext(AuthContext);
+    const [selectedRecipients, setSelectedRecipients] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const fetchAllNotices = async () => {
@@ -65,11 +69,20 @@ const Notices = () => {
         setFilteredNotices(filtered);
     }, [priorityFilter, search]);
 
+    const handleShowRecipients = (recipients) => {
+        setSelectedRecipients(recipients);
+        setShowModal(true);
+    };
+    const hanndleOnClose = () => {
+        setShowModal(false);
+        setSelectedRecipients([])
+    }
+
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="text-right font-extrabold col-span-1">
                 <SectionTitle
-                    title={`সকল নোটিশ ${!loading ? `(${filteredNotices.length})` : ''}`}
+                    title={`সকল নোটিশ ${!loading ? `(${toBengaliNumber(filteredNotices.length)})` : ''}`}
                 />
             </div>
             <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-nowrap justify-between items-center gap-3">
@@ -100,13 +113,16 @@ const Notices = () => {
                     fetchEnd &&
                     filteredNotices?.length > 0 &&
                     filteredNotices?.map((notice) => (
-                        <Notice key={notice?._id} notice={notice} />
+                        <Notice key={notice?._id} notice={notice} handleShowRecipients={handleShowRecipients} />
                     ))}
             </div>
             {!loading && fetchEnd && filteredNotices?.length < 1 && (
                 <NoContentFound text={"কোনো নোটিশের তথ্য পাওয়া যায়নি!"} />
             )}
             {!fetchEnd && loading && <LoaderWithOutDynamicMessage />}
+
+            {/* Recipients Modal */}
+            {showModal && <AssignedRecipientsModal onClose={hanndleOnClose} recipients={selectedRecipients} />}
         </section>
     );
 };
