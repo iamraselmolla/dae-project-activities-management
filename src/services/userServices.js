@@ -80,7 +80,10 @@ const BASE_URL = {
   createAFarmer: "/farmer/create-farmer",
   getFarmers: "/farmer/get-farmers-data",
   deleteFarmer: "/farmer/delete-farmer-data",
-  findFarmerByNumberNID: "/farmer/find-farmer-by-nid"
+  findFarmerByNumberNID: "/farmer/find-farmer-by-nid",
+
+  // Notice
+  createANotice: "/notice/create-notice"
 };
 
 
@@ -117,6 +120,8 @@ export function markProjectComplete(id) {
 export function findAllProjectsData() {
   return http.get(BASE_URL.findAllProjects)
 }
+
+
 // Demo API
 export function createDemo(values) {
   return http.post(BASE_URL.addDemo, values);
@@ -319,4 +324,9 @@ export function deleteAFarmer(id) {
 }
 export function findFarmerByNID(nid, block, union) {
   return http.post(BASE_URL.findFarmerByNumberNID, { nid, block, union })
+}
+
+// Notice
+export function createANotice(values) {
+  return http.post(BASE_URL.createANotice, values)
 }

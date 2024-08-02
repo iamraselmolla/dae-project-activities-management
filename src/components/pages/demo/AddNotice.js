@@ -5,7 +5,7 @@ import Datepicker from 'react-tailwindcss-datepicker';
 import toast from 'react-hot-toast';
 import SectionTitle from '../../shared/SectionTitle';
 import axios from 'axios';
-import { getAllUser } from '../../../services/userServices';
+import { createANotice, getAllUser } from '../../../services/userServices';
 
 const AddNotice = () => {
     const [users, setUsers] = useState([]);
@@ -64,11 +64,14 @@ const AddNotice = () => {
                 actionThread
             };
             try {
-                await axios.post('/api/notices', noticeData);
-                toast.success('নোটিশ সফলভাবে জমা দেওয়া হয়েছে');
-                resetForm();
+                const result = await createANotice(noticeData);
+                if (result?.status === 200) {
+
+                    toast.success('নোটিশ সফলভাবে জমা দেওয়া হয়েছে');
+                    resetForm();
+                }
             } catch (error) {
-                toast.error('নোটিশ জমা দেওয়া যায়নি');
+                toast.error('নোটিশ যুক্ত করা যায়নি');
                 console.error('Error submitting notice', error);
             }
         },
