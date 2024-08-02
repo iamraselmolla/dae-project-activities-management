@@ -1,53 +1,112 @@
-import React, { useState, useEffect } from 'react';
-import SectionTitle from '../../shared/SectionTitle';
-import AddModuleButton from '../../shared/AddModuleButton';
-import { getAllNotices } from '../../../services/userServices';
-import LoaderWithOutDynamicMessage from '../../shared/LoaderWithOutDynamicMessage';
-import AssignedRecipientsModal from '../../shared/AssignedRecipientsModal';
-import Notice from './Notice';
-
+// src/Notices.js
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../AuthContext/AuthProvider";
+import toast from "react-hot-toast";
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
+import NoContentFound from "../../shared/NoContentFound";
+import SectionTitle from "../../shared/SectionTitle";
+import Notice from "./Notice";
+import { getAllNotices } from "../../../services/userServices";
 
 const Notices = () => {
     const [notices, setNotices] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [selectedRecipients, setSelectedRecipients] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [fetchEnd, setFetchEnd] = useState(false);
+    const [priorityFilter, setPriorityFilter] = useState("");
+    const [search, setSearch] = useState("");
+    const [filteredNotices, setFilteredNotices] = useState(notices);
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        const fetchNotices = async () => {
+        const fetchAllNotices = async () => {
+            setLoading(true);
             try {
                 const result = await getAllNotices();
                 if (result?.status === 200) {
-                    setNotices(result?.data.data);
+                    setNotices(result.data?.data);
+                    setFilteredNotices(result.data?.data);
+                    setLoading(false);
+                    setFetchEnd(true);
                 }
-            } catch (error) {
-                console.error('Error fetching notices:', error);
-            } finally {
+            } catch (err) {
+                toast.error(
+                    "নোটিশের তথ্য ডাটাবেজ থেকে আনতে সমস্যা হয়েছে। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
+                );
                 setLoading(false);
+                setFetchEnd(true);
             }
         };
-
-        fetchNotices();
+        if (navigator.onLine) {
+            fetchAllNotices();
+        } else {
+            toast.error("দয়া করে ইন্টারনেট সংযোগ চেক করুন");
+        }
     }, []);
 
-    const handleShowRecipients = (recipients) => {
-        setSelectedRecipients(recipients);
-        setShowModal(true);
+    const filterNotices = () => {
+        let filtered = notices;
+
+        if (priorityFilter !== "") {
+            filtered = filtered.filter((notice) => notice.priority === priorityFilter);
+        }
+
+        if (search !== "") {
+            filtered = filtered.filter((notice) =>
+                notice.subject.includes(search) ||
+                notice.content.includes(search)
+            );
+        }
+
+        return filtered;
     };
+
+    useEffect(() => {
+        const filtered = filterNotices();
+        setFilteredNotices(filtered);
+    }, [priorityFilter, search]);
 
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-            <div className="text-center font-extrabold mb-6">
-                <SectionTitle title="সকল নোটিশ" />
+            <div className="text-right font-extrabold col-span-1">
+                <SectionTitle
+                    title={`সকল নোটিশ ${!loading ? `(${filteredNotices.length})` : ''}`}
+                />
             </div>
-            <div className="text-right mb-4">
-                <AddModuleButton link="add-notice" btnText="নোটিশ যুক্ত করুন" />
+            <div className="flex py-6 flex-wrap md:flex-wrap lg:flex-nowrap justify-between items-center gap-3">
+                <div>
+                    <select
+                        className="input input-bordered"
+                        value={priorityFilter}
+                        onChange={(e) => setPriorityFilter(e.target.value)}
+                    >
+                        <option value="" label="প্রাধান্য সিলেক্ট করুন" />
+                        <option value="High" label="উচ্চ" />
+                        <option value="Medium" label="মাঝারি" />
+                        <option value="Low" label="নিম্ন" />
+                    </select>
+                </div>
+                <div className="w-full">
+                    <input
+                        type="text"
+                        className="input input-bordered w-full"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="খুজুন (বিষয়, বিষয়বস্তু)"
+                    />
+                </div>
             </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {notices.map(notice => <Notice key={notice?._id} handleShowRecipients={handleShowRecipients} notice={notice} />)}
+            <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
+                {!loading &&
+                    fetchEnd &&
+                    filteredNotices?.length > 0 &&
+                    filteredNotices?.map((notice) => (
+                        <Notice key={notice?._id} notice={notice} />
+                    ))}
             </div>
-            {loading && <LoaderWithOutDynamicMessage />}
-            {showModal && <AssignedRecipientsModal recipients={selectedRecipients} onClose={() => setShowModal(false)} />}
+            {!loading && fetchEnd && filteredNotices?.length < 1 && (
+                <NoContentFound text={"কোনো নোটিশের তথ্য পাওয়া যায়নি!"} />
+            )}
+            {!fetchEnd && loading && <LoaderWithOutDynamicMessage />}
         </section>
     );
 };
