@@ -4,8 +4,8 @@ import * as Yup from 'yup';
 import Datepicker from 'react-tailwindcss-datepicker';
 import toast from 'react-hot-toast';
 import SectionTitle from '../../shared/SectionTitle';
-import axios from 'axios';
 import { createANotice, getAllUser } from '../../../services/userServices';
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage"
 
 const AddNotice = () => {
     const [users, setUsers] = useState([]);
@@ -14,6 +14,7 @@ const AddNotice = () => {
     const [userFetching, setUserFetching] = useState(false);
     const [userActions, setUserActions] = useState([]);
     const [actionThread, setActionThread] = useState(false);
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         if (!sendToAll) {
@@ -64,15 +65,17 @@ const AddNotice = () => {
                 actionThread
             };
             try {
+                setLoading(true)
                 const result = await createANotice(noticeData);
                 if (result?.status === 200) {
-
                     toast.success('নোটিশ সফলভাবে জমা দেওয়া হয়েছে');
                     resetForm();
                 }
             } catch (error) {
                 toast.error('নোটিশ যুক্ত করা যায়নি');
                 console.error('Error submitting notice', error);
+            } finally {
+                setLoading(false)
             }
         },
     });
@@ -289,6 +292,7 @@ const AddNotice = () => {
                     নোটিশ যুক্ত করুন
                 </button>
             </form>
+            {loading && <LoaderWithOutDynamicMessage />}
         </section>
     );
 };

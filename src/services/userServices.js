@@ -83,7 +83,8 @@ const BASE_URL = {
   findFarmerByNumberNID: "/farmer/find-farmer-by-nid",
 
   // Notice
-  createANotice: "/notice/create-notice"
+  createANotice: "/notice/create-notice",
+  getAllNotices: "/notice/get-all-notices"
 };
 
 
@@ -329,4 +330,7 @@ export function findFarmerByNID(nid, block, union) {
 // Notice
 export function createANotice(values) {
   return http.post(BASE_URL.createANotice, values)
+}
+export function getAllNotices() {
+  return http.get(BASE_URL.getAllNotices)
 }

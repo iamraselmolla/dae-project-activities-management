@@ -39,8 +39,7 @@ import UserPrimaryDemos from "./components/pages/dashboard/user/demos/UserPrimar
 import UserFinalDemos from "./components/pages/dashboard/user/demos/UserFinalDemos";
 import FarmerList from "./components/pages/farmer-list/FarmerList";
 import AddAFarmer from "./components/pages/farmer-list/AddAFarmer";
-import AddNotice from "./components/pages/demo/AddNotice";
-
+import AddNotice from "./components/pages/notices/AddNotice";
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
 const { default: Home } = require("./components/pages/home/Home");
