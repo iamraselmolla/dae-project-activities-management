@@ -116,24 +116,27 @@ const NoticeDetails = () => {
                         <>
                             <textarea
                                 className="w-full border rounded p-2 mb-4"
-                                placeholder="Add your comment or update"
+                                placeholder="কাজের অগ্রগতি যুক্ত করুন "
                                 value={comment}
                                 onChange={handleCommentChange}
                             ></textarea>
-                            <button
-                                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-                                onClick={handleSubmitComment}
-                            >
-                                Submit Comment
-                            </button>
+                            <div className="flex justify-between">
+                                <button
+                                    className="theme-bg text-white py-2 px-4 rounded hover:bg-green-700 mt-4"
+                                    onClick={handleSubmitComment}
+                                >
+                                    কাজের অগ্রগতি জানান
+                                </button>
+                                <button
+                                    className="theme-bg text-white py-2 px-4 rounded hover:bg-green-700 mt-4"
+                                    onClick={handleMarkAsCompleted}
+                                >
+                                    সম্পন্ন হিসেবে জমা দিন
+                                </button>
+                            </div>
                         </>
                     )}
-                    <button
-                        className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 mt-4"
-                        onClick={handleMarkAsCompleted}
-                    >
-                        Mark as Complete
-                    </button>
+
                 </div>
             </div>
             <UserListModal
