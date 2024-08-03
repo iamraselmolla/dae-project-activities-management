@@ -80,7 +80,14 @@ const BASE_URL = {
   createAFarmer: "/farmer/create-farmer",
   getFarmers: "/farmer/get-farmers-data",
   deleteFarmer: "/farmer/delete-farmer-data",
-  findFarmerByNumberNID: "/farmer/find-farmer-by-nid"
+  findFarmerByNumberNID: "/farmer/find-farmer-by-nid",
+
+  // Notice
+  createANotice: "/notice/create-notice",
+  getAllNotices: "/notice/get-all-notices",
+  findSingleNotice: "/notice/get-a-notice",
+  postNoticeComment: "/notice/post-a-notice-comment",
+  markNoticeComplete: "/notice/complete-notice"
 };
 
 
@@ -117,6 +124,8 @@ export function markProjectComplete(id) {
 export function findAllProjectsData() {
   return http.get(BASE_URL.findAllProjects)
 }
+
+
 // Demo API
 export function createDemo(values) {
   return http.post(BASE_URL.addDemo, values);
@@ -319,4 +328,21 @@ export function deleteAFarmer(id) {
 }
 export function findFarmerByNID(nid, block, union) {
   return http.post(BASE_URL.findFarmerByNumberNID, { nid, block, union })
+}
+
+// Notice
+export function createANotice(values) {
+  return http.post(BASE_URL.createANotice, values)
+}
+export function getAllNotices() {
+  return http.get(BASE_URL.getAllNotices)
+}
+export function findASingleNotice(id) {
+  return http.get(BASE_URL.findSingleNotice + `?id=${id}`)
+}
+export function addCommentToNotice(id, userId, username, text) {
+  return http.put(BASE_URL.postNoticeComment, { id, userId, username, text })
+}
+export function markNoticeAsCompleted(id, userId, username) {
+  return http.put(BASE_URL.markNoticeComplete, { id, userId, username })
 }

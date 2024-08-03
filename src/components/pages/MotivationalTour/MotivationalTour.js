@@ -9,6 +9,7 @@ import FiscalYear from "../../shared/FiscalYear";
 import { useSelector } from "react-redux";
 import { toBengaliNumber } from "bengali-number";
 import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
+import NoContentFound from "../../shared/NoContentFound"
 
 function MotivationalTour() {
   const { projects: allProjects } = useSelector((state) => state.dae);
@@ -103,9 +104,7 @@ function MotivationalTour() {
           btnText={"উদ্বদ্ধরণ ভ্রমণ যুক্ত করুন"}
         />
         <SectionTitle
-          title={`সকল উদ্বুদ্ধকরণ ভ্রমণ (${toBengaliNumber(
-            filteredTours?.length
-          )})`}
+          title={`সকল উদ্বুদ্ধকরণ ভ্রমণ ${!loading ? `(${toBengaliNumber(filteredTours?.length)})` : ''}`}
         />
         <div className="flex flex-wrap justify-between items-center gap-3">
           <div>
@@ -163,6 +162,9 @@ function MotivationalTour() {
           </div>
         ) : (
           <LoaderWithOutDynamicMessage />
+        )}
+        {!loading && !filteredTours?.length && (
+          <NoContentFound text={'কোনো কৃষক গ্রুপ সভার তথ্য পাওয়া যায়নি । '} />
         )}
       </section>
     </>

@@ -154,7 +154,8 @@ const FieldDay = () => {
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <AddModuleButton btnText={"মাঠদিবস যুক্ত করুন"} link={"addFieldDay"} />
       <SectionTitle
-        title={`সকল মাঠ দিবস (${toBengaliNumber(filteredFieldDays?.length)})`}
+        title={`সকল মাঠ দিবস ${loading ? '' : `(${toBengaliNumber(filteredFieldDays?.length)})`}`}
+
       />
       {user && (
         <>

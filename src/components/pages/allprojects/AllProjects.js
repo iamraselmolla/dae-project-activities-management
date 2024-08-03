@@ -42,40 +42,38 @@ const AllProjects = () => {
   return (
     <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div className="container">
+        <SectionTitle
+          title={`সকল প্রকল্প (${toBengaliNumber(filteredProjects?.length)})`}
+        />
+        <div role="tablist" className="tabs tabs-boxed">
+          <a
+            role="tab"
+            onClick={() => setProjectType("all")}
+            className={`tab py-4 h-auto md:text-2xl text-lg font-bold ${projectType === "all" && "text-white theme-bg"}`}
+          >
+            সকল
+          </a>
+          <a
+            role="tab"
+            onClick={() => setProjectType("running")}
+            className={`tab py-4 h-auto md:text-2xl text-lg font-bold ${projectType === "running" && "text-white theme-bg"}`}
+          >
+            চলমান
+          </a>
+          <a
+            role="tab"
+            onClick={() => setProjectType("completed")}
+            className={`tab py-4 h-auto md:text-2xl text-lg font-bold ${projectType === "completed" && "text-white theme-bg"}`}
+          >
+            সম্পন্ন
+          </a>
+        </div>
         {!loading ? (
-          <>
-            <SectionTitle
-              title={`সকল প্রকল্প (${toBengaliNumber(filteredProjects?.length)})`}
-            />
-            <div role="tablist" className="tabs tabs-boxed">
-              <a
-                role="tab"
-                onClick={() => setProjectType("all")}
-                className={`tab py-4 h-auto md:text-2xl text-lg font-bold ${projectType === "all" && "text-white theme-bg"}`}
-              >
-                সকল
-              </a>
-              <a
-                role="tab"
-                onClick={() => setProjectType("running")}
-                className={`tab py-4 h-auto md:text-2xl text-lg font-bold ${projectType === "running" && "text-white theme-bg"}`}
-              >
-                চলমান
-              </a>
-              <a
-                role="tab"
-                onClick={() => setProjectType("completed")}
-                className={`tab py-4 h-auto md:text-2xl text-lg font-bold ${projectType === "completed" && "text-white theme-bg"}`}
-              >
-                সম্পন্ন
-              </a>
-            </div>
-            <div className="grid grid-cols-1 mt-16 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filteredProjects?.map((single) => (
-                <SingleProject key={single?.name?.details} single={single} />
-              ))}
-            </div>
-          </>
+          <div className="grid grid-cols-1 mt-16 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filteredProjects?.map((single) => (
+              <SingleProject key={single?.name?.details} single={single} />
+            ))}
+          </div>
         ) : (
           <LoaderWithOutDynamicMessage />
         )}
