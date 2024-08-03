@@ -11,6 +11,8 @@ import NoContentFound from '../../shared/NoContentFound';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import UserListModal from '../../shared/UserListModal';
 import { AuthContext } from '../../AuthContext/AuthProvider';
+import { toBengaliNumber } from 'bengali-number';
+import toast from 'react-hot-toast';
 
 const NoticeDetails = () => {
     const { id } = useParams();
@@ -56,12 +58,13 @@ const NoticeDetails = () => {
 
     const handleMarkAsCompleted = async () => {
         try {
-            const result = await markNoticeAsCompleted(id);
+            const result = await markNoticeAsCompleted(id, user?._id, user?.username);
             if (result?.status === 200) {
-                setNotice(result.data?.data);
+                setReload(!reload)
+                toast.success(result?.data?.message)
             }
         } catch (err) {
-            console.error(err);
+            toast.error("আপনার নোটিশের কর্ম সম্পাদন হিসেবে চিহ্নিত করতে অসুবিধার সৃষ্টি হচ্ছে । ")
         }
     };
 
@@ -94,31 +97,39 @@ const NoticeDetails = () => {
                 <div className="mt-4 flex space-x-2">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowCompletedModal}>
                         <FaCheckCircle className="text-green-500" />
-                        <span>সম্পন্ন: {completedUsers.length}</span>
+                        <span>সম্পন্ন: {toBengaliNumber(completedUsers.length)}</span>
                     </div>
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowNotCompletedModal}>
                         <FaTimesCircle className="text-red-500" />
-                        <span>অসম্পন্ন: {notCompletedUsers.length}</span>
+                        <span>অসম্পন্ন: {toBengaliNumber(notCompletedUsers.length)}</span>
                     </div>
                 </div>
                 <div className="mt-6">
-                    <h3 className="text-lg font-semibold mb-2">ব্যবহারকারীর কার্যক্রম</h3>
-                    <ul>
+                    <h3 className="text-lg font-semibold mb-2">কর্মের অগ্রগতি মন্তব্য</h3>
+                    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         {notice.userActions.map((action, index) => (
-                            <li
+                            <div
                                 key={index}
-                                className={`mb-2 p-4 rounded ${action.completed ? 'bg-green-100' : 'bg-red-100'}`}
+                                className={`p-4 rounded ${action.completed ? 'bg-green-100' : 'bg-red-100'}`}
                             >
                                 <p>{action.username} - {action.completed ? 'সম্পন্ন' : 'অসম্পন্ন'}</p>
                                 {action.comments.map((comment, idx) => (
-                                    <div key={idx} className="ml-4 text-sm text-gray-700">
+                                    <div key={idx} className="mt-2 text-sm text-gray-700">
                                         <p>{comment.text}</p>
-                                        <p className="text-xs text-gray-500">{new Date(comment.date).toLocaleDateString("bn-BD")}</p>
+                                        <p className="text-xs text-gray-500">
+                                            {new Date(comment.date).toLocaleDateString("bn-BD", {
+                                                year: 'numeric',
+                                                month: '2-digit',
+                                                day: '2-digit',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })}
+                                        </p>
                                     </div>
                                 ))}
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
                 <div className="mt-6">
                     {(notice.sendToAll || notice.recipients.some(recipient => recipient.userId === user?._id)) && (
