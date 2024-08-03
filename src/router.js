@@ -23,6 +23,7 @@ import AddNotes from "./components/pages/note/AddUserNotes";
 import DemoDetails from "./components/pages/demo/DemoDetails";
 import AddDistribution from "./components/pages/distrubution/AddDistribution";
 import AdminRoute from "./components/PrivateRoute/AdminRoute";
+import Notices from './components/pages/notices/Notices'
 import UserRoute from "./components/PrivateRoute/UserRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import MotivationalTour from "./components/pages/MotivationalTour/MotivationalTour";
@@ -38,7 +39,8 @@ import UserPrimaryDemos from "./components/pages/dashboard/user/demos/UserPrimar
 import UserFinalDemos from "./components/pages/dashboard/user/demos/UserFinalDemos";
 import FarmerList from "./components/pages/farmer-list/FarmerList";
 import AddAFarmer from "./components/pages/farmer-list/AddAFarmer";
-
+import AddNotice from "./components/pages/notices/AddNotice";
+import NoticeDetails from "./components/pages/notices/NoticeDetails";
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
 const { default: Home } = require("./components/pages/home/Home");
@@ -99,6 +101,18 @@ const router = createBrowserRouter([
       {
         path: "/all-projects",
         element: <AllProjectsForUser />,
+      },
+      {
+        path: "/notices",
+        element: <Notices />,
+      },
+      {
+        path: "/add-notice",
+        element: <AddNotice />,
+      },
+      {
+        path: "/notices/:id",
+        element: <NoticeDetails />,
       },
       {
         path: "/addDemo",

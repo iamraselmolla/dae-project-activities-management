@@ -6,11 +6,24 @@ import { BsPersonWorkspace } from "react-icons/bs";
 import { LiaCheckSquareSolid } from "react-icons/lia";
 
 const SingleProject = ({ single }) => {
-  const [show, setShow] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [crops, setCrops] = useState([]);
+  const modalId = `modal_${single?.name?.details.replace(/\s+/g, '_')}`;
+
+  const openModal = () => {
+    setCrops(single?.crops);
+    setModalIsOpen(true);
+    document.getElementById(modalId).showModal();
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    document.getElementById(modalId).close();
+  };
+
   return (
     <div
-      className={`px-4 relative py-5 pt-12 mb-10 rounded-xl bg-white ${single?.end ? "border-2 border-green-500" : ""
-        }`}
+      className={`px-4 relative py-5 pt-12 mb-10 rounded-xl bg-white ${single?.end ? "border-2 border-green-500" : ""}`}
     >
       <div
         className="absolute theme-bg flex h-16 items-center justify-center rounded-full text-white w-16"
@@ -31,23 +44,15 @@ const SingleProject = ({ single }) => {
       </h2>
       <div className="mt-4 flex justify-between">
         <div
-          onClick={() => setShow(!show)}
+          onClick={openModal}
           style={{ zIndex: "500" }}
-          className="flex w-full relative gap-2"
+          className="flex w-full relative gap-2 cursor-pointer"
         >
-          <div className="flex gap-2 items-center cursor-pointer">
+          <div className="flex gap-2 items-center">
             <GiGrainBundle className="theme-color" size={25} />
             <div className="text-xl font-bold">
               {toBengaliNumber(single?.crops?.length)}
             </div>
-          </div>
-          <div className="bg-white transition-all border-2 border-black absolute top-3 mt-8 flex flex-col gap-1 px-5 rounded-sm">
-            {show &&
-              single?.crops?.map((singleItem, index) => (
-                <div className="py-1 flex gap-1 bg-white">
-                  {toBengaliNumber(index + 1)}. {singleItem}
-                </div>
-              ))}
           </div>
         </div>
         <div className="flex gap-1">
@@ -60,6 +65,21 @@ const SingleProject = ({ single }) => {
           </div>
         </div>
       </div>
+
+      <dialog id={modalId} className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            <button onClick={closeModal} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <div className="py-4">
+            {crops?.map((crop, index) => (
+              <div key={index} className="py-1 flex gap-1">
+                {toBengaliNumber(index + 1)}. {crop}
+              </div>
+            ))}
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };

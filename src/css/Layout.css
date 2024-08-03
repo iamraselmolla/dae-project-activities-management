@@ -23,7 +23,7 @@
 }
 
 .menu-icon.open {
-  transform: rotate(45deg);
+  transform: rotate(135deg);
 }
 
 .menu-icon:focus {

@@ -106,9 +106,7 @@ const Distribution = () => {
         </div>
       )}
       <SectionTitle
-        title={`সকল উপকরণ বিতরণের তথ্য (${toBengaliNumber(
-          filteredDistributions?.length
-        )})`}
+      title={`সকল উপকরণ বিতরণের তথ্য ${loading ? '' : `(${toBengaliNumber(filteredDistributions?.length)})`}`}
       />
 
       {user && (
