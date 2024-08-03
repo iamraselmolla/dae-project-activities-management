@@ -50,9 +50,11 @@ const NoticeDetails = () => {
                 setNotice(result.data?.data);
                 setComment('');
                 setReload(!reload);
+                toast.success('মন্তব্য সফলভাবে যুক্ত করা হয়েছে।');
             }
         } catch (err) {
             console.error(err);
+            toast.error('মন্তব্য যুক্ত করতে অসুবিধা হয়েছে।');
         }
     };
 
@@ -60,11 +62,11 @@ const NoticeDetails = () => {
         try {
             const result = await markNoticeAsCompleted(id, user?._id, user?.username);
             if (result?.status === 200) {
-                setReload(!reload)
-                toast.success(result?.data?.message)
+                setReload(!reload);
+                toast.success(result?.data?.message);
             }
         } catch (err) {
-            toast.error("আপনার নোটিশের কর্ম সম্পাদন হিসেবে চিহ্নিত করতে অসুবিধার সৃষ্টি হচ্ছে । ")
+            toast.error("আপনার নোটিশের কর্ম সম্পাদন হিসেবে চিহ্নিত করতে অসুবিধার সৃষ্টি হচ্ছে।");
         }
     };
 
@@ -78,6 +80,7 @@ const NoticeDetails = () => {
 
     const completedUsers = notice?.userActions?.filter(action => action.completed) || [];
     const notCompletedUsers = notice?.userActions?.filter(action => !action.completed) || [];
+    const userAction = notice?.userActions?.find(action => action.userId === user?._id);
 
     const handleShowCompletedModal = () => setShowCompletedModal(true);
     const handleCloseCompletedModal = () => setShowCompletedModal(false);
@@ -132,7 +135,11 @@ const NoticeDetails = () => {
                     </div>
                 </div>
                 <div className="mt-6">
-                    {(notice.sendToAll || notice.recipients.some(recipient => recipient.userId === user?._id)) && (
+                    {userAction && userAction.completed ? (
+                        <div className="bg-green-100 p-4 rounded text-center">
+                            <p className="text-green-700 font-semibold">আপনি এই কাজটি সম্পন্ন করেছেন। ধন্যবাদ!</p>
+                        </div>
+                    ) : (notice.sendToAll || notice.recipients.some(recipient => recipient.userId === user?._id)) && (
                         <>
                             <textarea
                                 className="w-full border rounded p-2 mb-4"
