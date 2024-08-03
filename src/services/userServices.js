@@ -85,7 +85,8 @@ const BASE_URL = {
   // Notice
   createANotice: "/notice/create-notice",
   getAllNotices: "/notice/get-all-notices",
-  findSingleNotice: "/notice/get-a-notice"
+  findSingleNotice: "/notice/get-a-notice",
+  postNoticeComment: "/notice/post-a-notice-comment"
 };
 
 
@@ -338,8 +339,8 @@ export function getAllNotices() {
 export function findASingleNotice(id) {
   return http.get(BASE_URL.findSingleNotice + `?id=${id}`)
 }
-export function addCommentToNotice(values) {
-  return;
+export function addCommentToNotice(id, userId, username, text) {
+  return http.put(BASE_URL.postNoticeComment, { id, userId, username, text })
 }
 export function markNoticeAsCompleted(values) {
   return;
