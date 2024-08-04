@@ -1,4 +1,5 @@
 // src/Modal.js
+import { toBengaliNumber } from 'bengali-number';
 import React from 'react';
 
 const UserListModal = ({ showModal, handleCloseModal, title, users }) => {
@@ -21,7 +22,7 @@ const UserListModal = ({ showModal, handleCloseModal, title, users }) => {
                             <ul>
                                 {users.map((user, index) => (
                                     <li key={index} className="mb-2">
-                                        <p>{user.username}</p>
+                                        <p>{toBengaliNumber(index + 1) + ". " + user?.userId?.SAAO?.name + ", " + user?.userId?.blockB}</p>
                                     </li>
                                 ))}
                             </ul>

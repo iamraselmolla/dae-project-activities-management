@@ -1,4 +1,3 @@
-// src/NoticeDetails.js
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
@@ -130,9 +129,10 @@ const NoticeDetails = () => {
                         {notice.userActions.map((action, index) => (
                             <div
                                 key={index}
-                                className={`p-4 rounded ${action.completed ? 'bg-green-100' : 'bg-red-100'}`}
+                                className={`p-4 rounded ${action.completed ? 'bg-green-100 border border-green-300' : 'bg-red-100 border border-red-300'}`}
                             >
-                                <p>{action.username} - {action.completed ? 'সম্পন্ন' : 'অসম্পন্ন'}</p>
+                                <p>{action.userId?.SAAO?.name} - {action.completed ? 'সম্পন্ন' : 'অসম্পন্ন'}</p>
+                                <p>ব্লক: {action.userId?.blockB}</p>
                                 {action.comments.map((comment, idx) => (
                                     <div key={idx} className="mt-2 text-sm text-gray-700">
                                         <p>{comment.text}</p>
