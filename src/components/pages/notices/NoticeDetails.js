@@ -149,7 +149,7 @@ const NoticeDetails = () => {
                             ></textarea>
                             <div className="flex justify-between">
                                 <button
-                                    className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+                                    className="theme-bg text-white py-2 px-4 rounded hover:bg-blue-700"
                                     onClick={handleSubmitComment}
                                     type="button"
                                 >
