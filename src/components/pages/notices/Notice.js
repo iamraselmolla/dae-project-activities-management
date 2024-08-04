@@ -35,7 +35,7 @@ const Notice = ({ notice, handleShowRecipients }) => {
                 {notice.link && (
                     <a href={notice.link} className="underline">{notice.linkText}</a>
                 )}
-                <p className="mt-4 text-sm">Expires on: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}</p>
+                {notice?.expirationDate && <p className="mt-4 text-sm">Expires on: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}</p>}
             </Link>
             <div className="absolute top-4 right-4 flex space-x-2">
                 <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowCompletedModal}>

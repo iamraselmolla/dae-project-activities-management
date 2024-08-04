@@ -96,7 +96,7 @@ const NoticeDetails = () => {
                 {notice.link && (
                     <a href={notice.link} className="underline text-blue-500">{notice.linkText}</a>
                 )}
-                <p className="mt-4 text-sm text-gray-500">মেয়াদ শেষের তারিখ: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}</p>
+                {notice.expirationDate && <p className="mt-4 text-sm text-gray-500">মেয়াদ শেষের তারিখ: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}</p>}
                 <div className="mt-4 flex space-x-2">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowCompletedModal}>
                         <FaCheckCircle className="text-green-500" />
