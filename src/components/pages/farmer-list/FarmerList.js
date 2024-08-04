@@ -123,8 +123,8 @@ const FarmerList = () => {
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="mt-3">
-                <SectionTitle 
-                title={`সংরক্ষণকৃত কৃষকের তথ্য ${!loading ? `(${toBengaliNumber(filteredFarmers?.length)})` : ''}`}
+                <SectionTitle
+                    title={`সংরক্ষণকৃত কৃষকের তথ্য ${!loading ? `(${toBengaliNumber(filteredFarmers?.length)})` : ''}`}
                 />
             </div>
             {user && (
@@ -184,8 +184,7 @@ const FarmerList = () => {
                                 <th className="border border-gray-300">মোবাইল, NID</th>
                                 <th className="border border-gray-300">BID, কৃষি কার্ড</th>
                                 <th className="border border-gray-300">ঠিকানা</th>
-                                <th className="border border-gray-300">প্রকল্পের নাম</th>
-                                <th className="border border-gray-300">অর্থবছর, মৌসুম</th>
+                                <th className="border border-gray-300">মন্তব্য</th>
                                 <th className="border border-gray-300">Action</th>
                             </tr>
                         </thead>
@@ -214,12 +213,9 @@ const FarmerList = () => {
                                             {farmer?.address?.union}
                                         </span>
                                     </td>
+
                                     <td className="border border-gray-300 font-normal">
-                                        {farmer?.projectInfo?.projectName}
-                                    </td>
-                                    <td className="border border-gray-300 font-normal">
-                                        {farmer?.projectInfo?.fiscalYear},
-                                        <span className="border border-gray-300">{farmer?.projectInfo?.season}</span>
+                                        {farmer?.comment}
                                     </td>
                                     <td className="border border-gray-300">
                                         <MdOutlineDelete
