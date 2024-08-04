@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import SectionTitle from '../../shared/SectionTitle';
-import AddModuleButton from '../../shared/AddModuleButton';
 import { deleteAFarmer, getAllFarmers } from '../../../services/userServices';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../AuthContext/AuthProvider';

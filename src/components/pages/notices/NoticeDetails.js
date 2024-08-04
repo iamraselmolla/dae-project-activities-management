@@ -9,6 +9,7 @@ import {
 import LoaderWithOutDynamicMessage from '../../shared/LoaderWithOutDynamicMessage';
 import NoContentFound from '../../shared/NoContentFound';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import UserListModal from '../../shared/UserListModal';
 import { AuthContext } from '../../AuthContext/AuthProvider';
 import { toBengaliNumber } from 'bengali-number';
@@ -20,6 +21,7 @@ const NoticeDetails = () => {
     const [loading, setLoading] = useState(true);
     const [showCompletedModal, setShowCompletedModal] = useState(false);
     const [showNotCompletedModal, setShowNotCompletedModal] = useState(false);
+    const [showAssignedModal, setShowAssignedModal] = useState(false);
     const [comment, setComment] = useState('');
     const { user } = useContext(AuthContext);
     const [reload, setReload] = useState(false);
@@ -80,6 +82,7 @@ const NoticeDetails = () => {
 
     const completedUsers = notice?.userActions?.filter(action => action.completed) || [];
     const notCompletedUsers = notice?.userActions?.filter(action => !action.completed) || [];
+    const assignedUsers = notice?.recipients || [];
     const userAction = notice?.userActions?.find(action => action.userId === user?._id);
 
     const handleShowCompletedModal = () => setShowCompletedModal(true);
@@ -87,6 +90,9 @@ const NoticeDetails = () => {
 
     const handleShowNotCompletedModal = () => setShowNotCompletedModal(true);
     const handleCloseNotCompletedModal = () => setShowNotCompletedModal(false);
+
+    const handleShowAssignedModal = () => setShowAssignedModal(true);
+    const handleCloseAssignedModal = () => setShowAssignedModal(false);
 
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -106,6 +112,17 @@ const NoticeDetails = () => {
                         <FaTimesCircle className="text-red-500" />
                         <span>অসম্পন্ন: {toBengaliNumber(notCompletedUsers.length)}</span>
                     </div>
+                    {notice.sendToAll ? (
+                        <div className="flex items-center space-x-1">
+                            <AiOutlineUsergroupAdd className="text-blue-500" />
+                            <span>সকল</span>
+                        </div>
+                    ) : (
+                        <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowAssignedModal}>
+                            <AiOutlineUsergroupAdd className="text-blue-500" />
+                            <span>নির্ধারিত: {toBengaliNumber(assignedUsers.length)}</span>
+                        </div>
+                    )}
                 </div>
                 <div className="mt-6">
                     <h3 className="text-lg font-semibold mb-2">কর্মের অগ্রগতি মন্তব্য</h3>
@@ -178,6 +195,14 @@ const NoticeDetails = () => {
                 title="অসম্পন্ন ব্যবহারকারী"
                 users={notCompletedUsers}
             />
+            {!notice.sendToAll && (
+                <UserListModal
+                    showModal={showAssignedModal}
+                    handleCloseModal={handleCloseAssignedModal}
+                    title="নির্ধারিত ব্যবহারকারী"
+                    users={assignedUsers}
+                />
+            )}
         </section>
     );
 };

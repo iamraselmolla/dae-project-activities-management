@@ -71,7 +71,7 @@ function DemoDetails() {
               <img
                 src={demoData?.demoImages[1]?.image[0] || '/images/pi/pi2.jpg'}
                 className="h-[100%] m-auto max-h-64"
-                alt="User Image"
+                alt="User"
               />
             </div>
             {/* Top Card */}
