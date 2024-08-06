@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../../store/projectSlice";
 import DashboardMenu from "./DashboardMenu";
 import { Outlet } from "react-router-dom";
-import LoaderWithDynamicMessage from "../../shared/LoaderWithDynamicMessage";
 import DeletingLoader from "../../shared/DeletingLoader";
 import toast from "react-hot-toast";
 
