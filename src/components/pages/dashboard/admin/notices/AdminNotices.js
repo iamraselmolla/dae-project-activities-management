@@ -1,24 +1,24 @@
-// src/Notices.js
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../AuthContext/AuthProvider";
-import toast from "react-hot-toast";
-import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
-import NoContentFound from "../../shared/NoContentFound";
-import SectionTitle from "../../shared/SectionTitle";
-import Notice from "./Notice";
-import { getAllNotices } from "../../../services/userServices";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import SectionTitle from "../../../../shared/SectionTitle";
 import { toBengaliNumber } from "bengali-number";
-import AssignedRecipientsModal from "../../shared/AssignedRecipientsModal"
+import { deleteNotice, getAllNotices, updateNotice } from "../../../../../services/userServices";
+import LoaderWithOutDynamicMessage from "../../../../shared/LoaderWithOutDynamicMessage";
+import NoContentFound from "../../../../shared/NoContentFound";
+import Notice from "./Notice";
+import EditNoticeModal from "../../../../shared/EditNoticeModal";
+import DeleteConfirmationModal from "../../../../shared/DeleteConfirmationModal";
 
-const Notices = () => {
+const AdminNotices = () => {
     const [notices, setNotices] = useState([]);
     const [loading, setLoading] = useState(false);
     const [fetchEnd, setFetchEnd] = useState(false);
     const [priorityFilter, setPriorityFilter] = useState("");
     const [search, setSearch] = useState("");
     const [filteredNotices, setFilteredNotices] = useState(notices);
-    const [selectedRecipients, setSelectedRecipients] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const [selectedNotice, setSelectedNotice] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
         const fetchAllNotices = async () => {
@@ -66,16 +66,47 @@ const Notices = () => {
     useEffect(() => {
         const filtered = filterNotices();
         setFilteredNotices(filtered);
-    }, [priorityFilter, search]);
+    }, [priorityFilter, search, notices]);
 
-    const handleShowRecipients = (recipients) => {
-        setSelectedRecipients(recipients);
-        setShowModal(true);
+    const handleEdit = (notice) => {
+        setSelectedNotice(notice);
+        setShowEditModal(true);
     };
-    const hanndleOnClose = () => {
-        setShowModal(false);
-        setSelectedRecipients([])
-    }
+
+    const handleDelete = (notice) => {
+        setSelectedNotice(notice);
+        setShowDeleteModal(true);
+    };
+
+    const handleUpdateNotice = async (updatedNotice) => {
+        try {
+            const result = await updateNotice(updatedNotice);
+            if (result?.status === 200) {
+                const updatedNotices = notices.map((notice) =>
+                    notice._id === updatedNotice._id ? updatedNotice : notice
+                );
+                setNotices(updatedNotices);
+                setShowEditModal(false);
+                toast.success("নোটিশ সফলভাবে আপডেট হয়েছে");
+            }
+        } catch (err) {
+            toast.error("নোটিশ আপডেট করতে সমস্যা হয়েছে");
+        }
+    };
+
+    const handleConfirmDelete = async () => {
+        try {
+            const result = await deleteNotice(selectedNotice._id);
+            if (result?.status === 200) {
+                const remainingNotices = notices.filter((notice) => notice._id !== selectedNotice._id);
+                setNotices(remainingNotices);
+                setShowDeleteModal(false);
+                toast.success("নোটিশ সফলভাবে মুছে ফেলা হয়েছে");
+            }
+        } catch (err) {
+            toast.error("নোটিশ মুছতে সমস্যা হয়েছে");
+        }
+    };
 
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -112,7 +143,12 @@ const Notices = () => {
                     fetchEnd &&
                     filteredNotices?.length > 0 &&
                     filteredNotices?.map((notice) => (
-                        <Notice key={notice?._id} notice={notice} handleShowRecipients={handleShowRecipients} />
+                        <Notice
+                            key={notice?._id}
+                            notice={notice}
+                            handleEdit={handleEdit}
+                            handleDelete={handleDelete}
+                        />
                     ))}
             </div>
             {!loading && fetchEnd && filteredNotices?.length < 1 && (
@@ -120,10 +156,25 @@ const Notices = () => {
             )}
             {!fetchEnd && loading && <LoaderWithOutDynamicMessage />}
 
-            {/* Recipients Modal */}
-            {showModal && <AssignedRecipientsModal onClose={hanndleOnClose} recipients={selectedRecipients} />}
+            {/* Edit Notice Modal */}
+            {showEditModal && (
+                <EditNoticeModal
+                    onClose={() => setShowEditModal(false)}
+                    notice={selectedNotice}
+                    onSave={handleUpdateNotice}
+                />
+            )}
+
+            {/* Delete Confirmation Modal */}
+            {showDeleteModal && (
+                <DeleteConfirmationModal
+                    onClose={() => setShowDeleteModal(false)}
+                    onConfirm={handleConfirmDelete}
+                    notice={selectedNotice}
+                />
+            )}
         </section>
     );
 };
 
-export default Notices;
+export default AdminNotices;

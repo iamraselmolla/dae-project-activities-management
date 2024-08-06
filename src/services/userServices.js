@@ -74,8 +74,6 @@ const BASE_URL = {
   userSchools: "/school/get-user-schools",
   deleteSchool: '/school/delete-a-school',
 
-
-
   // Farmer Data
   createAFarmer: "/farmer/create-farmer",
   getFarmers: "/farmer/get-farmers-data",
@@ -89,9 +87,6 @@ const BASE_URL = {
   postNoticeComment: "/notice/post-a-notice-comment",
   markNoticeComplete: "/notice/complete-notice"
 };
-
-
-
 
 // Project APIs
 export function addProjectByAdmin(values) {
@@ -124,7 +119,6 @@ export function markProjectComplete(id) {
 export function findAllProjectsData() {
   return http.get(BASE_URL.findAllProjects)
 }
-
 
 // Demo API
 export function createDemo(values) {
@@ -183,6 +177,7 @@ export function getLoginUser(formData) {
 export function getBlockandUnion() {
   return http.get(BASE_URL.getUnionAndBlockInfo);
 }
+
 // Group APIs
 export function createAGroup(values) {
   return http.post(BASE_URL.createGroup, values);
@@ -280,16 +275,15 @@ export function getAllDistributions() {
   return http.get(BASE_URL.getDistribution);
 }
 
-
 export function deleteADistribution(id) {
   return http.delete(BASE_URL.deleteADistribution, { data: { id } });
 }
 
 // Motivatinal Tour
-
 export function createMotivationTour(data) {
   return http.post(BASE_URL.createMotivationTour, { data });
 }
+
 export function getAllMotivationalTours() {
   return http.get(BASE_URL.getAllMotivationalTour);
 }
@@ -299,50 +293,64 @@ export function deleteATour(id) {
 }
 
 // School
-
 export function createASchool(data) {
   return http.post(BASE_URL.creatPFSFBS, { data });
 }
+
 export function getAllSchools() {
   return http.get(BASE_URL.getSchools);
 }
+
 export function getUserAllSchools() {
-  return http.get(BASE_URL.userSchools)
-}
-export function deleteASchool(id) {
-  return http.delete(BASE_URL.deleteSchool, { data: { id } })
+  return http.get(BASE_URL.userSchools);
 }
 
+export function deleteASchool(id) {
+  return http.delete(BASE_URL.deleteSchool, { data: { id } });
+}
 
 // Farmer
 export function createAFarmer(data) {
-  return http.post(BASE_URL.createAFarmer, data)
+  return http.post(BASE_URL.createAFarmer, data);
 }
 
 export function getAllFarmers() {
-  return http.get(BASE_URL.getFarmers)
+  return http.get(BASE_URL.getFarmers);
 }
 
 export function deleteAFarmer(id) {
-  return http.delete(BASE_URL.deleteFarmer, { data: { id } })
+  return http.delete(BASE_URL.deleteFarmer, { data: { id } });
 }
+
 export function findFarmerByNID(nid, block, union) {
-  return http.post(BASE_URL.findFarmerByNumberNID, { nid, block, union })
+  return http.post(BASE_URL.findFarmerByNumberNID, { nid, block, union });
 }
 
 // Notice
 export function createANotice(values) {
-  return http.post(BASE_URL.createANotice, values)
+  return http.post(BASE_URL.createANotice, values);
 }
+
 export function getAllNotices() {
-  return http.get(BASE_URL.getAllNotices)
+  return http.get(BASE_URL.getAllNotices);
 }
+
 export function findASingleNotice(id) {
-  return http.get(BASE_URL.findSingleNotice + `?id=${id}`)
+  return http.get(BASE_URL.findSingleNotice + `?id=${id}`);
 }
+
 export function addCommentToNotice(id, userId, username, text) {
-  return http.put(BASE_URL.postNoticeComment, { id, userId, username, text })
+  return http.put(BASE_URL.postNoticeComment, { id, userId, username, text });
 }
+
 export function markNoticeAsCompleted(id, userId, username) {
-  return http.put(BASE_URL.markNoticeComplete, { id, userId, username })
+  return http.put(BASE_URL.markNoticeComplete, { id, userId, username });
+}
+
+export function updateNotice(id, values) {
+  return http.put(BASE_URL.findSingleNotice, { id, ...values });
+}
+
+export function deleteNotice(id) {
+  return http.delete(BASE_URL.findSingleNotice, { data: { id } });
 }
