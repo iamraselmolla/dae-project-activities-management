@@ -41,6 +41,7 @@ import FarmerList from "./components/pages/farmer-list/FarmerList";
 import AddAFarmer from "./components/pages/farmer-list/AddAFarmer";
 import AddNotice from "./components/pages/notices/AddNotice";
 import NoticeDetails from "./components/pages/notices/NoticeDetails";
+import Notice from "./components/pages/notices/Notice";
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
 const { default: Home } = require("./components/pages/home/Home");
@@ -300,6 +301,14 @@ const router = createBrowserRouter([
               <PrivateRoute>
                 <AddNotes />
               </PrivateRoute>
+            ),
+          },
+          {
+            path: "/dashboard/notices",
+            element: (
+              <AdminRoute>
+                <Notice />
+              </AdminRoute>
             ),
           },
         ],
