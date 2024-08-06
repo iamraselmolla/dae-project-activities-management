@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Notices = () => {
+const AdminNotices = () => {
     return (
         <div>
-
+            ok
         </div>
     );
 };
 
-export default Notices;
+export default AdminNotices;
