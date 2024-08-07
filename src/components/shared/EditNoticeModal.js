@@ -1,5 +1,4 @@
-// src/shared/EditNoticeModal.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const EditNoticeModal = ({ onClose, notice, onSave }) => {
     const [formValues, setFormValues] = useState(notice);
@@ -14,8 +13,15 @@ const EditNoticeModal = ({ onClose, notice, onSave }) => {
         onSave(formValues);
     };
 
+    useEffect(() => {
+        const modal = document.getElementById('editNoticeModal');
+        if (modal) {
+            modal.showModal();
+        }
+    }, []);
+
     return (
-        <div className="modal">
+        <dialog id="editNoticeModal" className="modal">
             <div className="modal-box">
                 <h2 className="font-bold text-lg">নোটিশ সম্পাদনা করুন</h2>
                 <form onSubmit={handleSubmit}>
@@ -46,7 +52,7 @@ const EditNoticeModal = ({ onClose, notice, onSave }) => {
                     </div>
                 </form>
             </div>
-        </div>
+        </dialog>
     );
 };
 
