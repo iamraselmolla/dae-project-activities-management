@@ -138,7 +138,7 @@ const AdminNotices = () => {
             {!fetchEnd && loading && <LoaderWithOutDynamicMessage />}
 
             {/* Edit Notice Modal */}
-            {showEditModal && (
+            {showEditModal && selectedNotice && (
                 <EditNoticeModal
                     onClose={() => setShowEditModal(false)}
                     notice={selectedNotice}
@@ -147,7 +147,7 @@ const AdminNotices = () => {
             )}
 
             {/* Delete Confirmation Modal */}
-            {showDeleteModal && (
+            {showDeleteModal && selectedNotice && (
                 <DeleteConfirmationModal
                     onClose={() => setShowDeleteModal(false)}
                     onConfirm={handleConfirmDelete}

@@ -45,7 +45,7 @@ const Notice = ({ notice, handleEdit, handleDelete }) => {
             <UserListModal
                 showModal={showAssignedModal}
                 handleCloseModal={handleCloseAssignedModal}
-                title="Assigned Users"
+                title="সংযুক্ত ব্লক ও সংশ্লিষ্ট উপসহকারী কৃষি কর্মকর্তাগণঃ"
                 users={notice.recipients}
             />
         </div>
