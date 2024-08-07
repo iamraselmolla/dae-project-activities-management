@@ -4,6 +4,7 @@ import {
   findUserAllNotes,
   getAllDistributions,
   getAllMotivationalTours,
+  getAllNotices,
   getAllProjects,
   getAllTraining,
   getAllUser,
@@ -101,6 +102,12 @@ const DashboardLayout = () => {
           const tourResult = await getAllMotivationalTours();
           if (tourResult?.status === 200) {
             dispatch(daeAction.setAllMotivationTours(tourResult?.data?.data));
+          }
+        }
+        if (refetch === "all" || refetch.includes('notices')) {
+          const noticeResult = await getAllNotices();
+          if (noticeResult?.status === 200) {
+            dispatch(daeAction.setAllNotices(noticeResult?.data?.data))
           }
         }
       } catch (err) {

@@ -20,31 +20,6 @@ const AdminNotices = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-    useEffect(() => {
-        const fetchAllNotices = async () => {
-            setLoading(true);
-            try {
-                const result = await getAllNotices();
-                if (result?.status === 200) {
-                    setNotices(result.data?.data);
-                    setFilteredNotices(result.data?.data);
-                    setLoading(false);
-                    setFetchEnd(true);
-                }
-            } catch (err) {
-                toast.error(
-                    "নোটিশের তথ্য ডাটাবেজ থেকে আনতে সমস্যা হয়েছে। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন"
-                );
-                setLoading(false);
-                setFetchEnd(true);
-            }
-        };
-        if (navigator.onLine) {
-            fetchAllNotices();
-        } else {
-            toast.error("দয়া করে ইন্টারনেট সংযোগ চেক করুন");
-        }
-    }, []);
 
     const filterNotices = () => {
         let filtered = notices;
