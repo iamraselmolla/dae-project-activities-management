@@ -2,24 +2,24 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import SectionTitle from "../../../../shared/SectionTitle";
 import { toBengaliNumber } from "bengali-number";
-import { deleteNotice, getAllNotices, updateNotice } from "../../../../../services/userServices";
+import { deleteNotice, updateNotice } from "../../../../../services/userServices";
 import LoaderWithOutDynamicMessage from "../../../../shared/LoaderWithOutDynamicMessage";
 import NoContentFound from "../../../../shared/NoContentFound";
 import Notice from "./Notice";
 import EditNoticeModal from "../../../../shared/EditNoticeModal";
 import DeleteConfirmationModal from "../../../../shared/DeleteConfirmationModal";
+import { useSelector } from "react-redux";
 
 const AdminNotices = () => {
-    const [notices, setNotices] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [fetchEnd, setFetchEnd] = useState(false);
+    const { allNotices: notices } = useSelector(state => state.dae);
+    const [filteredNotices, setFilteredNotices] = useState([]);
     const [priorityFilter, setPriorityFilter] = useState("");
     const [search, setSearch] = useState("");
-    const [filteredNotices, setFilteredNotices] = useState(notices);
     const [selectedNotice, setSelectedNotice] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-
+    const [loading, setLoading] = useState(true);
+    const [fetchEnd, setFetchEnd] = useState(false);
 
     const filterNotices = () => {
         let filtered = notices;
@@ -39,8 +39,14 @@ const AdminNotices = () => {
     };
 
     useEffect(() => {
-        const filtered = filterNotices();
-        setFilteredNotices(filtered);
+        if (notices.length > 0) {
+            setFilteredNotices(filterNotices());
+            setLoading(false);
+            setFetchEnd(true);
+        } else {
+            setLoading(false);
+            setFetchEnd(true);
+        }
     }, [priorityFilter, search, notices]);
 
     const handleEdit = (notice) => {
@@ -60,7 +66,7 @@ const AdminNotices = () => {
                 const updatedNotices = notices.map((notice) =>
                     notice._id === updatedNotice._id ? updatedNotice : notice
                 );
-                setNotices(updatedNotices);
+                setFilteredNotices(updatedNotices);
                 setShowEditModal(false);
                 toast.success("নোটিশ সফলভাবে আপডেট হয়েছে");
             }
@@ -74,7 +80,7 @@ const AdminNotices = () => {
             const result = await deleteNotice(selectedNotice._id);
             if (result?.status === 200) {
                 const remainingNotices = notices.filter((notice) => notice._id !== selectedNotice._id);
-                setNotices(remainingNotices);
+                setFilteredNotices(remainingNotices);
                 setShowDeleteModal(false);
                 toast.success("নোটিশ সফলভাবে মুছে ফেলা হয়েছে");
             }
@@ -116,17 +122,17 @@ const AdminNotices = () => {
             <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3 mt-10">
                 {!loading &&
                     fetchEnd &&
-                    filteredNotices?.length > 0 &&
-                    filteredNotices?.map((notice) => (
+                    filteredNotices.length > 0 &&
+                    filteredNotices.map((notice) => (
                         <Notice
-                            key={notice?._id}
+                            key={notice._id}
                             notice={notice}
                             handleEdit={handleEdit}
                             handleDelete={handleDelete}
                         />
                     ))}
             </div>
-            {!loading && fetchEnd && filteredNotices?.length < 1 && (
+            {!loading && fetchEnd && filteredNotices.length < 1 && (
                 <NoContentFound text={"কোনো নোটিশের তথ্য পাওয়া যায়নি!"} />
             )}
             {!fetchEnd && loading && <LoaderWithOutDynamicMessage />}

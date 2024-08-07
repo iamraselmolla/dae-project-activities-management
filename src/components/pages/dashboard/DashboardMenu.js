@@ -28,6 +28,7 @@ const DashboardMenu = () => {
     fieldDays,
     schools,
     daeMeetings,
+    allNotices
   } = useSelector((state) => state.dae);
 
   const adminMenuItems = [
@@ -36,7 +37,7 @@ const DashboardMenu = () => {
     { icon: <GiDiscussion />, link: "/trainings", text: `প্রশিক্ষণ (${toBengaliNumber(trainings.length)})` },
     { icon: <GiDiscussion />, link: "/motivational-tours", text: `উদ্বুদ্ধকরণ ভ্রমণ (${toBengaliNumber(tours.length)})` },
     { icon: <MdAgriculture />, link: "/all-distributions", text: `উপকরণ বিতরণ (${toBengaliNumber(distributions.length)})` },
-    { icon: <GrAnnounce />, link: "/notices", text: `নোটিশ (${toBengaliNumber(distributions.length)})` },
+    { icon: <GrAnnounce />, link: "/notices", text: `নোটিশ (${toBengaliNumber(allNotices.length)})` },
   ];
 
   const userMenuItems = [
