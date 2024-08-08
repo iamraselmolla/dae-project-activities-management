@@ -3,9 +3,10 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Datepicker from 'react-tailwindcss-datepicker';
 import toast from 'react-hot-toast';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SectionTitle from '../../shared/SectionTitle';
-import { createANotice, getAllUser } from '../../../services/userServices';
-import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage"
+import { createANotice, findASingleNotice, getAllUser, updateNotice } from '../../../services/userServices';
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 
 const AddNotice = () => {
     const [users, setUsers] = useState([]);
@@ -14,7 +15,10 @@ const AddNotice = () => {
     const [userFetching, setUserFetching] = useState(false);
     const [userActions, setUserActions] = useState([]);
     const [actionThread, setActionThread] = useState(false);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const noticeId = new URLSearchParams(location.search).get('id');
 
     useEffect(() => {
         if (!sendToAll) {
@@ -32,6 +36,37 @@ const AddNotice = () => {
             fetchUsers();
         }
     }, [sendToAll]);
+
+    useEffect(() => {
+        if (noticeId) {
+            const fetchNoticeData = async () => {
+                try {
+                    setLoading(true);
+                    const result = await findASingleNotice(noticeId);
+                    const noticeData = result?.data?.data;
+                    formik.setValues({
+                        subject: noticeData.subject,
+                        content: noticeData.content,
+                        linkText: noticeData.linkText || '',
+                        link: noticeData.link || '',
+                        expirationDate: noticeData.expirationDate ? { startDate: noticeData.expirationDate } : null,
+                        attachment: null, // Handle file separately
+                        priority: noticeData.priority || 'Medium',
+                    });
+                    setSendToAll(noticeData.sendToAll);
+                    setSelectedUsers(noticeData.recipients || []);
+                    setUserActions(noticeData.userActions || []);
+                    setActionThread(noticeData.actionThread || false);
+                } catch (error) {
+                    toast.error('নোটিশ তথ্য আনতে ব্যর্থ হয়েছে');
+                    console.error('Error fetching notice data', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchNoticeData();
+        }
+    }, [noticeId]);
 
     const formik = useFormik({
         initialValues: {
@@ -65,17 +100,25 @@ const AddNotice = () => {
                 actionThread
             };
             try {
-                setLoading(true)
-                const result = await createANotice(noticeData);
+                setLoading(true);
+                let result;
+                if (noticeId) {
+                    // Update existing notice
+                    result = await updateNotice(noticeId, noticeData);
+                } else {
+                    // Create new notice
+                    result = await createANotice(noticeData);
+                }
                 if (result?.status === 200) {
-                    toast.success('নোটিশ সফলভাবে জমা দেওয়া হয়েছে');
+                    toast.success(noticeId ? 'নোটিশ সফলভাবে হালনাগাদ করা হয়েছে' : 'নোটিশ সফলভাবে জমা দেওয়া হয়েছে');
                     resetForm();
+                    navigate('/notices');
                 }
             } catch (error) {
-                toast.error('নোটিশ যুক্ত করা যায়নি');
+                toast.error(noticeId ? 'নোটিশ হালনাগাদ করা যায়নি' : 'নোটিশ যুক্ত করা যায়নি');
                 console.error('Error submitting notice', error);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
         },
     });
@@ -90,42 +133,13 @@ const AddNotice = () => {
         }
     };
 
-    const handleCommentChange = (userId, comment) => {
-        if (actionThread) return; // Do nothing if acknowledgment only
-        setUserActions(prevActions => {
-            const updatedActions = prevActions.map(action => {
-                if (action.userId === userId) {
-                    return {
-                        ...action,
-                        comments: [...action.comments, { text: comment }]
-                    };
-                }
-                return action;
-            });
-            return updatedActions;
-        });
-    };
-
-    const handleCompletionChange = (userId, completed) => {
-        setUserActions(prevActions => {
-            const updatedActions = prevActions.map(action => {
-                if (action.userId === userId) {
-                    return {
-                        ...action,
-                        completed
-                    };
-                }
-                return action;
-            });
-            return updatedActions;
-        });
-    };
-
     return (
         <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
-            <SectionTitle title={"নোটিশ যুক্ত করুন"} />
+            <SectionTitle title={noticeId ? "নোটিশ হালনাগাদ করুন" : "নোটিশ যুক্ত করুন"} />
             <form onSubmit={formik.handleSubmit} className="space-y-4">
+                {/* Form Fields */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    {/* Subject Field */}
                     <div className="col-span-2">
                         <label htmlFor="subject">বিষয়</label>
                         <input
@@ -142,7 +156,7 @@ const AddNotice = () => {
                             <div className="text-red-600">{formik.errors.subject}</div>
                         ) : null}
                     </div>
-
+                    {/* Content Field */}
                     <div className="col-span-2">
                         <label htmlFor="content">বিবরণ</label>
                         <textarea
@@ -158,7 +172,7 @@ const AddNotice = () => {
                             <div className="text-red-600">{formik.errors.content}</div>
                         ) : null}
                     </div>
-
+                    {/* Link Text */}
                     <div>
                         <label htmlFor="linkText">লিংক টেক্সট</label>
                         <input
@@ -172,7 +186,7 @@ const AddNotice = () => {
                             placeholder="লিংকের টেক্সট লিখুন"
                         />
                     </div>
-
+                    {/* Link */}
                     <div>
                         <label htmlFor="link">লিংক</label>
                         <input
@@ -186,7 +200,7 @@ const AddNotice = () => {
                             placeholder="নোটিশের লিংক লিখুন"
                         />
                     </div>
-
+                    {/* Expiration Date */}
                     <div>
                         <label htmlFor="expirationDate">মেয়াদ শেষ হওয়ার তারিখ</label>
                         <Datepicker
@@ -201,7 +215,7 @@ const AddNotice = () => {
                             <div className="text-red-600">{formik.errors.expirationDate}</div>
                         ) : null}
                     </div>
-
+                    {/* Attachment */}
                     <div>
                         <label htmlFor="attachment">সংযুক্তি</label>
                         <input
@@ -216,9 +230,9 @@ const AddNotice = () => {
                             <div className="text-red-600">{formik.errors.attachment}</div>
                         ) : null}
                     </div>
-
+                    {/* Priority */}
                     <div>
-                        <label htmlFor="priority">অগ্রাধিকার</label>
+                        <label htmlFor="priority">প্রাধান্য</label>
                         <select
                             id="priority"
                             name="priority"
@@ -227,72 +241,67 @@ const AddNotice = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.priority}
                         >
+                            <option value="Low">কম</option>
+                            <option value="Medium">মাঝারি</option>
                             <option value="High">উচ্চ</option>
-                            <option value="Medium">মধ্যম</option>
-                            <option value="Low">নিম্ন</option>
                         </select>
-                        {formik.touched.priority && formik.errors.priority ? (
-                            <div className="text-red-600">{formik.errors.priority}</div>
-                        ) : null}
                     </div>
-
-                    <div className="col-span-2 flex items-center justify-between space-x-4">
-                        <div className="flex items-center">
-                            <label htmlFor="sendToAll" className="mr-2">সকলকে পাঠান</label>
-                            <input
-                                type="checkbox"
-                                id="sendToAll"
-                                name="sendToAll"
-                                className="toggle toggle-primary"
-                                onChange={(e) => {
-                                    formik.handleChange(e);
-                                    setSendToAll(e.target.checked);
-                                }}
-                                onBlur={formik.handleBlur}
-                                checked={sendToAll}
-                            />
-                        </div>
-                        <div className="flex items-center">
-                            <label htmlFor="actionThread" className="mr-2">কর্ম অগ্রগতির আপডেট চালু রাখুন</label>
-                            <input
-                                type="checkbox"
-                                id="actionThread"
-                                name="actionThread"
-                                className="toggle toggle-primary"
-                                onChange={(e) => setActionThread(e.target.checked)}
-                                checked={actionThread}
-                            />
-                        </div>
-                    </div>
-
-                    {!sendToAll && (
-                        <div className="col-span-2">
-                            <label className='text-2xl font-bold mb-4'>নোটিশ পাঠানঃ</label>
-                            {userFetching ? (
-                                <p><span className="loading loading-spinner text-success"></span></p>
-                            ) : (
-                                users.map(user => (
-                                    <label key={user._id} className="flex cursor-pointer mb-3 items-center">
+                </div>
+                {/* Send to All */}
+                <div className="flex items-center space-x-4">
+                    <input
+                        type="checkbox"
+                        id="sendToAll"
+                        checked={sendToAll}
+                        onChange={() => setSendToAll(!sendToAll)}
+                        className="checkbox"
+                    />
+                    <label htmlFor="sendToAll">সকলকে প্রেরণ করুন</label>
+                </div>
+                {/* Select Users */}
+                {!sendToAll && (
+                    <div>
+                        <label>ব্যবহারকারী নির্বাচন করুন</label>
+                        {userFetching ? (
+                            <LoaderWithOutDynamicMessage />
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                                {users.map(user => (
+                                    <div key={user._id} className="flex items-center">
                                         <input
                                             type="checkbox"
+                                            id={user._id}
                                             value={user._id}
                                             data-username={user.username}
                                             onChange={handleUserSelection}
-                                            className="checkbox checkbox-primary"
+                                            className="checkbox"
+                                            checked={selectedUsers.some(selectedUser => selectedUser.userId === user._id)}
                                         />
-                                        <span className="ml-2">{user.SAAO?.name + ', ' + user?.blockB}</span>
-                                    </label>
-                                ))
-                            )}
-                        </div>
-                    )}
+                                        <label htmlFor={user._id} className="ml-2">{user.username}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+                {/* Action Thread */}
+                <div className="flex items-center space-x-4">
+                    <input
+                        type="checkbox"
+                        id="actionThread"
+                        checked={actionThread}
+                        onChange={() => setActionThread(!actionThread)}
+                        className="checkbox"
+                    />
+                    <label htmlFor="actionThread">অ্যাকশন থ্রেড সক্রিয় করুন</label>
                 </div>
-
-                <button type="submit" className="btn theme-bg text-white w-full">
-                    নোটিশ যুক্ত করুন
-                </button>
+                {/* Submit Button */}
+                <div>
+                    <button type="submit" className="btn btn-primary w-full">
+                        {loading ? 'অপেক্ষা করুন...' : noticeId ? 'নোটিশ হালনাগাদ করুন' : 'নোটিশ যুক্ত করুন'}
+                    </button>
+                </div>
             </form>
-            {loading && <LoaderWithOutDynamicMessage />}
         </section>
     );
 };
