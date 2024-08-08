@@ -5,10 +5,10 @@ import { toBengaliNumber } from "bengali-number";
 import { deleteNotice, updateNotice } from "../../../../../services/userServices";
 import LoaderWithOutDynamicMessage from "../../../../shared/LoaderWithOutDynamicMessage";
 import NoContentFound from "../../../../shared/NoContentFound";
-import Notice from "./Notice";
 import EditNoticeModal from "../../../../shared/EditNoticeModal";
 import DeleteConfirmationModal from "../../../../shared/DeleteConfirmationModal";
 import { useSelector } from "react-redux";
+import Notice from "../../../../shared/Notice";
 
 const AdminNotices = () => {
     const { allNotices: notices } = useSelector(state => state.dae);

@@ -1,11 +1,11 @@
 // src/Notices.js
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../AuthContext/AuthProvider";
+import React, { useEffect, useState } from "react";
+
 import toast from "react-hot-toast";
 import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 import NoContentFound from "../../shared/NoContentFound";
 import SectionTitle from "../../shared/SectionTitle";
-import Notice from "./Notice";
+import Notice from "../../shared/Notice";
 import { getAllNotices } from "../../../services/userServices";
 import { toBengaliNumber } from "bengali-number";
 import AssignedRecipientsModal from "../../shared/AssignedRecipientsModal"

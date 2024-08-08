@@ -1,35 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import { Link } from 'react-router-dom'; // Import Link component
-import UserListModal from '../../shared/UserListModal';
+import { Link } from 'react-router-dom';
+import UserListModal from './UserListModal';
+import { AuthContext } from '../AuthContext/AuthProvider';
 
 const priorityClasses = {
-    High: 'text-red-500',
-    Medium: 'text-yellow-500',
-    Low: 'text-green-500'
+    High: 'bg-red-100 border-red-500',
+    Medium: 'bg-yellow-100 border-yellow-500',
+    Low: 'bg-green-100 border-green-500',
 };
 
-const Notice = ({ notice, handleEdit, handleDelete }) => {
+const Notice = ({ notice }) => {
     const [showAssignedModal, setShowAssignedModal] = useState(false);
+    const { user, role } = useContext(AuthContext);
 
     const handleShowAssignedModal = () => setShowAssignedModal(true);
     const handleCloseAssignedModal = () => setShowAssignedModal(false);
+    const handleDelete = () => {
+
+    }
 
     return (
         <div
             key={notice._id}
-            className="relative p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 border"
+            className={`relative p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 border ${priorityClasses[notice.priority]}`}
         >
             <h2 className="text-xl font-bold mb-2">{notice.subject}</h2>
             <p className="mb-2">{notice.content}</p>
             {notice.link && (
                 <a href={notice.link} className="underline">{notice.linkText}</a>
             )}
-            {notice?.expirationDate && <p className="mt-4 text-sm">Expires on: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}</p>}
-            <p className={`mt-2 font-bold ${priorityClasses[notice.priority]}`}>Priority: {notice.priority}</p>
+            {notice.expirationDate && (
+                <p className="mt-4 text-sm">
+                    Expires on: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}
+                </p>
+            )}
+            <p className="mt-2 font-bold">
+                Priority: {notice.priority}
+            </p>
 
-            <div className="absolute top-4 right-4 flex space-x-2">
+            <div className="absolute top-4 right-4">
                 {notice.sendToAll ? (
                     <span className="text-xs bg-green-500 text-white py-1 px-2 rounded">All</span>
                 ) : (
@@ -39,12 +50,16 @@ const Notice = ({ notice, handleEdit, handleDelete }) => {
                     />
                 )}
             </div>
-            <div className="absolute bottom-4 right-4 flex space-x-2">
-                <Link to={`/add-notice?id=${notice._id}`}>
-                    <FaEdit className="text-blue-500 cursor-pointer" />
-                </Link>
-                <FaTrash className="text-red-500 cursor-pointer" onClick={() => handleDelete(notice)} />
-            </div>
+
+            {user && role === 'admin' && (
+                <div className="absolute bottom-4 right-4 flex space-x-2">
+                    <Link to={`/add-notice?id=${notice._id}`}>
+                        <FaEdit className="text-blue-500 cursor-pointer" />
+                    </Link>
+                    <FaTrash className="text-red-500 cursor-pointer" onClick={() => handleDelete(notice)} />
+                </div>
+            )}
+
             <UserListModal
                 showModal={showAssignedModal}
                 handleCloseModal={handleCloseAssignedModal}
