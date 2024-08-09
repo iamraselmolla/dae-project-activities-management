@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 import UserListModal from './UserListModal';
 import { AuthContext } from '../AuthContext/AuthProvider';
 import toast from 'react-hot-toast';
+import { deleteNotice } from '../../services/userServices';
+import { useDispatch } from 'react-redux';
+import { daeAction } from '../store/projectSlice';
+import { createRandomNumber } from "../utilis/createRandomNumber"
 
 const priorityClasses = {
     High: 'bg-red-100 border-red-500',
@@ -12,11 +16,12 @@ const priorityClasses = {
     Low: 'bg-green-100 border-green-500',
 };
 
-const Notice = ({ notice, onDelete }) => {
+const Notice = ({ notice }) => {
     const [showAssignedModal, setShowAssignedModal] = useState(false);
     const [showCompletedModal, setShowCompletedModal] = useState(false);
     const [showNotCompletedModal, setShowNotCompletedModal] = useState(false);
     const { user, role } = useContext(AuthContext);
+    const dispatch = useDispatch()
 
     const handleShowAssignedModal = () => setShowAssignedModal(true);
     const handleCloseAssignedModal = () => setShowAssignedModal(false);
@@ -29,8 +34,11 @@ const Notice = ({ notice, onDelete }) => {
 
     const handleDelete = async (noticeId) => {
         try {
-            await onDelete(noticeId);
-            toast.success("নোটিশ সফলভাবে মুছে ফেলা হয়েছে।");
+            const result = await deleteNotice(noticeId);
+            if (result?.status === 200) {
+                toast.success(result?.data?.message);
+                dispatch(daeAction.setRefetch(`notices${createRandomNumber()}`))
+            }
         } catch (err) {
             toast.error("নোটিশ মুছতে অসুবিধা হয়েছে।");
         }

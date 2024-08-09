@@ -84,6 +84,7 @@ const BASE_URL = {
   createANotice: "/notice/create-notice",
   getAllNotices: "/notice/get-all-notices",
   findSingleNotice: "/notice/get-a-notice",
+  deleteNotice: "/notice/delete-a-notice",
   postNoticeComment: "/notice/post-a-notice-comment",
   markNoticeComplete: "/notice/complete-notice"
 };
@@ -352,5 +353,5 @@ export function updateNotice(id, values) {
 }
 
 export function deleteNotice(id) {
-  return http.delete(BASE_URL.findSingleNotice, { data: { id } });
+  return http.delete(BASE_URL.deleteNotice, { data: { id } });
 }
