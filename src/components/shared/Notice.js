@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle, FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import UserListModal from './UserListModal';
 import { AuthContext } from '../AuthContext/AuthProvider';
@@ -13,13 +13,26 @@ const priorityClasses = {
 
 const Notice = ({ notice }) => {
     const [showAssignedModal, setShowAssignedModal] = useState(false);
+    const [showCompletedModal, setShowCompletedModal] = useState(false);
+    const [showNotCompletedModal, setShowNotCompletedModal] = useState(false);
     const { user, role } = useContext(AuthContext);
 
     const handleShowAssignedModal = () => setShowAssignedModal(true);
     const handleCloseAssignedModal = () => setShowAssignedModal(false);
+
+    const handleShowCompletedModal = () => setShowCompletedModal(true);
+    const handleCloseCompletedModal = () => setShowCompletedModal(false);
+
+    const handleShowNotCompletedModal = () => setShowNotCompletedModal(true);
+    const handleCloseNotCompletedModal = () => setShowNotCompletedModal(false);
+
     const handleDelete = () => {
-        // Add delete functionality here
+        // Delete logic here
     };
+
+    const completedUsers = notice?.userActions?.filter(action => action.completed) || [];
+    const notCompletedUsers = notice?.userActions?.filter(action => !action.completed) || [];
+    const assignedUsers = notice?.recipients || [];
 
     return (
         <div
@@ -27,15 +40,13 @@ const Notice = ({ notice }) => {
             className={`relative p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 border ${priorityClasses[notice.priority]}`}
         >
             <h2 className="text-xl font-bold mb-2">
-                <Link to={`/notices/${notice._id}`} className="hover:underline">
+                <Link to={`/notice-details/${notice._id}`} className="hover:underline">
                     {notice.subject}
                 </Link>
             </h2>
             <p className="mb-2">{notice.content}</p>
             {notice.link && (
-                <a href={notice.link} className="underline" onClick={(e) => e.stopPropagation()}>
-                    {notice.linkText}
-                </a>
+                <a href={notice.link} className="underline text-blue-500">{notice.linkText}</a>
             )}
             {notice.expirationDate && (
                 <p className="mt-4 text-sm">
@@ -46,38 +57,57 @@ const Notice = ({ notice }) => {
                 Priority: {notice.priority}
             </p>
 
-            <div className="absolute top-4 right-4">
+            <div className="absolute top-4 right-4 flex space-x-2">
+                <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowCompletedModal}>
+                    <FaCheckCircle className="text-green-500" />
+                    <span>Completed: {completedUsers.length}</span>
+                </div>
+                <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowNotCompletedModal}>
+                    <FaTimesCircle className="text-red-500" />
+                    <span>Incomplete: {notCompletedUsers.length}</span>
+                </div>
                 {notice.sendToAll ? (
-                    <span className="text-xs bg-green-500 text-white py-1 px-2 rounded">All</span>
+                    <div className="flex items-center space-x-1">
+                        <AiOutlineUsergroupAdd className="text-blue-500" />
+                        <span>All</span>
+                    </div>
                 ) : (
-                    <AiOutlineUsergroupAdd
-                        className="text-2xl cursor-pointer"
-                        onClick={handleShowAssignedModal}
-                    />
+                    <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowAssignedModal}>
+                        <AiOutlineUsergroupAdd className="text-blue-500" />
+                        <span>Assigned: {assignedUsers.length}</span>
+                    </div>
                 )}
             </div>
 
             {user && role === 'admin' && (
                 <div className="absolute bottom-4 right-4 flex space-x-2">
-                    <Link to={`/add-notice?id=${notice._id}`} onClick={(e) => e.stopPropagation()}>
+                    <Link to={`/add-notice?id=${notice._id}`}>
                         <FaEdit className="text-blue-500 cursor-pointer" />
                     </Link>
-                    <FaTrash
-                        className="text-red-500 cursor-pointer"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleDelete(notice);
-                        }}
-                    />
+                    <FaTrash className="text-red-500 cursor-pointer" onClick={() => handleDelete(notice)} />
                 </div>
             )}
 
             <UserListModal
-                showModal={showAssignedModal}
-                handleCloseModal={handleCloseAssignedModal}
-                title="সংযুক্ত ব্লক ও সংশ্লিষ্ট উপসহকারী কৃষি কর্মকর্তাগণঃ"
-                users={notice.recipients}
+                showModal={showCompletedModal}
+                handleCloseModal={handleCloseCompletedModal}
+                title="Completed Users"
+                users={completedUsers}
             />
+            <UserListModal
+                showModal={showNotCompletedModal}
+                handleCloseModal={handleCloseNotCompletedModal}
+                title="Incomplete Users"
+                users={notCompletedUsers}
+            />
+            {!notice.sendToAll && (
+                <UserListModal
+                    showModal={showAssignedModal}
+                    handleCloseModal={handleCloseAssignedModal}
+                    title="Assigned Users"
+                    users={assignedUsers}
+                />
+            )}
         </div>
     );
 };
