@@ -18,18 +18,24 @@ const Notice = ({ notice }) => {
     const handleShowAssignedModal = () => setShowAssignedModal(true);
     const handleCloseAssignedModal = () => setShowAssignedModal(false);
     const handleDelete = () => {
-
-    }
+        // Add delete functionality here
+    };
 
     return (
         <div
             key={notice._id}
             className={`relative p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 border ${priorityClasses[notice.priority]}`}
         >
-            <h2 className="text-xl font-bold mb-2">{notice.subject}</h2>
+            <h2 className="text-xl font-bold mb-2">
+                <Link to={`/notice-details/${notice._id}`} className="hover:underline">
+                    {notice.subject}
+                </Link>
+            </h2>
             <p className="mb-2">{notice.content}</p>
             {notice.link && (
-                <a href={notice.link} className="underline">{notice.linkText}</a>
+                <a href={notice.link} className="underline" onClick={(e) => e.stopPropagation()}>
+                    {notice.linkText}
+                </a>
             )}
             {notice.expirationDate && (
                 <p className="mt-4 text-sm">
@@ -53,10 +59,16 @@ const Notice = ({ notice }) => {
 
             {user && role === 'admin' && (
                 <div className="absolute bottom-4 right-4 flex space-x-2">
-                    <Link to={`/add-notice?id=${notice._id}`}>
+                    <Link to={`/add-notice?id=${notice._id}`} onClick={(e) => e.stopPropagation()}>
                         <FaEdit className="text-blue-500 cursor-pointer" />
                     </Link>
-                    <FaTrash className="text-red-500 cursor-pointer" onClick={() => handleDelete(notice)} />
+                    <FaTrash
+                        className="text-red-500 cursor-pointer"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(notice);
+                        }}
+                    />
                 </div>
             )}
 
