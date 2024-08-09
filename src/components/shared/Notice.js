@@ -27,7 +27,7 @@ const Notice = ({ notice }) => {
             className={`relative p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 border ${priorityClasses[notice.priority]}`}
         >
             <h2 className="text-xl font-bold mb-2">
-                <Link to={`/notice-details/${notice._id}`} className="hover:underline">
+                <Link to={`/notices/${notice._id}`} className="hover:underline">
                     {notice.subject}
                 </Link>
             </h2>
