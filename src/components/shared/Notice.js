@@ -4,6 +4,7 @@ import { FaCheckCircle, FaTimesCircle, FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import UserListModal from './UserListModal';
 import { AuthContext } from '../AuthContext/AuthProvider';
+import toast from 'react-hot-toast';
 
 const priorityClasses = {
     High: 'bg-red-100 border-red-500',
@@ -11,7 +12,7 @@ const priorityClasses = {
     Low: 'bg-green-100 border-green-500',
 };
 
-const Notice = ({ notice }) => {
+const Notice = ({ notice, onDelete }) => {
     const [showAssignedModal, setShowAssignedModal] = useState(false);
     const [showCompletedModal, setShowCompletedModal] = useState(false);
     const [showNotCompletedModal, setShowNotCompletedModal] = useState(false);
@@ -26,27 +27,26 @@ const Notice = ({ notice }) => {
     const handleShowNotCompletedModal = () => setShowNotCompletedModal(true);
     const handleCloseNotCompletedModal = () => setShowNotCompletedModal(false);
 
-    const handleDelete = () => {
-        // Delete logic here
+    const handleDelete = async (noticeId) => {
+        try {
+            await onDelete(noticeId);
+            toast.success("নোটিশ সফলভাবে মুছে ফেলা হয়েছে।");
+        } catch (err) {
+            toast.error("নোটিশ মুছতে অসুবিধা হয়েছে।");
+        }
     };
-
-    const completedUsers = notice?.userActions?.filter(action => action.completed) || [];
-    const notCompletedUsers = notice?.userActions?.filter(action => !action.completed) || [];
-    const assignedUsers = notice?.recipients || [];
 
     return (
         <div
             key={notice._id}
             className={`relative p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 border ${priorityClasses[notice.priority]}`}
         >
-            <h2 className="text-xl font-bold mb-2">
-                <Link to={`/notice-details/${notice._id}`} className="hover:underline">
-                    {notice.subject}
-                </Link>
-            </h2>
+            <Link to={`/notice-details/${notice._id}`} className="text-xl font-bold mb-2">
+                {notice.subject}
+            </Link>
             <p className="mb-2">{notice.content}</p>
             {notice.link && (
-                <a href={notice.link} className="underline text-blue-500">{notice.linkText}</a>
+                <a href={notice.link} className="underline">{notice.linkText}</a>
             )}
             {notice.expirationDate && (
                 <p className="mt-4 text-sm">
@@ -57,57 +57,55 @@ const Notice = ({ notice }) => {
                 Priority: {notice.priority}
             </p>
 
-            <div className="absolute top-4 right-4 flex space-x-2">
-                <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowCompletedModal}>
-                    <FaCheckCircle className="text-green-500" />
-                    <span>Completed: {completedUsers.length}</span>
-                </div>
-                <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowNotCompletedModal}>
-                    <FaTimesCircle className="text-red-500" />
-                    <span>Incomplete: {notCompletedUsers.length}</span>
-                </div>
+            <div className="absolute top-4 right-4 flex flex-col items-center space-y-2">
+                <FaCheckCircle
+                    className="text-green-500 cursor-pointer text-xl"
+                    onClick={handleShowCompletedModal}
+                />
+                <FaTimesCircle
+                    className="text-red-500 cursor-pointer text-xl"
+                    onClick={handleShowNotCompletedModal}
+                />
                 {notice.sendToAll ? (
-                    <div className="flex items-center space-x-1">
-                        <AiOutlineUsergroupAdd className="text-blue-500" />
-                        <span>All</span>
-                    </div>
+                    <span className="text-xs bg-green-500 text-white py-1 px-2 rounded">All</span>
                 ) : (
-                    <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowAssignedModal}>
-                        <AiOutlineUsergroupAdd className="text-blue-500" />
-                        <span>Assigned: {assignedUsers.length}</span>
-                    </div>
+                    <AiOutlineUsergroupAdd
+                        className="text-blue-500 cursor-pointer text-xl"
+                        onClick={handleShowAssignedModal}
+                    />
                 )}
             </div>
 
             {user && role === 'admin' && (
                 <div className="absolute bottom-4 right-4 flex space-x-2">
-                    <Link to={`/add-notice?id=${notice._id}`}>
-                        <FaEdit className="text-blue-500 cursor-pointer" />
+                    <Link to={`/edit-notice/${notice._id}`}>
+                        <FaEdit className="text-blue-500 cursor-pointer text-xl" />
                     </Link>
-                    <FaTrash className="text-red-500 cursor-pointer" onClick={() => handleDelete(notice)} />
+                    <FaTrash
+                        className="text-red-500 cursor-pointer text-xl"
+                        onClick={() => handleDelete(notice._id)}
+                    />
                 </div>
             )}
 
             <UserListModal
+                showModal={showAssignedModal}
+                handleCloseModal={handleCloseAssignedModal}
+                title="সংযুক্ত ব্লক ও সংশ্লিষ্ট উপসহকারী কৃষি কর্মকর্তাগণঃ"
+                users={notice.recipients}
+            />
+            <UserListModal
                 showModal={showCompletedModal}
                 handleCloseModal={handleCloseCompletedModal}
-                title="Completed Users"
-                users={completedUsers}
+                title="সম্পন্ন ব্যবহারকারী"
+                users={notice.completedUsers}
             />
             <UserListModal
                 showModal={showNotCompletedModal}
                 handleCloseModal={handleCloseNotCompletedModal}
-                title="Incomplete Users"
-                users={notCompletedUsers}
+                title="অসম্পন্ন ব্যবহারকারী"
+                users={notice.notCompletedUsers}
             />
-            {!notice.sendToAll && (
-                <UserListModal
-                    showModal={showAssignedModal}
-                    handleCloseModal={handleCloseAssignedModal}
-                    title="Assigned Users"
-                    users={assignedUsers}
-                />
-            )}
         </div>
     );
 };
