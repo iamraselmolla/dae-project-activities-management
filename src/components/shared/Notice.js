@@ -57,20 +57,20 @@ const Notice = ({ notice, onDelete }) => {
                 Priority: {notice.priority}
             </p>
 
-            <div className="absolute top-4 right-4 flex flex-col items-center space-y-2">
+            <div className="absolute top-4 right-4 flex flex-col items-center space-y-4">
                 <FaCheckCircle
-                    className="text-green-500 cursor-pointer text-xl"
+                    className="text-green-500 cursor-pointer text-2xl"
                     onClick={handleShowCompletedModal}
                 />
                 <FaTimesCircle
-                    className="text-red-500 cursor-pointer text-xl"
+                    className="text-red-500 cursor-pointer text-2xl"
                     onClick={handleShowNotCompletedModal}
                 />
                 {notice.sendToAll ? (
                     <span className="text-xs bg-green-500 text-white py-1 px-2 rounded">All</span>
                 ) : (
                     <AiOutlineUsergroupAdd
-                        className="text-blue-500 cursor-pointer text-xl"
+                        className="text-blue-500 cursor-pointer text-2xl"
                         onClick={handleShowAssignedModal}
                     />
                 )}
@@ -79,10 +79,10 @@ const Notice = ({ notice, onDelete }) => {
             {user && role === 'admin' && (
                 <div className="absolute bottom-4 right-4 flex space-x-2">
                     <Link to={`/edit-notice/${notice._id}`}>
-                        <FaEdit className="text-blue-500 cursor-pointer text-xl" />
+                        <FaEdit className="text-blue-500 cursor-pointer text-2xl" />
                     </Link>
                     <FaTrash
-                        className="text-red-500 cursor-pointer text-xl"
+                        className="text-red-500 cursor-pointer text-2xl"
                         onClick={() => handleDelete(notice._id)}
                     />
                 </div>
