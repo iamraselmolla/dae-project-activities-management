@@ -348,7 +348,7 @@ export function markNoticeAsCompleted(id, userId, username) {
 }
 
 export function updateNotice(id, values) {
-  return http.put(BASE_URL.findSingleNotice, { id, ...values });
+  return http.put(BASE_URL.findSingleNotice, { id, values });
 }
 
 export function deleteNotice(id) {

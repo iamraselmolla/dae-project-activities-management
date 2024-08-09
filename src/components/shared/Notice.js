@@ -78,7 +78,7 @@ const Notice = ({ notice, onDelete }) => {
 
             {user && role === 'admin' && (
                 <div className="absolute bottom-4 right-4 flex space-x-2">
-                    <Link to={`/edit-notice/${notice._id}`}>
+                    <Link to={`/add-notice?id=${notice._id}`}>
                         <FaEdit className="text-blue-500 cursor-pointer text-2xl" />
                     </Link>
                     <FaTrash
