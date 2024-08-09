@@ -103,6 +103,8 @@ const AddNotice = () => {
                 setLoading(true);
                 let result;
                 if (noticeId) {
+                    console.log(noticeData)
+                    return
                     // Update existing notice
                     result = await updateNotice(noticeId, noticeData);
                 } else {
@@ -265,9 +267,9 @@ const AddNotice = () => {
                         {userFetching ? (
                             <LoaderWithOutDynamicMessage />
                         ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                            <div className="grid mt-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                                 {users.map(user => (
-                                    <div key={user._id} className="flex items-center">
+                                    <div key={user._id} className="flex gap-3 items-center">
                                         <input
                                             type="checkbox"
                                             id={user._id}
@@ -277,7 +279,7 @@ const AddNotice = () => {
                                             className="checkbox"
                                             checked={selectedUsers.some(selectedUser => selectedUser.userId === user._id)}
                                         />
-                                        <label htmlFor={user._id} className="ml-2">{user.username}</label>
+                                        <label htmlFor={user._id} className="ml-2">{user?.blockB + ", " + user?.SAAO?.name}</label>
                                     </div>
                                 ))}
                             </div>

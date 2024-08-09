@@ -57,7 +57,7 @@ const Notice = ({ notice, onDelete }) => {
                 Priority: {notice.priority}
             </p>
 
-            <div className="absolute top-4 right-4 flex flex-col items-center space-y-4">
+            <div className="absolute top-4 right-2 flex flex-col items-center space-y-4">
                 <FaCheckCircle
                     className="text-green-500 cursor-pointer text-2xl"
                     onClick={handleShowCompletedModal}
@@ -77,7 +77,7 @@ const Notice = ({ notice, onDelete }) => {
             </div>
 
             {user && role === 'admin' && (
-                <div className="absolute bottom-4 right-4 flex space-x-2">
+                <div className="absolute bottom-4 right-2 flex space-x-2">
                     <Link to={`/add-notice?id=${notice._id}`}>
                         <FaEdit className="text-blue-500 cursor-pointer text-2xl" />
                     </Link>
