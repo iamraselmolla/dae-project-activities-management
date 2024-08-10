@@ -1,4 +1,3 @@
-// src/NoticeDetails.js
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
@@ -9,6 +8,7 @@ import {
 import LoaderWithOutDynamicMessage from '../../shared/LoaderWithOutDynamicMessage';
 import NoContentFound from '../../shared/NoContentFound';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import UserListModal from '../../shared/UserListModal';
 import { AuthContext } from '../../AuthContext/AuthProvider';
 import { toBengaliNumber } from 'bengali-number';
@@ -20,6 +20,7 @@ const NoticeDetails = () => {
     const [loading, setLoading] = useState(true);
     const [showCompletedModal, setShowCompletedModal] = useState(false);
     const [showNotCompletedModal, setShowNotCompletedModal] = useState(false);
+    const [showAssignedModal, setShowAssignedModal] = useState(false);
     const [comment, setComment] = useState('');
     const { user } = useContext(AuthContext);
     const [reload, setReload] = useState(false);
@@ -80,6 +81,7 @@ const NoticeDetails = () => {
 
     const completedUsers = notice?.userActions?.filter(action => action.completed) || [];
     const notCompletedUsers = notice?.userActions?.filter(action => !action.completed) || [];
+    const assignedUsers = notice?.recipients || [];
     const userAction = notice?.userActions?.find(action => action.userId === user?._id);
 
     const handleShowCompletedModal = () => setShowCompletedModal(true);
@@ -87,6 +89,9 @@ const NoticeDetails = () => {
 
     const handleShowNotCompletedModal = () => setShowNotCompletedModal(true);
     const handleCloseNotCompletedModal = () => setShowNotCompletedModal(false);
+
+    const handleShowAssignedModal = () => setShowAssignedModal(true);
+    const handleCloseAssignedModal = () => setShowAssignedModal(false);
 
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -96,7 +101,7 @@ const NoticeDetails = () => {
                 {notice.link && (
                     <a href={notice.link} className="underline text-blue-500">{notice.linkText}</a>
                 )}
-                <p className="mt-4 text-sm text-gray-500">মেয়াদ শেষের তারিখ: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}</p>
+                {notice.expirationDate && <p className="mt-4 text-sm text-gray-500">মেয়াদ শেষের তারিখ: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}</p>}
                 <div className="mt-4 flex space-x-2">
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowCompletedModal}>
                         <FaCheckCircle className="text-green-500" />
@@ -106,6 +111,17 @@ const NoticeDetails = () => {
                         <FaTimesCircle className="text-red-500" />
                         <span>অসম্পন্ন: {toBengaliNumber(notCompletedUsers.length)}</span>
                     </div>
+                    {notice.sendToAll ? (
+                        <div className="flex items-center space-x-1">
+                            <AiOutlineUsergroupAdd className="text-blue-500" />
+                            <span>সকল</span>
+                        </div>
+                    ) : (
+                        <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowAssignedModal}>
+                            <AiOutlineUsergroupAdd className="text-blue-500" />
+                            <span>নির্ধারিত: {toBengaliNumber(assignedUsers.length)}</span>
+                        </div>
+                    )}
                 </div>
                 <div className="mt-6">
                     <h3 className="text-lg font-semibold mb-2">কর্মের অগ্রগতি মন্তব্য</h3>
@@ -113,9 +129,10 @@ const NoticeDetails = () => {
                         {notice.userActions.map((action, index) => (
                             <div
                                 key={index}
-                                className={`p-4 rounded ${action.completed ? 'bg-green-100' : 'bg-red-100'}`}
+                                className={`p-4 rounded ${action.completed ? 'bg-green-100 border border-green-300' : 'bg-red-100 border border-red-300'}`}
                             >
-                                <p>{action.username} - {action.completed ? 'সম্পন্ন' : 'অসম্পন্ন'}</p>
+                                <p>{action.userId?.SAAO?.name} - {action.completed ? 'সম্পন্ন' : 'অসম্পন্ন'}</p>
+                                <p>ব্লক: {action.userId?.blockB}</p>
                                 {action.comments.map((comment, idx) => (
                                     <div key={idx} className="mt-2 text-sm text-gray-700">
                                         <p>{comment.text}</p>
@@ -149,7 +166,7 @@ const NoticeDetails = () => {
                             ></textarea>
                             <div className="flex justify-between">
                                 <button
-                                    className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+                                    className="theme-bg text-white py-2 px-4 rounded hover:bg-blue-700"
                                     onClick={handleSubmitComment}
                                     type="button"
                                 >
@@ -178,6 +195,14 @@ const NoticeDetails = () => {
                 title="অসম্পন্ন ব্যবহারকারী"
                 users={notCompletedUsers}
             />
+            {!notice.sendToAll && (
+                <UserListModal
+                    showModal={showAssignedModal}
+                    handleCloseModal={handleCloseAssignedModal}
+                    title="নির্ধারিত ব্যবহারকারী"
+                    users={assignedUsers}
+                />
+            )}
         </section>
     );
 };
