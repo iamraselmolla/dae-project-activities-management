@@ -20,7 +20,7 @@ const UserListModal = ({ showModal, handleCloseModal, title, users }) => {
                         </div>
                         <div className="max-h-96 overflow-y-auto">
                             <ul>
-                                {users.map((user, index) => (
+                                {users?.map((user, index) => (
                                     <li key={index} className="mb-2">
                                         <p>{toBengaliNumber(index + 1) + ". " + user?.userId?.SAAO?.name + ", " + user?.userId?.blockB}</p>
                                     </li>
