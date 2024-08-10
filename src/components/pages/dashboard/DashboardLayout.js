@@ -4,6 +4,7 @@ import {
   findUserAllNotes,
   getAllDistributions,
   getAllMotivationalTours,
+  getAllNotices,
   getAllProjects,
   getAllTraining,
   getAllUser,
@@ -16,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../../store/projectSlice";
 import DashboardMenu from "./DashboardMenu";
 import { Outlet } from "react-router-dom";
-import LoaderWithDynamicMessage from "../../shared/LoaderWithDynamicMessage";
 import DeletingLoader from "../../shared/DeletingLoader";
 import toast from "react-hot-toast";
 
@@ -102,6 +102,12 @@ const DashboardLayout = () => {
           const tourResult = await getAllMotivationalTours();
           if (tourResult?.status === 200) {
             dispatch(daeAction.setAllMotivationTours(tourResult?.data?.data));
+          }
+        }
+        if (refetch === "all" || refetch.includes('notices')) {
+          const noticeResult = await getAllNotices();
+          if (noticeResult?.status === 200) {
+            dispatch(daeAction.setAllNotices(noticeResult?.data?.data))
           }
         }
       } catch (err) {
