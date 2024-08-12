@@ -299,7 +299,7 @@ const AddNotice = () => {
                 </div>
                 {/* Submit Button */}
                 <div>
-                    <button type="submit" className="btn btn-primary w-full">
+                    <button type="submit" className="btn theme-bg text-white w-full">
                         {loading ? 'অপেক্ষা করুন...' : noticeId ? 'নোটিশ হালনাগাদ করুন' : 'নোটিশ যুক্ত করুন'}
                     </button>
                 </div>
