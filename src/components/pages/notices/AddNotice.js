@@ -103,8 +103,6 @@ const AddNotice = () => {
                 setLoading(true);
                 let result;
                 if (noticeId) {
-                    console.log(noticeData)
-                    return
                     // Update existing notice
                     result = await updateNotice(noticeId, noticeData);
                 } else {
@@ -112,7 +110,7 @@ const AddNotice = () => {
                     result = await createANotice(noticeData);
                 }
                 if (result?.status === 200) {
-                    toast.success(noticeId ? 'নোটিশ সফলভাবে হালনাগাদ করা হয়েছে' : 'নোটিশ সফলভাবে জমা দেওয়া হয়েছে');
+                    toast.success(result?.data?.message);
                     resetForm();
                     navigate('/notices');
                 }
