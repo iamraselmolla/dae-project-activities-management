@@ -138,61 +138,61 @@ const AdminDashboard = () => {
 
   return (
     <section className="py-5">
-      <div className="grid lg:grid-cols-3 md:grid-cols-1 grid-cols-1 gap-5">
-        <div className="grid bg-white p-4 lg:col-span-2 rounded-xl lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
+      <div className="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5 w-full">
+        <div className="grid bg-white p-4 rounded-xl grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-3 w-full">
           {cards.map((card, index) => (
             <DashboardCard key={index} {...card} />
           ))}
         </div>
-        <div>
-          <div className="h-64 pb-16 pt-4 px-2 bg-white rounded-xl">
-            <h2 className="font-extrabold text-center text-xl">{toBengaliNumber(getFiscalYear())} অর্থবছরের প্রশিক্ষণ</h2>
-            <ResponsiveContainer width="100%" height={200}>
-              <LineChart
-                width={500}
-                height={200}
-                data={allProjectsFieldDaysDataArray}
-                syncId="anyId"
-                margin={{
-                  top: 10,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="uv" stroke="#82ca9d" fill="#82ca9d" />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="h-64 mt-8 pb-16 pt-4 px-2 bg-white rounded-xl">
-            <h2 className="font-extrabold text-center text-xl">{toBengaliNumber(getFiscalYear())} অর্থবছরের উপকরণ বিতরণ</h2>
-            <ResponsiveContainer width="100%" height={200}>
-              <AreaChart
-                width={500}
-                height={200}
-                data={allProjectsDistributionsDataArray}
-                syncId="anyId"
-                margin={{
-                  top: 10,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Area type="monotone" dataKey="pv" stroke="#82ca9d" fill="#82ca9d" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+      </div>
 
+      <div>
+        <div className="h-64 pb-16 pt-4 px-2 bg-white rounded-xl">
+          <h2 className="font-extrabold text-center text-xl">{toBengaliNumber(getFiscalYear())} অর্থবছরের প্রশিক্ষণ</h2>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart
+              width={500}
+              height={200}
+              data={allProjectsFieldDaysDataArray}
+              syncId="anyId"
+              margin={{
+                top: 10,
+                right: 30,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="uv" stroke="#82ca9d" fill="#82ca9d" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="h-64 mt-8 pb-16 pt-4 px-2 bg-white rounded-xl">
+          <h2 className="font-extrabold text-center text-xl">{toBengaliNumber(getFiscalYear())} অর্থবছরের উপকরণ বিতরণ</h2>
+          <ResponsiveContainer width="100%" height={200}>
+            <AreaChart
+              width={500}
+              height={200}
+              data={allProjectsDistributionsDataArray}
+              syncId="anyId"
+              margin={{
+                top: 10,
+                right: 30,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Area type="monotone" dataKey="pv" stroke="#82ca9d" fill="#82ca9d" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
       </div>
       <div className="h-96 mt-12 bg-white rounded-xl">
         <ResponsiveContainer width="100%" height="100%">
