@@ -176,7 +176,7 @@ const AdminDashboard = () => {
               width={500}
               height={200}
               data={allProjectsDistributionsDataArray}
-              syncId="anyId"
+              syncId="anyId2"
               margin={{
                 top: 10,
                 right: 30,
