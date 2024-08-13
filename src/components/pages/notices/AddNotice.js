@@ -109,12 +109,21 @@ const AddNotice = () => {
     const handleUserSelection = (e) => {
         const userId = e.target.value;
         const username = e.target.dataset.username;
+
+        // Check if the user is already in the selectedUsers array
+        const userExists = selectedUsers.some(user => user.userId === userId);
+
         if (e.target.checked) {
-            setSelectedUsers([...selectedUsers, { userId, username }]);
+            if (!userExists) {
+                // If the user doesn't exist in the array, add them
+                setSelectedUsers([...selectedUsers, { userId, username }]);
+            }
         } else {
+            // If the checkbox is unchecked, remove the user from the array
             setSelectedUsers(selectedUsers.filter(user => user.userId !== userId));
         }
     };
+
     return (
         <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
             <SectionTitle title={noticeId ? "নোটিশ হালনাগাদ করুন" : "নোটিশ যুক্ত করুন"} />
