@@ -110,19 +110,27 @@ const AddNotice = () => {
         const userId = e.target.value;
         const username = e.target.dataset.username;
 
-        // Check if the user is already in the selectedUsers array
-        const userExists = selectedUsers.some(user => user.userId === userId);
-
+        // Toggle selection based on whether the checkbox is checked or not
         if (e.target.checked) {
-            if (!userExists) {
-                // If the user doesn't exist in the array, add them
-                setSelectedUsers([...selectedUsers, { userId, username }]);
+            // Add user if not already selected
+            if (!selectedUsers.some(user => user.userId === userId)) {
+                setSelectedUsers(prevState => [...prevState, { userId, username }]);
             }
         } else {
-            // If the checkbox is unchecked, remove the user from the array
-            setSelectedUsers(selectedUsers.filter(user => user.userId !== userId));
+            // Remove user if unchecked
+            setSelectedUsers(prevState => prevState.filter(user => user.userId !== userId));
         }
     };
+    const toggleSendToAll = () => {
+        setSendToAll(prev => {
+            if (!prev) {
+                setSelectedUsers([]); // Clear selected users if sending to all
+            }
+            return !prev;
+        });
+    };
+
+
 
     return (
         <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -244,9 +252,10 @@ const AddNotice = () => {
                         type="checkbox"
                         id="sendToAll"
                         checked={sendToAll}
-                        onChange={() => setSendToAll(!sendToAll)}
+                        onChange={toggleSendToAll}
                         className="checkbox"
                     />
+
                     <label htmlFor="sendToAll">সকলকে প্রেরণ করুন</label>
                 </div>
                 {/* Select Users */}
@@ -264,11 +273,14 @@ const AddNotice = () => {
                                             data-username={user.username}
                                             onChange={handleUserSelection}
                                             className="checkbox"
-                                            checked={selectedUsers?.some(selectedUser => selectedUser?.userId?._id === user._id)}
+                                            checked={selectedUsers.some(selectedUser => selectedUser.userId === user._id)}
                                         />
-                                        <label htmlFor={user._id} className="ml-2">{user?.blockB + ", " + user?.SAAO?.name}</label>
+                                        <label htmlFor={user._id} className="ml-2">
+                                            {user?.blockB + ", " + user?.SAAO?.name}
+                                        </label>
                                     </div>
                                 ))}
+
                             </div>
                         }
                     </div>

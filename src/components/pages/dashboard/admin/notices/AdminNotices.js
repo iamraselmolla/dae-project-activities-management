@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { toast } from "react-hot-toast";
 import SectionTitle from "../../../../shared/SectionTitle";
 import { toBengaliNumber } from "bengali-number";
-import { deleteNotice, updateNotice } from "../../../../../services/userServices";
+import { deleteNotice } from "../../../../../services/userServices";
 import LoaderWithOutDynamicMessage from "../../../../shared/LoaderWithOutDynamicMessage";
 import NoContentFound from "../../../../shared/NoContentFound";
 import DeleteConfirmationModal from "../../../../shared/DeleteConfirmationModal";
@@ -19,7 +19,7 @@ const AdminNotices = () => {
     const [loading, setLoading] = useState(true);
     const [fetchEnd, setFetchEnd] = useState(false);
 
-    const filterNotices = () => {
+    const filterNotices = useMemo(() => {
         let filtered = notices;
 
         if (priorityFilter !== "") {
@@ -34,18 +34,15 @@ const AdminNotices = () => {
         }
 
         return filtered;
-    };
+    }, [priorityFilter, search, notices]);
 
     useEffect(() => {
         if (notices.length > 0) {
-            setFilteredNotices(filterNotices());
-            setLoading(false);
-            setFetchEnd(true);
-        } else {
-            setLoading(false);
-            setFetchEnd(true);
+            setFilteredNotices(filterNotices);
         }
-    }, [priorityFilter, search, notices]);
+        setLoading(false);
+        setFetchEnd(true);
+    }, [filterNotices, notices]);
 
     const handleEdit = (notice) => {
         setSelectedNotice(notice);
@@ -55,7 +52,6 @@ const AdminNotices = () => {
         setSelectedNotice(notice);
         setShowDeleteModal(true);
     };
-
 
     const handleConfirmDelete = async () => {
         try {

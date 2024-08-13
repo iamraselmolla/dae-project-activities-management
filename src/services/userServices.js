@@ -350,6 +350,8 @@ export function markNoticeAsCompleted(id, userId, username) {
 }
 
 export function updateNotice(id, values) {
+  console.log(id, values)
+  return;
   return http.put(BASE_URL.updateNotice, { id, values });
 }
 
