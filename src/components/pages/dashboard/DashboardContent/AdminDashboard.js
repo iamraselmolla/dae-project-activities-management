@@ -77,7 +77,7 @@ const AdminDashboard = () => {
     },
     {
       icon: <FaUser />,
-      count: users?.length - 1,
+      count: users?.length,
       text: "ইউজার",
       backgroundColor: "#dcfce7", // Light green
     },
@@ -110,13 +110,7 @@ const AdminDashboard = () => {
       count: distributions?.length,
       text: "উপকরণ বিতরণ",
       backgroundColor: "#fde2a8", // Light orange
-    },
-    {
-      icon: <FaUser />,
-      count: users?.length - 1,
-      text: "ইউজার",
-      backgroundColor: "#e2f6ff", // Light cyan
-    },
+    }
   ];
 
   const allProjectsFieldDaysDataArray = seasonsArr.map(single => {
