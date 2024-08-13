@@ -146,9 +146,11 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <div>
+      <div className="grid grid-cols-1 mt-8 md:grid-cols-2 gap-8">
         <div className="h-64 pb-16 pt-4 px-2 bg-white rounded-xl">
-          <h2 className="font-extrabold text-center text-xl">{toBengaliNumber(getFiscalYear())} অর্থবছরের প্রশিক্ষণ</h2>
+          <h2 className="font-extrabold text-center text-xl">
+            {toBengaliNumber(getFiscalYear())} অর্থবছরের প্রশিক্ষণ
+          </h2>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart
               width={500}
@@ -170,8 +172,11 @@ const AdminDashboard = () => {
             </LineChart>
           </ResponsiveContainer>
         </div>
-        <div className="h-64 mt-8 pb-16 pt-4 px-2 bg-white rounded-xl">
-          <h2 className="font-extrabold text-center text-xl">{toBengaliNumber(getFiscalYear())} অর্থবছরের উপকরণ বিতরণ</h2>
+
+        <div className="h-64 pb-16 pt-4 px-2 bg-white rounded-xl">
+          <h2 className="font-extrabold text-center text-xl">
+            {toBengaliNumber(getFiscalYear())} অর্থবছরের উপকরণ বিতরণ
+          </h2>
           <ResponsiveContainer width="100%" height={200}>
             <AreaChart
               width={500}
@@ -194,7 +199,11 @@ const AdminDashboard = () => {
           </ResponsiveContainer>
         </div>
       </div>
+
       <div className="h-96 mt-12 bg-white rounded-xl">
+        <h2 className="font-extrabold pt-5 text-center text-xl">
+          নোটস
+        </h2>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             width={500}
