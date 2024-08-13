@@ -5,14 +5,13 @@ import Datepicker from 'react-tailwindcss-datepicker';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SectionTitle from '../../shared/SectionTitle';
-import { createANotice, findASingleNotice, getAllUser, updateNotice } from '../../../services/userServices';
-import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
+import { createANotice, findASingleNotice, updateNotice } from '../../../services/userServices';
+import { useSelector } from 'react-redux';
 
 const AddNotice = () => {
-    const [users, setUsers] = useState([]);
+    const { blockAndUnions: users } = useSelector(state => state.dae);
     const [sendToAll, setSendToAll] = useState(true);
     const [selectedUsers, setSelectedUsers] = useState([]);
-    const [userFetching, setUserFetching] = useState(false);
     const [userActions, setUserActions] = useState([]);
     const [actionThread, setActionThread] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -20,22 +19,6 @@ const AddNotice = () => {
     const navigate = useNavigate();
     const noticeId = new URLSearchParams(location.search).get('id');
 
-    useEffect(() => {
-        if (!sendToAll) {
-            const fetchUsers = async () => {
-                try {
-                    setUserFetching(true);
-                    const userResult = await getAllUser();
-                    setUsers(userResult?.data?.data);
-                } catch (error) {
-                    console.error('Error fetching users', error);
-                } finally {
-                    setUserFetching(false);
-                }
-            };
-            fetchUsers();
-        }
-    }, [sendToAll]);
 
     useEffect(() => {
         if (noticeId) {
@@ -132,7 +115,6 @@ const AddNotice = () => {
             setSelectedUsers(selectedUsers.filter(user => user.userId !== userId));
         }
     };
-
     return (
         <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
             <SectionTitle title={noticeId ? "নোটিশ হালনাগাদ করুন" : "নোটিশ যুক্ত করুন"} />
@@ -262,11 +244,9 @@ const AddNotice = () => {
                 {!sendToAll && (
                     <div>
                         <label>ব্যবহারকারী নির্বাচন করুন</label>
-                        {userFetching ? (
-                            <LoaderWithOutDynamicMessage />
-                        ) : (
+                        {
                             <div className="grid mt-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                                {users.map(user => (
+                                {users?.map(user => (
                                     <div key={user._id} className="flex gap-3 items-center">
                                         <input
                                             type="checkbox"
@@ -275,13 +255,13 @@ const AddNotice = () => {
                                             data-username={user.username}
                                             onChange={handleUserSelection}
                                             className="checkbox"
-                                            checked={selectedUsers.some(selectedUser => selectedUser.userId === user._id)}
+                                            checked={selectedUsers.some(selectedUser => selectedUser?.userId === user._id)}
                                         />
                                         <label htmlFor={user._id} className="ml-2">{user?.blockB + ", " + user?.SAAO?.name}</label>
                                     </div>
                                 ))}
                             </div>
-                        )}
+                        }
                     </div>
                 )}
                 {/* Action Thread */}
