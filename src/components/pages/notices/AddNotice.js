@@ -255,7 +255,7 @@ const AddNotice = () => {
                                             data-username={user.username}
                                             onChange={handleUserSelection}
                                             className="checkbox"
-                                            checked={selectedUsers.some(selectedUser => selectedUser?.userId === user._id)}
+                                            checked={selectedUsers?.some(selectedUser => selectedUser?.userId?._id === user._id)}
                                         />
                                         <label htmlFor={user._id} className="ml-2">{user?.blockB + ", " + user?.SAAO?.name}</label>
                                     </div>
