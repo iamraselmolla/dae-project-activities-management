@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import SectionTitle from '../../shared/SectionTitle';
 import { createANotice, findASingleNotice, updateNotice } from '../../../services/userServices';
 import { useSelector } from 'react-redux';
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage"
 
 const AddNotice = () => {
     const { blockAndUnions: users } = useSelector(state => state.dae);
@@ -14,17 +15,16 @@ const AddNotice = () => {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [userActions, setUserActions] = useState([]);
     const [actionThread, setActionThread] = useState(false);
-    const [loading, setLoading] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
     const noticeId = new URLSearchParams(location.search).get('id');
+    const [loading, setLoading] = useState(noticeId ? true : false);
 
 
     useEffect(() => {
         if (noticeId) {
             const fetchNoticeData = async () => {
                 try {
-                    setLoading(true);
                     const result = await findASingleNotice(noticeId);
                     const noticeData = result?.data?.data;
                     formik.setValues({
@@ -303,6 +303,7 @@ const AddNotice = () => {
                     </button>
                 </div>
             </form>
+            {loading && <LoaderWithOutDynamicMessage />}
         </section>
     );
 };
