@@ -264,7 +264,6 @@ const AddNotice = () => {
                     {/* User Selection */}
                     {!sendToAll && (
                         <div className="col-span-2">
-                            <label className="label-text">ব্যবহারকারীরা</label>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                                 {users.map((user) => (
                                     <label key={user._id} className="flex items-center space-x-2">
@@ -286,7 +285,7 @@ const AddNotice = () => {
                     {/* Action Thread */}
 
                     <label className="cursor-pointer mt-3 flex items-center gap-5">
-                        <span className="text-2xl font-bold">অ্যাকশন থ্রেড সক্ষম করুন</span>
+                        <span className="text-2xl font-bold">কাজের অগ্রগতি অবস্থার মন্তব্য চালু রাখুন</span>
                         <input
                             type="checkbox"
                             className="toggle toggle-secondary"
