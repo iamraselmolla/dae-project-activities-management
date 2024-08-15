@@ -251,8 +251,8 @@ const AddNotice = () => {
                     </div>
                     {/* Send to All */}
                     <div className="col-span-2">
-                        <label className="cursor-pointer label">
-                            <span className="label-text">সব ব্যবহারকারীকে প্রেরণ করুন</span>
+                        <label className="cursor-pointer flex items-center gap-5">
+                            <span className="text-2xl font-bold">সব ব্যবহারকারীকে প্রেরণ করুন</span>
                             <input
                                 type="checkbox"
                                 className="toggle toggle-primary"
@@ -284,24 +284,22 @@ const AddNotice = () => {
                         </div>
                     )}
                     {/* Action Thread */}
-                    <div className="col-span-2">
-                        <label className="cursor-pointer label">
-                            <span className="label-text">অ্যাকশন থ্রেড সক্ষম করুন</span>
-                            <input
-                                type="checkbox"
-                                className="toggle toggle-secondary"
-                                checked={actionThread}
-                                onChange={() => setActionThread(!actionThread)}
-                            />
-                        </label>
-                    </div>
+
+                    <label className="cursor-pointer mt-3 flex items-center gap-5">
+                        <span className="text-2xl font-bold">অ্যাকশন থ্রেড সক্ষম করুন</span>
+                        <input
+                            type="checkbox"
+                            className="toggle toggle-secondary"
+                            checked={actionThread}
+                            onChange={() => setActionThread(!actionThread)}
+                        />
+                    </label>
                 </div>
                 {/* Submit Button */}
-                <div className="flex justify-end">
-                    <button type="submit" className="btn btn-primary">
-                        {noticeId ? 'হালনাগাদ করুন' : 'সংরক্ষণ করুন'}
-                    </button>
-                </div>
+                <button type="submit" className="btn theme-bg text-white w-full">
+                    {noticeId ? 'হালনাগাদ করুন' : 'সংরক্ষণ করুন'}
+                </button>
+
             </form>
             {loading && <LoaderWithOutDynamicMessage />}
         </section>
