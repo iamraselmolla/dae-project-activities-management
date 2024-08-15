@@ -119,7 +119,9 @@ const AddNotice = () => {
                 // Remove user if they are already selected
                 return prevState.filter(user => user.userId !== userId);
             }
+            console.log(prevState)
             return prevState;
+
         });
     };
 
@@ -265,27 +267,29 @@ const AddNotice = () => {
                     {!sendToAll && (
                         <div className="col-span-2">
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                                {users.map((user) => (
-                                    <label key={user._id} className="flex items-center space-x-2">
-                                        <input
-                                            type="checkbox"
-                                            className='checkbox checkbox-secondary'
-                                            value={user._id}
-                                            data-username={user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}
-                                            onChange={handleUserSelection}
-                                            checked={selectedUsers.some(selected => selected.userId?._id === user._id)}
-                                        />
+                                {
+                                    users?.map((user) => (
+                                        <label key={user._id} className="flex items-center space-x-2">
+                                            <input
+                                                type="checkbox"
+                                                className='checkbox checkbox-secondary'
+                                                value={user._id}
+                                                data-username={user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}
+                                                onChange={handleUserSelection}
+                                                checked={selectedUsers?.some(selected => selected?.userId?._id === user?._id)}
+                                            />
+                                            <span>{user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}</span>
+                                        </label>
+                                    ))
+                                }
 
-                                        <span>{user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}</span>
-                                    </label>
-                                ))}
                             </div>
                         </div>
                     )}
                     {/* Action Thread */}
 
                     <label className="cursor-pointer mt-3 flex items-center gap-5">
-                        <span className="text-2xl font-bold">কাজের অগ্রগতি অবস্থার মন্তব্য চালু রাখুন</span>
+                        <span className="text-2xl font-bold">কাজের অগ্রগতি অবস্থার মন্তব্য চালু রাখুন ।</span>
                         <input
                             type="checkbox"
                             className="toggle toggle-secondary"
