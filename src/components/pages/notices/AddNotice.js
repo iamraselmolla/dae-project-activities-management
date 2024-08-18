@@ -38,7 +38,8 @@ const AddNotice = () => {
                     });
 
                     setSendToAll(noticeData.sendToAll);
-                    setSelectedUsers(noticeData.recipients || []);
+                    setSelectedUsers(noticeData.recipients?.map(recipient => ({ userId: recipient?._id, username: recipient?.username })) || []);
+
                     setUserActions(noticeData.userActions || []);
                     setActionThread(noticeData.actionThread || false);
                 } catch (error) {
@@ -112,13 +113,14 @@ const AddNotice = () => {
         setSelectedUsers((prevState) => {
             if (e.target.checked) {
                 // Add user if not already selected
-                if (!prevState.some(selected => selected.userId._id === userId)) {
-                    return [...prevState, { userId: user, username }];
+                if (!prevState.some(selected => selected?.userId === userId)) {
+                    return [...prevState, { userId, username }];
                 }
             } else {
                 // Remove user if they are already selected
-                return prevState.filter(selected => selected.userId._id !== userId);
+                return prevState.filter(selected => selected?.userId !== userId);
             }
+            console.log(prevState)
             return prevState;
         });
     };
@@ -132,7 +134,7 @@ const AddNotice = () => {
             return !prev;
         });
     };
-
+    console.log(selectedUsers)
     return (
         <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
             <SectionTitle title={noticeId ? "নোটিশ হালনাগাদ করুন" : "নোটিশ যুক্ত করুন"} />
@@ -274,7 +276,7 @@ const AddNotice = () => {
                                                 value={user._id}
                                                 data-username={user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}
                                                 onChange={(e) => handleUserSelection(user, e)}
-                                                checked={selectedUsers?.some(selected => selected?.userId?._id === user?._id)}
+                                                checked={selectedUsers?.some(selected => selected?.userId === user?._id)}
                                             />
                                             <span>{user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}</span>
                                         </label>
