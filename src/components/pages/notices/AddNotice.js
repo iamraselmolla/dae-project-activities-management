@@ -108,18 +108,18 @@ const AddNotice = () => {
     const handleUserSelection = (user, e) => {
         const userId = user?._id;
         const username = user?.username;
+
         setSelectedUsers((prevState) => {
             if (e.target.checked) {
                 // Add user if not already selected
-                if (!prevState.some(user => user.userId === user?._id)) {
+                if (!prevState.some(selected => selected.userId._id === userId)) {
                     return [...prevState, { userId: user, username }];
                 }
             } else {
                 // Remove user if they are already selected
-                return prevState.filter(user => user.userId !== userId);
+                return prevState.filter(selected => selected.userId._id !== userId);
             }
             return prevState;
-
         });
     };
 
