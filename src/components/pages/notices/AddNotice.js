@@ -257,7 +257,7 @@ const AddNotice = () => {
                             <span className="text-2xl font-bold">সব ব্যবহারকারীকে প্রেরণ করুন</span>
                             <input
                                 type="checkbox"
-                                className="toggle toggle-primary"
+                                className="toggle toggle-success theme-border"
                                 checked={sendToAll}
                                 onChange={toggleSendToAll}
                             />
@@ -272,7 +272,7 @@ const AddNotice = () => {
                                         <label key={user._id} className="flex items-center space-x-2">
                                             <input
                                                 type="checkbox"
-                                                className='checkbox checkbox-secondary'
+                                                className='checkbox checkbox-success theme-border'
                                                 value={user._id}
                                                 data-username={user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}
                                                 onChange={handleUserSelection}
@@ -289,10 +289,10 @@ const AddNotice = () => {
                     {/* Action Thread */}
 
                     <label className="cursor-pointer mt-3 flex items-center gap-5">
-                        <span className="text-2xl font-bold">কাজের অগ্রগতি অবস্থার মন্তব্য চালু রাখুন ।</span>
+                        <span className="text-2xl font-bold">কাজের অগ্রগতি অবস্থার মন্তব্য চালু রাখুনঃ</span>
                         <input
                             type="checkbox"
-                            className="toggle toggle-secondary"
+                            className="toggle toggle-success theme-border"
                             checked={actionThread}
                             onChange={() => setActionThread(!actionThread)}
                         />
