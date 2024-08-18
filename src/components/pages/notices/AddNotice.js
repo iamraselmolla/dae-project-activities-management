@@ -105,21 +105,19 @@ const AddNotice = () => {
         },
     });
 
-    const handleUserSelection = (e) => {
-        const userId = e.target.value;
-        const username = e.target.dataset.username;
-
+    const handleUserSelection = (user, e) => {
+        const userId = user?._id;
+        const username = user?.username;
         setSelectedUsers((prevState) => {
             if (e.target.checked) {
                 // Add user if not already selected
-                if (!prevState.some(user => user.userId === userId)) {
-                    return [...prevState, { userId, username }];
+                if (!prevState.some(user => user.userId === user?._id)) {
+                    return [...prevState, { userId: user, username }];
                 }
             } else {
                 // Remove user if they are already selected
                 return prevState.filter(user => user.userId !== userId);
             }
-            console.log(prevState)
             return prevState;
 
         });
@@ -275,7 +273,7 @@ const AddNotice = () => {
                                                 className='checkbox checkbox-success theme-border'
                                                 value={user._id}
                                                 data-username={user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}
-                                                onChange={handleUserSelection}
+                                                onChange={(e) => handleUserSelection(user, e)}
                                                 checked={selectedUsers?.some(selected => selected?.userId?._id === user?._id)}
                                             />
                                             <span>{user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}</span>
