@@ -109,6 +109,7 @@ const AddNotice = () => {
     const handleUserSelection = (user, e) => {
         const userId = user?._id;
         const username = user?.username;
+        console.log(user)
 
         setSelectedUsers((prevState) => {
             if (e.target.checked) {
@@ -120,7 +121,6 @@ const AddNotice = () => {
                 // Remove user if they are already selected
                 return prevState.filter(selected => selected?.userId !== userId);
             }
-            console.log(prevState)
             return prevState;
         });
     };
@@ -273,10 +273,8 @@ const AddNotice = () => {
                                             <input
                                                 type="checkbox"
                                                 className='checkbox checkbox-success theme-border'
-                                                value={user._id}
-                                                data-username={user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}
                                                 onChange={(e) => handleUserSelection(user, e)}
-                                                checked={selectedUsers?.some(selected => selected?.userId === user?._id)}
+                                                checked={selectedUsers?.length > 0 && selectedUsers?.some(selected => selected?.userId === user?._id)}
                                             />
                                             <span>{user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}</span>
                                         </label>
