@@ -119,7 +119,7 @@ const AddNotice = () => {
                 }
             } else {
                 // Remove user if they are already selected
-                return prevState.filter(selected => selected?.userId !== userId);
+                return prevState.filter(selected => selected?.username !== username);
             }
             return prevState;
         });
@@ -274,7 +274,7 @@ const AddNotice = () => {
                                                 type="checkbox"
                                                 className='checkbox checkbox-success theme-border'
                                                 onChange={(e) => handleUserSelection(user, e)}
-                                                checked={selectedUsers?.length > 0 && selectedUsers?.some(selected => selected?.userId === user?._id)}
+                                                checked={selectedUsers?.length > 0 && selectedUsers?.some(selected => selected?.userId === user?._id || selected?.username === user?.username)}
                                             />
                                             <span>{user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}</span>
                                         </label>
