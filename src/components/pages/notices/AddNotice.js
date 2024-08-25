@@ -5,45 +5,28 @@ import Datepicker from 'react-tailwindcss-datepicker';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SectionTitle from '../../shared/SectionTitle';
-import { createANotice, findASingleNotice, getAllUser, updateNotice } from '../../../services/userServices';
-import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
+import { createANotice, findASingleNotice, updateNotice } from '../../../services/userServices';
+import { useSelector } from 'react-redux';
+import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage"
 
 const AddNotice = () => {
-    const [users, setUsers] = useState([]);
+    const { blockAndUnions: users } = useSelector(state => state.dae);
     const [sendToAll, setSendToAll] = useState(true);
     const [selectedUsers, setSelectedUsers] = useState([]);
-    const [userFetching, setUserFetching] = useState(false);
     const [userActions, setUserActions] = useState([]);
     const [actionThread, setActionThread] = useState(false);
-    const [loading, setLoading] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
     const noticeId = new URLSearchParams(location.search).get('id');
-
-    useEffect(() => {
-        if (!sendToAll) {
-            const fetchUsers = async () => {
-                try {
-                    setUserFetching(true);
-                    const userResult = await getAllUser();
-                    setUsers(userResult?.data?.data);
-                } catch (error) {
-                    console.error('Error fetching users', error);
-                } finally {
-                    setUserFetching(false);
-                }
-            };
-            fetchUsers();
-        }
-    }, [sendToAll]);
+    const [loading, setLoading] = useState(noticeId ? true : false);
 
     useEffect(() => {
         if (noticeId) {
             const fetchNoticeData = async () => {
                 try {
-                    setLoading(true);
                     const result = await findASingleNotice(noticeId);
                     const noticeData = result?.data?.data;
+
                     formik.setValues({
                         subject: noticeData.subject,
                         content: noticeData.content,
@@ -53,8 +36,10 @@ const AddNotice = () => {
                         attachment: null, // Handle file separately
                         priority: noticeData.priority || 'Medium',
                     });
+
                     setSendToAll(noticeData.sendToAll);
-                    setSelectedUsers(noticeData.recipients || []);
+                    setSelectedUsers(noticeData.recipients?.map(recipient => ({ userId: recipient?._id, username: recipient?.username })) || []);
+
                     setUserActions(noticeData.userActions || []);
                     setActionThread(noticeData.actionThread || false);
                 } catch (error) {
@@ -103,16 +88,12 @@ const AddNotice = () => {
                 setLoading(true);
                 let result;
                 if (noticeId) {
-                    console.log(noticeData)
-                    return
-                    // Update existing notice
                     result = await updateNotice(noticeId, noticeData);
                 } else {
-                    // Create new notice
                     result = await createANotice(noticeData);
                 }
                 if (result?.status === 200) {
-                    toast.success(noticeId ? 'নোটিশ সফলভাবে হালনাগাদ করা হয়েছে' : 'নোটিশ সফলভাবে জমা দেওয়া হয়েছে');
+                    toast.success(result?.data?.message);
                     resetForm();
                     navigate('/notices');
                 }
@@ -125,16 +106,35 @@ const AddNotice = () => {
         },
     });
 
-    const handleUserSelection = (e) => {
-        const userId = e.target.value;
-        const username = e.target.dataset.username;
-        if (e.target.checked) {
-            setSelectedUsers([...selectedUsers, { userId, username }]);
-        } else {
-            setSelectedUsers(selectedUsers.filter(user => user.userId !== userId));
-        }
+    const handleUserSelection = (user, e) => {
+        const userId = user?._id;
+        const username = user?.username;
+        console.log(user)
+
+        setSelectedUsers((prevState) => {
+            if (e.target.checked) {
+                // Add user if not already selected
+                if (!prevState.some(selected => selected?.userId === userId)) {
+                    return [...prevState, { userId, username }];
+                }
+            } else {
+                // Remove user if they are already selected
+                return prevState.filter(selected => selected?.username !== username);
+            }
+            return prevState;
+        });
     };
 
+
+    const toggleSendToAll = () => {
+        setSendToAll(prev => {
+            if (!prev) {
+                setSelectedUsers([]);
+            }
+            return !prev;
+        });
+    };
+    console.log(selectedUsers)
     return (
         <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
             <SectionTitle title={noticeId ? "নোটিশ হালনাগাদ করুন" : "নোটিশ যুক্ত করুন"} />
@@ -234,7 +234,7 @@ const AddNotice = () => {
                     </div>
                     {/* Priority */}
                     <div>
-                        <label htmlFor="priority">প্রাধান্য</label>
+                        <label htmlFor="priority">অগ্রাধিকার</label>
                         <select
                             id="priority"
                             name="priority"
@@ -247,63 +247,62 @@ const AddNotice = () => {
                             <option value="Medium">মাঝারি</option>
                             <option value="High">উচ্চ</option>
                         </select>
+                        {formik.touched.priority && formik.errors.priority ? (
+                            <div className="text-red-600">{formik.errors.priority}</div>
+                        ) : null}
                     </div>
-                </div>
-                {/* Send to All */}
-                <div className="flex items-center space-x-4">
-                    <input
-                        type="checkbox"
-                        id="sendToAll"
-                        checked={sendToAll}
-                        onChange={() => setSendToAll(!sendToAll)}
-                        className="checkbox"
-                    />
-                    <label htmlFor="sendToAll">সকলকে প্রেরণ করুন</label>
-                </div>
-                {/* Select Users */}
-                {!sendToAll && (
-                    <div>
-                        <label>ব্যবহারকারী নির্বাচন করুন</label>
-                        {userFetching ? (
-                            <LoaderWithOutDynamicMessage />
-                        ) : (
-                            <div className="grid mt-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                                {users.map(user => (
-                                    <div key={user._id} className="flex gap-3 items-center">
-                                        <input
-                                            type="checkbox"
-                                            id={user._id}
-                                            value={user._id}
-                                            data-username={user.username}
-                                            onChange={handleUserSelection}
-                                            className="checkbox"
-                                            checked={selectedUsers.some(selectedUser => selectedUser.userId === user._id)}
-                                        />
-                                        <label htmlFor={user._id} className="ml-2">{user?.blockB + ", " + user?.SAAO?.name}</label>
-                                    </div>
-                                ))}
+                    {/* Send to All */}
+                    <div className="col-span-2">
+                        <label className="cursor-pointer flex items-center gap-5">
+                            <span className="text-2xl font-bold">সব ব্যবহারকারীকে প্রেরণ করুন</span>
+                            <input
+                                type="checkbox"
+                                className="toggle toggle-success theme-border"
+                                checked={sendToAll}
+                                onChange={toggleSendToAll}
+                            />
+                        </label>
+                    </div>
+                    {/* User Selection */}
+                    {!sendToAll && (
+                        <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                                {
+                                    users?.map((user) => (
+                                        <label key={user._id} className="flex items-center space-x-2">
+                                            <input
+                                                type="checkbox"
+                                                className='checkbox checkbox-success theme-border'
+                                                onChange={(e) => handleUserSelection(user, e)}
+                                                checked={selectedUsers?.length > 0 && selectedUsers?.some(selected => selected?.userId === user?._id || selected?.username === user?.username)}
+                                            />
+                                            <span>{user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}</span>
+                                        </label>
+                                    ))
+                                }
+
                             </div>
-                        )}
-                    </div>
-                )}
-                {/* Action Thread */}
-                <div className="flex items-center space-x-4">
-                    <input
-                        type="checkbox"
-                        id="actionThread"
-                        checked={actionThread}
-                        onChange={() => setActionThread(!actionThread)}
-                        className="checkbox"
-                    />
-                    <label htmlFor="actionThread">অ্যাকশন থ্রেড সক্রিয় করুন</label>
+                        </div>
+                    )}
+                    {/* Action Thread */}
+
+                    <label className="cursor-pointer mt-3 flex items-center gap-5">
+                        <span className="text-2xl font-bold">কাজের অগ্রগতি অবস্থার মন্তব্য চালু রাখুনঃ</span>
+                        <input
+                            type="checkbox"
+                            className="toggle toggle-success theme-border"
+                            checked={actionThread}
+                            onChange={() => setActionThread(!actionThread)}
+                        />
+                    </label>
                 </div>
                 {/* Submit Button */}
-                <div>
-                    <button type="submit" className="btn btn-primary w-full">
-                        {loading ? 'অপেক্ষা করুন...' : noticeId ? 'নোটিশ হালনাগাদ করুন' : 'নোটিশ যুক্ত করুন'}
-                    </button>
-                </div>
+                <button type="submit" className="btn theme-bg text-white w-full">
+                    {noticeId ? 'হালনাগাদ করুন' : 'সংরক্ষণ করুন'}
+                </button>
+
             </form>
+            {loading && <LoaderWithOutDynamicMessage />}
         </section>
     );
 };

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { toast } from "react-hot-toast";
 import SectionTitle from "../../../../shared/SectionTitle";
 import { toBengaliNumber } from "bengali-number";
-import { deleteNotice, updateNotice } from "../../../../../services/userServices";
+import { deleteNotice } from "../../../../../services/userServices";
 import LoaderWithOutDynamicMessage from "../../../../shared/LoaderWithOutDynamicMessage";
 import NoContentFound from "../../../../shared/NoContentFound";
-import EditNoticeModal from "../../../../shared/EditNoticeModal";
 import DeleteConfirmationModal from "../../../../shared/DeleteConfirmationModal";
 import { useSelector } from "react-redux";
 import Notice from "../../../../shared/Notice";
@@ -16,12 +15,11 @@ const AdminNotices = () => {
     const [priorityFilter, setPriorityFilter] = useState("");
     const [search, setSearch] = useState("");
     const [selectedNotice, setSelectedNotice] = useState(null);
-    const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [loading, setLoading] = useState(true);
     const [fetchEnd, setFetchEnd] = useState(false);
 
-    const filterNotices = () => {
+    const filterNotices = useMemo(() => {
         let filtered = notices;
 
         if (priorityFilter !== "") {
@@ -36,43 +34,23 @@ const AdminNotices = () => {
         }
 
         return filtered;
-    };
+    }, [priorityFilter, search, notices]);
 
     useEffect(() => {
         if (notices.length > 0) {
-            setFilteredNotices(filterNotices());
-            setLoading(false);
-            setFetchEnd(true);
-        } else {
-            setLoading(false);
-            setFetchEnd(true);
+            setFilteredNotices(filterNotices);
         }
-    }, [priorityFilter, search, notices]);
+        setLoading(false);
+        setFetchEnd(true);
+    }, [filterNotices, notices]);
 
     const handleEdit = (notice) => {
         setSelectedNotice(notice);
-        setShowEditModal(true);
     };
 
     const handleDelete = (notice) => {
         setSelectedNotice(notice);
         setShowDeleteModal(true);
-    };
-
-    const handleUpdateNotice = async (updatedNotice) => {
-        try {
-            const result = await updateNotice(updatedNotice);
-            if (result?.status === 200) {
-                const updatedNotices = notices.map((notice) =>
-                    notice._id === updatedNotice._id ? updatedNotice : notice
-                );
-                setFilteredNotices(updatedNotices);
-                setShowEditModal(false);
-                toast.success("নোটিশ সফলভাবে আপডেট হয়েছে");
-            }
-        } catch (err) {
-            toast.error("নোটিশ আপডেট করতে সমস্যা হয়েছে");
-        }
     };
 
     const handleConfirmDelete = async () => {
@@ -136,15 +114,6 @@ const AdminNotices = () => {
                 <NoContentFound text={"কোনো নোটিশের তথ্য পাওয়া যায়নি!"} />
             )}
             {!fetchEnd && loading && <LoaderWithOutDynamicMessage />}
-
-            {/* Edit Notice Modal */}
-            {showEditModal && selectedNotice && (
-                <EditNoticeModal
-                    onClose={() => setShowEditModal(false)}
-                    notice={selectedNotice}
-                    onSave={handleUpdateNotice}
-                />
-            )}
 
             {/* Delete Confirmation Modal */}
             {showDeleteModal && selectedNotice && (
