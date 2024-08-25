@@ -86,7 +86,8 @@ const BASE_URL = {
   findSingleNotice: "/notice/get-a-notice",
   deleteNotice: "/notice/delete-a-notice",
   postNoticeComment: "/notice/post-a-notice-comment",
-  markNoticeComplete: "/notice/complete-notice"
+  markNoticeComplete: "/notice/complete-notice",
+  updateNotice: "/notice/update-notice"
 };
 
 // Project APIs
@@ -349,7 +350,7 @@ export function markNoticeAsCompleted(id, userId, username) {
 }
 
 export function updateNotice(id, values) {
-  return http.put(BASE_URL.findSingleNotice, { id, values });
+  return http.put(BASE_URL.updateNotice, { id, values });
 }
 
 export function deleteNotice(id) {
