@@ -107,7 +107,7 @@ const AddNotice = () => {
 
     const handleUserSelection = (e, user) => {
         const userId = user?._id
-        const username = user?._id
+        const username = user?.username
 
         setSelectedUsers((prevState) => {
             if (e.target.checked) {
