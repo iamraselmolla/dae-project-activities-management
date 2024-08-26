@@ -32,7 +32,7 @@ const AddNotice = () => {
                         content: noticeData.content,
                         linkText: noticeData.linkText || '',
                         link: noticeData.link || '',
-                        expirationDate: noticeData.expirationDate ? { startDate: noticeData.expirationDate } : null,
+                        expirationDate: noticeData.expirationDate ? noticeData.expirationDate : null,
                         attachment: null, // Handle file separately
                         priority: noticeData.priority || 'Medium',
                     });
@@ -106,26 +106,30 @@ const AddNotice = () => {
     });
 
     const handleUserSelection = (e, user) => {
-        const userId = user?._id
-        const username = user?.username
+        const userId = user?._id;
+        const username = user?.username;
 
         setSelectedUsers((prevState) => {
             if (e.target.checked) {
                 // Add user if not already selected
-                if (!prevState.some(user => user?.userId === userId || user?.userId?._id === userId)) {
+                if (!prevState.some(selectedUser =>
+                    selectedUser.userId.toString() === userId.toString() ||
+                    selectedUser.userId._id?.toString() === userId.toString()
+                )) {
                     return [...prevState, { userId, username }];
                 }
-                console.log(prevState)
             } else {
-                const result = prevState.filter(user => user.userId !== userId);
-                console.log(result)
                 // Remove user if they are already selected
-                return result;
+                return prevState.filter(selectedUser =>
+                    selectedUser.userId.toString() !== userId.toString() &&
+                    selectedUser.userId._id?.toString() !== userId.toString()
+                );
             }
-            return prevState;
 
+            return prevState;
         });
     };
+
 
 
     const toggleSendToAll = () => {
