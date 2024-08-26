@@ -109,7 +109,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/add-notice",
-        element: <AddNotice />,
+        element: <AdminRoute><AddNotice /></AdminRoute>,
       },
       {
         path: "/notices/:id",
