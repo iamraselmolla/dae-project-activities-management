@@ -349,8 +349,8 @@ export function markNoticeAsCompleted(id, userId, username) {
   return http.put(BASE_URL.markNoticeComplete, { id, userId, username });
 }
 
-export function updateNotice(id, values) {
-  return http.put(BASE_URL.updateNotice, { id, values });
+export function updateNotice(id, updateData) {
+  return http.put(BASE_URL.updateNotice, { id, updateData });
 }
 
 export function deleteNotice(id) {

@@ -112,14 +112,16 @@ const AddNotice = () => {
         setSelectedUsers((prevState) => {
             if (e.target.checked) {
                 // Add user if not already selected
-                if (!prevState.some(user => user.userId === userId)) {
+                if (!prevState.some(user => user?.userId === userId || user?.userId?._id === userId)) {
                     return [...prevState, { userId, username }];
                 }
+                console.log(prevState)
             } else {
+                const result = prevState.filter(user => user.userId !== userId);
+                console.log(result)
                 // Remove user if they are already selected
-                return prevState.filter(user => user.userId !== userId);
+                return result;
             }
-            console.log(prevState)
             return prevState;
 
         });
@@ -134,8 +136,6 @@ const AddNotice = () => {
             return !prev;
         });
     };
-    console.log(selectedUsers)
-
     return (
         <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
             <SectionTitle title={noticeId ? "নোটিশ হালনাগাদ করুন" : "নোটিশ যুক্ত করুন"} />
