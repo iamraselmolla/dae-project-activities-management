@@ -277,7 +277,7 @@ const AddNotice = () => {
                                                 value={user._id}
                                                 data-username={user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}
                                                 onChange={(e) => handleUserSelection(e, user)}
-                                                checked={selectedUsers?.some(selected => selected?.userId?._id === user?._id)}
+                                                checked={selectedUsers?.some(selected => selected?.userId?._id === user?._id || selected?.userId === user?._id)}
                                             />
                                             <span>{user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}</span>
                                         </label>
