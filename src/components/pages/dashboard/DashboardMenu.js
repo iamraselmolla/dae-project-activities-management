@@ -28,7 +28,8 @@ const DashboardMenu = () => {
     fieldDays,
     schools,
     daeMeetings,
-    allNotices
+    allNotices,
+    userNotices
   } = useSelector((state) => state.dae);
 
   const adminMenuItems = [
@@ -46,6 +47,7 @@ const DashboardMenu = () => {
     { icon: <PiMicrophoneStageFill />, link: "/user-fielddays", text: `মাঠ দিবস (${toBengaliNumber(fieldDays.length)})` },
     { icon: <RiSchoolLine />, link: "/user-schools", text: `স্কুল (${toBengaliNumber(schools.length)})` },
     { icon: <FaPeopleGroup />, link: "/user-dae-meetings", text: `ডিএই কৃষক গ্রুপ সভা (${toBengaliNumber(daeMeetings.length)})` },
+    { icon: <GrAnnounce />, link: "/user-notices", text: `নোটিশ (${toBengaliNumber(userNotices?.length)})` },
   ];
 
   return (

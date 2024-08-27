@@ -46,7 +46,7 @@ const DashboardLayout = () => {
       try {
         const userNoticeResult = await getUserNotices();
         if (userNoticeResult?.status === 200) {
-          dispatch(daeAction.setUserNotes(userNoticeResult?.data?.data));
+          dispatch(daeAction.setUserNotices(userNoticeResult?.data?.data));
         }
         if (refetch === "all" || refetch.includes('demos')) {
           const demoResult = await getUserDemos();
