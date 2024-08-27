@@ -87,7 +87,8 @@ const BASE_URL = {
   deleteNotice: "/notice/delete-a-notice",
   postNoticeComment: "/notice/post-a-notice-comment",
   markNoticeComplete: "/notice/complete-notice",
-  updateNotice: "/notice/update-notice"
+  updateNotice: "/notice/update-notice",
+  userNotice: '/notice/get-user-notice'
 };
 
 // Project APIs
@@ -355,4 +356,9 @@ export function updateNotice(id, updateData) {
 
 export function deleteNotice(id) {
   return http.delete(BASE_URL.deleteNotice, { data: { id } });
+
+}
+
+export function getUserNotices() {
+  return http.get(BASE_URL.userNotice);
 }
