@@ -49,7 +49,7 @@ function DevelopmentTeam() {
       name: "হাবিবুল্লাহ হাওলাদার সুমন",
       title: "Software Engineer",
       role: "Database architect",
-      img: "https://media.licdn.com/dms/image/D5603AQG_zDgeX1-UKQ/profile-displayphoto-shrink_800_800/0/1711819018065?e=1722470400&v=beta&t=2wWdTSURK1XeH5lBlIBRUhWHIHQt2ZDpOPtlpMY4Z6E",
+      img: "https://avatars.githubusercontent.com/u/81507608?v=4",
       socialLinks: {
         facebook: "habib9592",
         github: "",

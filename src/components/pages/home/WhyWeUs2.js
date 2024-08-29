@@ -24,7 +24,7 @@ const WhyweUs2 = () => {
                     </div>
                 </div>
                 <div className=" text-center">
-                    <figure className="m-0 p-0"><img className="w-auto" src="https://sandbox-tailwindcss.ibthemespro.com/assets/img/illustrations/3d5.png" srcSet="https://sandbox-tailwindcss.ibthemespro.com/assets/img/illustrations/3d5.png" alt="image" /></figure>
+                    <figure className="m-0 p-0"><img className="w-auto" src="images/why-2.png" srcSet="images/why-2.png" alt="image" /></figure>
                 </div>
             </div>
         </section>
