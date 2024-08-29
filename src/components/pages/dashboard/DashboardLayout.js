@@ -12,6 +12,7 @@ import {
   getUserAllGroupMeeting,
   getUserAllSchools,
   getUserDemos,
+  getUserNotices,
 } from "../../../services/userServices";
 import { useDispatch, useSelector } from "react-redux";
 import { daeAction } from "../../store/projectSlice";
@@ -43,6 +44,10 @@ const DashboardLayout = () => {
 
     const fetchUserData = async () => {
       try {
+        const userNoticeResult = await getUserNotices();
+        if (userNoticeResult?.status === 200) {
+          dispatch(daeAction.setUserNotices(userNoticeResult?.data?.data));
+        }
         if (refetch === "all" || refetch.includes('demos')) {
           const demoResult = await getUserDemos();
           if (demoResult?.status === 200) {
