@@ -1,14 +1,8 @@
-import React, { PureComponent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Pie, PieChart } from 'recharts';
 import {
   LineChart,
   Line,
-  // XAxis,
-  // YAxis,
-  // CartesianGrid,
-  // Tooltip,
-  // Legend,
-  Brush,
   AreaChart,
   Area,
   // ResponsiveContainer,

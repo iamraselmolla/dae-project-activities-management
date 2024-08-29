@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { set } from "date-fns";
 
 const initialState = {
   projects: [],
@@ -16,6 +17,7 @@ const initialState = {
   schools: [],
   daeMeetings: [],
   allNotices: [],
+  userNotices: [],
   refetchDemoDetails: 0
 
 };
@@ -68,7 +70,11 @@ const daeSlice = createSlice({
     },
     setAllNotices: (state, action) => {
       state.allNotices = action.payload
-    }
+    },
+
+    setUserNotices: (state, action) => {
+      state.userNotices = action.payload
+    },
   },
 });
 

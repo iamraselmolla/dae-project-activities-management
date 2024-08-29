@@ -32,14 +32,13 @@ const AddNotice = () => {
                         content: noticeData.content,
                         linkText: noticeData.linkText || '',
                         link: noticeData.link || '',
-                        expirationDate: noticeData.expirationDate ? { startDate: noticeData.expirationDate } : null,
+                        expirationDate: noticeData.expirationDate ? noticeData.expirationDate : null,
                         attachment: null, // Handle file separately
                         priority: noticeData.priority || 'Medium',
                     });
 
                     setSendToAll(noticeData.sendToAll);
-                    setSelectedUsers(noticeData.recipients?.map(recipient => ({ userId: recipient?._id, username: recipient?.username })) || []);
-
+                    setSelectedUsers(noticeData.recipients || []);
                     setUserActions(noticeData.userActions || []);
                     setActionThread(noticeData.actionThread || false);
                 } catch (error) {
@@ -106,24 +105,31 @@ const AddNotice = () => {
         },
     });
 
-    const handleUserSelection = (user, e) => {
+    const handleUserSelection = (e, user) => {
         const userId = user?._id;
         const username = user?.username;
-        console.log(user)
 
         setSelectedUsers((prevState) => {
             if (e.target.checked) {
                 // Add user if not already selected
-                if (!prevState.some(selected => selected?.userId === userId)) {
+                if (!prevState.some(selectedUser =>
+                    selectedUser.userId.toString() === userId.toString() ||
+                    selectedUser.userId._id?.toString() === userId.toString()
+                )) {
                     return [...prevState, { userId, username }];
                 }
             } else {
                 // Remove user if they are already selected
-                return prevState.filter(selected => selected?.username !== username);
+                return prevState.filter(selectedUser =>
+                    selectedUser.userId.toString() !== userId.toString() &&
+                    selectedUser.userId._id?.toString() !== userId.toString()
+                );
             }
+
             return prevState;
         });
     };
+
 
 
     const toggleSendToAll = () => {
@@ -134,7 +140,6 @@ const AddNotice = () => {
             return !prev;
         });
     };
-    console.log(selectedUsers)
     return (
         <section className="mx-auto bg-white max-w-7xl px-2 sm:px-6 lg:px-8">
             <SectionTitle title={noticeId ? "নোটিশ হালনাগাদ করুন" : "নোটিশ যুক্ত করুন"} />
@@ -257,7 +262,7 @@ const AddNotice = () => {
                             <span className="text-2xl font-bold">সব ব্যবহারকারীকে প্রেরণ করুন</span>
                             <input
                                 type="checkbox"
-                                className="toggle toggle-success theme-border"
+                                className="toggle toggle-primary"
                                 checked={sendToAll}
                                 onChange={toggleSendToAll}
                             />
@@ -272,9 +277,11 @@ const AddNotice = () => {
                                         <label key={user._id} className="flex items-center space-x-2">
                                             <input
                                                 type="checkbox"
-                                                className='checkbox checkbox-success theme-border'
-                                                onChange={(e) => handleUserSelection(user, e)}
-                                                checked={selectedUsers?.length > 0 && selectedUsers?.some(selected => selected?.userId === user?._id || selected?.username === user?.username)}
+                                                className='checkbox checkbox-secondary'
+                                                value={user._id}
+                                                data-username={user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}
+                                                onChange={(e) => handleUserSelection(e, user)}
+                                                checked={selectedUsers?.some(selected => selected?.userId?._id === user?._id || selected?.userId === user?._id)}
                                             />
                                             <span>{user.SAAO?.name + ", " + user?.blockB + ", " + user?.unionB}</span>
                                         </label>
@@ -287,10 +294,10 @@ const AddNotice = () => {
                     {/* Action Thread */}
 
                     <label className="cursor-pointer mt-3 flex items-center gap-5">
-                        <span className="text-2xl font-bold">কাজের অগ্রগতি অবস্থার মন্তব্য চালু রাখুনঃ</span>
+                        <span className="text-2xl font-bold">কাজের অগ্রগতি অবস্থার মন্তব্য চালু রাখুন ।</span>
                         <input
                             type="checkbox"
-                            className="toggle toggle-success theme-border"
+                            className="toggle toggle-secondary"
                             checked={actionThread}
                             onChange={() => setActionThread(!actionThread)}
                         />

@@ -87,7 +87,8 @@ const BASE_URL = {
   deleteNotice: "/notice/delete-a-notice",
   postNoticeComment: "/notice/post-a-notice-comment",
   markNoticeComplete: "/notice/complete-notice",
-  updateNotice: "/notice/update-notice"
+  updateNotice: "/notice/update-notice",
+  userNotice: '/notice/get-user-notice'
 };
 
 // Project APIs
@@ -349,10 +350,15 @@ export function markNoticeAsCompleted(id, userId, username) {
   return http.put(BASE_URL.markNoticeComplete, { id, userId, username });
 }
 
-export function updateNotice(id, values) {
-  return http.put(BASE_URL.updateNotice, { id, values });
+export function updateNotice(id, updateData) {
+  return http.put(BASE_URL.updateNotice, { id, updateData });
 }
 
 export function deleteNotice(id) {
   return http.delete(BASE_URL.deleteNotice, { data: { id } });
+
+}
+
+export function getUserNotices() {
+  return http.get(BASE_URL.userNotice);
 }
