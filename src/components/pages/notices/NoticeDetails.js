@@ -13,11 +13,14 @@ import UserListModal from '../../shared/UserListModal';
 import { AuthContext } from '../../AuthContext/AuthProvider';
 import { toBengaliNumber } from 'bengali-number';
 import toast from 'react-hot-toast';
+import SmallLoader from '../../shared/SmallLoader';
 
 const NoticeDetails = () => {
     const { id } = useParams();
     const [notice, setNotice] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [commentLoading, setCommentLoading] = useState(false); // New state for comment loading
+    const [completeLoading, setCompleteLoading] = useState(false); // New state for complete loading
     const [showCompletedModal, setShowCompletedModal] = useState(false);
     const [showNotCompletedModal, setShowNotCompletedModal] = useState(false);
     const [showAssignedModal, setShowAssignedModal] = useState(false);
@@ -46,21 +49,24 @@ const NoticeDetails = () => {
 
     const handleSubmitComment = async () => {
         try {
+            setCommentLoading(true); // Set comment loading state
             const result = await addCommentToNotice(id, user?._id, user?.username, comment);
             if (result?.status === 200) {
                 setNotice(result.data?.data);
                 setComment('');
-                setReload(!reload);
                 toast.success('মন্তব্য সফলভাবে যুক্ত করা হয়েছে।');
             }
         } catch (err) {
             console.error(err);
             toast.error('মন্তব্য যুক্ত করতে অসুবিধা হয়েছে।');
+        } finally {
+            setCommentLoading(false); // End comment loading state
         }
     };
 
     const handleMarkAsCompleted = async () => {
         try {
+            setCompleteLoading(true); // Set complete loading state
             const result = await markNoticeAsCompleted(id, user?._id, user?.username);
             if (result?.status === 200) {
                 setReload(!reload);
@@ -68,6 +74,8 @@ const NoticeDetails = () => {
             }
         } catch (err) {
             toast.error("আপনার নোটিশের কর্ম সম্পাদন হিসেবে চিহ্নিত করতে অসুবিধার সৃষ্টি হচ্ছে।");
+        } finally {
+            setCompleteLoading(false); // End complete loading state
         }
     };
 
@@ -94,8 +102,9 @@ const NoticeDetails = () => {
     const handleCloseAssignedModal = () => setShowAssignedModal(false);
 
     return (
-        <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
+        <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 relative">
+            {(commentLoading || completeLoading) && <SmallLoader />} {/* Show loader if loading */}
+            <div className={`bg-white p-6 rounded-lg shadow-lg ${commentLoading || completeLoading ? 'opacity-50 pointer-events-none' : ''}`}>
                 <h2 className="text-2xl font-bold mb-4">{notice.subject}</h2>
                 <p className="mb-4">{notice.content}</p>
                 {notice.link && (
@@ -169,12 +178,14 @@ const NoticeDetails = () => {
                                     className="theme-bg text-white py-2 px-4 rounded hover:bg-blue-700"
                                     onClick={handleSubmitComment}
                                     type="button"
+                                    disabled={commentLoading || completeLoading} // Disable button if loading
                                 >
                                     কাজের অগ্রগতি জানান
                                 </button>
                                 <button
                                     className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700"
                                     onClick={handleMarkAsCompleted}
+                                    disabled={commentLoading || completeLoading} // Disable button if loading
                                 >
                                     সম্পন্ন হিসেবে জমা দিন
                                 </button>
@@ -184,25 +195,23 @@ const NoticeDetails = () => {
                 </div>
             </div>
             <UserListModal
-                showModal={showCompletedModal}
-                handleCloseModal={handleCloseCompletedModal}
-                title="সম্পন্ন ব্যবহারকারী"
-                users={completedUsers}
+                isOpen={showCompletedModal}
+                onClose={handleCloseCompletedModal}
+                userList={completedUsers}
+                title="সম্পন্ন করেছেন"
             />
             <UserListModal
-                showModal={showNotCompletedModal}
-                handleCloseModal={handleCloseNotCompletedModal}
-                title="অসম্পন্ন ব্যবহারকারী"
-                users={notCompletedUsers}
+                isOpen={showNotCompletedModal}
+                onClose={handleCloseNotCompletedModal}
+                userList={notCompletedUsers}
+                title="অসম্পন্ন"
             />
-            {!notice.sendToAll && (
-                <UserListModal
-                    showModal={showAssignedModal}
-                    handleCloseModal={handleCloseAssignedModal}
-                    title="নির্ধারিত ব্যবহারকারী"
-                    users={assignedUsers}
-                />
-            )}
+            <UserListModal
+                isOpen={showAssignedModal}
+                onClose={handleCloseAssignedModal}
+                userList={assignedUsers}
+                title="নির্ধারিত ব্যবহারকারী"
+            />
         </section>
     );
 };
