@@ -71,61 +71,64 @@ const Notice = ({ notice }) => {
     }
 
     return (
-        <div
-            key={notice._id}
-            className={`relative p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 border ${priorityClasses[notice.priority]}`}
-        >
-            <Link to={`/notices/${notice._id}`} className="text-xl font-bold mb-2">
-                {notice.subject}
-            </Link>
-            <p className="mb-2">{notice.content}</p>
-            {notice.link && (
-                <a href={notice.link} className="underline">{notice.linkText}</a>
-            )}
-            {notice.expirationDate && (
-                <p className="mt-4 text-sm">
-                    Expires on: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}
+        <>
+            <div
+                key={notice._id}
+                className={`relative p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 border ${priorityClasses[notice.priority]}`}
+            >
+                <Link to={`/notices/${notice._id}`} className="text-xl font-bold mb-2">
+                    {notice.subject}
+                </Link>
+                <p className="mb-2">{notice.content}</p>
+                {notice.link && (
+                    <a href={notice.link} className="underline">{notice.linkText}</a>
+                )}
+                {notice.expirationDate && (
+                    <p className="mt-4 text-sm">
+                        Expires on: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}
+                    </p>
+                )}
+                <p className="mt-2 font-bold">
+                    Priority: {notice.priority}
                 </p>
-            )}
-            <p className="mt-2 font-bold">
-                Priority: {notice.priority}
-            </p>
 
-            <div className="absolute top-4 right-2 flex flex-col items-center space-y-4">
-                <FaCheckCircle
-                    className="text-green-500 cursor-pointer text-2xl"
-                    onClick={handleShowCompletedModal}
-                />
-                <FaTimesCircle
-                    className="text-red-500 cursor-pointer text-2xl"
-                    onClick={handleShowNotCompletedModal}
-                />
-                <FaUserSlash
-                    className="text-gray-500 cursor-pointer text-2xl"
-                    onClick={handleShowInactiveModal}
-                />
-                {notice.sendToAll ? (
-                    <span className="text-xs bg-green-500 text-white py-1 px-2 rounded">All</span>
-                ) : (
-                    <AiOutlineUsergroupAdd
-                        className="text-blue-500 cursor-pointer text-2xl"
-                        onClick={handleShowAssignedModal}
+                <div className="absolute top-4 right-2 flex flex-col items-center space-y-4">
+                    <FaCheckCircle
+                        className="text-green-500 cursor-pointer text-2xl"
+                        onClick={handleShowCompletedModal}
                     />
+                    <FaTimesCircle
+                        className="text-red-500 cursor-pointer text-2xl"
+                        onClick={handleShowNotCompletedModal}
+                    />
+                    <FaUserSlash
+                        className="text-gray-500 cursor-pointer text-2xl"
+                        onClick={handleShowInactiveModal}
+                    />
+                    {notice.sendToAll ? (
+                        <span className="text-xs bg-green-500 text-white py-1 px-2 rounded">All</span>
+                    ) : (
+                        <AiOutlineUsergroupAdd
+                            className="text-blue-500 cursor-pointer text-2xl"
+                            onClick={handleShowAssignedModal}
+                        />
+                    )}
+                </div>
+
+                {user && role === 'admin' && (
+                    <div className="absolute bottom-4 right-2 flex space-x-2">
+                        <Link to={`/add-notice?id=${notice._id}`}>
+                            <FaEdit className="text-blue-500 cursor-pointer text-2xl" />
+                        </Link>
+                        <FaTrash
+                            className="text-red-500 cursor-pointer text-2xl"
+                            onClick={() => handleDelete(notice._id)}
+                        />
+                    </div>
                 )}
             </div>
 
-            {user && role === 'admin' && (
-                <div className="absolute bottom-4 right-2 flex space-x-2">
-                    <Link to={`/add-notice?id=${notice._id}`}>
-                        <FaEdit className="text-blue-500 cursor-pointer text-2xl" />
-                    </Link>
-                    <FaTrash
-                        className="text-red-500 cursor-pointer text-2xl"
-                        onClick={() => handleDelete(notice._id)}
-                    />
-                </div>
-            )}
-
+            {/* Render modals outside the notice container */}
             <UserListModal
                 showModal={showAssignedModal}
                 handleCloseModal={handleCloseAssignedModal}
@@ -150,7 +153,7 @@ const Notice = ({ notice }) => {
                 title="নিষ্ক্রিয় ব্যবহারকারী"
                 users={inActiveUsers}
             />
-        </div>
+        </>
     );
 };
 
