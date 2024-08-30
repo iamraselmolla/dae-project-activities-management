@@ -95,7 +95,16 @@ const NoticeDetails = () => {
     let inActiveUsers = [];
     if (notice?.sendToAll) {
         const completedAndNotCompletedUserIds = [...completedUsers, ...notCompletedUsers].map(action => action.userId._id.toString());
-        inActiveUsers = allUsers.filter(user => !completedAndNotCompletedUserIds.includes(user._id.toString()));
+        // Format allUsers to match the structure expected by UserListModal
+        inActiveUsers = allUsers
+            .filter(user => !completedAndNotCompletedUserIds.includes(user?._id.toString()))
+            .map(user => ({
+                userId: {
+                    _id: user._id,
+                    SAAO: { name: user?.SAAO?.name },
+                    blockB: user.blockB
+                }
+            }));
     } else {
         const completedAndNotCompletedUserIds = [...completedUsers, ...notCompletedUsers].map(action => action.userId._id.toString());
         inActiveUsers = assignedUsers.filter(user => !completedAndNotCompletedUserIds.includes(user.userId.toString()));
