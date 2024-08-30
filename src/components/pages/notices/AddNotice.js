@@ -109,26 +109,26 @@ const AddNotice = () => {
         const userId = user?._id;
         const username = user?.username;
 
+
         setSelectedUsers((prevState) => {
             if (e.target.checked) {
                 // Add user if not already selected
-                if (!prevState.some(selectedUser =>
-                    selectedUser.userId.toString() === userId.toString() ||
-                    selectedUser.userId._id?.toString() === userId.toString()
+                if (!prevState?.some(selectedUser =>
+                    selectedUser?.userId?.toString() === userId?.toString()
                 )) {
                     return [...prevState, { userId, username }];
                 }
             } else {
                 // Remove user if they are already selected
-                return prevState.filter(selectedUser =>
-                    selectedUser.userId.toString() !== userId.toString() &&
-                    selectedUser.userId._id?.toString() !== userId.toString()
+                return prevState?.filter(selectedUser =>
+                    selectedUser?.userId?.toString() !== userId?.toString()
                 );
             }
 
             return prevState;
         });
     };
+
 
 
 
@@ -274,7 +274,7 @@ const AddNotice = () => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                                 {
                                     users?.map((user) => (
-                                        <label key={user._id} className="flex items-center space-x-2">
+                                        <label key={user?.username} className="flex items-center space-x-2">
                                             <input
                                                 type="checkbox"
                                                 className='checkbox checkbox-secondary'
