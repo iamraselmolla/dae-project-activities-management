@@ -22,6 +22,7 @@ const NoticeDetails = () => {
     const [showNotCompletedModal, setShowNotCompletedModal] = useState(false);
     const [showAssignedModal, setShowAssignedModal] = useState(false);
     const [comment, setComment] = useState('');
+    const [userCompleted, setUserCompleted] = useState(false);
     const { user } = useContext(AuthContext);
     const [reload, setReload] = useState(false);
 
@@ -31,6 +32,11 @@ const NoticeDetails = () => {
                 const result = await findASingleNotice(id);
                 if (result?.status === 200) {
                     setNotice(result.data?.data);
+                    // Check if the current user has completed the task
+                    const currentUserAction = result.data?.data?.userActions?.find(action => action?.userId?._id?.toString() === user?._id);
+                    if (currentUserAction) {
+                        setUserCompleted(currentUserAction.completed);
+                    }
                 }
                 setLoading(false);
             } catch (err) {
@@ -38,7 +44,7 @@ const NoticeDetails = () => {
             }
         };
         fetchNotice();
-    }, [id, reload]);
+    }, [id, reload, user?._id]);
 
     const handleCommentChange = (e) => {
         setComment(e.target.value);
@@ -82,7 +88,6 @@ const NoticeDetails = () => {
     const completedUsers = notice?.userActions?.filter(action => action.completed) || [];
     const notCompletedUsers = notice?.userActions?.filter(action => !action.completed) || [];
     const assignedUsers = notice?.recipients || [];
-    const userAction = notice?.userActions?.find(action => action.userId === user?._id);
 
     const handleShowCompletedModal = () => setShowCompletedModal(true);
     const handleCloseCompletedModal = () => setShowCompletedModal(false);
@@ -152,11 +157,11 @@ const NoticeDetails = () => {
                     </div>
                 </div>
                 <div className="mt-6">
-                    {userAction && userAction.completed ? (
+                    {userCompleted ? (
                         <div className="bg-green-100 p-4 rounded text-center">
                             <p className="text-green-700 font-semibold">আপনি এই কাজটি সম্পন্ন করেছেন। ধন্যবাদ!</p>
                         </div>
-                    ) : (notice.sendToAll || notice.recipients.some(recipient => recipient.userId === user?._id)) && (
+                    ) : (notice.sendToAll || notice.recipients.some(recipient => recipient.userId.toString() === user?._id.toString())) && (
                         <>
                             <textarea
                                 className="w-full border rounded p-2 mb-4"
