@@ -191,6 +191,7 @@ const NoticeDetails = () => {
                             <p className="text-green-700 font-semibold">আপনি এই কাজটি সম্পন্ন করেছেন। ধন্যবাদ!</p>
                         </div>
                     ) : (notice.sendToAll || notice.recipients.some(recipient => recipient.userId.toString() === user?._id.toString())) && (
+                        user &&
                         <>
                             <textarea
                                 className="w-full border rounded p-2 mb-4"
@@ -214,6 +215,7 @@ const NoticeDetails = () => {
                                 </button>
                             </div>
                         </>
+
                     )}
                 </div>
             </div>
