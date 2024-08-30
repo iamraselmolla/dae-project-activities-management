@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
-import { FaCheckCircle, FaTimesCircle, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle, FaEdit, FaTrash, FaUserSlash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import UserListModal from './UserListModal';
 import { AuthContext } from '../AuthContext/AuthProvider';
 import toast from 'react-hot-toast';
 import { deleteNotice } from '../../services/userServices';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { daeAction } from '../store/projectSlice';
-import { createRandomNumber } from "../utilis/createRandomNumber"
+import { createRandomNumber } from "../utilis/createRandomNumber";
 
 const priorityClasses = {
     High: 'bg-red-100 border-red-500',
@@ -20,8 +20,10 @@ const Notice = ({ notice }) => {
     const [showAssignedModal, setShowAssignedModal] = useState(false);
     const [showCompletedModal, setShowCompletedModal] = useState(false);
     const [showNotCompletedModal, setShowNotCompletedModal] = useState(false);
+    const [showInactiveModal, setShowInactiveModal] = useState(false); // State to handle inactive user modal
     const { user, role } = useContext(AuthContext);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const { blockAndUnions: allUsers } = useSelector(state => state.dae);
 
     const handleShowAssignedModal = () => setShowAssignedModal(true);
     const handleCloseAssignedModal = () => setShowAssignedModal(false);
@@ -32,70 +34,101 @@ const Notice = ({ notice }) => {
     const handleShowNotCompletedModal = () => setShowNotCompletedModal(true);
     const handleCloseNotCompletedModal = () => setShowNotCompletedModal(false);
 
+    const handleShowInactiveModal = () => setShowInactiveModal(true);
+    const handleCloseInactiveModal = () => setShowInactiveModal(false);
+
     const handleDelete = async (noticeId) => {
         try {
             const result = await deleteNotice(noticeId);
             if (result?.status === 200) {
                 toast.success(result?.data?.message);
-                dispatch(daeAction.setRefetch(`notices${createRandomNumber()}`))
+                dispatch(daeAction.setRefetch(`notices${createRandomNumber()}`));
             }
         } catch (err) {
             toast.error("নোটিশ মুছতে অসুবিধা হয়েছে।");
         }
     };
 
-    return (
-        <div
-            key={notice._id}
-            className={`relative p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 border ${priorityClasses[notice.priority]}`}
-        >
-            <Link to={`/notices/${notice._id}`} className="text-xl font-bold mb-2">
-                {notice.subject}
-            </Link>
-            <p className="mb-2">{notice.content}</p>
-            {notice.link && (
-                <a href={notice.link} className="underline">{notice.linkText}</a>
-            )}
-            {notice.expirationDate && (
-                <p className="mt-4 text-sm">
-                    Expires on: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}
-                </p>
-            )}
-            <p className="mt-2 font-bold">
-                Priority: {notice.priority}
-            </p>
+    // Filter inactive users based on notice.sendToAll
+    let inActiveUsers = [];
+    if (notice?.sendToAll) {
+        const completedAndNotCompletedUserIds = [...(notice.completedUsers || []), ...(notice.notCompletedUsers || [])]
+            .map(action => action.userId._id.toString());
+        inActiveUsers = allUsers
+            .filter(user => !completedAndNotCompletedUserIds.includes(user._id.toString()))
+            .map(user => ({
+                userId: {
+                    _id: user._id,
+                    SAAO: { name: user?.SAAO?.name },
+                    blockB: user?.blockB
+                }
+            }));
+    } else {
+        const completedAndNotCompletedUserIds = [...(notice.completedUsers || []), ...(notice.notCompletedUsers || [])]
+            .map(action => action.userId._id.toString());
+        inActiveUsers = (notice.recipients || [])
+            .filter(user => !completedAndNotCompletedUserIds.includes(user.userId.toString()));
+    }
 
-            <div className="absolute top-4 right-2 flex flex-col items-center space-y-4">
-                <FaCheckCircle
-                    className="text-green-500 cursor-pointer text-2xl"
-                    onClick={handleShowCompletedModal}
-                />
-                <FaTimesCircle
-                    className="text-red-500 cursor-pointer text-2xl"
-                    onClick={handleShowNotCompletedModal}
-                />
-                {notice.sendToAll ? (
-                    <span className="text-xs bg-green-500 text-white py-1 px-2 rounded">All</span>
-                ) : (
-                    <AiOutlineUsergroupAdd
-                        className="text-blue-500 cursor-pointer text-2xl"
-                        onClick={handleShowAssignedModal}
+    return (
+        <>
+            <div
+                key={notice._id}
+                className={`relative p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 border ${priorityClasses[notice.priority]}`}
+            >
+                <Link to={`/notices/${notice._id}`} className="text-xl font-bold mb-2">
+                    {notice.subject}
+                </Link>
+                <p className="mb-2">{notice.content}</p>
+                {notice.link && (
+                    <a href={notice.link} className="underline">{notice.linkText}</a>
+                )}
+                {notice.expirationDate && (
+                    <p className="mt-4 text-sm">
+                        Expires on: {new Date(notice.expirationDate).toLocaleDateString("bn-BD")}
+                    </p>
+                )}
+                <p className="mt-2 font-bold">
+                    Priority: {notice.priority}
+                </p>
+
+                <div className="absolute top-4 right-2 flex flex-col items-center space-y-4">
+                    <FaCheckCircle
+                        className="text-green-500 cursor-pointer text-2xl"
+                        onClick={handleShowCompletedModal}
                     />
+                    <FaTimesCircle
+                        className="text-red-500 cursor-pointer text-2xl"
+                        onClick={handleShowNotCompletedModal}
+                    />
+                    <FaUserSlash
+                        className="text-gray-500 cursor-pointer text-2xl"
+                        onClick={handleShowInactiveModal}
+                    />
+                    {notice.sendToAll ? (
+                        <span className="text-xs bg-green-500 text-white py-1 px-2 rounded">All</span>
+                    ) : (
+                        <AiOutlineUsergroupAdd
+                            className="text-blue-500 cursor-pointer text-2xl"
+                            onClick={handleShowAssignedModal}
+                        />
+                    )}
+                </div>
+
+                {user && role === 'admin' && (
+                    <div className="absolute bottom-4 right-2 flex space-x-2">
+                        <Link to={`/add-notice?id=${notice._id}`}>
+                            <FaEdit className="text-blue-500 cursor-pointer text-2xl" />
+                        </Link>
+                        <FaTrash
+                            className="text-red-500 cursor-pointer text-2xl"
+                            onClick={() => handleDelete(notice._id)}
+                        />
+                    </div>
                 )}
             </div>
 
-            {user && role === 'admin' && (
-                <div className="absolute bottom-4 right-2 flex space-x-2">
-                    <Link to={`/add-notice?id=${notice._id}`}>
-                        <FaEdit className="text-blue-500 cursor-pointer text-2xl" />
-                    </Link>
-                    <FaTrash
-                        className="text-red-500 cursor-pointer text-2xl"
-                        onClick={() => handleDelete(notice._id)}
-                    />
-                </div>
-            )}
-
+            {/* Render modals outside the notice container */}
             <UserListModal
                 showModal={showAssignedModal}
                 handleCloseModal={handleCloseAssignedModal}
@@ -114,7 +147,13 @@ const Notice = ({ notice }) => {
                 title="অসম্পন্ন ব্যবহারকারী"
                 users={notice.notCompletedUsers}
             />
-        </div>
+            <UserListModal
+                showModal={showInactiveModal}
+                handleCloseModal={handleCloseInactiveModal}
+                title="নিষ্ক্রিয় ব্যবহারকারী"
+                users={inActiveUsers}
+            />
+        </>
     );
 };
 

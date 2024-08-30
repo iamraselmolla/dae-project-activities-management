@@ -7,12 +7,13 @@ import {
 } from '../../../services/userServices';
 import LoaderWithOutDynamicMessage from '../../shared/LoaderWithOutDynamicMessage';
 import NoContentFound from '../../shared/NoContentFound';
-import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle, FaUserSlash } from 'react-icons/fa';
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import UserListModal from '../../shared/UserListModal';
 import { AuthContext } from '../../AuthContext/AuthProvider';
 import { toBengaliNumber } from 'bengali-number';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 
 const NoticeDetails = () => {
     const { id } = useParams();
@@ -22,8 +23,12 @@ const NoticeDetails = () => {
     const [showNotCompletedModal, setShowNotCompletedModal] = useState(false);
     const [showAssignedModal, setShowAssignedModal] = useState(false);
     const [comment, setComment] = useState('');
+    const [showInactiveModal, setShowInactiveModal] = useState(false); // State to handle inactive user modal
+
+    const [userCompleted, setUserCompleted] = useState(false);
     const { user } = useContext(AuthContext);
     const [reload, setReload] = useState(false);
+    const { blockAndUnions: allUsers } = useSelector(state => state.dae)
 
     useEffect(() => {
         const fetchNotice = async () => {
@@ -31,6 +36,11 @@ const NoticeDetails = () => {
                 const result = await findASingleNotice(id);
                 if (result?.status === 200) {
                     setNotice(result.data?.data);
+                    // Check if the current user has completed the task
+                    const currentUserAction = result.data?.data?.userActions?.find(action => action?.userId?._id?.toString() === user?._id);
+                    if (currentUserAction) {
+                        setUserCompleted(currentUserAction.completed);
+                    }
                 }
                 setLoading(false);
             } catch (err) {
@@ -38,7 +48,7 @@ const NoticeDetails = () => {
             }
         };
         fetchNotice();
-    }, [id, reload]);
+    }, [id, reload, user?._id]);
 
     const handleCommentChange = (e) => {
         setComment(e.target.value);
@@ -82,7 +92,24 @@ const NoticeDetails = () => {
     const completedUsers = notice?.userActions?.filter(action => action.completed) || [];
     const notCompletedUsers = notice?.userActions?.filter(action => !action.completed) || [];
     const assignedUsers = notice?.recipients || [];
-    const userAction = notice?.userActions?.find(action => action.userId === user?._id);
+    let inActiveUsers = [];
+    if (notice?.sendToAll) {
+        const completedAndNotCompletedUserIds = [...completedUsers, ...notCompletedUsers].map(action => action.userId._id.toString());
+        // Format allUsers to match the structure expected by UserListModal
+        inActiveUsers = allUsers
+            .filter(user => !completedAndNotCompletedUserIds.includes(user?._id.toString()))
+            .map(user => ({
+                userId: {
+                    _id: user._id,
+                    SAAO: { name: user?.SAAO?.name },
+                    blockB: user.blockB
+                }
+            }));
+    } else {
+        const completedAndNotCompletedUserIds = [...completedUsers, ...notCompletedUsers].map(action => action.userId._id.toString());
+        inActiveUsers = assignedUsers.filter(user => !completedAndNotCompletedUserIds.includes(user.userId.toString()));
+    }
+
 
     const handleShowCompletedModal = () => setShowCompletedModal(true);
     const handleCloseCompletedModal = () => setShowCompletedModal(false);
@@ -92,6 +119,9 @@ const NoticeDetails = () => {
 
     const handleShowAssignedModal = () => setShowAssignedModal(true);
     const handleCloseAssignedModal = () => setShowAssignedModal(false);
+    const handleShowInactiveModal = () => setShowInactiveModal(true);
+    const handleCloseInactiveModal = () => setShowInactiveModal(false);
+
 
     return (
         <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -110,6 +140,10 @@ const NoticeDetails = () => {
                     <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowNotCompletedModal}>
                         <FaTimesCircle className="text-red-500" />
                         <span>অসম্পন্ন: {toBengaliNumber(notCompletedUsers.length)}</span>
+                    </div>
+                    <div className="flex items-center space-x-1 cursor-pointer" onClick={handleShowInactiveModal}>
+                        <FaUserSlash className="text-gray-500" />
+                        <span>নিষ্ক্রিয়: {toBengaliNumber(inActiveUsers.length)}</span>
                     </div>
                     {notice.sendToAll ? (
                         <div className="flex items-center space-x-1">
@@ -152,11 +186,11 @@ const NoticeDetails = () => {
                     </div>
                 </div>
                 <div className="mt-6">
-                    {userAction && userAction.completed ? (
+                    {userCompleted ? (
                         <div className="bg-green-100 p-4 rounded text-center">
                             <p className="text-green-700 font-semibold">আপনি এই কাজটি সম্পন্ন করেছেন। ধন্যবাদ!</p>
                         </div>
-                    ) : (notice.sendToAll || notice.recipients.some(recipient => recipient.userId === user?._id)) && (
+                    ) : (notice.sendToAll || notice.recipients.some(recipient => recipient.userId.toString() === user?._id.toString())) && (
                         <>
                             <textarea
                                 className="w-full border rounded p-2 mb-4"
@@ -194,6 +228,12 @@ const NoticeDetails = () => {
                 handleCloseModal={handleCloseNotCompletedModal}
                 title="অসম্পন্ন ব্যবহারকারী"
                 users={notCompletedUsers}
+            />
+            <UserListModal
+                showModal={showInactiveModal} // Modal for inactive users
+                handleCloseModal={handleCloseInactiveModal}
+                title="নিষ্ক্রিয় ব্যবহারকারী"
+                users={inActiveUsers}
             />
             {!notice.sendToAll && (
                 <UserListModal
