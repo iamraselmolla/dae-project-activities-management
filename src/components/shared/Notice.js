@@ -59,8 +59,8 @@ const Notice = ({ notice }) => {
             .map(user => ({
                 userId: {
                     _id: user._id,
-                    SAAO: { name: user.name },
-                    blockB: user.blockB
+                    SAAO: { name: user?.SAAO?.name },
+                    blockB: user?.blockB
                 }
             }));
     } else {
