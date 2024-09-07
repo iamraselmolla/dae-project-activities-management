@@ -55,7 +55,7 @@ Admins can schedule and manage training sessions for farmers. This includes sett
 
 #### Field Days
 
-Field days can be organized and managed within the application. Users can add details about the field day, including the date, location, and participants. They can also upload images and other relevant documents.
+Field days can be organized and managed within the application. Users can add details about the field day, including the date, location, presented officers, and participants. They can also upload images and other relevant documents.
 
 #### Materials Distribution
 
