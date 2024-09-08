@@ -93,7 +93,7 @@ Users can manage agricultural school sessions, including scheduling classes, tra
   - **Medium**
   - **Low**
 
-- **Targeting Notices:** Notices can be sent to all users or specific users as needed.
+- **Targeting Notices:** Notices can be sent to all users or specific users as needed as per needed.
 
 - **Comment Thread Management:** Admins can control the comment threads for each notice, allowing for efficient communication and tracking of discussions.
 
