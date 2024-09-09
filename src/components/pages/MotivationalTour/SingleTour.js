@@ -10,7 +10,7 @@ import { toBengaliNumber } from "bengali-number";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 
 const SingleTour = ({ tour }) => {
-  const { projectInfo, place, time, farmers, officers, comment, images } = tour;
+  const { projectInfo, place, time, farmers, comment, images } = tour;
   const { startDate, endDate } = time.date;
   const { fiscalYear, season } = time;
   const { role } = useContext(AuthContext);
@@ -32,9 +32,6 @@ const SingleTour = ({ tour }) => {
       </div>
       <div className="content-part px-3 py-2">
         <h2 className="text-md font-extrabold">{place}</h2>
-        <div className="flex items-center gap-2">
-          <BsFillPeopleFill /> <p>{officers}</p>
-        </div>
         <div>
           <div className="flex items-center gap-2">
             <GiFarmer />
