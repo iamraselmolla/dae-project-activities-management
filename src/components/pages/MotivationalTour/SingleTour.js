@@ -2,18 +2,15 @@ import React, { useContext } from "react";
 import { GiFarmer } from "react-icons/gi";
 import {
   BsCalendarDate,
-  BsFillPeopleFill,
   BsFillCloudSunFill,
 } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { toBengaliNumber } from "bengali-number";
-import { AuthContext } from "../../AuthContext/AuthProvider";
 
 const SingleTour = ({ tour }) => {
   const { projectInfo, place, time, farmers, comment, images } = tour;
   const { startDate, endDate } = time.date;
   const { fiscalYear, season } = time;
-  const { role } = useContext(AuthContext);
 
   const imagesArr = images.map((url) => ({
     original: url,

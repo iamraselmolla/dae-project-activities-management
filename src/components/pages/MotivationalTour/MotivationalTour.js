@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AddModuleButton from "../../shared/AddModuleButton";
 import { getAllMotivationalTours } from "../../../services/userServices";
 import toast from "react-hot-toast";
@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { toBengaliNumber } from "bengali-number";
 import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
 import NoContentFound from "../../shared/NoContentFound"
+import { AuthContext } from "../../AuthContext/AuthProvider";
 
 function MotivationalTour() {
   const { projects: allProjects } = useSelector((state) => state.dae);
@@ -20,6 +21,7 @@ function MotivationalTour() {
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
   const [filteredTours, setFilteredTours] = useState([]);
+  const { role } = useContext(AuthContext)
 
   useEffect(() => {
     const fetchTours = async () => {
@@ -99,10 +101,10 @@ function MotivationalTour() {
   return (
     <>
       <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <AddModuleButton
+        {role === 'admin' && <AddModuleButton
           link={"add-motivational-tour"}
           btnText={"উদ্বদ্ধরণ ভ্রমণ যুক্ত করুন"}
-        />
+        />}
         <SectionTitle
           title={`সকল উদ্বুদ্ধকরণ ভ্রমণ ${!loading ? `(${toBengaliNumber(filteredTours?.length)})` : ''}`}
         />
