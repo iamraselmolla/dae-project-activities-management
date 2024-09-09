@@ -100,25 +100,25 @@ const Training = () => {
   }, [search]);
 
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="container mx-auto px-4 py-8">
       <SectionTitle
         title={`সকল প্রশিক্ষণ ${loading ? '' : `(${toBengaliNumber(allTrainings?.length)})`}`}
       />
-      <div className="text-right mb-4">
+      <div className="flex justify-end mb-6">
         <AddModuleButton
           btnText="প্রশিক্ষণ যুক্ত করুন"
           link="addTraining"
         />
       </div>
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <div className="flex-1">
-          <label className="block font-semibold mb-2">প্রকল্পের পুরো নাম</label>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div>
+          <label className="block text-lg font-semibold mb-2">প্রকল্পের পুরো নাম</label>
           <select
             className="input input-bordered w-full"
             value={selectedProject}
             onChange={(e) => setSelectedProject(e.target.value)}
           >
-            <option value="" label="প্রকল্প সিলেক্ট করুন" />
+            <option value="">প্রকল্প সিলেক্ট করুন</option>
             {allProjects?.map((project) => (
               <option
                 key={project?.name?.details}
@@ -130,8 +130,8 @@ const Training = () => {
           </select>
         </div>
 
-        <div className="flex-1">
-          <label className="block font-semibold mb-2">অর্থবছর</label>
+        <div>
+          <label className="block text-lg font-semibold mb-2">অর্থবছর</label>
           <select
             className="input input-bordered w-full"
             value={fiscalYear}
@@ -142,8 +142,8 @@ const Training = () => {
           </select>
         </div>
 
-        <div className="flex-1">
-          <label className="block font-semibold mb-2">মৌসুম</label>
+        <div>
+          <label className="block text-lg font-semibold mb-2">মৌসুম</label>
           <select
             className="input input-bordered w-full"
             value={season}
@@ -162,7 +162,7 @@ const Training = () => {
           placeholder="খুঁজুন (প্রশিক্ষণের বিষয়, প্রকল্পের নাম, অর্থ বছর, মৌসুম, উপস্থিত কর্মকর্তার নাম)"
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {!loading && !error && filterAllTrainings.length > 0 && filterAllTrainings.map((singleTraining) => (
           <SingleTraining
             setReload={setReload}
@@ -173,7 +173,7 @@ const Training = () => {
         ))}
       </div>
       {loading && !error && (
-        <div className="flex justify-center items-center py-4">
+        <div className="flex justify-center items-center py-8">
           <LoaderWithOutDynamicMessage />
         </div>
       )}

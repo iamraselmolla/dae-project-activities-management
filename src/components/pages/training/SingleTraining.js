@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GiFarmer } from "react-icons/gi";
 import { BsCalendarDate, BsFillPeopleFill, BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
@@ -19,57 +19,49 @@ const SingleTraining = ({ data }) => {
     images
   } = data;
 
-  const imagesArr = [];
+  const [imagesArr, setImagesArr] = useState([]);
+
   useEffect(() => {
     if (images?.length > 0) {
-      for (const image of images) {
-        imagesArr.push({ original: image, thumbnail: image });
-      }
+      setImagesArr(images.map(image => ({ original: image, thumbnail: image })));
     }
-  }, [images, data]);
+  }, [images]);
 
   return (
-    <div
-      className={`rounded-lg border relative shadow-lg bg-white`}
-    >
-      <div className="relative w-full">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="relative">
         <ImageGallery
-          autoPlay={true}
+          autoPlay
           items={imagesArr}
-          showFullscreenButton={true}
+          showFullscreenButton
           showPlayButton={false}
-          showBullets={true}
+          showBullets
           showThumbnails={false}
           additionalClass="w-full"
+          lazyLoad
         />
       </div>
-      <div className="p-4">
-        <h2 className="text-xl font-bold mb-2">{subject}</h2>
-        <div className="text-base text-gray-700 mb-2">
-          <BsCalendarDate className="inline-block mr-1" size={18} />
+      <div className="p-6">
+        <h2 className="text-2xl font-semibold mb-2">{subject}</h2>
+        <div className="flex items-center text-gray-700 mb-3">
+          <BsCalendarDate className="mr-2" size={20} />
           {toBengaliNumber(new Date(date?.startDate).toLocaleDateString("bn-BD"))}
         </div>
-        <div className="flex items-center gap-2 mb-2">
-          <BsFillPeopleFill size={20} />
-          <p className="text-base font-medium">{guests}</p>
+        <div className="flex items-center text-gray-700 mb-3">
+          <BsFillPeopleFill className="mr-2" size={20} />
+          {toBengaliNumber(guests)} জন
         </div>
-        <div className="flex items-center gap-2 mb-2">
-          <GiFarmer size={20} />
-          <p className="text-base font-medium">
-            {toBengaliNumber(farmers?.male + farmers?.female)} জন (পুরুষ
-            {toBengaliNumber(farmers?.male)} জন, মহিলা
-            {toBengaliNumber(farmers?.female)} জন)
-          </p>
+        <div className="flex items-center text-gray-700 mb-3">
+          <GiFarmer className="mr-2" size={20} />
+          {toBengaliNumber(farmers?.male + farmers?.female)} জন (পুরুষ {toBengaliNumber(farmers?.male)} জন, মহিলা {toBengaliNumber(farmers?.female)} জন)
         </div>
-        <div className="flex items-center gap-2 mb-2">
-          <BsFillCloudSunFill size={20} />
-          <p className="text-base font-medium">
-            {season}/{fiscalYear}
-          </p>
+        <div className="flex items-center text-gray-700 mb-3">
+          <BsFillCloudSunFill className="mr-2" size={20} />
+          {season}/{fiscalYear}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center text-gray-700">
           <img src="images/project.png" alt="Project Icon" className="w-6 h-6 mr-2" />
-          <p className="text-base font-medium">{projectInfo?.details}</p>
+          <p>{projectInfo?.details}</p>
         </div>
       </div>
     </div>
