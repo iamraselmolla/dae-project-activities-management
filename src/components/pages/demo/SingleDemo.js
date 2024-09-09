@@ -34,10 +34,10 @@ const SingleDemo = ({ data }) => {
       <div className="relative">
         <ImageGallery autoPlay={true} items={imagesArr} showPlayButton={false} showFullscreenButton={false} />
         <div className="absolute top-3 left-3 flex items-center gap-2">
-          <span className="bg-teal-500 text-white px-3 py-1 rounded-full text-xs font-semibold uppercase shadow-md">{projectInfo?.short}</span>
+          <span className="theme-bg text-white px-3 py-1 rounded-full text-xs font-semibold uppercase shadow-md">{projectInfo?.short}</span>
         </div>
         <div className="absolute top-3 right-3 flex items-center gap-2">
-          <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold uppercase shadow-md">{demoInfo?.crop}</span>
+          <span className="theme-bg text-white px-3 py-1 rounded-full text-xs font-semibold uppercase shadow-md">{demoInfo?.crop}</span>
         </div>
       </div>
 
@@ -78,7 +78,7 @@ const SingleDemo = ({ data }) => {
         </div>
         <div className="mt-4">
           <Link
-            className="block text-center bg-teal-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-teal-700 transition-colors"
+            className="block text-center theme-bg text-white px-4 py-2 rounded-md shadow-md hover:bg-teal-700 transition-colors"
             to={`/demo/${data?._id}`}
           >
             বিস্তারিত দেখুন
