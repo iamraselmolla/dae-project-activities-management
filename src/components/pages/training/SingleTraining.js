@@ -1,13 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { GiFarmer } from "react-icons/gi";
-import {
-  BsCalendarDate,
-  BsFillPeopleFill,
-  BsFillCloudSunFill,
-} from "react-icons/bs";
+import { BsCalendarDate, BsFillPeopleFill, BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { toBengaliNumber } from "bengali-number";
 import { AuthContext } from "../../AuthContext/AuthProvider";
+import 'react-image-gallery/styles/css/image-gallery.css'; // Ensure to import ImageGallery CSS
 
 const SingleTraining = ({ data }) => {
   const { role } = useContext(AuthContext);
@@ -33,51 +30,46 @@ const SingleTraining = ({ data }) => {
 
   return (
     <div
-      className={`rounded-lg border bg-white ${role === "admin" ? "pb-12" : ""
-        } relative shadow-xl`}
+      className={`rounded-lg border relative shadow-lg bg-white`}
     >
-      <div className="relative">
-        <ImageGallery autoPlay={true} items={imagesArr} />
-        <div className="flex items-center absolute top-3">
-          <p className="px-2 py-1 bg-black text-white rounded-r-md ">
-            {projectInfo?.short}
-          </p>
-        </div>
-        <div className="flex items-center absolute top-3 right-0">
-          <p className="px-2 py-1 flex gap-2 items-center bg-black text-white rounded-l-md ">
-            <BsCalendarDate />
-            <div>
-              {toBengaliNumber(
-                new Date(date?.startDate).toLocaleDateString("bn-BD")
-              )}
-            </div>
-          </p>
-        </div>
+      <div className="relative w-full">
+        <ImageGallery
+          autoPlay={true}
+          items={imagesArr}
+          showFullscreenButton={true}
+          showPlayButton={false}
+          showBullets={true}
+          showThumbnails={false}
+          additionalClass="w-full"
+        />
       </div>
-      <div className="content-part px-3 py-2   ">
-        <h2 className="text-md font-extrabold">{subject}</h2>
-        <div className="flex items-center gap-2">
-          <BsFillPeopleFill /> <p>{guests}</p>
+      <div className="p-4">
+        <h2 className="text-xl font-bold mb-2">{subject}</h2>
+        <div className="text-base text-gray-700 mb-2">
+          <BsCalendarDate className="inline-block mr-1" size={18} />
+          {toBengaliNumber(new Date(date?.startDate).toLocaleDateString("bn-BD"))}
         </div>
-        <div>
-          <div className="flex items-center gap-2">
-            <GiFarmer />
-            <p>
-              {toBengaliNumber(farmers?.male + farmers?.female)} জন (পুরুষ
-              {toBengaliNumber(farmers?.male)} জন, মহিলা
-              {toBengaliNumber(farmers?.female)} জন)
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <BsFillCloudSunFill />
-            <p>
-              {season}/{fiscalYear}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <img src="images/project.png" alt="Project Icon" />
-            <p>{projectInfo?.details}</p>
-          </div>
+        <div className="flex items-center gap-2 mb-2">
+          <BsFillPeopleFill size={20} />
+          <p className="text-base font-medium">{guests}</p>
+        </div>
+        <div className="flex items-center gap-2 mb-2">
+          <GiFarmer size={20} />
+          <p className="text-base font-medium">
+            {toBengaliNumber(farmers?.male + farmers?.female)} জন (পুরুষ
+            {toBengaliNumber(farmers?.male)} জন, মহিলা
+            {toBengaliNumber(farmers?.female)} জন)
+          </p>
+        </div>
+        <div className="flex items-center gap-2 mb-2">
+          <BsFillCloudSunFill size={20} />
+          <p className="text-base font-medium">
+            {season}/{fiscalYear}
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <img src="images/project.png" alt="Project Icon" className="w-6 h-6 mr-2" />
+          <p className="text-base font-medium">{projectInfo?.details}</p>
         </div>
       </div>
     </div>
