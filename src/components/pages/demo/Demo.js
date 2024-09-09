@@ -232,7 +232,7 @@ const Demo = () => {
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <section className="container mx-auto px-4 py-8">
       <div className="text-right font-extrabold col-span-1">
         <SectionTitle
           title={`সকল প্রদর্শনী ${!loading ? `(${toBengaliNumber(filteredDemos?.length)})` : ''}`}
