@@ -35,7 +35,7 @@ const AllUsers = () => {
                   <p className="text-base font-medium text-gray-700">
                     উপঃ কৃষি কর্মকর্তাঃ {single?.SAAO?.name}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 blur">
                     মোবাইলঃ {single?.SAAO?.mobile}
                   </p>
                 </div>
