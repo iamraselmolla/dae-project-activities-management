@@ -100,7 +100,7 @@ function MotivationalTour() {
 
   return (
     <>
-      <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <section className="container mx-auto px-4 py-8">
         {role === 'admin' && <AddModuleButton
           link={"add-motivational-tour"}
           btnText={"উদ্বদ্ধরণ ভ্রমণ যুক্ত করুন"}
