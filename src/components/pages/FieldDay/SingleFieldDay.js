@@ -29,7 +29,7 @@ const SingleFieldDay = ({ data }) => {
   }, [images]);
 
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="bg-white shadow-lg transition-transform duration-500 linear transform hover:scale-105 rounded-lg overflow-hidden">
       <div className="relative">
         <ImageGallery autoPlay items={imagesArr} showThumbnails={false} />
         <div className="absolute top-2 left-2 theme-bg text-white px-3 py-1 rounded-full">
