@@ -30,7 +30,7 @@ const SingleDemo = ({ data }) => {
     ];
 
   return (
-    <div className={`bg-white shadow-lg rounded-lg overflow-hidden transition-transform duration-300 ease-in-out ${completed ? "border-4 border-green-500 transform scale-95" : ""}`}>
+    <div className={`bg-white shadow-lg rounded-lg overflow-hidden transition-transform duration-500 linear transform hover:scale-105 ${completed ? "border-4 border-green-500 transform scale-95" : ""}`}>
       <div className="relative">
         <ImageGallery autoPlay={true} items={imagesArr} showPlayButton={false} showFullscreenButton={false} />
         <div className="absolute top-3 left-3 flex items-center gap-2">
