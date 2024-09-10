@@ -40,7 +40,7 @@ const SingleProject = ({ single }) => {
           {/* Crops Info */}
           <div className="flex items-center gap-4 cursor-pointer" onClick={openModal}>
             <GiGrainBundle className="text-green-500 text-2xl" />
-            <span className="text-lg font-bold">{toBengaliNumber(single?.crops?.length)} Crops</span>
+            <span className="text-lg font-bold">{toBengaliNumber(single?.crops?.length)} প্রযুক্তি</span>
           </div>
           {/* Time Info */}
           <div className="flex items-center gap-4">
