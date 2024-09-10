@@ -149,7 +149,7 @@ const AllSchools = () => {
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <section className="container mx-auto px-4 py-8">
       <div className="text-right font-extrabold col-span-1">
         <AddModuleButton link={"add-school"} btnText={"স্কুল যুক্ত করুন"} />
 
