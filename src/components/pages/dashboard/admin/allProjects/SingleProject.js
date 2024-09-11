@@ -132,7 +132,7 @@ const SingleProject = ({ data, index }) => {
               <FaCalendarAlt className="text-red-500 mr-3 text-xl" />
               <div>
                 <h3 className="font-semibold">শেষের সম্ভাব্য তারিখ</h3>
-                <p>{toBengaliNumber(new Date(data?.time?.end).toLocaleDateString())}</p>
+                <p>{toBengaliNumber(new Date(data?.time?.end).toLocaleDateString("bn-BD"))}</p>
               </div>
             </div>
             <div className="flex items-center bg-gray-50 p-3 rounded-lg border border-purple-200">
@@ -171,7 +171,7 @@ const SingleProject = ({ data, index }) => {
               </button>
             </div>
             <button
-              className="btn bg-blue-500 text-white hover:bg-blue-600 w-full mt-4"
+              className="btn theme-bg text-white hover:bg-blue-600 w-full mt-4"
               onClick={handleAddCrop}
               disabled={loading}
             >
