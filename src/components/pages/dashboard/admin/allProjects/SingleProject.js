@@ -8,7 +8,8 @@ import { createRandomNumber } from "../../../../utilis/createRandomNumber";
 import { deleteAProject, markProjectComplete, updateProjectCrops } from "../../../../../services/userServices";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 
-import { FaEdit, FaTrashAlt, FaCheckCircle, FaSeedling, FaChevronDown, FaChevronUp, FaPlusCircle, FaTimes } from "react-icons/fa";
+import { FaEdit, FaTrashAlt, FaCheckCircle, FaSeedling, FaChevronDown, FaChevronUp, FaPlusCircle, FaTimes, FaCalendarAlt } from "react-icons/fa";
+import { FaEnvelope, FaUser, FaUsers, FaUserTie } from "react-icons/fa6";
 
 const SingleProject = ({ data, index }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -87,97 +88,120 @@ const SingleProject = ({ data, index }) => {
   };
 
   return (
-    <div className="card bg-base-100 shadow-xl mb-4">
-      <div className="card-body">
-        <h2 className="card-title flex justify-between cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
-          {data?.name?.details}
+    <div className={`bg-white rounded-lg shadow-lg overflow-hidden mb-6 transition-all duration-300 ease-in-out hover:shadow-xl ${data?.end ? 'border-l-8 border-green-500' : 'border border-gray-200'}`}>
+      <div className={`${data?.end ? 'bg-green-100' : 'bg-blue-50'} text-gray-800 p-4 cursor-pointer`} onClick={() => setIsExpanded(!isExpanded)}>
+        <h2 className="text-xl font-bold flex justify-between items-center">
+          <span className="flex items-center">
+            {data?.end ? (
+              <FaCheckCircle className="text-green-500 mr-2" />
+            ) : (
+              <div className="w-4 h-4 rounded-full bg-blue-500 mr-2"></div>
+            )}
+            {data?.name?.details}
+          </span>
           {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
         </h2>
-        {isExpanded && (
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-semibold">প্রকল্পের সংক্ষেপ নামঃ</h3>
-              <p>{data?.name?.short}</p>
+        <p className="text-sm opacity-75">{data?.name?.short}</p>
+      </div>
+      {isExpanded && (
+        <div className="p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
+              <h3 className="font-semibold flex items-center mb-4">
+                <FaUserTie className="mr-2 text-blue-600 text-3xl" /> প্রকল্প পরিচালক
+              </h3>
+              <p className="text-gray-700 text-lg">{data?.projectDetails?.PD}</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <h3 className="font-semibold">প্রকল্প পরিচালকের নামঃ</h3>
-                <p>{data?.projectDetails?.PD}</p>
-              </div>
-              <div>
-                <h3 className="font-semibold">মনিটরিং অফিসারদের নামঃ</h3>
-                <p>{data?.projectDetails?.monitoringOfficers}</p>
-              </div>
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
+              <h3 className="font-semibold flex items-center mb-4">
+                <FaUsers className="mr-2 text-green-600 text-3xl" /> মনিটরিং অফিসার
+              </h3>
+              <p className="text-gray-700 text-lg">{data?.projectDetails?.monitoringOfficers}</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex items-center bg-gray-50 p-3 rounded-lg border border-blue-200">
+              <FaCalendarAlt className="text-blue-500 mr-3 text-xl" />
               <div>
-                <h3 className="font-semibold">প্রকল্প শুরুর তারিখঃ</h3>
+                <h3 className="font-semibold">শুরুর তারিখ</h3>
                 <p>{toBengaliNumber(new Date(data?.time?.start).toLocaleDateString())}</p>
               </div>
+            </div>
+            <div className="flex items-center bg-gray-50 p-3 rounded-lg border border-red-200">
+              <FaCalendarAlt className="text-red-500 mr-3 text-xl" />
               <div>
-                <h3 className="font-semibold">প্রকল্প শেষের সম্ভাব্য তারিখঃ</h3>
+                <h3 className="font-semibold">শেষের সম্ভাব্য তারিখ</h3>
                 <p>{toBengaliNumber(new Date(data?.time?.end).toLocaleDateString())}</p>
               </div>
+            </div>
+            <div className="flex items-center bg-gray-50 p-3 rounded-lg border border-purple-200">
+              <FaEnvelope className="text-purple-500 mr-3 text-xl" />
               <div>
-                <h3 className="font-semibold">প্রকল্পের ই-মেইলঃ</h3>
+                <h3 className="font-semibold">ই-মেইল</h3>
                 <p>{data?.email}</p>
               </div>
             </div>
-            <div>
-              <h3 className="font-semibold mb-2">প্রদর্শনীর ধরণ / প্রযুক্তি:</h3>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {allCrops.map((crop, index) => (
-                  <span key={index} className="badge badge-secondary gap-1">
-                    <FaSeedling className="inline-block" />
-                    {crop}
-                    <FaTimes className="inline-block cursor-pointer" onClick={() => handleCropUpdate(index)} />
-                  </span>
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  placeholder="নতুন প্রযুক্তি যুক্ত করুন"
-                  className="input input-bordered w-full"
-                  value={crop}
-                  onChange={(e) => setCrop(e.target.value)}
-                />
-                <button className="btn btn-primary" onClick={handleCropAdding} disabled={!crop.trim()}>
-                  <FaPlusCircle className="mr-2" /> যুক্ত করুন
-                </button>
-              </div>
-              <button
-                className="btn btn-primary w-full mt-2"
-                onClick={handleAddCrop}
-                disabled={loading}
-              >
-                {loading ? (
-                  <span className="loading loading-spinner loading-sm"></span>
-                ) : (
-                  "প্রদর্শনীর ধরণ বা প্রযুক্তি সংরক্ষণ করুন"
-                )}
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {!data?.end && (
-                <Link to={`/dashboard/addproject?id=${data?._id}`}>
-                  <button className="btn btn-outline">
-                    <FaEdit className="mr-2" /> এডিট করুন
-                  </button>
-                </Link>
-              )}
-              <button className="btn btn-error" onClick={() => handleProjectDeleting(data?._id)}>
-                <FaTrashAlt className="mr-2" /> প্রকল্প মুছে দিন
-              </button>
-              {!data?.end && (
-                <button className="btn btn-success" onClick={() => handleProjectCompletion(data?._id)}>
-                  <FaCheckCircle className="mr-2" /> সমাপ্ত ঘোষণা করুন
-                </button>
-              )}
-            </div>
           </div>
-        )}
-      </div>
+
+          <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
+            <h3 className="font-semibold mb-4 flex items-center">
+              <FaSeedling className="mr-2 text-green-500 text-2xl" />
+              প্রদর্শনীর ধরণ / প্রযুক্তি
+            </h3>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {allCrops.map((crop, index) => (
+                <span key={index} className="bg-white px-3 py-2 rounded-full text-sm font-medium text-gray-700 shadow-sm border border-gray-200 flex items-center transition-all duration-200 hover:shadow-md hover:border-green-300">
+                  <FaSeedling className="mr-2 text-green-500" />
+                  {crop}
+                  <FaTimes className="ml-2 cursor-pointer text-red-500 hover:text-red-700" onClick={() => handleCropUpdate(index)} />
+                </span>
+              ))}
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                placeholder="নতুন প্রযুক্তি যুক্ত করুন"
+                className="input input-bordered w-full bg-white"
+                value={crop}
+                onChange={(e) => setCrop(e.target.value)}
+              />
+              <button className="btn bg-green-500 text-white hover:bg-green-600" onClick={handleCropAdding} disabled={!crop.trim()}>
+                <FaPlusCircle className="mr-2" /> যুক্ত করুন
+              </button>
+            </div>
+            <button
+              className="btn bg-blue-500 text-white hover:bg-blue-600 w-full mt-4"
+              onClick={handleAddCrop}
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : (
+                "প্রদর্শনীর ধরণ বা প্রযুক্তি সংরক্ষণ করুন"
+              )}
+            </button>
+          </div>
+
+          <div className="flex flex-wrap gap-4 justify-end">
+            {!data?.end && (
+              <Link to={`/dashboard/addproject?id=${data?._id}`}>
+                <button className="btn btn-outline border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors duration-300">
+                  <FaEdit className="mr-2" /> এডিট করুন
+                </button>
+              </Link>
+            )}
+            <button className="btn bg-red-500 text-white hover:bg-red-600 transition-colors duration-300" onClick={() => handleProjectDeleting(data?._id)}>
+              <FaTrashAlt className="mr-2" /> প্রকল্প মুছে দিন
+            </button>
+            {!data?.end && (
+              <button className="btn bg-green-500 text-white hover:bg-green-600 transition-colors duration-300" onClick={() => handleProjectCompletion(data?._id)}>
+                <FaCheckCircle className="mr-2" /> সমাপ্ত ঘোষণা করুন
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
