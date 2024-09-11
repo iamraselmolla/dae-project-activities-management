@@ -125,7 +125,7 @@ const SingleProject = ({ data, index }) => {
               <FaCalendarAlt className="text-blue-500 mr-3 text-xl" />
               <div>
                 <h3 className="font-semibold">শুরুর তারিখ</h3>
-                <p>{toBengaliNumber(new Date(data?.time?.start).toLocaleDateString())}</p>
+                <p>{toBengaliNumber(new Date(data?.time?.start).toLocaleDateString("bn-BD"))}</p>
               </div>
             </div>
             <div className="flex items-center bg-gray-50 p-3 rounded-lg border border-red-200">
