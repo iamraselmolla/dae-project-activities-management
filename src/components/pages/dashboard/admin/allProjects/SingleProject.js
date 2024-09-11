@@ -203,8 +203,9 @@ const SingleProject = ({ data, index }) => {
                 <FaCheckCircle className="mr-2" />
                 সম্পন্ন করুন
               </button>
+
               <Link
-                to={`/project/edit/${data?._id}`}
+                to={`/dashboard/addproject?id=${data?._id}`}
                 className="flex items-center px-4 py-2 bg-yellow-600 text-white rounded-lg font-semibold shadow hover:bg-yellow-700 transition-all duration-200"
               >
                 <FaEdit className="mr-2" />
