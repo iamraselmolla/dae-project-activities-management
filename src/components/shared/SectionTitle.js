@@ -1,9 +1,8 @@
 import React from 'react';
-
 const SectionTitle = ({ title }) => {
     return (
-        <div className="flex justify-center">
-            <h1 className="lg:text-4xl md:text-3xl text-2xl py-3 px-8  border-4  border-black inline-block mx-auto  mb-8 font-extrabold">
+        <div className="flex justify-center mb-8">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold theme-color bg-gradient-to-r from-[#38a169] via-[#16a34a] to-[#38a169] text-transparent bg-clip-text py-3 px-6 rounded-lg shadow-lg border theme-border border-2">
                 {title}
             </h1>
         </div>

@@ -4,6 +4,7 @@ import { FaSearch, FaPlus } from 'react-icons/fa';
 import { toBengaliNumber } from 'bengali-number';
 import SingleTrainingCard from './SingleTrainingCard';
 import FiscalYear from '../../../../shared/FiscalYear';
+import SectionTitle from '../../../../shared/SectionTitle';
 
 const AdminTrainings = () => {
     const dispatch = useDispatch();
@@ -32,8 +33,9 @@ const AdminTrainings = () => {
 
     return (
         <div className="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen p-8">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">সকল প্রশিক্ষণ ({toBengaliNumber(allTrainings?.length)})</h1>
-
+            <SectionTitle
+                title={`সকল প্রশিক্ষণ (${toBengaliNumber(allTrainings?.length)})`}
+            />
             <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                     <select
