@@ -69,7 +69,7 @@ const UserNotes = () => {
 
   // Handle click to display modal
   const handleNoteModal = (noteData) => {
-    document.getElementById("my_modal_3").showModal();
+    document.getElementById("my_modal_3")?.showModal();
     setModalData(noteData);
   };
 
