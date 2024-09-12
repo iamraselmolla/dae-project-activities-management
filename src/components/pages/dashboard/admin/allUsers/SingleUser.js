@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Field, Form, Formik } from "formik";
-import { BsEyeFill } from "react-icons/bs";
-import { RiEyeCloseLine } from "react-icons/ri";
-import UserTitle from "../../../../shared/UserTitle";
+import { FaEye, FaEyeSlash, FaUser, FaPhone, FaLock, FaBuilding, FaMapMarkerAlt } from "react-icons/fa";
 import { updateUser } from "../../../../../services/userServices";
 import toast from "react-hot-toast";
 
@@ -10,154 +8,155 @@ const SingleUser = ({ index, user }) => {
   const [name, setName] = useState(user?.SAAO?.name);
   const [mobile, setMobile] = useState(user?.SAAO?.mobile);
   const [password, setPassword] = useState(user?.password);
-  const [userValues, setUserValues] = useState({
-    ...user,
-  });
-
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (values) => {
     try {
-      const { _id } = values; // Extract values from the form or wherever they are stored
+      const { _id } = values;
       const updateData = { name, mobile, password };
-
-      const response = await updateUser(_id, updateData)
+      const response = await updateUser(_id, updateData);
       if (response.status === 200) {
-        toast.success("তথ্য আপডেট সম্পাদন হয়েছে।");
-
-        // Handle success
+        toast.success("তথ্য আপডেট সম্পাদন হয়েছে।");
       } else {
-        toast.error("ইউজার তথ্য আপডেট করতে সমস্যা হয়েছে।");
-        // Handle failure
+        toast.error("ইউজার তথ্য আপডেট করতে সমস্যা হয়েছে।");
       }
     } catch (error) {
-      console.error("একটি সমস্যা হয়েছে:", error);
-      // Handle error
+      console.error("একটি সমস্যা হয়েছে:", error);
+      toast.error("একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
     }
   };
 
-  const [show, setShow] = useState(false);
-  const handleToShow = (e) => {
-    e.preventDefault()
-    setShow(!show);
-  };
-
   return (
-    <>
-      <div className="collapse">
-        <input type="checkbox" />
-        <div className="collapse-title text-xl font-medium">
-          <UserTitle block={user?.blockB} union={user?.unionB} index={index} />
-        </div>
-        <div className="collapse-content">
-          <div className="mt-3">
-            <Formik
-              initialValues={user}
-              onSubmit={(values) => handleSubmit(values)} // Pass handleSubmit function here
-            >
-              {({ values, handleChange } // Destructure values and handleChange from Formik props
-              ) => (
-                <Form>
-                  <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4">
-                    <div>
-                      <label htmlFor={`block`}>ব্লকের নাম (ইংরেজী)</label>
-                      <Field
+    <div className="collapse collapse-arrow bg-blue-50 rounded-box mb-4">
+      <input type="checkbox" />
+      <div className="collapse-title text-xl font-medium flex items-center">
+        <FaBuilding className="mr-2" />
+        {user?.blockB} ব্লক - {user?.unionB} ইউনিয়ন
+      </div>
+      <div className="collapse-content">
+        <div className="card shadow-lg mt-4">
+          <div className="card-body">
+            <h2 className="card-title text-2xl mb-4">ইউজার তথ্য</h2>
+            <Formik initialValues={user} onSubmit={handleSubmit}>
+              {({ values }) => (
+                <Form className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text flex items-center font-semibold">
+                          <FaBuilding className="mr-2" />
+                          ব্লকের নাম (ইংরেজী)
+                        </span>
+                      </label>
+                      <input
                         type="text"
-                        id={`block`}
-                        name={`block`}
                         className="input input-bordered w-full"
+                        value={values.block}
                         readOnly
-                        value={userValues?.block}
                       />
                     </div>
-
-                    <div>
-                      <label htmlFor={`blockB`}>ব্লকের নাম (বাংলা)</label>
-                      <Field
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text flex items-center font-semibold">
+                          <FaBuilding className="mr-2" />
+                          ব্লকের নাম (বাংলা)
+                        </span>
+                      </label>
+                      <input
                         type="text"
-                        id={`blockB`}
-                        name={`blockB`}
                         className="input input-bordered w-full"
+                        value={values.blockB}
                         readOnly
-                        value={userValues?.blockB}
                       />
                     </div>
-
-                    <div>
-                      <label htmlFor={`union`}>ইউনিয়নের নাম (ইংরেজী)</label>
-                      <Field
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text flex items-center font-semibold">
+                          <FaMapMarkerAlt className="mr-2" />
+                          ইউনিয়নের নাম (ইংরেজী)
+                        </span>
+                      </label>
+                      <input
                         type="text"
-                        id={`union`}
-                        name={`union`}
                         className="input input-bordered w-full"
+                        value={values.union}
                         readOnly
-                        value={userValues?.union}
                       />
                     </div>
-
-                    <div>
-                      <label htmlFor={`unionB`}>ইউনিয়নের নাম (বাংলা)</label>
-                      <Field
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text flex items-center font-semibold">
+                          <FaMapMarkerAlt className="mr-2" />
+                          ইউনিয়নের নাম (বাংলা)
+                        </span>
+                      </label>
+                      <input
                         type="text"
-                        id={`unionB`}
-                        name={`unionB`}
                         className="input input-bordered w-full"
+                        value={values.unionB}
                         readOnly
-                        value={userValues?.unionB}
                       />
                     </div>
-                    <div>
-                      <label htmlFor={`username`}>ইউজার নাম</label>
-                      <Field
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text flex items-center font-semibold">
+                          <FaUser className="mr-2" />
+                          ইউজার নাম
+                        </span>
+                      </label>
+                      <input
                         type="text"
-                        id={`username`}
-                        name={`username`}
                         className="input input-bordered w-full"
+                        value={values.username}
                         readOnly
-                        value={userValues?.username}
                       />
                     </div>
-                    <div>
-                      <label htmlFor={`password`}> পাসওয়ার্ড</label>
-                      <div className="flex items-center input input-bordered w-full">
-                        <Field
-                          type={show ? "text" : "password"}
-                          id={`password`}
-                          name={`password`}
-                          className="w-full"
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text flex items-center font-semibold">
+                          <FaLock className="mr-2" />
+                          পাসওয়ার্ড
+                        </span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          className="input input-bordered w-full pr-12"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button className="right-0 pr-2" onClick={(e) => handleToShow(e)}>
-                          {show ? (
-                            <BsEyeFill className="text-slate-500" />
-                          ) : (
-                            <RiEyeCloseLine className="text-slate-500" />
-                          )}
+                        <button
+                          type="button"
+                          className="btn btn-ghost btn-sm absolute right-2 top-2 h-8 w-8"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
                       </div>
                     </div>
-                    <div>
-                      <label htmlFor={`SAAO.name`}>
-                        উপসহকারী কৃষি অফিসারের নাম
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text flex items-center font-semibold">
+                          <FaUser className="mr-2" />
+                          উপসহকারী কৃষি অফিসারের নাম
+                        </span>
                       </label>
-                      <Field
+                      <input
                         type="text"
-                        id={`SAAO.name`}
-                        name={`SAAO.name`} // Corrected name attribute
                         className="input input-bordered w-full"
-                        value={name} // Corrected value access
+                        value={name}
                         onChange={(e) => setName(e.target.value)}
                       />
                     </div>
-
-                    <div>
-                      <label htmlFor={`SAAO.mobile`}>
-                        উপসহকারী কৃষি অফিসারের মোবাইল নং
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text flex items-center font-semibold">
+                          <FaPhone className="mr-2" />
+                          উপসহকারী কৃষি অফিসারের মোবাইল নং
+                        </span>
                       </label>
-                      <Field
-                        type="number"
-                        id={`SAAO.mMobile`}
-                        name={`SAAO.mobile`}
+                      <input
+                        type="tel"
                         className="input input-bordered w-full"
                         value={mobile}
                         onChange={(e) => setMobile(e.target.value)}
@@ -166,9 +165,9 @@ const SingleUser = ({ index, user }) => {
                   </div>
                   <button
                     type="submit"
-                    className="btn btn-success text-white mt-4"
+                    className="btn btn-primary w-full mt-4 hover:bg-blue-600 transition-colors"
                   >
-                    {user?.blockB} ব্লকের ইউজার তথ্য আপডেট সম্পাদন করুন
+                    {values.blockB} ব্লকের ইউজার তথ্য আপডেট সম্পাদন করুন
                   </button>
                 </Form>
               )}
@@ -176,7 +175,7 @@ const SingleUser = ({ index, user }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

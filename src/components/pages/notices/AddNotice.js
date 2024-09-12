@@ -6,8 +6,10 @@ import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SectionTitle from '../../shared/SectionTitle';
 import { createANotice, findASingleNotice, updateNotice } from '../../../services/userServices';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage"
+import { daeAction } from '../../store/projectSlice';
+import { createRandomNumber } from '../../utilis/createRandomNumber';
 
 const AddNotice = () => {
     const { blockAndUnions: users } = useSelector(state => state.dae);
@@ -19,6 +21,7 @@ const AddNotice = () => {
     const navigate = useNavigate();
     const noticeId = new URLSearchParams(location.search).get('id');
     const [loading, setLoading] = useState(noticeId ? true : false);
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (noticeId) {
@@ -94,6 +97,7 @@ const AddNotice = () => {
                 if (result?.status === 200) {
                     toast.success(result?.data?.message);
                     resetForm();
+                    dispatch(daeAction.setRefetch(`notice${createRandomNumber()}`));
                     navigate('/notices');
                 }
             } catch (error) {

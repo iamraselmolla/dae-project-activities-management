@@ -1,19 +1,20 @@
-import React, { useContext } from "react";
+import React from "react";
 import { GiFarmer } from "react-icons/gi";
-import {
-  BsCalendarDate,
-  BsFillPeopleFill,
-  BsFillCloudSunFill,
-} from "react-icons/bs";
+import { BsCalendarDate, BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { toBengaliNumber } from "bengali-number";
-import { AuthContext } from "../../AuthContext/AuthProvider";
+import "react-image-gallery/styles/css/image-gallery.css";
+
+const formatDateToBengali = (dateString) => {
+  const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  const date = new Date(dateString);
+  return date.toLocaleDateString('bn-BD', options);
+};
 
 const SingleTour = ({ tour }) => {
-  const { projectInfo, place, time, farmers, officers, comment, images } = tour;
+  const { projectInfo, place, time, farmers, comment, images } = tour;
   const { startDate, endDate } = time.date;
   const { fiscalYear, season } = time;
-  const { role } = useContext(AuthContext);
 
   const imagesArr = images.map((url) => ({
     original: url,
@@ -21,52 +22,42 @@ const SingleTour = ({ tour }) => {
   }));
 
   return (
-    <div className={`rounded-lg bg-white border relative shadow-xl`}>
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
       <div className="relative">
-        <ImageGallery autoPlay={true} items={imagesArr} />
-        <div className="flex items-center absolute top-3">
-          <p className="px-2 py-1 bg-black text-white rounded-r-md ">
-            {projectInfo?.short}
+        <ImageGallery
+          autoPlay
+          items={imagesArr}
+          showThumbnails={false}
+          showPlayButton={false}
+          showFullscreenButton={false}
+        />
+        <div className="absolute top-4 left-4 theme-bg text-white px-3 py-1 rounded-full">
+          {projectInfo?.short}
+        </div>
+      </div>
+      <div className="p-4">
+        <h2 className="text-xl font-bold mb-2 text-gray-800">{place}</h2>
+        <div className="flex items-center text-gray-600 mb-2">
+          <GiFarmer className="text-green-500 text-2xl mr-2" />
+          <p>{toBengaliNumber(farmers)} জন</p>
+        </div>
+        <div className="flex items-center text-gray-600 mb-2">
+          <BsFillCloudSunFill className="text-yellow-500 text-2xl mr-2" />
+          <p>{season}/{fiscalYear}</p>
+        </div>
+        <div className="flex items-center text-gray-600 mb-2">
+          <BsCalendarDate className="text-blue-500 text-2xl mr-2" />
+          <p>
+            {formatDateToBengali(startDate)} - {formatDateToBengali(endDate)}
           </p>
         </div>
-      </div>
-      <div className="content-part px-3 py-2">
-        <h2 className="text-md font-extrabold">{place}</h2>
-        <div className="flex items-center gap-2">
-          <BsFillPeopleFill /> <p>{officers}</p>
+        <div className="flex items-center text-gray-600 mb-4">
+          <img src="images/project.png" alt="Project Icon" className="w-8 h-8 mr-2" />
+          <p>{projectInfo?.details}</p>
         </div>
-        <div>
-          <div className="flex items-center gap-2">
-            <GiFarmer />
-            <p>{toBengaliNumber(farmers)}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <BsFillCloudSunFill />
-            <p>
-              {season}/{fiscalYear}
-            </p>
-          </div>
-          <div className="flex gap-2 items-center">
-            <BsCalendarDate />
-            <div>
-              {toBengaliNumber(
-                new Date(startDate).toLocaleString("bn-BD", {
-                  day: "numeric",
-                  month: "numeric",
-                  year: "numeric",
-                })
-              )}{" "}
-              - {toBengaliNumber(new Date(endDate).toLocaleDateString())}
-            </div>
-          </div>
-          <div className="flex items-center mt-3 gap-2">
-            <img src="images/project.png" alt="Project Icon" />
-            <p>{projectInfo?.details}</p>
-          </div>
+        <div className="bg-gray-100 p-4 rounded-lg mt-4 text-gray-700">
+          <p>{comment}</p>
         </div>
-      </div>
-      <div className="px-3 py-2">
-        <p>{comment}</p>
       </div>
     </div>
   );

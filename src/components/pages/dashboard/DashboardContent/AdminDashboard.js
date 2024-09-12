@@ -8,8 +8,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Line,
   LineChart,
+  Line,
   AreaChart,
   Area,
 } from "recharts";
@@ -64,52 +64,52 @@ const AdminDashboard = () => {
 
   const cards = [
     {
-      icon: <GoProject />,
+      icon: <GoProject className="text-2xl text-white" />,
       count: runningProjects,
       text: "চলমান প্রকল্প",
-      backgroundColor: "#ffe2e6", // Light pink
+      backgroundColor: "#ffb3b3", // Light pink
     },
     {
-      icon: <GrCheckboxSelected />,
+      icon: <GrCheckboxSelected className="text-2xl text-white" />,
       count: projects?.length - runningProjects,
       text: "সম্পন্ন প্রকল্প",
-      backgroundColor: "#fff4de", // Light yellow
+      backgroundColor: "#ffe3b3", // Light yellow
     },
     {
-      icon: <FaUser />,
+      icon: <FaUser className="text-2xl text-white" />,
       count: users?.length,
       text: "ইউজার",
-      backgroundColor: "#dcfce7", // Light green
+      backgroundColor: "#d9fbd3", // Light green
     },
     {
-      icon: <GiDiscussion />,
+      icon: <GiDiscussion className="text-2xl text-white" />,
       count: trainings?.length,
       text: "প্রশিক্ষণ",
-      backgroundColor: "#f4e8ff", // Light purple
+      backgroundColor: "#e2c6ff", // Light purple
     },
     {
-      icon: <GoNote />,
+      icon: <GoNote className="text-2xl text-white" />,
       count: notes?.length - completedNotes,
       text: "অসম্পন্ন নোটস",
-      backgroundColor: "#a9cded", // Light blue
+      backgroundColor: "#b3d9ff", // Light blue
     },
     {
-      icon: <AiOutlineFileDone />,
+      icon: <AiOutlineFileDone className="text-2xl text-white" />,
       count: completedNotes,
       text: "সম্পন্ন নোটস",
-      backgroundColor: "#c4ff8b", // Light green
+      backgroundColor: "#d1fbd0", // Light green
     },
     {
-      icon: <MdTour />,
+      icon: <MdTour className="text-2xl text-white" />,
       count: tours?.length,
       text: "উদ্বুদ্ধকরণ ভ্রমণ",
-      backgroundColor: "#ffdbdb", // Light red
+      backgroundColor: "#ffb3b3", // Light red
     },
     {
-      icon: <MdAgriculture />,
+      icon: <MdAgriculture className="text-2xl text-white" />,
       count: distributions?.length,
       text: "উপকরণ বিতরণ",
-      backgroundColor: "#fde2a8", // Light orange
+      backgroundColor: "#ffebcc", // Light orange
     }
   ];
 
@@ -117,72 +117,52 @@ const AdminDashboard = () => {
     return {
       name: single,
       uv: trainings?.filter(singleTraining => singleTraining?.season === single && singleTraining?.fiscalYear === runningFiscalYear).length,
-
     }
   });
   const allProjectsDistributionsDataArray = seasonsArr.map(single => {
     return {
       name: single,
       pv: distributions?.filter(singleDistribution => singleDistribution?.time.season === single && singleDistribution?.time.fiscalYear === runningFiscalYear).length,
-
     }
   });
 
-
-
   return (
-    <section className="py-5">
-      <div className="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5 w-full">
-        <div className="grid bg-white p-4 rounded-xl grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-3 w-full">
+    <section className="py-8 px-4 bg-gray-50">
+      <div className="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5 w-full mb-8">
+        <div className="grid bg-white p-6 rounded-lg shadow-lg grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
           {cards.map((card, index) => (
             <DashboardCard key={index} {...card} />
           ))}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 mt-8 md:grid-cols-2 gap-8">
-        <div className="h-64 pb-16 pt-4 px-2 bg-white rounded-xl">
-          <h2 className="font-extrabold text-center text-xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="bg-white rounded-lg shadow-lg p-4">
+          <h2 className="font-bold text-xl text-gray-800 mb-4">
             {toBengaliNumber(getFiscalYear())} অর্থবছরের প্রশিক্ষণ
           </h2>
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width="100%" height={300}>
             <LineChart
-              width={500}
-              height={200}
               data={allProjectsFieldDaysDataArray}
-              syncId="anyId"
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Line type="monotone" dataKey="uv" stroke="#82ca9d" fill="#82ca9d" />
+              <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="h-64 pb-16 pt-4 px-2 bg-white rounded-xl">
-          <h2 className="font-extrabold text-center text-xl">
+        <div className="bg-white rounded-lg shadow-lg p-4">
+          <h2 className="font-bold text-xl text-gray-800 mb-4">
             {toBengaliNumber(getFiscalYear())} অর্থবছরের উপকরণ বিতরণ
           </h2>
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width="100%" height={300}>
             <AreaChart
-              width={500}
-              height={200}
               data={allProjectsDistributionsDataArray}
-              syncId="anyId2"
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
@@ -194,21 +174,14 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <div className="h-96 mt-12 bg-white rounded-xl">
-        <h2 className="font-extrabold pt-5 text-center text-xl">
+      <div className="bg-white rounded-lg shadow-lg mt-12 p-4">
+        <h2 className="font-bold text-xl text-gray-800 mb-4">
           নোটস
         </h2>
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height={400}>
           <BarChart
-            width={500}
-            height={600}
             data={data}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
@@ -220,7 +193,6 @@ const AdminDashboard = () => {
           </BarChart>
         </ResponsiveContainer>
       </div>
-
     </section>
   );
 };

@@ -1,12 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaMobileAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { BsFillCloudSunFill } from "react-icons/bs";
+import { CiCalendarDate } from "react-icons/ci";
 import ImageGallery from "react-image-gallery";
 import { toBengaliNumber } from "bengali-number";
-import { CiCalendarDate } from "react-icons/ci";
+import "react-image-gallery/styles/css/image-gallery.css";
 
-const SingleDemo = ({ data }) => {
+const formatDateToBengali = (dateString) => {
+  const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  const date = new Date(dateString);
+  return date.toLocaleDateString('bn-BD', options);
+};
+
+const SingleDaeGroupMeeting = ({ data }) => {
   const {
     address,
     createdAt,
@@ -17,64 +24,80 @@ const SingleDemo = ({ data }) => {
     SAAO,
   } = data;
 
-  const imagesArr = [];
+  const [imagesArr, setImagesArr] = useState([]);
+  const [isDiscussionOpen, setIsDiscussionOpen] = useState(false);
+
   useEffect(() => {
     if (images?.length > 0) {
-      for (const image of images) {
-        imagesArr.push({ original: image, thumbnail: image });
-      }
+      setImagesArr(images.map((image) => ({ original: image, thumbnail: image })));
     }
   }, [images]);
 
-  // console.log(imagesArr)
   return (
-    <div className="rounded-lg border bg-white relative shadow-xl">
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
       <div className="relative">
-        <ImageGallery autoPlay={true} items={imagesArr} />
+        {imagesArr.length > 0 ? (
+          <ImageGallery
+            items={imagesArr}
+            autoPlay
+            showThumbnails={false}
+            showPlayButton={false}
+            showFullscreenButton={false}
+          />
+        ) : (
+          <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
+            <span className="text-gray-500">No Images Available</span>
+          </div>
+        )}
       </div>
-
-      <div className="content-part px-3 py-2   ">
-        <h2 className="text-xl mb-3 font-extrabold">{groupInfo?.name}</h2>
-        <div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-4">
-              <FaMobileAlt /> <p>{toBengaliNumber(groupInfo?.mobile)}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <div>
-              <CiCalendarDate />
-            </div>
-            <p>
-              {toBengaliNumber(time?.date?.startDate)}, {time?.day}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div>
-              <MdLocationPin />
-            </div>
-            <p>
-              স্থানঃ {groupInfo?.place}, গ্রামঃ {address?.village}, ব্লকঃ
-              {address?.block}, ইউনিয়নঃ {address?.union}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div>
-              <BsFillCloudSunFill />
-            </div>
-            <p>খরিপ-১/২০২৩-২৪</p>
-          </div>
-
-          <div className="mt-3">আলোচ্য বিষয়ঃ {discussion}</div>
-          <h2 className="text-xl mt-4 font-extrabold">
-            উপসহকারী কৃষি কর্মকর্তার তথ্য
-          </h2>
-          <div className="mt-2">নামঃ {SAAO.name}</div>
-          <div className="mt-1">মোবাইলঃ {toBengaliNumber(SAAO.mobile)}</div>
+      <div className="p-4">
+        <h2 className="text-2xl font-bold mb-3">{groupInfo?.name}</h2>
+        <div className="flex items-center text-gray-600 mb-2">
+          <FaMobileAlt className="text-blue-500 mr-2" />
+          <p>{toBengaliNumber(groupInfo?.mobile)}</p>
+        </div>
+        <div className="flex items-center text-gray-600 mb-2">
+          <CiCalendarDate className="text-yellow-500 mr-2" />
+          <p>{formatDateToBengali(time?.date?.startDate)}, {time?.day}</p>
+        </div>
+        <div className="flex items-center text-gray-600 mb-2">
+          <MdLocationPin className="text-red-500 mr-2" />
+          <p>
+            স্থানঃ {groupInfo?.place}, গ্রামঃ {address?.village}, ব্লকঃ {address?.block}, ইউনিয়নঃ {address?.union}
+          </p>
+        </div>
+        <div className="flex items-center text-gray-600 mb-2">
+          <BsFillCloudSunFill className="text-green-500 mr-2" />
+          <p>মৌসুমঃ {time?.season} | অর্থবছরঃ {time?.fiscalYear}</p>
+        </div>
+        <div className="bg-gray-100 p-4 rounded-lg mt-4">
+          <button
+            onClick={() => setIsDiscussionOpen(!isDiscussionOpen)}
+            className="flex items-center text-blue-500 hover:text-blue-700 mb-2 focus:outline-none"
+          >
+            <svg
+              className={`w-5 h-5 mr-2 transition-transform ${isDiscussionOpen ? 'rotate-180' : 'rotate-0'}`}
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+            </svg>
+            <span>{isDiscussionOpen ? 'বন্ধ করুন' : 'আলোচ্য বিষয়গুলি দেখুন'}</span>
+          </button>
+          {isDiscussionOpen && (
+            <p>{discussion}</p>
+          )}
+        </div>
+        <h2 className="text-xl font-bold mt-6 mb-3">উপসহকারী কৃষি কর্মকর্তার তথ্য</h2>
+        <div className="text-gray-700">
+          <div className="mb-1">নামঃ {SAAO.name}</div>
+          <div>মোবাইলঃ {toBengaliNumber(SAAO?.mobile)}</div>
         </div>
       </div>
     </div>
   );
 };
 
-export default SingleDemo;
+export default SingleDaeGroupMeeting;

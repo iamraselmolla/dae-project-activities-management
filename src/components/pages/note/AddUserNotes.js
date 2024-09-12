@@ -10,8 +10,10 @@ import Season from "../../shared/Season";
 import Datepicker from "react-tailwindcss-datepicker";
 import { AuthContext } from "../../AuthContext/AuthProvider";
 import SectionTitle from "../../shared/SectionTitle";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LoaderWithOutDynamicMessage from "../../shared/LoaderWithOutDynamicMessage";
+import { daeAction } from "../../store/projectSlice";
+import { createRandomNumber } from "../../utilis/createRandomNumber";
 
 const AddNotes = () => {
   const { user } = useContext(AuthContext);
@@ -20,6 +22,7 @@ const AddNotes = () => {
     startDate: "",
     endDate: "",
   });
+  const dispatch = useDispatch();
   const { projects: allProject } = useSelector((state) => state.dae);
   const initialValues = {
     projectInfo: {
@@ -128,6 +131,7 @@ const AddNotes = () => {
       const result = await createANote(data);
       if (result.status === 200) {
         toast.success(result?.data?.message);
+        dispatch(daeAction.setRefetch(`notes${createRandomNumber()}`));
         formikBag.resetForm();
 
       }
