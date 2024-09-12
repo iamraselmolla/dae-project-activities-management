@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FaSearch, FaPlus } from 'react-icons/fa';
 import { toBengaliNumber } from 'bengali-number';
 import SingleTrainingCard from './SingleTrainingCard';
-import { daeAction } from '../../../../store/projectSlice';
+import FiscalYear from '../../../../shared/FiscalYear';
 
 const AdminTrainings = () => {
     const dispatch = useDispatch();
@@ -54,7 +54,8 @@ const AdminTrainings = () => {
                         onChange={(e) => setFiscalYear(e.target.value)}
                     >
                         <option value="">অর্থবছর সিলেক্ট করুন</option>
-                        {/* Add fiscal year options here */}
+                        <FiscalYear />
+
                     </select>
                     <select
                         className="input input-bordered w-full"

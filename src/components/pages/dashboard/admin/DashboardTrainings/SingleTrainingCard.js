@@ -32,7 +32,7 @@ const SingleTrainingCard = ({ training, index }) => {
   const imagesArr = training.images?.map(image => ({ original: image, thumbnail: image })) || [];
 
   return (
-    <div className="bg-blue-50 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
       <div className="p-6">
         <h2 className="text-2xl font-semibold text-gray-900 mb-2">{training.subject}</h2>
         <p className="text-sm text-gray-600 mb-4">{training.projectInfo?.short}</p>
