@@ -5,6 +5,7 @@ import { toBengaliNumber } from 'bengali-number';
 import SingleTrainingCard from './SingleTrainingCard';
 import FiscalYear from '../../../../shared/FiscalYear';
 import SectionTitle from '../../../../shared/SectionTitle';
+import Season from '../../../../shared/Season';
 
 const AdminTrainings = () => {
     const dispatch = useDispatch();
@@ -64,8 +65,7 @@ const AdminTrainings = () => {
                         value={season}
                         onChange={(e) => setSeason(e.target.value)}
                     >
-                        <option value="">মৌসুম সিলেক্ট করুন</option>
-                        {/* Add season options here */}
+                        <Season />
                     </select>
                     <div className="relative">
                         <input
