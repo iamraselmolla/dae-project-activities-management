@@ -38,7 +38,7 @@ const DashboardLayout = () => {
         toast.error("নোটসগুলো সার্ভার থেকে আনতে অসুবিধা হচ্ছে।");
       }
     };
-    if (refetch === "all" || refetch.includes('notes')) {
+    if (refetch === "all" || refetch.includes('notice')) {
       fetchNotes();
     }
 

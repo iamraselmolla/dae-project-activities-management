@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { deleteAnote } from "../../../../../services/userServices";
-import { AiOutlineFileDone } from "react-icons/ai";
+import { AiOutlineFileDone, AiOutlineSearch } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
-import UserNoteTH from "./UserNoteTH";
-import UserNoteTD from "./UserNoteTD";
+import { BsFillPersonFill, BsFillPhoneFill, BsFillInfoCircleFill } from "react-icons/bs";
 import { toBengaliNumber } from "bengali-number";
 import { makeSureOnline } from "../../../../shared/MessageConst";
 import SectionTitle from "../../../../shared/SectionTitle";
@@ -39,7 +38,7 @@ const UserNotes = () => {
         incompletedNotes.filter((note) => note.purpose.target === selectedPurpose)
       );
     }
-  }, [selectedPurpose, incompletedNotes, allNotes]);
+  }, [selectedPurpose, incompletedNotes]);
 
   // Delete a Note of User
   const handleNoteDeletion = async (userNotetobeDeleted) => {
@@ -56,7 +55,6 @@ const UserNotes = () => {
               if (result?.status === 200) {
                 toast.success(result?.data?.message);
                 dispatch(daeAction.setRefetch(`notes${createRandomNumber()}`));
-
               }
             } catch (err) {
               toast.error("নোটটি মুছতে সাময়িক অসুবিধার সৃষ্টি হচ্ছে।");
@@ -81,13 +79,20 @@ const UserNotes = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="mt-10 overflow-x-auto">
-        <div className="p-1.5 min-w-full inline-block align-middle">
-          <AddModuleButton link={"dashboard/add-note"} btnText={"নোট যুক্ত করুন"} />
+    <div className="flex flex-col p-4">
+      <div className="space-y-6">
+        <AddModuleButton link={"dashboard/add-note"} btnText={"নোট যুক্ত করুন"} />
+
+        {/* Search and Filter */}
+        <div className="flex justify-between items-center mb-4">
           <SectionTitle title={`অসম্পন্ন নোট (${toBengaliNumber(incompletedNotes?.length)})`} />
-          <div>
-            <select className="input input-bordered w-full" onChange={handlePurposeSelection}>
+          <div className="flex items-center gap-4">
+            <input
+              type="text"
+              placeholder="নোট খুঁজুন..."
+              className="input input-bordered w-full max-w-xs"
+            />
+            <select className="input input-bordered" onChange={handlePurposeSelection}>
               <option value="" label="উদ্দেশ্য নির্বাচন করুন" />
               <option value="প্রদর্শনী দেওয়া">প্রদর্শনী দেওয়া</option>
               <option value="প্রশিক্ষণে নাম দেয়া">প্রশিক্ষণে নাম দেয়া</option>
@@ -97,214 +102,135 @@ const UserNotes = () => {
               <option value="উপকরণ বিতরণ">উপকরণ বিতরণ</option>
             </select>
           </div>
-          <div className="border mt-6 rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900 mb-16">
-            <>
-              <table className="min-w-full divide-y bg-white  divide-gray-200 dark:divide-gray-700">
-                {/* Table Header */}
-                <thead>
-                  <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
-                    <UserNoteTH text="ক্রমিক নং" />
-                    <UserNoteTH text="উদ্দেশ্য" />
-                    <UserNoteTH text="প্রকল্প" />
-                    <UserNoteTH text="কৃষকের নাম ও পিতার নাম" />
-                    <UserNoteTH text="মোবাইল ও NID" />
-                    <UserNoteTH text="গ্রাম" />
-                    <UserNoteTH text="অর্থবছর ও মৌসুম" />
-                    <UserNoteTH text="তারিখ" />
-                    <UserNoteTH text="SAAO-এর নাম ও মোবাইল নং" />
-                    <UserNoteTH text="কার্য মন্তব্য" />
-                    <UserNoteTH text="একশন" />
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {/* Table Body */}
-                  {filteredIncompletedNotes?.length > 0 &&
-                    filteredIncompletedNotes?.map((singleNote, index) => (
-                      <tr
-                        key={singleNote?._id}
-                        className="divide-x divide-gray-200 dark:divide-gray-700"
-                      >
-                        <UserNoteTD text={toBengaliNumber(index + 1)} />
-                        <UserNoteTD text={singleNote?.purpose?.target} />
-                        <UserNoteTD text={singleNote?.projectInfo?.short} />
-                        <UserNoteTD
-                          text={
-                            singleNote?.farmersInfo?.name +
-                            `\n` +
-                            singleNote?.farmersInfo?.fathersOrHusbandName
-                          }
-                        />
-                        <UserNoteTD
-                          text={
-                            singleNote?.farmersInfo.mobile +
-                            `\n` +
-                            singleNote?.farmersInfo?.NID
-                          }
-                        />
-                        <UserNoteTD text={singleNote?.address?.village} />
-                        <UserNoteTD
-                          text={
-                            singleNote?.timeFrame?.season +
-                            "\n" +
-                            toBengaliNumber(singleNote?.timeFrame?.fiscalYear)
-                          }
-                        />
-                        <UserNoteTD
-                          text={toBengaliNumber(
-                            new Date(
-                              singleNote?.purpose?.date
-                            ).toLocaleDateString("bn-BD", {
-                              weekday: "long", // Specify to include the full day name
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                            })
-                          )}
-                        />
-                        <UserNoteTD
-                          text={
-                            singleNote?.SAAO?.name +
-                            "\n" +
-                            toBengaliNumber(singleNote?.SAAO?.mobile)
-                          }
-                        />
-                        <UserNoteTD text={singleNote?.comment?.noteComment} />
+        </div>
 
-                        <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
-                          <span className="cursor-pointer">
-                            {!singleNote?.done && (
-                              <AiOutlineFileDone
-                                onClick={() => handleNoteModal(singleNote)}
-                                size={35}
-                                color="green"
-                              />
-                            )}
-                          </span>
-                          <span className="cursor-pointer">
-                            <MdOutlineDelete
-                              onClick={() => handleNoteDeletion(singleNote)}
-                              size={35}
-                              color="red"
-                            />
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-              {filteredIncompletedNotes?.length < 1 && (
-                <NoContentFound text={" কোনো অসম্পন্ন নোট খুজে পাওয়া যায়নি!"} />
-              )}
-            </>
-          </div>
+        {/* Incomplete Notes Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredIncompletedNotes?.length > 0 ? (
+            filteredIncompletedNotes?.map((singleNote, index) => (
+              <div
+                key={singleNote?._id}
+                className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col gap-3"
+              >
+                <div className="flex justify-between items-center">
+                  <div className="font-bold text-lg">
+                    {toBengaliNumber(index + 1)}. {singleNote?.purpose?.target}
+                  </div>
+                  <div className="flex gap-2">
+                    <AiOutlineFileDone
+                      onClick={() => handleNoteModal(singleNote)}
+                      size={25}
+                      className="text-green-500 cursor-pointer"
+                    />
+                    <MdOutlineDelete
+                      onClick={() => handleNoteDeletion(singleNote)}
+                      size={25}
+                      className="text-red-500 cursor-pointer"
+                    />
+                  </div>
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  <div className="flex items-center gap-2">
+                    <BsFillPersonFill size={16} className="text-blue-500" />
+                    <span className="font-semibold">নাম: </span>{singleNote?.farmersInfo?.name || "N/A"}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BsFillPersonFill size={16} className="text-purple-500" />
+                    <span className="font-semibold">পিতার নাম: </span>{singleNote?.farmersInfo?.fatherName || "N/A"}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BsFillInfoCircleFill size={16} className="text-green-500" />
+                    <span className="font-semibold">NID: </span>{singleNote?.farmersInfo?.nid || "N/A"}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BsFillPhoneFill size={16} className="text-red-500" />
+                    <span className="font-semibold">মোবাইল: </span>{singleNote?.farmersInfo?.mobile || "N/A"}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BsFillInfoCircleFill size={16} className="text-teal-500" />
+                    <span className="font-semibold">ঠিকানা: </span>{singleNote?.address?.village || "N/A"}
+                  </div>
+                </div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">
+                  {toBengaliNumber(
+                    new Date(singleNote?.purpose?.date).toLocaleDateString("bn-BD", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <NoContentFound text={" কোনো অসম্পন্ন নোট খুজে পাওয়া যায়নি!"} />
+          )}
+        </div>
 
-          {/* Completed Notes Table */}
-          <SectionTitle title={`সম্পন্ন নোট (${toBengaliNumber(completedNotes?.length)})`} />
-          <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-            <>
-              <table className="min-w-full bg-white  divide-y divide-gray-200 dark:divide-gray-700">
-                <thead>
-                  <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
-                    <UserNoteTH text="ক্রমিক নং" />
-                    <UserNoteTH text="উদ্দেশ্য" />
-                    <UserNoteTH text="প্রকল্প" />
-                    <UserNoteTH text="কৃষকের নাম ও পিতার নাম" />
-                    <UserNoteTH text="মোবাইল ও NID" />
-                    <UserNoteTH text="গ্রাম" />
-                    <UserNoteTH text="অর্থবছর ও মৌসুম" />
-                    <UserNoteTH text="তারিখ" />
-                    <UserNoteTH text="কার্য মন্তব্য" />
-                    <UserNoteTH text="কার্য শেষের মন্তব্য" />
-                    <UserNoteTH text="SAAO-এর নাম ও মোবাইল নং" />
-                    <UserNoteTH text="একশন" />
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {completedNotes?.length > 0 &&
-                    completedNotes?.map((singleNote, index) => (
-                      <tr
-                        key={singleNote?._id}
-                        className="divide-x divide-gray-200 dark:divide-gray-700"
-                      >
-                        <UserNoteTD text={toBengaliNumber(index + 1)} />
-                        <UserNoteTD text={singleNote?.purpose?.target} />
-                        <UserNoteTD text={singleNote?.projectInfo?.short} />
-                        <UserNoteTD
-                          text={
-                            singleNote?.farmersInfo?.name +
-                            `\n` +
-                            singleNote?.farmersInfo?.fathersOrHusbandName
-                          }
-                        />
-                        <UserNoteTD
-                          text={
-                            singleNote?.farmersInfo.mobile +
-                            `\n` +
-                            singleNote?.farmersInfo?.NID
-                          }
-                        />
-                        <UserNoteTD text={singleNote?.address?.village} />
-                        <UserNoteTD
-                          text={
-                            singleNote?.timeFrame?.season +
-                            "\n" +
-                            toBengaliNumber(singleNote?.timeFrame?.fiscalYear)
-                          }
-                        />
-                        <UserNoteTD
-                          text={toBengaliNumber(
-                            new Date(
-                              singleNote?.purpose?.date
-                            ).toLocaleDateString("bn-BD", {
-                              weekday: "long", // Specify to include the full day name
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                            })
-                          )}
-                        />
-                        <UserNoteTD text={singleNote?.comment?.noteComment} />
-                        <UserNoteTD
-                          text={singleNote?.comment?.completedComment}
-                        />
-                        <UserNoteTD
-                          text={
-                            singleNote?.SAAO?.name +
-                            "\n" +
-                            toBengaliNumber(singleNote?.SAAO?.mobile)
-                          }
-                        />
-
-                        <td className="p-3 flex gap-2 text-center whitespace-nowrap text-sm font-medium">
-                          <span className="cursor-pointer">
-                            {!singleNote?.completed && (
-                              <AiOutlineFileDone
-                                onClick={() => handleNoteModal(singleNote)}
-                                size={35}
-                                color="green"
-                              />
-                            )}
-                          </span>
-                          <span className="cursor-pointer">
-                            <MdOutlineDelete
-                              onClick={() => handleNoteDeletion(singleNote)}
-                              size={35}
-                              color="red"
-                            />
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  <CompleteNoteModal data={modalData} />
-                </tbody>
-              </table>
-              {completedNotes?.length < 1 && (
-                <NoContentFound text={" কোনো সম্পন্ন নোট খুজে পাওয়া যায়নি!"} />
-              )}
-            </>
-          </div>
+        {/* Completed Notes Section */}
+        <SectionTitle title={`সম্পন্ন নোট (${toBengaliNumber(completedNotes?.length)})`} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {completedNotes?.length > 0 ? (
+            completedNotes?.map((singleNote, index) => (
+              <div
+                key={singleNote?._id}
+                className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col gap-3"
+              >
+                <div className="flex justify-between items-center">
+                  <div className="font-bold text-lg">
+                    {toBengaliNumber(index + 1)}. {singleNote?.purpose?.target}
+                  </div>
+                  <div className="flex gap-2">
+                    <AiOutlineFileDone size={25} className="text-green-500 cursor-pointer" />
+                    <MdOutlineDelete
+                      onClick={() => handleNoteDeletion(singleNote)}
+                      size={25}
+                      className="text-red-500 cursor-pointer"
+                    />
+                  </div>
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  <div className="flex items-center gap-2">
+                    <BsFillPersonFill size={16} className="text-blue-500" />
+                    <span className="font-semibold">নাম: </span>{singleNote?.farmersInfo?.name || "N/A"}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BsFillPersonFill size={16} className="text-purple-500" />
+                    <span className="font-semibold">পিতার নাম: </span>{singleNote?.farmersInfo?.fatherName || "N/A"}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BsFillInfoCircleFill size={16} className="text-green-500" />
+                    <span className="font-semibold">NID: </span>{singleNote?.farmersInfo?.nid || "N/A"}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BsFillPhoneFill size={16} className="text-red-500" />
+                    <span className="font-semibold">মোবাইল: </span>{singleNote?.farmersInfo?.mobile || "N/A"}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BsFillInfoCircleFill size={16} className="text-teal-500" />
+                    <span className="font-semibold">ঠিকানা: </span>{singleNote?.address?.village || "N/A"}
+                  </div>
+                </div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">
+                  {toBengaliNumber(
+                    new Date(singleNote?.purpose?.date).toLocaleDateString("bn-BD", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <NoContentFound text={" কোনো সম্পন্ন নোট খুজে পাওয়া যায়নি!"} />
+          )}
         </div>
       </div>
+
+      {modalData && <CompleteNoteModal modalData={modalData} />}
     </div>
   );
 };
