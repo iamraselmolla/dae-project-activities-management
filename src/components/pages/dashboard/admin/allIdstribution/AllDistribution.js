@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import DistributionTableRow from './DistributionTableRow';
-import TableHead from '../../../../shared/TableHead';
+import DistributionCard from './DistributionCard';
 import SectionTitle from '../../../../shared/SectionTitle';
 import AddModuleButton from '../../../../shared/AddModuleButton';
 import Season from '../../../../shared/Season';
@@ -14,6 +13,7 @@ const AllDistribution = () => {
     const [season, setSeason] = useState("");
     const [search, setSearch] = useState("");
     const [filteredDistributions, setFilteredDistributions] = useState([]);
+
     const filterDistribution = () => {
         let filtered = allDistributions;
 
@@ -35,7 +35,7 @@ const AllDistribution = () => {
             );
         }
 
-        return filtered; // Return the filtered projects
+        return filtered;
     };
 
     useEffect(() => {
@@ -43,14 +43,8 @@ const AllDistribution = () => {
         setFilteredDistributions(filtered);
     }, [selectedProject, fiscalYear, season]);
 
-    const handleSelectChange = (e) => {
-        setSelectedProject(e.target.value);
-    };
-
     useEffect(() => {
-        // Filter data whenever the search input changes
         const filtered = allDistributions.filter((item) => {
-            // Check if any field matches the search input
             for (const key in item) {
                 if (typeof item[key] === "string" && item[key].includes(search)) {
                     return true;
@@ -68,22 +62,21 @@ const AllDistribution = () => {
             }
             return false;
         });
-        setFilteredDistributions(filtered); // Update filtered data
+        setFilteredDistributions(filtered);
     }, [search]);
+
     return (
-        <div className="p-1.5 min-w-full inline-block align-middle">
+        <div className="p-4">
             <AddModuleButton link={'addDistribution'} btnText={'নতুন উপকরণ বিতরণ তথ্য যুক্ত করুন'} />
             <SectionTitle title={'সকল উপকরণ বিতরণ তথ্য'} />
-            <div className="mb-12">
-                <div className="flex py-6 flex-wrap justify-between items-center gap-3">
-                    <div>
-                        <label className="font-extrabold mb-1 block">
-                            প্রকল্পের পুরো নাম
-                        </label>
+            <div className="mb-6">
+                <div className="flex flex-wrap gap-4">
+                    <div className="w-full sm:w-1/3">
+                        <label className="font-bold mb-1 block">প্রকল্পের পুরো নাম</label>
                         <select
                             className="input input-bordered w-full"
                             value={selectedProject}
-                            onChange={handleSelectChange}
+                            onChange={(e) => setSelectedProject(e.target.value)}
                         >
                             <option value="" label="প্রকল্প সিলেক্ট করুন" />
                             {allProject?.map((project) => (
@@ -96,24 +89,21 @@ const AllDistribution = () => {
                         </select>
                     </div>
 
-                    <div>
-                        <label className="font-extrabold mb-1 block">অর্থবছর</label>
+                    <div className="w-full sm:w-1/3">
+                        <label className="font-bold mb-1 block">অর্থবছর</label>
                         <select
                             className="input input-bordered w-full"
-                            type="text"
                             value={fiscalYear}
                             onChange={(e) => setFiscalYear(e.target.value)}
-                            placeholder="অর্থবছর সিলেক্ট করুন"
                         >
                             <FiscalYear />
                         </select>
                     </div>
-                    <div>
-                        <label className="font-extrabold mb-1 block">মৌসুম</label>
+
+                    <div className="w-full sm:w-1/3">
+                        <label className="font-bold mb-1 block">মৌসুম</label>
                         <select
                             className="input input-bordered w-full"
-                            id="season"
-                            name="season"
                             value={season}
                             onChange={(e) => setSeason(e.target.value)}
                         >
@@ -121,40 +111,26 @@ const AllDistribution = () => {
                         </select>
                     </div>
                 </div>
-                <div className="w-full mb-12">
-                    <div>
-                        <input
-                            type="text"
-                            className="input input-bordered w-full"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            placeholder="খুজুন (প্রকল্পের নাম, উপস্থিত কর্মকর্তার নাম, উপকরণের বিবরণ, অর্থবছর, মৌসুম)"
-                        />
-                    </div>
+                <div className="mt-4">
+                    <input
+                        type="text"
+                        className="input input-bordered w-full"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="খুজুন (প্রকল্পের নাম, উপস্থিত কর্মকর্তার নাম, উপকরণের বিবরণ, অর্থবছর, মৌসুম)"
+                    />
                 </div>
             </div>
-            <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-                <table className="min-w-full bg-white divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead>
-                        <tr className='divide-x font-extrabold divide-gray-200 dark:divide-gray-700'>
-                            <TableHead text={'ক্রঃ নং'} />
-                            <TableHead text={'প্রকল্প'} />
-                            <TableHead text={'অর্থবছর ও মৌসুম'} />
-                            <TableHead text={'তারিখ'} />
-                            <TableHead text={'উপকরণ বিবরণ'} />
-                            <TableHead text={'উপস্থিত কর্মকর্তা/গণ্যমান্য ব্যক্তিবর্গ'} />
-                            <TableHead text={'মন্তব্য'} />
-                            <TableHead text={'ছবিসমূহ'} />
-                            <TableHead text={'একশন'} />
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {filteredDistributions?.length > 0 && filteredDistributions?.map((distribution, index) => (
-
-                            <DistributionTableRow index={index} distribution={distribution} key={distribution?._id} />
-                        ))}
-                    </tbody>
-                </table>
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                {filteredDistributions.length > 0 ? (
+                    filteredDistributions.map((distribution, index) => (
+                        <DistributionCard key={distribution._id} distribution={distribution} index={index} />
+                    ))
+                ) : (
+                    <div className="col-span-full text-center text-gray-500">
+                        কোন উপকরণ বিতরণ তথ্য পাওয়া যায়নি।
+                    </div>
+                )}
             </div>
         </div>
     );

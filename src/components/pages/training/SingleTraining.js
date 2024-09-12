@@ -1,13 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GiFarmer } from "react-icons/gi";
-import {
-  BsCalendarDate,
-  BsFillPeopleFill,
-  BsFillCloudSunFill,
-} from "react-icons/bs";
+import { BsCalendarDate, BsFillPeopleFill, BsFillCloudSunFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { toBengaliNumber } from "bengali-number";
 import { AuthContext } from "../../AuthContext/AuthProvider";
+import 'react-image-gallery/styles/css/image-gallery.css'; // Ensure to import ImageGallery CSS
 
 const SingleTraining = ({ data }) => {
   const { role } = useContext(AuthContext);
@@ -22,62 +19,49 @@ const SingleTraining = ({ data }) => {
     images
   } = data;
 
-  const imagesArr = [];
+  const [imagesArr, setImagesArr] = useState([]);
+
   useEffect(() => {
     if (images?.length > 0) {
-      for (const image of images) {
-        imagesArr.push({ original: image, thumbnail: image });
-      }
+      setImagesArr(images.map(image => ({ original: image, thumbnail: image })));
     }
-  }, [images, data]);
+  }, [images]);
 
   return (
-    <div
-      className={`rounded-lg border bg-white ${role === "admin" ? "pb-12" : ""
-        } relative shadow-xl`}
-    >
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-500 hover:scale-105">
       <div className="relative">
-        <ImageGallery autoPlay={true} items={imagesArr} />
-        <div className="flex items-center absolute top-3">
-          <p className="px-2 py-1 bg-black text-white rounded-r-md ">
-            {projectInfo?.short}
-          </p>
-        </div>
-        <div className="flex items-center absolute top-3 right-0">
-          <p className="px-2 py-1 flex gap-2 items-center bg-black text-white rounded-l-md ">
-            <BsCalendarDate />
-            <div>
-              {toBengaliNumber(
-                new Date(date?.startDate).toLocaleDateString("bn-BD")
-              )}
-            </div>
-          </p>
-        </div>
+        <ImageGallery
+          autoPlay
+          items={imagesArr}
+          showFullscreenButton
+          showPlayButton={false}
+          showBullets
+          showThumbnails={false}
+          additionalClass="w-full"
+          lazyLoad
+        />
       </div>
-      <div className="content-part px-3 py-2   ">
-        <h2 className="text-md font-extrabold">{subject}</h2>
-        <div className="flex items-center gap-2">
-          <BsFillPeopleFill /> <p>{guests}</p>
+      <div className="p-6">
+        <h2 className="text-2xl font-semibold mb-2">{subject}</h2>
+        <div className="flex items-center text-gray-700 mb-3">
+          <BsCalendarDate className="mr-2 text-blue-600" size={20} />
+          {toBengaliNumber(new Date(date?.startDate).toLocaleDateString("bn-BD"))}
         </div>
-        <div>
-          <div className="flex items-center gap-2">
-            <GiFarmer />
-            <p>
-              {toBengaliNumber(farmers?.male + farmers?.female)} জন (পুরুষ
-              {toBengaliNumber(farmers?.male)} জন, মহিলা
-              {toBengaliNumber(farmers?.female)} জন)
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <BsFillCloudSunFill />
-            <p>
-              {season}/{fiscalYear}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <img src="images/project.png" alt="Project Icon" />
-            <p>{projectInfo?.details}</p>
-          </div>
+        <div className="flex items-center text-gray-700 mb-3">
+          <BsFillPeopleFill className="mr-2 text-green-600" size={20} />
+          {toBengaliNumber(guests)} জন
+        </div>
+        <div className="flex items-center text-gray-700 mb-3">
+          <GiFarmer className="mr-2 text-orange-600" size={20} />
+          {toBengaliNumber(farmers?.male + farmers?.female)} জন (পুরুষ {toBengaliNumber(farmers?.male)} জন, মহিলা {toBengaliNumber(farmers?.female)} জন)
+        </div>
+        <div className="flex items-center text-gray-700 mb-3">
+          <BsFillCloudSunFill className="mr-2 text-yellow-500" size={20} />
+          {season}/{fiscalYear}
+        </div>
+        <div className="flex items-center text-gray-700">
+          <img src="images/project.png" alt="Project Icon" className="w-6 h-6 mr-2" />
+          <p>{projectInfo?.details}</p>
         </div>
       </div>
     </div>

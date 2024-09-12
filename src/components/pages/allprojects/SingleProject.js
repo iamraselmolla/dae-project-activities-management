@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { GiGrainBundle } from "react-icons/gi";
-import { toBengaliNumber } from "bengali-number";
 import { IoTimer } from "react-icons/io5";
-import { BsPersonWorkspace } from "react-icons/bs";
-import { LiaCheckSquareSolid } from "react-icons/lia";
+import { FaCheckCircle, FaHourglassStart } from "react-icons/fa";
+import { toBengaliNumber } from "bengali-number";
 
 const SingleProject = ({ single }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -22,59 +21,44 @@ const SingleProject = ({ single }) => {
   };
 
   return (
-    <div
-      className={`px-4 relative py-5 pt-12 mb-10 rounded-xl bg-white ${single?.end ? "border-2 border-green-500" : ""}`}
-    >
-      <div
-        className="absolute theme-bg flex h-16 items-center justify-center rounded-full text-white w-16"
-        style={{
-          left: "50%",
-          transform: "translateX(-50%)",
-          top: "-30px",
-        }}
-      >
-        {!single?.end ? (
-          <BsPersonWorkspace size={25} />
-        ) : (
-          <LiaCheckSquareSolid size={25} />
-        )}
-      </div>
-      <h2 className="text-md font-bold">
-        {single?.name?.details} ({single?.name?.short})
-      </h2>
-      <div className="mt-4 flex justify-between">
-        <div
-          onClick={openModal}
-          style={{ zIndex: "500" }}
-          className="flex w-full relative gap-2 cursor-pointer"
-        >
-          <div className="flex gap-2 items-center">
-            <GiGrainBundle className="theme-color" size={25} />
-            <div className="text-xl font-bold">
-              {toBengaliNumber(single?.crops?.length)}
-            </div>
-          </div>
+    <div className={`relative bg-white shadow-lg rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 border ${single?.end ? "border-green-500" : "border-gray-300"}`}>
+      {/* Status Indicator Box */}
+      <div className="flex justify-center items-center p-4">
+        <div className={`flex items-center justify-center w-16 h-16 rounded-full ${single?.end ? "bg-green-500" : "bg-blue-500"} text-white`}>
+          {!single?.end ? (
+            <FaHourglassStart size={24} />
+          ) : (
+            <FaCheckCircle size={24} />
+          )}
         </div>
-        <div className="flex gap-1">
-          <div className="flex gap-1 items-center">
-            <IoTimer size={25} className="theme-color" />
+      </div>
+
+      <div className="p-6">
+        {/* Project Details */}
+        <h2 className="text-xl font-semibold mb-4">{single?.name?.details} ({single?.name?.short})</h2>
+        <div className="flex flex-col gap-4">
+          {/* Crops Info */}
+          <div className="flex items-center gap-4 cursor-pointer" onClick={openModal}>
+            <GiGrainBundle className="text-green-500 text-2xl" />
+            <span className="text-lg font-bold">{toBengaliNumber(single?.crops?.length)} প্রযুক্তি</span>
           </div>
-          <div>
-            {new Date(single?.time?.start).toLocaleDateString("bn-BD")} -{" "}
-            {new Date(single?.time?.end).toLocaleDateString("bn-BD")}
+          {/* Time Info */}
+          <div className="flex items-center gap-4">
+            <IoTimer className="text-orange-500 text-2xl" />
+            <span>{new Date(single?.time?.start).toLocaleDateString("bn-BD")} - {new Date(single?.time?.end).toLocaleDateString("bn-BD")}</span>
           </div>
         </div>
       </div>
 
+      {/* Modal for Crops */}
       <dialog id={modalId} className="modal">
-        <div className="modal-box">
-          <form method="dialog">
-            <button onClick={closeModal} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-          </form>
-          <div className="py-4">
+        <div className="modal-box relative max-w-lg">
+          <button onClick={closeModal} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          <h3 className="text-lg font-semibold mb-4">প্রযুক্তি</h3>
+          <div className="py-4 space-y-2">
             {crops?.map((crop, index) => (
-              <div key={index} className="py-1 flex gap-1">
-                {toBengaliNumber(index + 1)}. {crop}
+              <div key={index} className="flex items-start">
+                <span className="text-lg font-medium">{toBengaliNumber(index + 1)}.</span> <span className="ml-2">{crop}</span>
               </div>
             ))}
           </div>

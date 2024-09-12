@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
-import {
-  BsFillPeopleFill,
-  BsCalendarDate
-} from "react-icons/bs";
-
+import React, { useEffect, useState } from "react";
+import { BsFillPeopleFill, BsCalendarDate } from "react-icons/bs";
 import { MdLocationPin } from "react-icons/md";
 import { GiFarmer } from "react-icons/gi";
 import ImageGallery from "react-image-gallery";
 import { toBengaliNumber } from "bengali-number";
+import "react-image-gallery/styles/css/image-gallery.css";
 
 const SingleFieldDay = ({ data }) => {
   const {
@@ -22,64 +19,53 @@ const SingleFieldDay = ({ data }) => {
     images,
     subject
   } = data;
-  const imagesArr = [];
+
+  const [imagesArr, setImagesArr] = useState([]);
+
   useEffect(() => {
     if (images?.length > 0) {
-      for (const image of images) {
-        imagesArr.push({ original: image, thumbnail: image });
-      }
+      setImagesArr(images.map(img => ({ original: img, thumbnail: img })));
     }
-  }, [images, data]);
+  }, [images]);
+
   return (
-    <div className="rounded-lg bg-white shadow-xl">
+    <div className="bg-white shadow-lg transition-transform duration-500 linear transform hover:scale-105 rounded-lg overflow-hidden">
       <div className="relative">
-        <ImageGallery autoPlay={true} items={imagesArr} />
-        <div className="flex items-center absolute top-3">
-          <p className="px-2 py-1 bg-black text-white rounded-r-md ">
-            {projectInfo?.short}
-          </p>
+        <ImageGallery autoPlay items={imagesArr} showThumbnails={false} />
+        <div className="absolute top-2 left-2 theme-bg text-white px-3 py-1 rounded-full">
+          {projectInfo?.short}
         </div>
-        <div className="flex items-center absolute top-3 right-0">
-          <p className="px-2 py-1 bg-black text-white rounded-l-md ">
-            {subject}
-          </p>
+        <div className="absolute top-2 right-2 theme-bg text-white px-3 py-1 rounded-full">
+          {subject}
         </div>
       </div>
-      <div className="content-part px-3 py-2   ">
-        <div>
-          <div className="flex items-center gap-2">
-            <BsFillPeopleFill /> <p>{guests}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <GiFarmer />
-            <p>
-              {toBengaliNumber(farmers?.male + farmers?.female)} জন (পুরুষ
-              {toBengaliNumber(farmers?.male)} জন, মহিলা
-              {toBengaliNumber(farmers?.female)} জন)
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <BsCalendarDate />
-            <p>
-              {season}/{fiscalYear}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <MdLocationPin />
-            <p>
-              স্থানঃ গ্রামঃ {address?.village}, ব্লকঃ
-              {address?.block}, ইউনিয়নঃ {address?.union}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <img src="images/project.png" alt="Project Icon" />
-            <p>{projectInfo?.details}</p>
-          </div>
-          <h2 className="text-xl mt-4 font-extrabold">
-            উপসহকারী কৃষি কর্মকর্তার তথ্য
-          </h2>
-          <div className="mt-2">নামঃ {SAAO.name}</div>
-          <div className="mt-1">মোবাইলঃ {toBengaliNumber(SAAO?.mobile)}</div>
+      <div className="p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <BsFillPeopleFill className="text-xl text-blue-500" />
+          <p className="text-gray-700">{guests}</p>
+        </div>
+        <div className="flex items-center gap-2 mb-2">
+          <GiFarmer className="text-xl text-green-500" />
+          <p className="text-gray-700">
+            {toBengaliNumber(farmers?.male + farmers?.female)} জন (পুরুষ {toBengaliNumber(farmers?.male)} জন, মহিলা {toBengaliNumber(farmers?.female)} জন)
+          </p>
+        </div>
+        <div className="flex items-center gap-2 mb-2">
+          <BsCalendarDate className="text-xl text-yellow-500" />
+          <p className="text-gray-700">{season}/{fiscalYear}</p>
+        </div>
+        <div className="flex items-center gap-2 mb-2">
+          <MdLocationPin className="text-xl text-red-500" />
+          <p className="text-gray-700">স্থানঃ গ্রামঃ {address?.village}, ব্লকঃ {address?.block}, ইউনিয়নঃ {address?.union}</p>
+        </div>
+        <div className="flex items-center gap-2 mb-2">
+          <img src="images/project.png" alt="Project Icon" className="w-6 h-6" />
+          <p className="text-gray-700">{projectInfo?.details}</p>
+        </div>
+        <h2 className="text-xl font-bold mt-4 mb-2">উপসহকারী কৃষি কর্মকর্তার তথ্য</h2>
+        <div className="text-gray-700">
+          <div className="mb-1">নামঃ {SAAO.name}</div>
+          <div>মোবাইলঃ {toBengaliNumber(SAAO?.mobile)}</div>
         </div>
       </div>
     </div>

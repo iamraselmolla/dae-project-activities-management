@@ -3,8 +3,7 @@ import { useSelector } from "react-redux";
 import AddModuleButton from "../../../../shared/AddModuleButton";
 import SectionTitle from "../../../../shared/SectionTitle";
 import NoContentFound from "../../../../shared/NoContentFound";
-import MotivationalTourTableRow from "./MotivationalTourTableRow";
-import TableHead from "../../../../shared/TableHead";
+import MotivationalTourCard from "./MotivationalTourCard";
 import { toBengaliNumber } from "bengali-number";
 import FiscalYear from "../../../../shared/FiscalYear";
 import Season from "../../../../shared/Season";
@@ -16,6 +15,7 @@ function AllMotivationalTours() {
   const [season, setSeason] = useState("");
   const [search, setSearch] = useState("");
   const [filteredTours, setFilteredTours] = useState([]);
+
   const filterTours = () => {
     let filtered = allTours;
 
@@ -49,11 +49,8 @@ function AllMotivationalTours() {
     setSelectedProject(e.target.value);
   };
 
-  // Make and call function to change searching result according each searching key change
   useEffect(() => {
-    // Filter data whenever the search input changes
     const filtered = allTours.filter((item) => {
-      // Check if any field matches the search input
       for (const key in item) {
         if (typeof item[key] === "string" && item[key].includes(search)) {
           return true;
@@ -71,11 +68,12 @@ function AllMotivationalTours() {
       }
       return false;
     });
-    setFilteredTours(filtered); // Update filtered data
+    setFilteredTours(filtered);
   }, [search]);
+
   return (
     <div className="flex py-4 flex-col">
-      <div className="mt-4 overflow-x-scroll">
+      <div className="mt-4">
         <div className="p-1.5 min-w-full inline-block align-middle">
           <AddModuleButton
             link={"add-motivational-tour"}
@@ -134,38 +132,19 @@ function AllMotivationalTours() {
                 </select>
               </div>
             </div>
-            <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
-              {allTours?.length > 0 && (
-                <table className="min-w-full bg-white divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead>
-                    <tr className="divide-x font-extrabold divide-gray-200 dark:divide-gray-700">
-                      <TableHead text={'ক্র: নং:'} />
-                      <TableHead text={'প্রকল্প'} />
-                      <TableHead text={'অর্থবছর ও মৌসুম'} />
-                      <TableHead text={'স্থান'} />
-                      <TableHead text={'তারিখ'} />
-                      <TableHead text={'কৃষকের সংখ্যা'} />
-                      <TableHead text={'মন্তব্য'} />
-                      <TableHead text={'ছবিসমূহ'} />
-                      <TableHead text={'একশন'} />
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {filteredTours?.length > 0 &&
-                      filteredTours?.map((tour, index) => (
-                        <MotivationalTourTableRow
-                          data={tour}
-                          index={index}
-                          key={tour?._id}
-                        />
-                      ))}
-                  </tbody>
-                </table>
-              )}
-              {filteredTours?.length < 1 && (
-                <NoContentFound text={"কোনো ট্যুরের তথ্য পাওয়া যায়নি!!"} />
-              )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredTours?.length > 0 &&
+                filteredTours?.map((tour, index) => (
+                  <MotivationalTourCard
+                    data={tour}
+                    index={index}
+                    key={tour?._id}
+                  />
+                ))}
             </div>
+            {filteredTours?.length < 1 && (
+              <NoContentFound text={"কোনো ট্যুরের তথ্য পাওয়া যায়নি!!"} />
+            )}
           </div>
         </div>
       </div>

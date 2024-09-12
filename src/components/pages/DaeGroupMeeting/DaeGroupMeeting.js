@@ -110,15 +110,14 @@ const DaeGroupMeeting = () => {
   }, [unionName, blockName, season, fiscalYear, search, filterGroups]);
 
   return (
-    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <section className="container mx-auto px-4 py-8">
       <AddModuleButton
         btnText={"কৃষক গ্রুপ সভা যুক্ত করুন"}
         link={"add-dae-group-meeting"}
       />
-      <SectionTitle title={`সকল কৃষক গ্রুপ সভা  
-        ${!loading ? `(${toBengaliNumber(filteredGroups?.length)})` : ''}`} 
-        
-        />
+      <SectionTitle
+        title={`সকল কৃষক গ্রুপ সভা ${!loading ? `(${toBengaliNumber(filteredGroups?.length)})` : ''}`}
+      />
       <div className="grid grid-cols-1 gap-6 py-6">
         <div className="flex flex-wrap md:flex-nowrap gap-3 w-full">
           <div className="w-full md:w-1/4">
@@ -185,17 +184,18 @@ const DaeGroupMeeting = () => {
           placeholder="খুজুন (নাম, স্থান, মোবাইল)"
         />
       </div>
-      <div className="container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6">
-        {!loading &&
-          filteredGroups?.length > 0 &&
-          filteredGroups?.map((group) => (
+      <div className={`container px-4 md:px-0 grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-6 transition-opacity duration-500 ${loading ? 'opacity-0' : 'opacity-100'}`}>
+        {filteredGroups?.length > 0 ? (
+          filteredGroups.map((group) => (
             <SingleDaeGroupMeetings key={group?._id} data={group} />
-          ))}
+          ))
+        ) : (
+          fetchEnd && <NoContentFound text={"কোনো গ্রুপের তথ্য পাওয়া যায়নি"} />
+        )}
       </div>
-      {!loading && filteredGroups?.length < 1 && fetchEnd && (
-        <NoContentFound text={"কোনো গ্রুপের তথ্য পাওয়া যায়নি"} />
-      )}
-      {loading && <Loader />}
+      <div className={`transition-opacity duration-500 ${loading ? 'opacity-100' : 'opacity-0'}`}>
+        <Loader />
+      </div>
     </section>
   );
 };

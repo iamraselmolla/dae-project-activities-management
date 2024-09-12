@@ -1,261 +1,227 @@
 import React, { useState } from "react";
-import Title from "../../../../shared/Title";
 import { toBengaliNumber } from "bengali-number";
-import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
-import { IoMdRemoveCircleOutline } from "react-icons/io";
-import { CiCirclePlus } from "react-icons/ci";
 import toast from "react-hot-toast";
-import { FiCheckCircle } from "react-icons/fi";
-import { createRandomNumber } from "../../../../utilis/createRandomNumber";
-
-import {
-  deleteAProject,
-  markProjectComplete,
-  updateProjectCrops,
-} from "../../../../../services/userServices";
-import { RiDeleteBin5Line } from "react-icons/ri";
-import { makeSureOnline } from "../../../../shared/MessageConst";
 import { useDispatch } from "react-redux";
 import { daeAction } from "../../../../store/projectSlice";
+import { createRandomNumber } from "../../../../utilis/createRandomNumber";
+import { deleteAProject, markProjectComplete, updateProjectCrops } from "../../../../../services/userServices";
+import { makeSureOnline } from "../../../../shared/MessageConst";
+import { FaEdit, FaTrashAlt, FaCheckCircle, FaSeedling, FaChevronDown, FaChevronUp, FaPlusCircle, FaTimes, FaCalendarAlt } from "react-icons/fa";
+import { FaEnvelope, FaUserTie, FaUsers } from "react-icons/fa6";
 
 const SingleProject = ({ data, index }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
   const [allCrops, setAllCrops] = useState(data?.crops);
   const [crop, setCrop] = useState("");
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
   const handleCropUpdate = (cropIndex) => {
-    let allCropsData = [...allCrops];
-    const result = allCropsData.splice(cropIndex, 1);
-    setAllCrops([...allCropsData]);
+    let updatedCrops = [...allCrops];
+    updatedCrops.splice(cropIndex, 1);
+    setAllCrops(updatedCrops);
   };
+
   const handleCropAdding = () => {
-    setAllCrops([...allCrops, crop]);
-    setCrop("");
+    if (crop.trim()) {
+      setAllCrops([...allCrops, crop.trim()]);
+      setCrop("");
+    }
   };
-  // প্রকল্পের প্রদর্শনীর ধরণ / প্রযুক্তি যুক্ত অথবা মুছুন
-  const handleAddCrop = () => {
+
+  const handleAddCrop = async () => {
     setLoading(true);
-    const addCropsToTheProject = async () => {
-      try {
-        if (allCrops?.length < 1) {
-          toast.error("কমপক্ষে একটি প্রদর্শনীর ধরণ / প্রযুক্তি যুক্ত করুন");
-          return;
-        }
-        const updatedDoc = { id: data?._id, crops: allCrops };
-        const result = await updateProjectCrops(updatedDoc);
-        if (result?.status === 200) {
-          toast.success(result?.data?.message);
-          setLoading(false);
-          dispatch(daeAction.setRefetch(`adminFetch${createRandomNumber()}`))
-        }
-      } catch (err) {
+    try {
+      if (allCrops.length < 1) {
+        toast.error("কমপক্ষে একটি প্রদর্শনীর ধরণ / প্রযুক্তি যুক্ত করুন");
         setLoading(false);
-        toast.error(
-          "কোনো সমস্যা হয়েছে। দয়া করে পুনরায় চেষ্টা করুন অথবা সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
-        );
+        return;
       }
-    };
-    if (navigator.onLine) {
-      addCropsToTheProject();
-    } else {
-      makeSureOnline();
+      const updatedDoc = { id: data?._id, crops: allCrops };
+      const result = await updateProjectCrops(updatedDoc);
+      if (result?.status === 200) {
+        toast.success(result?.data?.message);
+        dispatch(daeAction.setRefetch(`adminFetch${createRandomNumber()}`));
+      }
+    } catch (err) {
+      toast.error("কোনো সমস্যা হয়েছে। দয়া করে পুনরায় চেষ্টা করুন অথবা সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন");
     }
+    setLoading(false);
   };
-  // প্রকল্প মুছুন
 
-  const handleProjectDeleting = (projectId) => {
-    const handleDelete = async () => {
-      try {
-        if (
-          window.confirm(
-            `আপনি কি ${data?.name?.details} নামের প্রকল্পটি মুছে দিতে চান?`
-          )
-        ) {
-          if (!projectId) {
-            return toast.error(
-              "কিছু সমস্যা হয়েছে। পুনরায় রিলোড করুন অথবা সংশ্লিষ্ট ব্যক্তিকে অবহিত করুন"
-            );
-          }
-          const result = await deleteAProject(projectId); // Assuming deleteProject is a function that handles the deletion
-          if (result?.status === 200) {
-            toast.success("প্রকল্পটি মুছে দেয়া হয়েছে");
-            dispatch(daeAction.setRefetch(`adminFetch${createRandomNumber()}`))
-          }
-        } else {
-          toast.error("প্রকল্প মুছে ফেলা সম্ভব হয়নি। আবার চেষ্টা করুন");
-        }
-      } catch (err) {
-        toast.error("প্রকল্প মুছে ফেলা সম্ভব হয়নি। আবার চেষ্টা করুন");
+  const handleProjectDeleting = async (projectId) => {
+    if (!navigator.onLine) {
+      return makeSureOnline();
+    }
+    if (!window.confirm(`আপনি কি ${data?.name?.details} নামের প্রকল্পটি মুছে দিতে চান?`)) {
+      return;
+    }
+    try {
+      const result = await deleteAProject(projectId);
+      if (result?.status === 200) {
+        toast.success("প্রকল্পটি মুছে দেয়া হয়েছে");
+        dispatch(daeAction.setRefetch(`adminFetch${createRandomNumber()}`));
       }
-    };
-
-    if (navigator.onLine) {
-      handleDelete();
-    } else {
-      makeSureOnline();
+    } catch (err) {
+      toast.error("প্রকল্প মুছে ফেলা সম্ভব হয়নি। আবার চেষ্টা করুন");
     }
   };
 
-  // Handle Project completion
   const handleProjectCompletion = async (id) => {
-
     if (!id) {
       return toast.error("প্রকল্পের তথ্য পেতে সমস্যা হচ্ছে।");
     }
+    if (!window.confirm(`আপনি কি ${data?.name?.details}-কে সম্পন্ন হিসেবে চিহ্নিত করতে চান?`)) {
+      return;
+    }
     try {
-      if (
-        window.confirm(
-          `আপনি কি ${data?.name?.details}-কে সম্পন্ন হিসেবে চিহ্নিত করতে চান?`
-        )
-      ) {
-        const result = await markProjectComplete(id);
-        if (result?.status === 200) {
-          toast.success(result?.data?.message);
-          dispatch(daeAction.setRefetch(`adminFetch${createRandomNumber}`))
-        }
+      const result = await markProjectComplete(id);
+      if (result?.status === 200) {
+        toast.success(result?.data?.message);
+        dispatch(daeAction.setRefetch(`adminFetch${createRandomNumber()}`));
       }
     } catch (err) {
-      toast.error(
-        "প্রকল্প সম্পন্ন করতে অসুবিধার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।"
-      );
+      toast.error("প্রকল্প সম্পন্ন করতে অসুবিধার সৃষ্টি হচ্ছে। দয়া করে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।");
     }
   };
+
   return (
-    <div className="collapse">
-      <input type="checkbox" />
-      <div className="collapse-title text-xl font-medium">
-        <Title end={data?.end} title={data?.name?.details} />
-      </div>
-      <div className="collapse-content bg-white flex flex-col gap-2">
-        <h2 className="text-xl  pt-8 pb-5 font-bold items-center">
-          প্রকল্পের পুরো নামঃ {data?.name?.details}
-
-
-
-        </h2>
-        <h2 className="text-xl font-bold">
-          প্রকল্পের সংক্ষেপ নামঃ {data?.name?.short}
-        </h2>
-        <div className="flex gap-10">
-          <p className="font-bold">
-            প্রকল্প পরিচালকের নামঃ {data?.projectDetails?.PD},
-          </p>
-          <p className="font-bold">
-            মনিটরিং অফিসারদের নামঃ {data?.projectDetails?.monitoringOfficers}
-          </p>
-        </div>
-        <div className="flex gap-6">
-          <p className="font-bold">
-            প্রকল্প শুরুর তারিখঃ
-            {toBengaliNumber(new Date(data?.time?.start).toLocaleDateString())}
-          </p>
-          <p className="font-bold">
-            প্রকল্প শেষের সম্ভাব্য তারিখঃ
-            {toBengaliNumber(new Date(data?.time?.end).toLocaleDateString())}
-          </p>
-          <p className="font-bold">প্রকল্পের ই-মেইলঃ {data?.email}</p>
-        </div>
-        <div className="overflow-x-auto">
-          {data?.crops?.length > 0 && allCrops?.length > 0 && (
-            <table className="table">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th>ক্রমিক নং</th>
-                  <th>প্রযুক্তির নাম</th>
-                  <th> একশন</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(data?.crops?.length > 0) & (allCrops?.length > 0) ? (
-                  allCrops?.map((singleCrop, cropIndex) => (
-                    <tr key={cropIndex}>
-                      <th>{toBengaliNumber(cropIndex + 1)}</th>
-                      <td>{singleCrop}</td>
-                      <td>
-                        <IoMdRemoveCircleOutline
-                          onClick={() => handleCropUpdate(cropIndex)}
-                          className="cursor-pointer"
-                          size={25}
-                          color="red"
-                        />
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <span className="font-bold text-red-600 block mb-4">
-                    কোনো প্রুযুক্তি যুক্ত করা হয়নি। দয়া করে প্রকল্পের
-                    প্রযুক্তিগুলো যুক্ত করুন
-                  </span>
-                )}
-              </tbody>
-            </table>
-          )}
-          <label className="font-extrabold mb-1 block">
-            প্রদর্শনীর ধরণ বা প্রযুক্তি যুক্ত করুন
-          </label>
-          <div className="relative mx-1">
-            <input
-              type="text"
-              onChange={(e) => setCrop(e.target.value)}
-              className="input input-bordered relative w-full"
-              value={crop}
-            />
-            <CiCirclePlus
-              onClick={handleCropAdding}
-              className="absolute cursor-pointer right-0 top-0"
-              size={50}
-              color="green"
-            />
-          </div>
-          {!loading ? (
-            <>
-              <button
-                type="button"
-                className="btn mt-2 w-full font-extrabold text-white theme-bg"
-                onClick={handleAddCrop}
-              >
-                প্রদর্শনীর ধরণ বা প্রযুক্তি যুক্ত করুন
-              </button>
-            </>
+    <div
+      className={`bg-white rounded-lg shadow-md overflow-hidden mb-6 transition-all duration-300 ease-in-out hover:shadow-lg 
+        ${data?.end ? "border-l-8 border-green-500" : "border border-gray-200"}`}
+    >
+      <div
+        className={`${data?.end ? "bg-green-50" : "bg-blue-50"} text-gray-800 p-4 cursor-pointer flex justify-between items-center`}
+        onClick={() => setIsExpanded(!isExpanded)}
+        aria-expanded={isExpanded}
+      >
+        <div className="flex items-center">
+          {data?.end ? (
+            <FaCheckCircle className="text-green-500 mr-2" />
           ) : (
-            <div className="flex mt-4 justify-center items-center">
-              <span className="loading bg-green-500 loading-bars loading-lg"></span>
-            </div>
+            <div className="w-4 h-4 rounded-full bg-blue-500 mr-2"></div>
           )}
+          <div>
+            <h2 className="text-lg font-semibold">{data?.name?.details}</h2>
+            <p className="text-sm text-gray-600">{data?.name?.short}</p>
+          </div>
         </div>
-        {/* Acion Buttons */}
-        <div className="mt-8 flex gap-1">
-          {!data?.end &&
-            <Link
-              className="flex justify-center items-center"
-              to={`/dashboard/addproject?id=${data?._id}`}
-            >
-              <button className="btn btn-info text-white font-extrabold">
-                <CiEdit size={20} cursor={"pointer"} /> এডিট করুন
-              </button>
-            </Link>
-          }
-
-
-          <button
-            onClick={() => handleProjectDeleting(data?._id)}
-            className="btn bg-red-500  text-white font-extrabold"
-          >
-            <RiDeleteBin5Line size={20} cursor={"pointer"} /> প্রকল্প মুছে
-            দিন
-          </button>
-          {!data?.end &&
-            <button
-              onClick={() => handleProjectCompletion(data?._id)}
-              className="btn btn-success text-white font-extrabold "
-            >
-              <FiCheckCircle size={20} cursor={"pointer"} /> সমাপ্ত ঘোষণা করুন
-            </button>
-          }
-        </div>
+        {isExpanded ? <FaChevronUp className="text-gray-600" /> : <FaChevronDown className="text-gray-600" />}
       </div>
+
+      {isExpanded && (
+        <div className="p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
+              <h3 className="font-semibold flex items-center mb-2">
+                <FaUserTie className="mr-2 text-blue-600 text-3xl" /> প্রকল্প পরিচালক
+              </h3>
+              <p className="text-gray-700 text-lg">{data?.projectDetails?.PD}</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
+              <h3 className="font-semibold flex items-center mb-2">
+                <FaUsers className="mr-2 text-green-600 text-3xl" /> মনিটরিং অফিসার
+              </h3>
+              <p className="text-gray-700 text-lg">{data?.projectDetails?.monitoringOfficers}</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex items-center bg-gray-50 p-3 rounded-lg border border-blue-200">
+              <FaCalendarAlt className="text-blue-500 mr-3 text-xl" />
+              <div>
+                <h3 className="font-semibold">শুরুর তারিখ</h3>
+                <p>{toBengaliNumber(new Date(data?.time?.start).toLocaleDateString("bn-BD"))}</p>
+              </div>
+            </div>
+            <div className="flex items-center bg-gray-50 p-3 rounded-lg border border-red-200">
+              <FaCalendarAlt className="text-red-500 mr-3 text-xl" />
+              <div>
+                <h3 className="font-semibold">শেষের সম্ভাব্য তারিখ</h3>
+                <p>{toBengaliNumber(new Date(data?.time?.end).toLocaleDateString("bn-BD"))}</p>
+              </div>
+            </div>
+            <div className="flex items-center bg-gray-50 p-3 rounded-lg border border-purple-200">
+              <FaEnvelope className="text-purple-500 mr-3 text-xl" />
+              <div>
+                <h3 className="font-semibold">ই-মেইল</h3>
+                <p>{data?.email}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
+            <h3 className="font-semibold mb-4 flex items-center">
+              <FaSeedling className="mr-2 text-green-500 text-2xl" />
+              প্রদর্শনীর ধরণ / প্রযুক্তি
+            </h3>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {allCrops.map((crop, index) => (
+                <span
+                  key={index}
+                  className="bg-white px-3 py-2 rounded-full text-sm font-medium text-gray-700 shadow-sm border border-gray-200 flex items-center transition-all duration-200 hover:shadow-md hover:border-green-300"
+                >
+                  <FaSeedling className="mr-2 text-green-500" />
+                  {crop}
+                  <FaTimes className="ml-2 cursor-pointer text-red-500 hover:text-red-700" onClick={() => handleCropUpdate(index)} />
+                </span>
+              ))}
+            </div>
+            <div className="flex items-center">
+              <input
+                type="text"
+                className="flex-1 p-2 rounded-l-lg border-t border-b border-l border-gray-300 focus:outline-none focus:ring focus:ring-blue-100"
+                value={crop}
+                onChange={(e) => setCrop(e.target.value)}
+                placeholder="প্রদর্শনীর ধরণ / প্রযুক্তি যোগ করুন"
+              />
+              <button
+                onClick={handleCropAdding}
+                className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-r-lg shadow hover:bg-blue-700 transition-all duration-200"
+              >
+                <FaPlusCircle />
+              </button>
+              <button
+                onClick={handleAddCrop}
+                disabled={loading}
+                className={`ml-2 px-4 py-2 rounded-lg shadow ${loading ? "bg-gray-300" : "bg-green-600"} text-white font-semibold hover:bg-green-700 transition-all duration-200`}
+              >
+                {loading ? "অপেক্ষা করুন..." : "সংরক্ষণ করুন"}
+              </button>
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <div className="flex space-x-4">
+              <button
+                onClick={() => handleProjectCompletion(data?._id)}
+                className={`flex items-center px-4 py-2 rounded-lg font-semibold shadow ${data?.end ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-green-600 text-white hover:bg-green-700"
+                  } transition-all duration-200`}
+                disabled={data?.end}
+              >
+                <FaCheckCircle className="mr-2" />
+                সম্পন্ন করুন
+              </button>
+
+              <Link
+                to={`/dashboard/addproject?id=${data?._id}`}
+                className="flex items-center px-4 py-2 bg-yellow-600 text-white rounded-lg font-semibold shadow hover:bg-yellow-700 transition-all duration-200"
+              >
+                <FaEdit className="mr-2" />
+                সম্পাদনা করুন
+              </Link>
+            </div>
+            <button
+              onClick={() => handleProjectDeleting(data?._id)}
+              className="flex items-center px-4 py-2 bg-red-600 text-white rounded-lg font-semibold shadow hover:bg-red-700 transition-all duration-200"
+            >
+              <FaTrashAlt className="mr-2" />
+              মুছে ফেলুন
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

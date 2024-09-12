@@ -96,7 +96,7 @@ const Distribution = () => {
   }, [search]);
 
   return (
-    <section className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <section className="container mx-auto px-4 py-8">
       {user && (
         <div className="text-right font-extrabold">
           <AddModuleButton
@@ -106,7 +106,7 @@ const Distribution = () => {
         </div>
       )}
       <SectionTitle
-      title={`সকল উপকরণ বিতরণের তথ্য ${loading ? '' : `(${toBengaliNumber(filteredDistributions?.length)})`}`}
+        title={`সকল উপকরণ বিতরণের তথ্য ${loading ? '' : `(${toBengaliNumber(filteredDistributions?.length)})`}`}
       />
 
       {user && (
