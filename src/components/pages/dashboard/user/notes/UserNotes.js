@@ -148,7 +148,7 @@ const UserNotes = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <BsFillInfoCircleFill size={16} className="text-teal-500" />
-                    <span className="font-semibold">ঠিকানা: </span>{singleNote?.address?.village + "," + singleNote?.address?.blockB || "N/A"}
+                    <span className="font-semibold">ঠিকানা: </span>{singleNote?.address?.village || "N/A"}
                   </div>
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">
