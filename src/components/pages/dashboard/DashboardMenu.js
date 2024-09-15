@@ -11,9 +11,8 @@ import { MdAgriculture, MdCreditScore } from "react-icons/md";
 import { RiSchoolLine } from "react-icons/ri";
 import { FcDocument } from "react-icons/fc";
 import { useSelector } from "react-redux";
-import { toBengaliNumber } from 'bengali-number';
+import { toBengaliNumber } from "bengali-number";
 import { GrAnnounce } from "react-icons/gr";
-
 
 const DashboardMenu = () => {
   const { user, role } = useContext(AuthContext);
@@ -29,7 +28,7 @@ const DashboardMenu = () => {
     schools,
     daeMeetings,
     allNotices,
-    userNotices
+    userNotices,
   } = useSelector((state) => state.dae);
 
   const adminMenuItems = [
@@ -42,8 +41,8 @@ const DashboardMenu = () => {
   ];
 
   const userMenuItems = [
-    { icon: <CgDisplayGrid />, link: "/user-demos-primary", text: `প্রাথমিক প্রদর্শনী (${toBengaliNumber(demos.filter(single => !single?.completed).length)})` },
-    { icon: <MdCreditScore />, link: "/user-demos-final", text: `চূড়ান্ত প্রদর্শনী (${toBengaliNumber(demos.filter(single => single?.completed).length)})` },
+    { icon: <CgDisplayGrid />, link: "/user-demos-primary", text: `প্রাথমিক প্রদর্শনী (${toBengaliNumber(demos.filter((single) => !single?.completed).length)})` },
+    { icon: <MdCreditScore />, link: "/user-demos-final", text: `চূড়ান্ত প্রদর্শনী (${toBengaliNumber(demos.filter((single) => single?.completed).length)})` },
     { icon: <PiMicrophoneStageFill />, link: "/user-fielddays", text: `মাঠ দিবস (${toBengaliNumber(fieldDays.length)})` },
     { icon: <RiSchoolLine />, link: "/user-schools", text: `স্কুল (${toBengaliNumber(schools.length)})` },
     { icon: <FaPeopleGroup />, link: "/user-dae-meetings", text: `ডিএই কৃষক গ্রুপ সভা (${toBengaliNumber(daeMeetings.length)})` },
@@ -51,14 +50,23 @@ const DashboardMenu = () => {
   ];
 
   return (
-    <div className="md:flex md:flex-wrap justify-center flex flex-wrap gap-3 md:gap-2">
+    <div className="flex flex-wrap justify-center gap-4 p-4 bg-white shadow-md dark:bg-gray-800 rounded-lg transition-all duration-300">
+      {/* Dashboard Link */}
       <DashboardMenuItem icon={<RxDashboard />} link="" text="ড্যাশবোর্ড" />
-      {user && role === "admin" && adminMenuItems.map((item, index) => (
-        <DashboardMenuItem key={index} icon={item.icon} link={item.link} text={item.text} />
-      ))}
-      {user && role === "user" && userMenuItems.map((item, index) => (
-        <DashboardMenuItem key={index} icon={item.icon} link={item.link} text={item.text} />
-      ))}
+
+      {/* Admin Menu Items */}
+      {user && role === "admin" &&
+        adminMenuItems.map((item, index) => (
+          <DashboardMenuItem key={index} icon={item.icon} link={item.link} text={item.text} />
+        ))}
+
+      {/* User Menu Items */}
+      {user && role === "user" &&
+        userMenuItems.map((item, index) => (
+          <DashboardMenuItem key={index} icon={item.icon} link={item.link} text={item.text} />
+        ))}
+
+      {/* Notes Link */}
       <DashboardMenuItem icon={<FcDocument />} link="/user-notes" text={`নোটস (${toBengaliNumber(notes.length)})`} />
     </div>
   );
