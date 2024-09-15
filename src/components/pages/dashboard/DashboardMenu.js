@@ -45,7 +45,7 @@ const DashboardMenu = () => {
     { icon: <MdCreditScore />, link: "/user-demos-final", text: `চূড়ান্ত প্রদর্শনী (${toBengaliNumber(demos.filter((single) => single?.completed).length)})` },
     { icon: <PiMicrophoneStageFill />, link: "/user-fielddays", text: `মাঠ দিবস (${toBengaliNumber(fieldDays.length)})` },
     { icon: <RiSchoolLine />, link: "/user-schools", text: `স্কুল (${toBengaliNumber(schools.length)})` },
-    { icon: <FaPeopleGroup />, link: "/user-dae-meetings", text: `ডিএই কৃষক গ্রুপ সভা (${toBengaliNumber(daeMeetings.length)})` },
+    { icon: <FaPeopleGroup />, link: "/user-dae-meetings", text: `কৃষক গ্রুপ সভা (${toBengaliNumber(daeMeetings.length)})` },
     { icon: <GrAnnounce />, link: "/user-notices", text: `নোটিশ (${toBengaliNumber(userNotices?.length)})` },
   ];
 
