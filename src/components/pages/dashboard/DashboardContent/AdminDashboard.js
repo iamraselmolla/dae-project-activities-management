@@ -67,78 +67,89 @@ const AdminDashboard = () => {
       icon: <GoProject className="text-2xl text-white" />,
       count: runningProjects,
       text: "চলমান প্রকল্প",
-      backgroundColor: "#ffb3b3", // Light pink
+      backgroundColor: "#ffb3b3",
     },
     {
       icon: <GrCheckboxSelected className="text-2xl text-white" />,
       count: projects?.length - runningProjects,
       text: "সম্পন্ন প্রকল্প",
-      backgroundColor: "#ffe3b3", // Light yellow
+      backgroundColor: "#ffe3b3",
     },
     {
       icon: <FaUser className="text-2xl text-white" />,
       count: users?.length,
       text: "ইউজার",
-      backgroundColor: "#d9fbd3", // Light green
+      backgroundColor: "#d9fbd3",
     },
     {
       icon: <GiDiscussion className="text-2xl text-white" />,
       count: trainings?.length,
       text: "প্রশিক্ষণ",
-      backgroundColor: "#e2c6ff", // Light purple
+      backgroundColor: "#e2c6ff",
     },
     {
       icon: <GoNote className="text-2xl text-white" />,
       count: notes?.length - completedNotes,
       text: "অসম্পন্ন নোটস",
-      backgroundColor: "#b3d9ff", // Light blue
+      backgroundColor: "#b3d9ff",
     },
     {
       icon: <AiOutlineFileDone className="text-2xl text-white" />,
       count: completedNotes,
       text: "সম্পন্ন নোটস",
-      backgroundColor: "#d1fbd0", // Light green
+      backgroundColor: "#d1fbd0",
     },
     {
       icon: <MdTour className="text-2xl text-white" />,
       count: tours?.length,
       text: "উদ্বুদ্ধকরণ ভ্রমণ",
-      backgroundColor: "#ffb3b3", // Light red
+      backgroundColor: "#ffb3b3",
     },
     {
       icon: <MdAgriculture className="text-2xl text-white" />,
       count: distributions?.length,
       text: "উপকরণ বিতরণ",
-      backgroundColor: "#ffebcc", // Light orange
-    }
+      backgroundColor: "#ffebcc",
+    },
   ];
 
-  const allProjectsFieldDaysDataArray = seasonsArr.map(single => {
+  const allProjectsFieldDaysDataArray = seasonsArr.map((single) => {
     return {
       name: single,
-      uv: trainings?.filter(singleTraining => singleTraining?.season === single && singleTraining?.fiscalYear === runningFiscalYear).length,
-    }
+      uv: trainings?.filter(
+        (singleTraining) =>
+          singleTraining?.season === single &&
+          singleTraining?.fiscalYear === runningFiscalYear
+      ).length,
+    };
   });
-  const allProjectsDistributionsDataArray = seasonsArr.map(single => {
+  const allProjectsDistributionsDataArray = seasonsArr.map((single) => {
     return {
       name: single,
-      pv: distributions?.filter(singleDistribution => singleDistribution?.time.season === single && singleDistribution?.time.fiscalYear === runningFiscalYear).length,
-    }
+      pv: distributions?.filter(
+        (singleDistribution) =>
+          singleDistribution?.time.season === single &&
+          singleDistribution?.time.fiscalYear === runningFiscalYear
+      ).length,
+    };
   });
 
   return (
-    <section className="py-8 px-4 bg-gray-50">
+    <section className="py-8 px-4 bg-gray-50 dark:bg-gray-900 transition duration-300">
+      {/* Cards Section */}
       <div className="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5 w-full mb-8">
-        <div className="grid bg-white p-6 rounded-lg shadow-lg grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
+        <div className="grid bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
           {cards.map((card, index) => (
             <DashboardCard key={index} {...card} />
           ))}
         </div>
       </div>
 
+      {/* Charts Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white rounded-lg shadow-lg p-4">
-          <h2 className="font-bold text-xl text-gray-800 mb-4">
+        {/* Training Line Chart */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
+          <h2 className="font-bold text-xl text-gray-800 dark:text-gray-200 mb-4">
             {toBengaliNumber(getFiscalYear())} অর্থবছরের প্রশিক্ষণ
           </h2>
           <ResponsiveContainer width="100%" height={300}>
@@ -155,8 +166,9 @@ const AdminDashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-4">
-          <h2 className="font-bold text-xl text-gray-800 mb-4">
+        {/* Distributions Area Chart */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
+          <h2 className="font-bold text-xl text-gray-800 dark:text-gray-200 mb-4">
             {toBengaliNumber(getFiscalYear())} অর্থবছরের উপকরণ বিতরণ
           </h2>
           <ResponsiveContainer width="100%" height={300}>
@@ -168,14 +180,20 @@ const AdminDashboard = () => {
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Area type="monotone" dataKey="pv" stroke="#82ca9d" fill="#82ca9d" />
+              <Area
+                type="monotone"
+                dataKey="pv"
+                stroke="#82ca9d"
+                fill="#82ca9d"
+              />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-lg mt-12 p-4">
-        <h2 className="font-bold text-xl text-gray-800 mb-4">
+      {/* Notes Bar Chart */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg mt-12 p-4">
+        <h2 className="font-bold text-xl text-gray-800 dark:text-gray-200 mb-4">
           নোটস
         </h2>
         <ResponsiveContainer width="100%" height={400}>
@@ -188,8 +206,8 @@ const AdminDashboard = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="completed" stackId="a" fill="#00ca92" />
-            <Bar dataKey="incomplete" stackId="a" fill="#8884d8" />
+            <Bar dataKey="completed" fill="#8884d8" />
+            <Bar dataKey="incomplete" fill="#82ca9d" />
           </BarChart>
         </ResponsiveContainer>
       </div>
