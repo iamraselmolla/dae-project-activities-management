@@ -13,6 +13,7 @@ import { FcDocument } from "react-icons/fc";
 import { useSelector } from "react-redux";
 import { toBengaliNumber } from "bengali-number";
 import { GrAnnounce } from "react-icons/gr";
+import MobileDashboardMenu from "./MobileDashboardMenu";
 
 const DashboardMenu = () => {
   const { user, role } = useContext(AuthContext);
@@ -42,7 +43,7 @@ const DashboardMenu = () => {
 
   const userMenuItems = [
     { icon: <CgDisplayGrid />, link: "/user-demos-primary", text: `প্রাথমিক প্রদর্শনী (${toBengaliNumber(demos.filter((single) => !single?.completed).length)})` },
-    { icon: <MdCreditScore />, link: "/user-demos-final", text: `চূড়ান্ত প্রদর্শনী (${toBengaliNumber(demos.filter((single) => single?.completed).length)})` },
+    { icon: <MdCreditScore />, link: "/user-demos-final", text: `চূড়ান্ত প্রদর্শনী (${toBengaliNumber(demos.filter((single) => single?.completed).length)})` },
     { icon: <PiMicrophoneStageFill />, link: "/user-fielddays", text: `মাঠ দিবস (${toBengaliNumber(fieldDays.length)})` },
     { icon: <RiSchoolLine />, link: "/user-schools", text: `স্কুল (${toBengaliNumber(schools.length)})` },
     { icon: <FaPeopleGroup />, link: "/user-dae-meetings", text: `কৃষক গ্রুপ সভা (${toBengaliNumber(daeMeetings.length)})` },
@@ -50,25 +51,33 @@ const DashboardMenu = () => {
   ];
 
   return (
-    <div className="flex flex-wrap justify-center gap-4 p-4 bg-white shadow-md dark:bg-gray-800 rounded-lg transition-all duration-300">
-      {/* Dashboard Link */}
-      <DashboardMenuItem icon={<RxDashboard />} link="" text="ড্যাশবোর্ড" />
+    <>
+      {/* Mobile Menu */}
+      <div className="md:hidden">
+        <MobileDashboardMenu />
+      </div>
 
-      {/* Admin Menu Items */}
-      {user && role === "admin" &&
-        adminMenuItems.map((item, index) => (
-          <DashboardMenuItem key={index} icon={item.icon} link={item.link} text={item.text} />
-        ))}
+      {/* Desktop Menu */}
+      <div className="hidden md:flex flex-wrap justify-center gap-4 p-4 bg-white shadow-md dark:bg-gray-800 rounded-lg transition-all duration-300">
+        {/* Dashboard Link */}
+        <DashboardMenuItem icon={<RxDashboard />} link="" text="ড্যাশবোর্ড" />
 
-      {/* User Menu Items */}
-      {user && role === "user" &&
-        userMenuItems.map((item, index) => (
-          <DashboardMenuItem key={index} icon={item.icon} link={item.link} text={item.text} />
-        ))}
+        {/* Admin Menu Items */}
+        {user && role === "admin" &&
+          adminMenuItems.map((item, index) => (
+            <DashboardMenuItem key={index} icon={item.icon} link={item.link} text={item.text} />
+          ))}
 
-      {/* Notes Link */}
-      <DashboardMenuItem icon={<FcDocument />} link="/user-notes" text={`নোটস (${toBengaliNumber(notes.length)})`} />
-    </div>
+        {/* User Menu Items */}
+        {user && role === "user" &&
+          userMenuItems.map((item, index) => (
+            <DashboardMenuItem key={index} icon={item.icon} link={item.link} text={item.text} />
+          ))}
+
+        {/* Notes Link */}
+        <DashboardMenuItem icon={<FcDocument />} link="/user-notes" text={`নোটস (${toBengaliNumber(notes.length)})`} />
+      </div>
+    </>
   );
 };
 
