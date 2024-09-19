@@ -35,12 +35,12 @@ const UserDashboard = () => {
   const completedNotes = notes.filter((note) => note.completed).length;
 
   const cards = [
-    { icon: <FaBowlRice className="w-8 h-8" />, count: demos.length, text: "প্রদর্শনী", color: "text-primary" },
-    { icon: <FaPeopleGroup className="w-8 h-8" />, count: fieldDays.length, text: "মাঠ দিবস", color: "text-secondary" },
-    { icon: <GiFarmer className="w-8 h-8" />, count: daeMeetings.length, text: "কৃষক সভা", color: "text-accent" },
-    { icon: <FcReadingEbook className="w-8 h-8" />, count: schools.length, text: "স্কুল", color: "text-info" },
-    { icon: <GoNote className="w-8 h-8" />, count: notes.length - completedNotes, text: "অসম্পন্ন নোটস", color: "text-warning" },
-    { icon: <AiOutlineFileDone className="w-8 h-8" />, count: completedNotes, text: "সম্পন্ন নোটস", color: "text-success" },
+    { icon: <FaBowlRice className="w-8 h-8" />, count: toBengaliNumber(demos?.length), text: "প্রদর্শনী", color: "text-primary" },
+    { icon: <FaPeopleGroup className="w-8 h-8" />, count: toBengaliNumber(fieldDays?.length), text: "মাঠ দিবস", color: "text-secondary" },
+    { icon: <GiFarmer className="w-8 h-8" />, count: toBengaliNumber(daeMeetings?.length), text: "কৃষক সভা", color: "text-accent" },
+    { icon: <FcReadingEbook className="w-8 h-8" />, count: toBengaliNumber(schools?.length), text: "স্কুল", color: "text-info" },
+    { icon: <GoNote className="w-8 h-8" />, count: toBengaliNumber(notes.length - completedNotes), text: "অসম্পন্ন নোটস", color: "text-warning" },
+    { icon: <AiOutlineFileDone className="w-8 h-8" />, count: toBengaliNumber(completedNotes), text: "সম্পন্ন নোটস", color: "text-success" },
   ];
 
   const demoData = seasonsArr.map(season => ({
