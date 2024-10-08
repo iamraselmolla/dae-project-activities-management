@@ -37,14 +37,14 @@ const UserListModal = ({ showModal, handleCloseModal, title, users }) => {
                                             </div>
                                             <div>
                                                 <p className="text-lg font-semibold text-gray-800">{user?.userId?.SAAO?.name}</p>
-                                                <p className="text-sm text-gray-600">Block: {user?.userId?.blockB}</p>
+                                                <p className="text-sm text-gray-600">ব্লক: {user?.userId?.blockB}</p>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
                             ) : (
                                 <div className="text-center py-6">
-                                    <p className="text-xl font-semibold text-gray-600">No users selected or no data</p>
+                                    <p className="text-xl font-semibold text-gray-600">কোনো ইউজার এই ক্যাটাগরিতে নেই ।</p>
                                 </div>
                             )}
                         </div>
