@@ -44,6 +44,7 @@ import NoticeDetails from "./components/pages/notices/NoticeDetails";
 import AdminNotices from "../src/components/pages/dashboard/admin/notices/AdminNotices";
 import UserNotices from "./components/pages/dashboard/user/notice/UserNotices";
 import FarmerHelp from "./components/pages/farmer-help/FarmerHelp";
+import AddFarmerHelpData from "./components/pages/farmer-help/AddFarmerHelpData";
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
 const { default: Home } = require("./components/pages/home/Home");
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: "/farmer-help",
         element: <FarmerHelp />,
+      },
+      {
+        path: "/add-farmer-help",
+        element: <AddFarmerHelpData />,
       },
       {
         path: "/fielddays",

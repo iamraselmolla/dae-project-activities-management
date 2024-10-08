@@ -11,7 +11,7 @@ const AllUsers = () => {
     <section className="py-16 bg-gray-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle title="সকল ব্লক, ইউনিয়ন এবং ইউজার তথ্য" />
-        <div className="grid mt-10 grid-cols-1 gap-4 gap-y-12 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid mt-16 grid-cols-1 gap-4 gap-y-12 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {blockAndUnions?.map((single, index) => (
             <div
               key={single?.unionB}
