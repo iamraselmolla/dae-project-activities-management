@@ -43,6 +43,7 @@ import AddNotice from "./components/pages/notices/AddNotice";
 import NoticeDetails from "./components/pages/notices/NoticeDetails";
 import AdminNotices from "../src/components/pages/dashboard/admin/notices/AdminNotices";
 import UserNotices from "./components/pages/dashboard/user/notice/UserNotices";
+import FarmerHelp from "./components/pages/farmer-help/FarmerHelp";
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Layout } = require("./components/Layout");
 const { default: Home } = require("./components/pages/home/Home");
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/trainings",
         element: <Training></Training>,
+      },
+      {
+        path: "/farmer-help",
+        element: <FarmerHelp />,
       },
       {
         path: "/fielddays",
