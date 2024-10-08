@@ -264,6 +264,7 @@ const UserPrimaryDemos = () => {
                       >
                         ভিজিট সংক্রান্ত
                       </th>
+                      
                       <th
                         scope="col"
                         className=" py-4 font-extrabold px-2  text-black text-center uppercase"
