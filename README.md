@@ -1,8 +1,8 @@
-# Activities Management Application for the Department of Agricultural Extension
+# Activities Management Application for the Department of Agricultural Extension (React Native)
 
 ## License Version
 
-Welcome to the Activities Management Application repository! This project is a comprehensive tool designed to streamline the management of various agricultural activities for the Department of Agricultural Extension (DAE).
+Welcome to the Activities Management Application repository! This project is a mobile application designed to streamline the management of various agricultural activities for the Department of Agricultural Extension (DAE).
 
 ## Table of Contents
 
@@ -14,12 +14,13 @@ Welcome to the Activities Management Application repository! This project is a c
    - [Notices](#notices)
    - [Farmer Data Integration](#farmer-data-integration)
 3. [Technologies Used](#technologies-used)
-4. [Usage](#usage)
-5. [Contact](#contact)
+4. [Setup and Installation](#setup-and-installation)
+5. [Usage](#usage)
+6. [Contact](#contact)
 
 ## Introduction
 
-The Activities Management Application is a robust platform developed to assist the Department of Agricultural Extension (DAE) in managing and organizing agricultural activities. The application offers a wide range of features that support different user roles, ensuring that agricultural projects and activities are carried out efficiently and all relevant data is stored and accessible.
+The **Activities Management Application** is a robust **React Native** mobile platform developed to assist the Department of Agricultural Extension (DAE) in managing and organizing agricultural activities. The application offers a wide range of features that support different user roles, ensuring that agricultural projects and activities are carried out efficiently and all relevant data is stored and accessible.
 
 ## Features
 
@@ -93,27 +94,24 @@ Users can manage agricultural school sessions, including scheduling classes, tra
   - **Medium**
   - **Low**
 
-- **Targeting Notices:** Notices can be sent to all users or specific users as needed as per needed.
+- **Targeting Notices:** Notices can be sent to all users or specific users as needed.
 
 - **Comment Thread Management:** Admins can control the comment threads for each notice, allowing for efficient communication and tracking of discussions.
 
 ### Farmer Data Integration
 
 - **Auto-Fill:** If a farmer's NID is found in the database, their basic information is automatically filled in.
-  
 - **Manual Addition:** If the NID is not found, a modal will be displayed indicating that the farmer's data is not in the database. Users can choose to manually add the farmer's information, which will then be stored and associated with the unique NID for future use.
-
 - **Demo Data:** When adding a demo, if the NID has been previously recorded in the database, the data from the database will be fetched and used to auto-fill the farmer's basic data.
 
 ## Technologies Used
 
 **Frontend:**
-- HTML
-- CSS
-- JavaScript
-- React.js
-- Tailwind CSS
-- Framer Motion
+- React Native
+- React Navigation
+- Tailwind CSS (via NativeWind)
+- Redux Toolkit (for state management)
+- React Query (for API calls caching)
 
 **Backend:**
 - Node.js
@@ -122,8 +120,9 @@ Users can manage agricultural school sessions, including scheduling classes, tra
 **Database:**
 - MongoDB
 
-**Image Storage:**
-- Cloudinary
+**Storage:**
+- Cloudinary (for image uploads)
+- AsyncStorage (for local caching)
 
 **Authentication:**
 - JWT (JSON Web Token)
@@ -131,14 +130,40 @@ Users can manage agricultural school sessions, including scheduling classes, tra
 **API Integration:**
 - REST APIs for NID and other services
 
+## Setup and Installation
+
+1. **Clone the Repository:**
+   ```sh
+   git clone https://github.com/iamraselmolla/activities-management-app.git
+   cd activities-management-app
+   ```
+
+2. **Install Dependencies:**
+   ```sh
+   npm install
+   ```
+
+3. **Set Up Environment Variables:**
+   - Create a `.env` file in the root directory.
+   - Add your API keys and backend URLs.
+
+4. **Run the Application:**
+   ```sh
+   npx expo start
+   ```
+   or
+   ```sh
+   npm run android  # For Android
+   npm run ios      # For iOS (Mac required)
+   ```
+
 ## Usage
 
-Once the application is up and running, users can log in and start managing various agricultural activities. The features include:
-
-- **Adding and Managing Activities:** Users can add information about demos, field days, schools, and more.
-- **Farmer Data Integration:** Utilize the NID database to automatically fill in farmer information or manually add new data.
-- **Project Management:** Admins can oversee all projects, ensuring they are properly managed and completed on time.
-- **Task Monitoring:** Track user participation and ensure all tasks are completed efficiently.
+Once the application is running, users can:
+- **Log in and manage agricultural activities**
+- **Integrate farmer data using NID lookup**
+- **Monitor and manage agricultural projects**
+- **Track user participation and task completion**
 
 ## Contact
 
